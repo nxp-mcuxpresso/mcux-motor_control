@@ -1,0 +1,52 @@
+NXP Software Content Register
+
+Package: motor_control
+Version: 24.12.00
+Outgoing License: LA_OPT_Online_Code_Hosting
+License File: LICENSE
+Type of content: source code, object code, header files
+Description and comments: Motor control middleware for PMSM, BLDC, ACIM motors.
+Release Location: https://github.com/nxp-mcuxpresso/motor_control
+Origin:
+      NXP (Proprietary)
+
+
+## We are not sure about SCR description below since we have SCR description for MCAT tool inside the MCAT tool folder
+
+Package: motor_control_mcat_float
+Version: 1.0.0
+Outgoing License: LA_OPT_Online_Code_Hosting
+License File: LICENSE
+Type of content: link, source code
+Description and comments: Motor Control Application Tuning
+Release Location: https://github.com/nxp-mcuxpresso/motor_control
+Origin:
+      NXP(Proprietary)
+      Bootstrap(MIT)
+      FontAwesome(CC BY 4.0)
+
+
+Package: motor_control_mcat_frac_bldc
+Version: 1.0.0
+Outgoing License: LA_OPT_Online_Code_Hosting
+License File: LICENSE
+Type of content: link, source code
+Description and comments: Motor Control Application Tuning
+Release Location: https://github.com/nxp-mcuxpresso/motor_control
+Origin:
+      NXP(Proprietary)
+      Bootstrap(MIT)
+      FontAwesome(CC BY 4.0)
+
+
+Package: motor_control_mcat_frac
+Version: 1.0.0
+Outgoing License: LA_OPT_Online_Code_Hosting
+License File: LICENSE
+Type of content: link, source code
+Description and comments: Motor Control Application Tuning
+Release Location: https://github.com/nxp-mcuxpresso/motor_control
+Origin:
+      NXP(Proprietary)
+      Bootstrap(MIT)
+      FontAwesome(CC BY 4.0)

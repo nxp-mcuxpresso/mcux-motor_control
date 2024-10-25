@@ -1,0 +1,263 @@
+
+menu "Motor control"
+
+    config MCUX_COMPONENT_middleware.mc_pmsm_snsless.float
+        bool "pmsm_snsless.float"
+        select MCUX_COMPONENT_middleware.motor_control_pmsm_float.template
+        depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+
+        # Select RTCESL library with regard to used core
+        select MCUX_COMPONENT_middleware.rtcesl.cm4f if MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM4
+        select MCUX_COMPONENT_middleware.rtcesl.cm7f if MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM7
+        select MCUX_COMPONENT_middleware.rtcesl.cm33f if MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM33
+
+    config MCUX_COMPONENT_middleware.mc_pmsm_enc.float
+        bool "pmsm_enc.float"
+        select MCUX_COMPONENT_middleware.motor_control_pmsm_float.template
+        depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+
+        # Select RTCESL library with regard to used core
+        select MCUX_COMPONENT_middleware.rtcesl.cm4f if MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM4
+        select MCUX_COMPONENT_middleware.rtcesl.cm7f if MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM7
+        select MCUX_COMPONENT_middleware.rtcesl.cm33f if MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM33
+
+    config MCUX_COMPONENT_middleware.mc_pmsm_enc_dual.float
+        bool "pmsm_enc_dual.float"
+        select MCUX_COMPONENT_middleware.motor_control_pmsm_float.template
+        depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+
+        # Select RTCESL library with regard to used core
+        select MCUX_COMPONENT_middleware.rtcesl.cm4f if MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM4
+        select MCUX_COMPONENT_middleware.rtcesl.cm7f if MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM7
+        select MCUX_COMPONENT_middleware.rtcesl.cm33f if MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM33
+
+    config MCUX_COMPONENT_middleware.mc_bldc.frac
+        bool "bldc.frac"
+        select MCUX_COMPONENT_middleware.motor_control_bldc_frac.template
+        depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+
+        # Select RTCESL library with regard to used core
+        select MCUX_COMPONENT_middleware.rtcesl.cm4f if MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM4
+        select MCUX_COMPONENT_middleware.rtcesl.cm7f if MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM7
+        select MCUX_COMPONENT_middleware.rtcesl.cm33f if MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM33
+
+    config MCUX_COMPONENT_middleware.motor_control_bldc_frac.tsa
+        bool "bldc_frac.tsa"
+        select MCUX_COMPONENT_middleware.fmstr
+        depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+
+    config MCUX_COMPONENT_middleware.pmsm_mid.float
+        bool "pmsm_mid.float"
+        select MCUX_COMPONENT_middleware.motor_control_pmsm_float.template
+        depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+
+        # Select MCAA library with regard to used core
+        select MCUX_COMPONENT_middleware.motor_control.mcaa_cm4f if MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM4
+        select MCUX_COMPONENT_middleware.motor_control.mcaa_cm7f if MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM7
+        select MCUX_COMPONENT_middleware.motor_control.mcaa_cm33f if MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM33
+
+    config MCUX_COMPONENT_middleware.mc_pmsm_snsless.frac
+        bool "pmsm_snsless.frac"
+        select MCUX_COMPONENT_middleware.motor_control_pmsm_frac.template
+        depends on MCUX_HW_CORE_CM0P || MCUX_HW_CORE_DSP56800EX || MCUX_HW_CORE_DSP56800EF
+
+    config MCUX_COMPONENT_middleware.mc_pmsm_enc.frac
+        bool "pmsm_enc.frac"
+        select MCUX_COMPONENT_middleware.motor_control_pmsm_frac.template
+        depends on MCUX_HW_CORE_CM0P || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_DSP56800EX
+        depends on MCUX_HW_NO_FPU
+
+        # Select RTCESL library with regard to used core
+        select MCUX_COMPONENT_middleware.rtcesl.cm33nodsp if MCUX_HW_CORE_CM33
+        select MCUX_COMPONENT_middleware.rtcesl.cm0 if MCUX_HW_CORE_CM0P
+        select MCUX_COMPONENT_middleware.rtcesl.dsp56800ex if MCUX_HW_CORE_DSP56800EX
+
+    config MCUX_COMPONENT_middleware.pmsm_mid.frac
+        bool "pmsm_mid.frac"
+        select MCUX_COMPONENT_middleware.motor_control_pmsm_frac.template
+        depends on MCUX_HW_CORE_CM0P || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_DSP56800EX || MCUX_HW_CORE_DSP56800EF
+
+        # Select MCAA library with regard to used core
+        select MCUX_COMPONENT_middleware.motor_control.mcaa_cm33nodsp if MCUX_HW_CORE_CM33
+        select MCUX_COMPONENT_middleware.motor_control.mcaa_cm0 if MCUX_HW_CORE_CM0P
+        select MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ex if MCUX_HW_CORE_DSP56800EX
+
+    config MCUX_COMPONENT_middleware.pmsm_mid.frac_enc
+        bool "pmsm_mid.frac_enc"
+        select MCUX_COMPONENT_middleware.motor_control_pmsm_frac.template
+        depends on MCUX_HW_CORE_CM0P || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_DSP56800EX || MCUX_HW_CORE_DSP56800EF
+
+        # Select MCAA library with regard to used core
+        select MCUX_COMPONENT_middleware.motor_control.mcaa_cm33nodsp if MCUX_HW_CORE_CM33
+        select MCUX_COMPONENT_middleware.motor_control.mcaa_cm0 if MCUX_HW_CORE_CM0P
+        select MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ex if MCUX_HW_CORE_DSP56800EX
+
+    config MCUX_COMPONENT_middleware.motor_control_pmsm_float.template
+        bool "pmsm_float.template"
+        depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+
+        # Select RTCESL library with regard to used core
+        select MCUX_COMPONENT_middleware.rtcesl.cm4f if MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM4
+        select MCUX_COMPONENT_middleware.rtcesl.cm7f if MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM7
+        select MCUX_COMPONENT_middleware.rtcesl.cm33f if MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM33
+
+    config MCUX_COMPONENT_middleware.motor_control_bldc_frac.template
+        bool "bldc_frac.template"
+        depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+
+    config MCUX_COMPONENT_middleware.motor_control_pmsm_frac.template
+        bool "pmsm_frac.template"
+        depends on MCUX_HW_CORE_CM0P || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_DSP56800EX || MCUX_HW_CORE_DSP56800EF
+
+        # Select RTCESL library with regard to used core
+        select MCUX_COMPONENT_middleware.rtcesl.cm33nodsp if MCUX_HW_CORE_CM33
+        select MCUX_COMPONENT_middleware.rtcesl.cm0 if MCUX_HW_CORE_CM0P
+        select MCUX_COMPONENT_middleware.rtcesl.dsp56800ex if MCUX_HW_CORE_DSP56800EX
+
+    config MCUX_COMPONENT_middleware.motor_control_pmsm_float.tsa
+        bool "pmsm_float.tsa"
+        select MCUX_COMPONENT_middleware.fmstr
+        depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+
+    config MCUX_COMPONENT_middleware.motor_control_pmsm_frac.tsa
+        bool "pmsm_frac.tsa"
+        select MCUX_COMPONENT_middleware.fmstr
+        depends on MCUX_HW_CORE_CM0P || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_DSP56800EX || MCUX_HW_CORE_DSP56800EF
+
+    config MCUX_COMPONENT_middleware.motor_control_pmsm_frac_enc.tsa
+        bool "pmsm_frac_enc.tsa"
+        select MCUX_COMPONENT_middleware.fmstr
+        depends on MCUX_HW_CORE_CM0P || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_DSP56800EX
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcx_epwm_frac
+        bool "driver_adc_mcx_epwm_frac"
+        depends on MCUX_HW_DEVICE_MCXA153 && MCUX_HW_CORE_CM33
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcxa_epwm_float
+        bool "driver_adc_mcxa_epwm_float"
+        depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM33
+        depends on MCUX_HW_DEVICE_MCXA156
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adclpc_ftm_frac
+        bool "driver_adclpc_ftm_frac"
+        depends on MCUX_HW_DEVICE_LPC865
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_frac
+        bool "driver_adc12_pwma_frac"
+        depends on MCUX_HW_DEVICE_MC56F80748 || MCUX_HW_DEVICE_MC56F81868 || MCUX_HW_DEVICE_MC56F81768 || MCUX_HW_DEVICE_MC56F83789
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qdc_frac
+        bool "driver_adc12_pwma_qdc_frac"
+        depends on MCUX_HW_DEVICE_MC56F81868 || MCUX_HW_DEVICE_MC56F81768
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qspi_frac
+        bool "driver_adc12_pwma_qspi_frac"
+        depends on MCUX_HW_DEVICE_MC56F82748 || MCUX_HW_DEVICE_MC56F84789
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qspi_frac_enc
+        bool "driver_adc12_pwma_qspi_frac_enc"
+        depends on MCUX_HW_DEVICE_MC56F82748 || MCUX_HW_DEVICE_MC56F84789
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_frac_enc
+        bool "driver_adc12_pwma_frac_enc"
+        depends on MCUX_HW_DEVICE_MC56F81868 || MCUX_HW_DEVICE_MC56F81768 || MCUX_HW_DEVICE_MC56F83789
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_lpcadc_sctimer
+        bool "driver_lpcadc_sctimer"
+        depends on MCUX_HW_DEVICE_LPC55S66 || MCUX_HW_DEVICE_LPC55S69
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_lpcadc_pwma_enc
+        bool "driver_lpcadc_pwma_enc"
+        depends on MCUX_HW_DEVICE_LPC55S36
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_lpcadc_pwma_bldc
+        bool "driver_lpcadc_pwma_bldc"
+        depends on MCUX_HW_DEVICE_LPC55S36
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcncxn_pwma_enc
+        bool "driver_adcncxn_pwma_enc"
+        depends on MCUX_HW_DEVICE_MCXN547
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcncxn_pwma_qdc
+        bool "driver_adcncxn_pwma_qdc"
+        depends on MCUX_HW_DEVICE_MCXN236 || MCUX_HW_DEVICE_MCXN947
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1010_pwma
+        bool "driver_adcimxrt1010_pwma"
+        depends on MCUX_HW_DEVICE_MIMXRT1011 || MCUX_HW_DEVICE_MIMXRT1015
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1010_pwma_enc
+        bool "driver_adcimxrt1010_pwma_enc"
+        depends on MCUX_HW_DEVICE_MIMXRT1011 || MCUX_HW_DEVICE_MIMXRT1015
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt_pwma
+        bool "driver_adcimxrt_pwma"
+        depends on MCUX_HW_DEVICE_MIMXRT1021 || MCUX_HW_DEVICE_MIMXRT1024 || MCUX_HW_DEVICE_MIMXRT1041 || MCUX_HW_DEVICE_MIMXRT1042 || MCUX_HW_DEVICE_MIMXRT1051 || MCUX_HW_DEVICE_MIMXRT1052 || MCUX_HW_DEVICE_MIMXRT1061 || MCUX_HW_DEVICE_MIMXRT1062 || MCUX_HW_DEVICE_MIMXRT1064
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt_pwma_enc
+        bool "driver_adcimxrt_pwma_enc"
+        depends on MCUX_HW_DEVICE_MIMXRT1021 || MCUX_HW_DEVICE_MIMXRT1024 || MCUX_HW_DEVICE_MIMXRT1041 || MCUX_HW_DEVICE_MIMXRT1042 || MCUX_HW_DEVICE_MIMXRT1051 || MCUX_HW_DEVICE_MIMXRT1052 || MCUX_HW_DEVICE_MIMXRT1061 || MCUX_HW_DEVICE_MIMXRT1062 || MCUX_HW_DEVICE_MIMXRT1064
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma
+        bool "driver_adcimxrt11xx_pwma"
+        depends on MCUX_HW_DEVICE_MIMXRT1165 || MCUX_HW_DEVICE_MIMXRT1166 || MCUX_HW_DEVICE_MIMXRT1171 || MCUX_HW_DEVICE_MIMXRT1172 || MCUX_HW_DEVICE_MIMXRT1173 || MCUX_HW_DEVICE_MIMXRT1175 || MCUX_HW_DEVICE_MIMXRT1176
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma_enc
+        bool "driver_adcimxrt11xx_pwma_enc"
+        depends on MCUX_HW_DEVICE_MIMXRT1165 || MCUX_HW_DEVICE_MIMXRT1166 || MCUX_HW_DEVICE_MIMXRT1171 || MCUX_HW_DEVICE_MIMXRT1172 || MCUX_HW_DEVICE_MIMXRT1173 || MCUX_HW_DEVICE_MIMXRT1175 || MCUX_HW_DEVICE_MIMXRT1176
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma_bldc
+        bool "driver_adcimxrt11xx_pwma_bldc"
+        depends on MCUX_HW_DEVICE_MIMXRT1165 || MCUX_HW_DEVICE_MIMXRT1166 || MCUX_HW_DEVICE_MIMXRT1171 || MCUX_HW_DEVICE_MIMXRT1172 || MCUX_HW_DEVICE_MIMXRT1173 || MCUX_HW_DEVICE_MIMXRT1175 || MCUX_HW_DEVICE_MIMXRT1176
+
+    config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1180_pwma_enc
+        bool "driver_adcimxrt1180_pwma_enc"
+        depends on MCUX_HW_DEVICE_MIMXRT1187 || MCUX_HW_DEVICE_MIMXRT1189
+
+    config MCUX_COMPONENT_middleware.motor_control_pmsm_float_imcat
+        bool "pmsm_float_imcat"
+        depends on MCUX_HW_DEVICE_MIMXRT1011 || MCUX_HW_DEVICE_MKE18F16 || MCUX_HW_DEVICE_LPC55S36 || MCUX_HW_DEVICE_LPC55S66 || MCUX_HW_DEVICE_LPC55S69 || MCUX_HW_DEVICE_MCXN947 || MCUX_HW_DEVICE_MCXN547 || MCUX_HW_DEVICE_MCXN236 || MCUX_HW_DEVICE_MIMXRT1021 || MCUX_HW_DEVICE_MIMXRT1024 || MCUX_HW_DEVICE_MIMXRT1042 || MCUX_HW_DEVICE_MIMXRT1052 || MCUX_HW_DEVICE_MIMXRT1062 || MCUX_HW_DEVICE_MIMXRT1064 || MCUX_HW_DEVICE_MIMXRT1166 || MCUX_HW_DEVICE_MIMXRT1176 || MCUX_HW_DEVICE_MIMXRT1187 || MCUX_HW_DEVICE_MIMXRT1189 || MCUX_HW_DEVICE_MCXA156
+
+    config MCUX_COMPONENT_middleware.motor_control_pmsm_frac_imcat
+        bool "pmsm_frac_imcat"
+        depends on MCUX_HW_DEVICE_MC56F80748 || MCUX_HW_DEVICE_MC56F81868 || MCUX_HW_DEVICE_MC56F81768 || MCUX_HW_DEVICE_MC56F83789 || MCUX_HW_DEVICE_MC56F82748 || MCUX_HW_DEVICE_MC56F84789 || MCUX_HW_DEVICE_MKE15Z7 || MCUX_HW_DEVICE_MKE16Z4 || MCUX_HW_DEVICE_MKE17Z7 || MCUX_HW_DEVICE_MKE17Z9 || MCUX_HW_DEVICE_LPC865 || MCUX_HW_DEVICE_MCXA153
+
+    config MCUX_COMPONENT_middleware.motor_control_bldc_frac_imcat
+        bool "bldc_frac_imcat"
+        depends on MCUX_HW_DEVICE_MIMXRT1176 || MCUX_HW_DEVICE_LPC55S36
+
+    config MCUX_COMPONENT_middleware.motor_control.mcaa_cm33f
+        bool "mcaa_cm33f library"
+        select MCUX_COMPONENT_middleware.rtcesl.cm33f
+        depends on MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM33F
+
+    config MCUX_COMPONENT_middleware.motor_control.mcaa_cm33nodsp
+        bool "mcaa_cm33nodsp library"
+        select MCUX_COMPONENT_middleware.rtcesl.cm33nodsp
+        depends on MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM33F
+
+    config MCUX_COMPONENT_middleware.motor_control.mcaa_cm7f
+        bool "mcaa_cm7f library"
+        select MCUX_COMPONENT_middleware.rtcesl.cm7f
+        depends on MCUX_HW_CORE_CM7 || MCUX_HW_CORE_CM7F
+
+    config MCUX_COMPONENT_middleware.motor_control.mcaa_cm4f
+        bool "mcaa_cm4f library"
+        select MCUX_COMPONENT_middleware.rtcesl.cm4f
+        depends on MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM4F
+
+    config MCUX_COMPONENT_middleware.motor_control.mcaa_cm0
+        bool "mcaa_cm0 library"
+        select MCUX_COMPONENT_middleware.rtcesl.cm0
+        depends on MCUX_HW_CORE_CM0P
+
+    config MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ex
+        bool "mcaa_dsp56800ex library"
+        select MCUX_COMPONENT_middleware.rtcesl.dsp56800ex
+        depends on MCUX_HW_CORE_DSP56800EX
+
+    config MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ef
+        bool "mcaa_dsp56800ef library"
+        select MCUX_COMPONENT_middleware.rtcesl.dsp56800ef
+        depends on MCUX_HW_CORE_DSP56800EF
+endmenu
