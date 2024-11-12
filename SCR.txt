@@ -1,6 +1,6 @@
 NXP Software Content Register
 
-Package: motor_control
+Package: mcux-motor_control
 Version: 24.12.00
 Outgoing License: LA_OPT_Online_Code_Hosting
 License File: LICENSE.txt
@@ -11,7 +11,7 @@ Description and comments:
 	  a free icons database used for freeMaster integration icons
 	  JSON-RPC implementation in JavaScript used by FreeMASTER HTML Welcome pages
 	  JSON-RPC library for Freemaster communication
-Release Location: https://github.com/nxp-mcuxpresso/motor_control
+Release Location: https://github.com/nxp-mcuxpresso/mcux-motor_control
 Origin:
       NXP (Proprietary)
 	  Bootstrap (MIT) - https://getbootstrap.com
