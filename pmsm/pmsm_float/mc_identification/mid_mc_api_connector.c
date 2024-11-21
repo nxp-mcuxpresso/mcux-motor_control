@@ -1,19 +1,15 @@
-/*******************************************************************************
-*
-* Copyright 2020-2024 NXP
+/*
+* Copyright 2020, 2024 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
-* only be used strictly in accordance with the applicable license terms.
+* only be used strictly in accordance with the applicable license terms. 
 * By expressly accepting such terms or by downloading, installing,
 * activating and/or otherwise using the software, you are agreeing that
 * you have read, and that you agree to comply with and are bound by,
 * such license terms.  If you do not agree to be bound by the applicable
 * license terms, then you may not retain, install, activate or otherwise
 * use the software.
-*
-*
-****************************************************************************/
-
+ */
 #include "mid_mc_api_connector.h"
 #include "mc_periph_init.h"
 
@@ -72,7 +68,7 @@ void MID_MC_SetExternalPosEl(frac16_t f16PosExt)
 RAM_FUNC_LIB
 frac16_t MID_MC_GetExternalPosEl(void)
 {
-    return g_sMidDrive.sFocPMSM.f16PosElExt;
+    return g_sMidDrive.sFocPMSM.f16PosElExt;      
 }
 
 /*!
@@ -81,7 +77,7 @@ frac16_t MID_MC_GetExternalPosEl(void)
 RAM_FUNC_LIB
 frac16_t MID_MC_GetEstimatedPosEl(void)
 {
-    return g_sMidDrive.sFocPMSM.f16PosElEst;
+    return g_sMidDrive.sFocPMSM.f16PosElEst;     
 }
 
 /*!
@@ -128,8 +124,8 @@ void MID_MC_SetIDQReq(GMCLIB_2COOR_DQ_T_FLT sIDQReq)
 RAM_FUNC_LIB
 void MID_MC_GetIDQfbck(GMCLIB_2COOR_DQ_T_FLT *sIDQfbck)
 {
-    sIDQfbck->fltD = g_sMidDrive.sFocPMSM.sIDQ.fltD;
-    sIDQfbck->fltQ = g_sMidDrive.sFocPMSM.sIDQ.fltQ;
+    sIDQfbck->fltD = g_sMidDrive.sFocPMSM.sIDQ.fltD;                  
+    sIDQfbck->fltQ = g_sMidDrive.sFocPMSM.sIDQ.fltQ;       
 }
 
 /*!
@@ -137,7 +133,7 @@ void MID_MC_GetIDQfbck(GMCLIB_2COOR_DQ_T_FLT *sIDQfbck)
  */
 float_t MID_MC_GetUDCbusFilt(void)
 {
-    return g_sMidDrive.sFocPMSM.fltUDcBusFilt;
+    return g_sMidDrive.sFocPMSM.fltUDcBusFilt;    
 }
 
 /*!
@@ -146,7 +142,7 @@ float_t MID_MC_GetUDCbusFilt(void)
 RAM_FUNC_LIB
 float_t MID_MC_GetSpeedElEst(void)
 {
-    return g_sMidDrive.sFocPMSM.sTo.fltSpeed;
+    return g_sMidDrive.sFocPMSM.sTo.fltSpeed;   
 }
 
 /*!
@@ -205,9 +201,9 @@ void MID_MC_UpdateTrackingObsrv(float_t fltTO_Kpz,
     g_sMidDrive.sFocPMSM.sTo.fltThGain = fltTO_Theta;
 
     /* Reset observer. */
-    AMCLIB_TrackObsrvInit_A32af(ACC32(0.0) ,&g_sMidDrive.sFocPMSM.sTo);
-    g_sMidDrive.sFocPMSM.f16PosElEst = FRAC16(0.0);
-    g_sMidDrive.sFocPMSM.fltSpeedElEst = 0.0F;
+    AMCLIB_TrackObsrvInit_A32af(ACC32(0.0) ,&g_sMidDrive.sFocPMSM.sTo);     
+    g_sMidDrive.sFocPMSM.f16PosElEst = FRAC16(0.0);                   
+    g_sMidDrive.sFocPMSM.fltSpeedElEst = 0.0F;                             
 
     /* Initialize the speed filter. */
     g_sMidDrive.sFocPMSM.sSpeedElEstFilt.sFltCoeff.fltB0 = MID_SPEED_FILTER_IIR_B0;
@@ -226,42 +222,42 @@ void MID_MC_ReadSignals(void)
     frac16_t f16PosElPark;
 
     /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M1_MCDRV_ADC_GET(&g_sM1AdcSensor);
-
+    M1_MCDRV_ADC_GET(&g_sM1AdcSensor); 
+    
     /* Convert phase currents from fractional measured values to float */
     g_sMidDrive.sFocPMSM.sIABC.fltA = MLIB_ConvSc_FLTsf(g_sMidDrive.sFocPMSM.sIABCFrac.f16A, g_fltMIDcurrentScale);
     g_sMidDrive.sFocPMSM.sIABC.fltB = MLIB_ConvSc_FLTsf(g_sMidDrive.sFocPMSM.sIABCFrac.f16B, g_fltMIDcurrentScale);
     g_sMidDrive.sFocPMSM.sIABC.fltC = MLIB_ConvSc_FLTsf(g_sMidDrive.sFocPMSM.sIABCFrac.f16C, g_fltMIDcurrentScale);
-
+    
     /* 3-phase to 2-phase transformation to stationary ref. frame */
     GMCLIB_Clark_FLT(&g_sMidDrive.sFocPMSM.sIABC, &g_sMidDrive.sFocPMSM.sIAlBe);
-
+    
     /* Convert voltages from fractional measured values to float */
-    g_sMidDrive.sFocPMSM.fltUDcBus = MLIB_ConvSc_FLTsf(g_sMidDrive.sFocPMSM.f16UDcBus, g_fltMIDDCBvoltageScale);
+    g_sMidDrive.sFocPMSM.fltUDcBus = MLIB_ConvSc_FLTsf(g_sMidDrive.sFocPMSM.f16UDcBus, g_fltMIDDCBvoltageScale);                    
     /* Sampled DC-Bus voltage filter */
     g_sMidDrive.sFocPMSM.fltUDcBusFilt = GDFLIB_FilterIIR1_FLT(g_sMidDrive.sFocPMSM.fltUDcBus, &g_sMidDrive.sFocPMSM.sUDcBusFilter);
-
+    
     /* Decide which position will be used for Park transformation. */
-    if(g_sMidDrive.sFocPMSM.bPosExtOn)
+    if(g_sMidDrive.sFocPMSM.bPosExtOn)  
     {
-        f16PosElPark = g_sMidDrive.sFocPMSM.f16PosElExt;
+        f16PosElPark = g_sMidDrive.sFocPMSM.f16PosElExt; 
     }
     else
     {
-        f16PosElPark = g_sMidDrive.sFocPMSM.f16PosElEst;
+        f16PosElPark = g_sMidDrive.sFocPMSM.f16PosElEst;     
     }
-
+     
     /* Position angle of the last PWM update */
-    g_sMidDrive.sFocPMSM.sAnglePosEl.fltSin = GFLIB_Sin_FLTa((acc32_t)f16PosElPark);
+    g_sMidDrive.sFocPMSM.sAnglePosEl.fltSin = GFLIB_Sin_FLTa((acc32_t)f16PosElPark);      
     g_sMidDrive.sFocPMSM.sAnglePosEl.fltCos = GFLIB_Cos_FLTa((acc32_t)f16PosElPark);
-
+    
     /* 2-phase to 2-phase transformation to rotary ref. frame */
     GMCLIB_Park_FLT(&g_sMidDrive.sFocPMSM.sIAlBe, &g_sMidDrive.sFocPMSM.sAnglePosEl, &g_sMidDrive.sFocPMSM.sIDQ);
     //GMCLIB_Park_FLT(&g_sMidDrive.sFocPMSM.sUAlBeReq, &g_sMidDrive.sFocPMSM.sAnglePosEl, &g_sMidDrive.sFocPMSM.sUDQEst);
     GMCLIB_Park_FLT(&g_sMidDrive.sFocPMSM.sUAlBeReq, &g_sMidDrive.sFocPMSM.sAnglePosEl, &g_sMidDrive.sFocPMSM.sUDQReq);
 
     /* BEMF observer in DQ system */
-    g_sMidDrive.sFocPMSM.acc32BemfErr = AMCLIB_PMSMBemfObsrvDQ_A32fff(&g_sMidDrive.sFocPMSM.sIDQ, &g_sMidDrive.sFocPMSM.sUDQReq,
+    g_sMidDrive.sFocPMSM.acc32BemfErr = AMCLIB_PMSMBemfObsrvDQ_A32fff(&g_sMidDrive.sFocPMSM.sIDQ, &g_sMidDrive.sFocPMSM.sUDQReq,      
                                                             g_sMidDrive.sFocPMSM.fltSpeedElEst, &g_sMidDrive.sFocPMSM.sBemfObsrv);
 
     g_sMidDrive.sFocPMSM.f16PosElEst = (frac16_t)AMCLIB_TrackObsrv_A32af(g_sMidDrive.sFocPMSM.acc32BemfErr, &g_sMidDrive.sFocPMSM.sTo);
@@ -285,7 +281,7 @@ void MID_MC_ReadSignals(void)
  */
 RAM_FUNC_LIB
 void MID_MC_ApplySignals(void)
-{
+{  
     /* perform current control loop if enabled */
     if (g_sMidDrive.sFocPMSM.bCurrentLoopOn)
     {
@@ -321,11 +317,11 @@ void MID_MC_ApplySignals(void)
     GMCLIB_ElimDcBusRipFOC_F16ff(g_sMidDrive.sFocPMSM.fltUDcBusFilt, &g_sMidDrive.sFocPMSM.sUAlBeReq, &g_sMidDrive.sFocPMSM.sUAlBeCompFrac);
 
     /* space vector modulation */
-    g_sMidDrive.sFocPMSM.ui16SectorSVM = GMCLIB_SvmStd_F16(&g_sMidDrive.sFocPMSM.sUAlBeCompFrac, &g_sMidDrive.sFocPMSM.sDutyABC);
-
+    g_sMidDrive.sFocPMSM.ui16SectorSVM = GMCLIB_SvmStd_F16(&g_sMidDrive.sFocPMSM.sUAlBeCompFrac, &g_sMidDrive.sFocPMSM.sDutyABC);  
+    
     /* PWM peripheral update */
-    M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
-
+    M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);   
+    
     /* set current sensor for  sampling */
-    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1AdcSensor);     
 }

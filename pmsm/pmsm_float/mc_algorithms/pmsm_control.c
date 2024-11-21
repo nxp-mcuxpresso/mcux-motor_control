@@ -1,19 +1,16 @@
-/*******************************************************************************
-*
-* Copyright 2013-2016 Freescale Semiconductor, Inc.
-* Copyright 2016-2024 NXP
+/*
+* Copyright 2016, Freescale Semiconductor, Inc.
+* Copyright 2016-2021, 2024 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
-* only be used strictly in accordance with the applicable license terms.
+* only be used strictly in accordance with the applicable license terms. 
 * By expressly accepting such terms or by downloading, installing,
 * activating and/or otherwise using the software, you are agreeing that
 * you have read, and that you agree to comply with and are bound by,
 * such license terms.  If you do not agree to be bound by the applicable
 * license terms, then you may not retain, install, activate or otherwise
 * use the software.
-*
-*
-****************************************************************************/
+ */
 
 #include "pmsm_control.h"
 
@@ -57,7 +54,7 @@ void MCS_PMSMOpenloop(mcs_openloop_t *psOpenloop){
  *
  * @return None
  */
-RAM_FUNC_LIB
+RAM_FUNC_LIB  
 void MCS_PMSMFocCtrl(mcs_pmsm_foc_t *psFocPMSM)
 {
     /* pass electrical position from outside function if enabled else estimated
@@ -147,7 +144,7 @@ void MCS_PMSMFocCtrl(mcs_pmsm_foc_t *psFocPMSM)
  *
  * @return None
  */
-RAM_FUNC_LIB
+RAM_FUNC_LIB  
 void MCS_PMSMFocCtrlSpeed(mcs_speed_t *psSpeed)
 {
     /* Speed saturation flag given by the Q current controller saturation flag and speed controller saturation flag */
@@ -174,7 +171,7 @@ void MCS_PMSMFocCtrlSpeed(mcs_speed_t *psSpeed)
  *
  * @return None
  */
-RAM_FUNC_LIB
+RAM_FUNC_LIB  
 void MCS_PMSMFocCtrlPosition(mcs_position_t *psPosition)
 {
     /* Position error calculation */
@@ -192,7 +189,7 @@ void MCS_PMSMFocCtrlPosition(mcs_position_t *psPosition)
  *
  * @return None
  */
-RAM_FUNC_LIB
+RAM_FUNC_LIB  
 void MCS_PMSMAlignment(mcs_alignment_t *psAlignment)
 {
     /* first half duration time is position set to 120 degree */
@@ -216,7 +213,7 @@ void MCS_PMSMAlignment(mcs_alignment_t *psAlignment)
  *
  * @return None
  */
-RAM_FUNC_LIB
+RAM_FUNC_LIB  
 void MCS_PMSMOpenLoopStartUp(mcs_pmsm_startup_t *psStartUp)
 {
     /* Open loop startup speed ramp */
@@ -258,7 +255,7 @@ void MCS_PMSMOpenLoopStartUp(mcs_pmsm_startup_t *psStartUp)
  *
  * @return None
  */
-RAM_FUNC_LIB
+RAM_FUNC_LIB  
 void MCS_PMSMScalarCtrl(mcs_pmsm_scalar_ctrl_t *psScalarPMSM)
 {
     /* this part of code is executed when scalar control is turned-on */

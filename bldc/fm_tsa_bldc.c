@@ -1,6 +1,5 @@
-/*******************************************************************************
-*
-* Copyright 2013-2016 Freescale Semiconductor, Inc.
+/*
+* Copyright 2016, Freescale Semiconductor, Inc.
 * Copyright 2016-2024 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
@@ -11,9 +10,8 @@
 * such license terms.  If you do not agree to be bound by the applicable
 * license terms, then you may not retain, install, activate or otherwise
 * use the software.
-* 
-*
-****************************************************************************/
+ */
+
 
 #include "freemaster.h"
 #include "freemaster_tsa.h"
@@ -177,8 +175,6 @@ FMSTR_TSA_TABLE_END()
 FMSTR_TSA_TABLE_BEGIN(sAppIdFM_table)
 
 /* Board ID structure definition */
-FMSTR_TSA_RO_MEM(g_sAppIdFM.cUserPath1, FMSTR_TSA_UINT8, &g_sAppIdFM.cUserPath1[0], 80)
-FMSTR_TSA_RO_MEM(g_sAppIdFM.cUserPath2, FMSTR_TSA_UINT8, &g_sAppIdFM.cUserPath2[0], 80)
 FMSTR_TSA_RO_MEM(g_sAppIdFM.cBoardID, FMSTR_TSA_UINT8, &g_sAppIdFM.cBoardID[0], 20)
 FMSTR_TSA_RO_MEM(g_sAppIdFM.cExampleID, FMSTR_TSA_UINT8, &g_sAppIdFM.cExampleID[0], 30)
 FMSTR_TSA_RO_MEM(g_sAppIdFM.cAppVer, FMSTR_TSA_UINT8, &g_sAppIdFM.cAppVer[0], 5)
