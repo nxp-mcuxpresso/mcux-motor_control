@@ -1,5 +1,5 @@
 /*
-* Copyright 2013-2016 Freescale Semiconductor, Inc.
+* Copyright 2016, Freescale Semiconductor, Inc.
 * Copyright 2016-2024 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
@@ -10,8 +10,7 @@
 * such license terms.  If you do not agree to be bound by the applicable
 * license terms, then you may not retain, install, activate or otherwise
 * use the software.
-*/
-
+ */
 #ifndef _MCDRV_FTM_CMT_H_
 #define _MCDRV_FTM_CMT_H_
 
