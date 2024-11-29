@@ -1074,12 +1074,12 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ex)
         TARGETS flash_sdm_lpm_debug flash_sdm_lpm_release
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
-#    mcux_add_library(
-#        LIBS pmsm/pmsm_frac/mc_algorithms/mcaa_lib/DSP56800EX/MCAA_LIB_LDM.lib
-#        TOOLCHAINS codewarrior
-#        TARGETS flash_ldm_lpm_debug flash_ldm_lpm_release
-#        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
-#    )
+    mcux_add_library(
+        LIBS pmsm/pmsm_frac/mc_algorithms/mcaa_lib/DSP56800EX/MCAA_LIB_LDM.lib
+        TOOLCHAINS codewarrior
+        TARGETS flash_ldm_lpm_debug flash_ldm_lpm_release
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
     mcux_add_include(
         INCLUDES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/DSP56800EX/Include
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/

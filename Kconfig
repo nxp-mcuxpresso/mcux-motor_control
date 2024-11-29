@@ -60,6 +60,10 @@ menu "Motor control"
         bool "pmsm_snsless.frac"
         select MCUX_COMPONENT_middleware.motor_control_pmsm_frac.template
         depends on MCUX_HW_CORE_CM0P || MCUX_HW_CORE_DSP56800EX || MCUX_HW_CORE_DSP56800EF
+		
+	select MCUX_COMPONENT_middleware.rtcesl.dsp56800ex if MCUX_HW_CORE_DSP56800EX
+	select MCUX_COMPONENT_middleware.rtcesl.dsp56800ef if MCUX_HW_CORE_DSP56800EF
+	select MCUX_COMPONENT_middleware.rtcesl.cm0 if MCUX_HW_CORE_CM0P
 
     config MCUX_COMPONENT_middleware.mc_pmsm_enc.frac
         bool "pmsm_enc.frac"
@@ -81,6 +85,7 @@ menu "Motor control"
         select MCUX_COMPONENT_middleware.motor_control.mcaa_cm33nodsp if MCUX_HW_CORE_CM33
         select MCUX_COMPONENT_middleware.motor_control.mcaa_cm0 if MCUX_HW_CORE_CM0P
         select MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ex if MCUX_HW_CORE_DSP56800EX
+	select MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ef if MCUX_HW_CORE_DSP56800EF
 
     config MCUX_COMPONENT_middleware.pmsm_mid.frac_enc
         bool "pmsm_mid.frac_enc"
