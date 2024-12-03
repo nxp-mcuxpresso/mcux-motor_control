@@ -61,9 +61,9 @@ menu "Motor control"
         select MCUX_COMPONENT_middleware.motor_control_pmsm_frac.template
         depends on MCUX_HW_CORE_CM0P || MCUX_HW_CORE_DSP56800EX || MCUX_HW_CORE_DSP56800EF
 		
-	select MCUX_COMPONENT_middleware.rtcesl.dsp56800ex if MCUX_HW_CORE_DSP56800EX
-	select MCUX_COMPONENT_middleware.rtcesl.dsp56800ef if MCUX_HW_CORE_DSP56800EF
-	select MCUX_COMPONENT_middleware.rtcesl.cm0 if MCUX_HW_CORE_CM0P
+	    select MCUX_COMPONENT_middleware.rtcesl.dsp56800ex if MCUX_HW_CORE_DSP56800EX
+	    select MCUX_COMPONENT_middleware.rtcesl.dsp56800ef if MCUX_HW_CORE_DSP56800EF
+	    select MCUX_COMPONENT_middleware.rtcesl.cm0 if MCUX_HW_CORE_CM0P
 
     config MCUX_COMPONENT_middleware.mc_pmsm_enc.frac
         bool "pmsm_enc.frac"
@@ -85,7 +85,7 @@ menu "Motor control"
         select MCUX_COMPONENT_middleware.motor_control.mcaa_cm33nodsp if MCUX_HW_CORE_CM33
         select MCUX_COMPONENT_middleware.motor_control.mcaa_cm0 if MCUX_HW_CORE_CM0P
         select MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ex if MCUX_HW_CORE_DSP56800EX
-	select MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ef if MCUX_HW_CORE_DSP56800EF
+	    select MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ef if MCUX_HW_CORE_DSP56800EF
 
     config MCUX_COMPONENT_middleware.pmsm_mid.frac_enc
         bool "pmsm_mid.frac_enc"
@@ -118,6 +118,7 @@ menu "Motor control"
         select MCUX_COMPONENT_middleware.rtcesl.cm33nodsp if MCUX_HW_CORE_CM33
         select MCUX_COMPONENT_middleware.rtcesl.cm0 if MCUX_HW_CORE_CM0P
         select MCUX_COMPONENT_middleware.rtcesl.dsp56800ex if MCUX_HW_CORE_DSP56800EX
+		select MCUX_COMPONENT_middleware.rtcesl.dsp56800ef if MCUX_HW_CORE_DSP56800EF
 
     config MCUX_COMPONENT_middleware.motor_control_pmsm_float.tsa
         bool "pmsm_float.tsa"
@@ -149,11 +150,11 @@ menu "Motor control"
 
     config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_frac
         bool "driver_adc12_pwma_frac"
-        depends on MCUX_HW_DEVICE_MC56F80748 || MCUX_HW_DEVICE_MC56F81868 || MCUX_HW_DEVICE_MC56F81768 || MCUX_HW_DEVICE_MC56F83789
+        depends on MCUX_HW_DEVICE_MC56F80748 || MCUX_HW_DEVICE_MC56F81768 || MCUX_HW_DEVICE_MC56F83789
 
     config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qdc_frac
         bool "driver_adc12_pwma_qdc_frac"
-        depends on MCUX_HW_DEVICE_MC56F81868 || MCUX_HW_DEVICE_MC56F81768
+        depends on MCUX_HW_DEVICE_MC56F81768
 
     config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qspi_frac
         bool "driver_adc12_pwma_qspi_frac"
@@ -165,7 +166,7 @@ menu "Motor control"
 
     config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_frac_enc
         bool "driver_adc12_pwma_frac_enc"
-        depends on MCUX_HW_DEVICE_MC56F81868 || MCUX_HW_DEVICE_MC56F81768 || MCUX_HW_DEVICE_MC56F83789
+        depends on MCUX_HW_DEVICE_MC56F81768 || MCUX_HW_DEVICE_MC56F83789
 
     config MCUX_COMPONENT_middleware.motor_control.mc_drivers_lpcadc_sctimer
         bool "driver_lpcadc_sctimer"
@@ -225,7 +226,7 @@ menu "Motor control"
 
     config MCUX_COMPONENT_middleware.motor_control_pmsm_frac_imcat
         bool "pmsm_frac_imcat"
-        depends on MCUX_HW_DEVICE_MC56F80748 || MCUX_HW_DEVICE_MC56F81868 || MCUX_HW_DEVICE_MC56F81768 || MCUX_HW_DEVICE_MC56F83789 || MCUX_HW_DEVICE_MC56F82748 || MCUX_HW_DEVICE_MC56F84789 || MCUX_HW_DEVICE_MKE15Z7 || MCUX_HW_DEVICE_MKE16Z4 || MCUX_HW_DEVICE_MKE17Z7 || MCUX_HW_DEVICE_MKE17Z9 || MCUX_HW_DEVICE_LPC865 || MCUX_HW_DEVICE_MCXA153
+        depends on MCUX_HW_DEVICE_MC56F80748 || MCUX_HW_DEVICE_MC56F81768 || MCUX_HW_DEVICE_MC56F83789 || MCUX_HW_DEVICE_MC56F82748 || MCUX_HW_DEVICE_MC56F84789 || MCUX_HW_DEVICE_MKE15Z7 || MCUX_HW_DEVICE_MKE16Z4 || MCUX_HW_DEVICE_MKE17Z7 || MCUX_HW_DEVICE_MKE17Z9 || MCUX_HW_DEVICE_LPC865 || MCUX_HW_DEVICE_MCXA153
 
     config MCUX_COMPONENT_middleware.motor_control_bldc_frac_imcat
         bool "bldc_frac_imcat"
