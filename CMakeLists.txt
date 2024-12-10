@@ -704,6 +704,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_float_imcat)
     mcux_component_version(3.0.0)
     mcux_add_source(
         SOURCES freemaster/pmsm_float/mcat/m1_pmsm_appconfig.h
+		CONFIG true
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_include(
@@ -716,6 +717,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_frac_imcat)
     mcux_component_version(3.0.0)
     mcux_add_source(
         SOURCES freemaster/pmsm_frac/mcat/m1_pmsm_appconfig.h
+		CONFIG true
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_include(
@@ -728,6 +730,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control_bldc_frac_imcat)
     mcux_component_version(3.0.0)
     mcux_add_source(
         SOURCES freemaster/bldc/mcat/m1_bldc_appconfig.h
+		CONFIG true
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_include(
