@@ -81,6 +81,35 @@ if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_enc_dual.float)
     )
 endif()
 
+if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_servo_dual.float)
+    mcux_component_version(3.0.0)
+    mcux_add_configuration(
+        CC  "-DPMSM_SNSLESS -DPMSM_SNSLESS_ENC -DDUAL_MOTOR -DPMSM_SERVO"
+    )
+    mcux_add_source(
+        SOURCES pmsm/pmsm_float/mc_algorithms/pmsm_control.c
+                pmsm/pmsm_float/mc_algorithms/pmsm_control.h
+                pmsm/pmsm_float/state_machine/state_machine.c
+                pmsm/pmsm_float/state_machine/state_machine.h
+                pmsm/pmsm_float/mc_state_machine/m1_sm_servo.c
+                pmsm/pmsm_float/mc_state_machine/m1_sm_servo.h
+                pmsm/pmsm_float/mc_state_machine/m2_sm_servo.c
+                pmsm/pmsm_float/mc_state_machine/m2_sm_servo.h
+                pmsm/pmsm_float/mc_state_machine/sm_common.h
+                freemaster/pmsm_float_servo_dual.pmpx
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+    mcux_add_include(
+        INCLUDES pmsm/pmsm_float/mc_algorithms
+                 pmsm/pmsm_float/state_machine
+                 pmsm/pmsm_float/mc_state_machine
+                 pmsm/pmsm_float
+                 freemaster
+                 docs
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+endif()
+
 if(CONFIG_MCUX_COMPONENT_middleware.mc_bldc.frac)
     mcux_component_version(3.0.0)
     mcux_add_configuration(
@@ -319,6 +348,18 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_float.tsa)
     mcux_component_version(3.0.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/fm_tsa_pmsm.c
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+    mcux_add_include(
+        INCLUDES pmsm/pmsm_float
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+endif()
+
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_servo_float.tsa)
+    mcux_component_version(3.0.0)
+    mcux_add_source(
+        SOURCES pmsm/pmsm_float/fm_tsa_pmsm_servo.c
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_include(
@@ -697,6 +738,27 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1180_pwma_e
     mcux_add_include(
         INCLUDES pmsm/pmsm_float/mc_drivers
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+endif()
+
+if (CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_imx943evk)
+	mcux_component_version(3.0.0)
+    mcux_add_source(
+        SOURCES
+            pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.c
+            pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.h
+            pmsm/pmsm_float/mc_drivers/mcdrv_flexio_bissc.c
+            pmsm/pmsm_float/mc_drivers/mcdrv_flexio_bissc.h
+			pmsm/pmsm_float/mc_drivers/mcdrv_bissc.c
+			pmsm/pmsm_float/mc_drivers/mcdrv_bissc.h
+			pmsm/pmsm_float/mc_drivers/mcdrv_sinc.c
+			pmsm/pmsm_float/mc_drivers/mcdrv_sinc.h
+		BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+	
+    mcux_add_include(
+        INCLUDES pmsm/pmsm_float/mc_drivers
+		BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
 endif()
 
