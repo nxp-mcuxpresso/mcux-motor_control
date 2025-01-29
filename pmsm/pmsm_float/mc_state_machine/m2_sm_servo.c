@@ -432,8 +432,8 @@ static void M2_StateInitFast(void)
 //    g_sM2Enc.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
     
     /* For BISS driver */
-    g_sM2Biss.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
-    g_sM2Biss.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
+    g_sM2BissC.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
+    g_sM2BissC.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
 
     /* INIT_DONE command */
     g_sM2Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
@@ -468,7 +468,7 @@ static void M2_StateStopFast(void)
     M2_MCDRV_QD_GET_SPEED(&g_sM2Enc);
     
     /* get position from BISS */
-    M2_MCDRV_BISS_GET(&g_sM2Biss);
+    M2_MCDRV_BISS_GET(&g_sM2BissC);
 
     /* convert voltages from fractional measured values to float */
     g_sM2Drive.sFocPMSM.fltUDcBus = MLIB_ConvSc_FLTsf(g_sM2Drive.sFocPMSM.f16UDcBus, g_fltM2DCBvoltageScale);
@@ -527,7 +527,7 @@ static void M2_StateRunFast(void)
     M2_MCDRV_QD_GET_POSITION(&g_sM2Enc);
     
     /* get position from BISS */
-    M2_MCDRV_BISS_GET(&g_sM2Biss);
+    M2_MCDRV_BISS_GET(&g_sM2BissC);
 
     /* If the user switches off */
     if (!g_bM2SwitchAppOnOff)
@@ -1323,7 +1323,7 @@ static void M2_StateRunSpinSlow(void)
   
 //    M2_MCDRV_QD_GET_SPEED(&g_sM2Enc);
 //    
-//    M2_MCDRV_BISS_GET(&g_sM2Biss);
+//    M2_MCDRV_BISS_GET(&g_sM2BissC);
   
     if (g_sM2Drive.eControl == kControlMode_SpeedFOC)
     {
@@ -1364,7 +1364,7 @@ static void M2_StateRunSpinSlow(void)
         g_sM2Drive.sSpeed.fltSpeedFilt = GDFLIB_FilterIIR1_FLT(g_sM2Drive.sSpeed.fltSpeed, &g_sM2Drive.sSpeed.sSpeedFilter);
         /* Actual position */
         //g_sM2Drive.sPosition.a32Position = g_sM2Enc.a32PosMeReal;
-        g_sM2Drive.sPosition.a32Position = g_sM2Biss.a32PosMeReal;  // PREDANIE MUSI IST CEZ POINTER...
+        g_sM2Drive.sPosition.a32Position = g_sM2BissC.a32PosMeReal;  // PREDANIE MUSI IST CEZ POINTER...
         
         
         /* Pass filtered speed to position structure */
@@ -1485,7 +1485,7 @@ static void M2_TransRunAlignStartup(void)
     /* Type the code to do when going from the RUN kRunState_Align to the RUN kRunState_Startup sub-state */
     /* initialize encoder driver */
     M2_MCDRV_QD_CLEAR(&g_sM2Enc);
-    M2_MCDRV_BISS_CLEAR(&g_sM2Biss);
+    M2_MCDRV_BISS_CLEAR(&g_sM2BissC);
 
     /* Clear application parameters */
     M2_ClearFOCVariables();
@@ -1527,8 +1527,8 @@ static void M2_TransRunAlignSpin(void)
     /* Type the code to do when going from the RUN STARTUP to the RUN SPIN sub-state */
     /* initialize encoder driver */
     M2_MCDRV_QD_CLEAR(&g_sM2Enc);
-    M2_MCDRV_BISS_CLEAR(&g_sM2Biss);
-    M2_MCDRV_BISS_SET_OFFSET(&g_sM2Biss);
+    M2_MCDRV_BISS_CLEAR(&g_sM2BissC);
+    M2_MCDRV_BISS_SET_OFFSET(&g_sM2BissC);
 
     g_sM2Drive.sFocPMSM.bPosExtOn = TRUE;  /* enable passing external electrical position from encoder to FOC */
     g_sM2Drive.sFocPMSM.bOpenLoop = FALSE; /* disable parallel runnig openloop and estimator */

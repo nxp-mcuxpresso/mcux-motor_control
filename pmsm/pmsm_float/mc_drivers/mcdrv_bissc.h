@@ -17,6 +17,7 @@
 #include "fsl_common.h"
 #include "mlib_types.h"
 #include "mlib.h"
+#include "amclib_FP.h"
 
 
 /*!
@@ -27,6 +28,28 @@
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
+typedef struct _bissc_type
+{
+  
+    float_t *pfltSpdMeEst;        /* pointer to measured mechanical speed  */
+    frac16_t *pf16PosElEst;       /* pointer to measured electrical position */
+  
+    uint32_t mt;
+    uint32_t st;
+    uint32_t mt_offset;
+    uint32_t st_offset;
+    
+    AMCLIB_TRACK_OBSRV_T_FLT sTo; /* tracking observer structure */
+     
+    acc32_t a32PosMeReal;         /* real position (revolution counter + mechanical position) */
+    acc32_t a32PosErr;            /* position error to tracking observer  */
+    float_t fltSpdMeEst;          /* estimated speed calculated using tracking observer */
+    frac16_t f16PosMe;            /* mechanical position calculated using encoder edges */
+    frac16_t f16PosMeEst;         /* estimated position calculated using tracking observer */
+    
+    uint16_t ui16Pp;              /* number of motor pole pairs */
+    
+} BISSC_Type;
 
 
 /*******************************************************************************
@@ -37,7 +60,35 @@
 extern "C" {
 #endif /*_cplusplus*/
 
+/*!
+ * @brief Function clears parameters of object
+ *
+ * @param base   Pointer to the current object
+ *
+ * @return none
+ */
+RAM_FUNC_LIB
+void MCDRV_BissCClear(BISSC_Type *base);
 
+/*!
+ * @brief Function sets revolutions offset
+ *
+ * @param base   Pointer to the current object
+ *
+ * @return none
+ */
+RAM_FUNC_LIB
+void MCDRV_BissCSetOffset(BISSC_Type *base);
+
+/*!
+ * @brief Function processes the data
+ *
+ * @param base   Pointer to the current object
+ *
+ * @return none
+ */
+RAM_FUNC_LIB
+void BISSC_Data_Proc(BISSC_Type * base);
 
 #if defined(__cplusplus)
 }

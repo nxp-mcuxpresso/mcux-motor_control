@@ -95,7 +95,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_servo_dual.float)
                 pmsm/pmsm_float/mc_state_machine/m1_sm_servo.h
                 pmsm/pmsm_float/mc_state_machine/m2_sm_servo.c
                 pmsm/pmsm_float/mc_state_machine/m2_sm_servo.h
-                pmsm/pmsm_float/mc_state_machine/sm_common.h
+                pmsm/pmsm_float/mc_state_machine/sm_servo_common.h
                 freemaster/pmsm_float_servo_dual.pmpx
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
@@ -747,8 +747,6 @@ if (CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_imx943evk)
         SOURCES
             pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.c
             pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.h
-            pmsm/pmsm_float/mc_drivers/mcdrv_flexio_bissc.c
-            pmsm/pmsm_float/mc_drivers/mcdrv_flexio_bissc.h
 			pmsm/pmsm_float/mc_drivers/mcdrv_bissc.c
 			pmsm/pmsm_float/mc_drivers/mcdrv_bissc.h
 			pmsm/pmsm_float/mc_drivers/mcdrv_sinc.c

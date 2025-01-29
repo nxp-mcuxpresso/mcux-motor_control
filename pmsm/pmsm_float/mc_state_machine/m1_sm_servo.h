@@ -15,7 +15,7 @@
 #ifndef _M1_SM_SERVO_REF_SOL_H_
 #define _M1_SM_SERVO_REF_SOL_H_
 
-#include "sm_common.h"
+#include "sm_servo_common.h"
 #include "m1_pmsm_appconfig.h"
 #include "state_machine.h"
 
