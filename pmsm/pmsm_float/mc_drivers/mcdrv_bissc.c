@@ -73,6 +73,27 @@ void MCDRV_BissCSetOffset(BISSC_Type *base)
 }
 
 /*!
+ * @brief Function reads raw data and converts to single turn and multi turn revolutions
+ *
+ * @param base   Pointer to the current object
+ *
+ * @return none
+ */
+RAM_FUNC_LIB
+void MCDRV_BissCDataRead(BISSC_Type *base)
+{
+  uint64_t ui64PositionRaw;
+  
+  /* Read raw data from slave device ID 0 */
+  ui64PositionRaw = BISS_SLVGetSCDRawData(base->pMaster, 0U);
+  ui64PositionRaw = (ui64PositionRaw & (((uint64_t) 1 << (base->ui8DevDataLen)) - 1)) >> 2;
+  
+  /* Extract single turn and multiturn values */
+  base->st = (uint32_t)((ui64PositionRaw) & (((uint64_t) 1 << base->ui8DevSTLen) - 1));
+  base->mt = (uint32_t)((ui64PositionRaw >> base->ui8DevSTLen) & (((uint64_t) 1 << base->ui8DevMTLen) - 1));
+}
+
+/*!
  * @brief Function processes the data
  *
  * @param base   Pointer to the current object
@@ -80,7 +101,7 @@ void MCDRV_BissCSetOffset(BISSC_Type *base)
  * @return none
  */
 RAM_FUNC_LIB
-void BISSC_Data_Proc(BISSC_Type * base)
+void MCDRV_BissCDataProc(BISSC_Type * base)
 {
   /* mechanical position from single turn */
   base->f16PosMe = (frac16_t)(base->st - base->st_offset);

@@ -18,6 +18,7 @@
 #include "mlib_types.h"
 #include "mlib.h"
 #include "amclib_FP.h"
+#include "fsl_biss.h"
 
 
 /*!
@@ -30,7 +31,7 @@
  ******************************************************************************/
 typedef struct _bissc_type
 {
-  
+    biss_master_t *pMaster;        /* BiSS master handle pointer */
     float_t *pfltSpdMeEst;        /* pointer to measured mechanical speed  */
     frac16_t *pf16PosElEst;       /* pointer to measured electrical position */
   
@@ -49,6 +50,9 @@ typedef struct _bissc_type
     
     uint16_t ui16Pp;              /* number of motor pole pairs */
     
+    const uint8_t ui8DevDataLen;        /* BiSS device data length */
+    const uint8_t ui8DevSTLen;          /* Single turn data length */
+    const uint8_t ui8DevMTLen;          /* Multi turn data length */
 } BISSC_Type;
 
 
@@ -79,6 +83,16 @@ void MCDRV_BissCClear(BISSC_Type *base);
  */
 RAM_FUNC_LIB
 void MCDRV_BissCSetOffset(BISSC_Type *base);
+   
+/*!
+ * @brief Function reads raw data and converts to single turn and multi turn revolutions
+ *
+ * @param base   Pointer to the current object
+ *
+ * @return none
+ */
+RAM_FUNC_LIB
+void MCDRV_BissCDataRead(BISSC_Type *base);
 
 /*!
  * @brief Function processes the data
@@ -88,7 +102,7 @@ void MCDRV_BissCSetOffset(BISSC_Type *base);
  * @return none
  */
 RAM_FUNC_LIB
-void BISSC_Data_Proc(BISSC_Type * base);
+void MCDRV_BissCDataProc(BISSC_Type * base);
 
 #if defined(__cplusplus)
 }
