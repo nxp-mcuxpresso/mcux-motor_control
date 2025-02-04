@@ -478,9 +478,6 @@ static void M1_StateStopFast(void)
     /* get position and speed from quadrature encoder sensor */
     M1_MCDRV_QD_GET_POSITION(&g_sM1Enc);
     M1_MCDRV_QD_GET_SPEED(&g_sM1Enc);
-    
-    /* get position from BISS */
-    M1_MCDRV_BISS_GET(&g_sM1BissC);
 
     /* convert voltages from fractional measured values to float */
     //g_sM1Drive.sFocPMSM.fltUDcBus = MLIB_ConvSc_FLTsf(g_sM1Drive.sFocPMSM.f16UDcBus, g_fltM1DCBvoltageScale);
@@ -541,9 +538,6 @@ static void M1_StateRunFast(void)
 
     /* get position and speed from quadrature encoder sensor */
     M1_MCDRV_QD_GET_POSITION(&g_sM1Enc);
-    
-    /* get position from BISS */
-    M1_MCDRV_BISS_GET(&g_sM1BissC);
 
     /* If the user switches off */
     if (!g_bM1SwitchAppOnOff)
@@ -1336,12 +1330,7 @@ static void M1_StateRunStartupSlow(void)
  */
 RAM_FUNC_LIB
 static void M1_StateRunSpinSlow(void)
-{
-  
-////    M1_MCDRV_QD_GET_SPEED(&g_sM1Enc);
-////    
-////    M1_MCDRV_BISS_GET(&g_sM1Biss);
-  
+{  
     if (g_sM1Drive.eControl == kControlMode_SpeedFOC)
     {
         /* Actual speed filter */
