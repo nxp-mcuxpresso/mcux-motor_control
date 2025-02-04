@@ -185,14 +185,14 @@ sm_app_ctrl_t g_sM2Ctrl = {
 RAM_FUNC_LIB
 static void M2_StateFaultFast(void)
 {
-    /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M2_MCDRV_ADC_GET(&g_sM2AdcSensor);
+    /* Get measured phase currents and DC-bus voltage */
+    M2_MCDRV_PHCURR_DCBVOLT_GET(&g_sM2PhCurrDcBus);
 
     /* convert voltages from fractional measured values to float */
-    g_sM2Drive.sFocPMSM.fltUDcBus = MLIB_ConvSc_FLTsf(g_sM2Drive.sFocPMSM.f16UDcBus, g_fltM2DCBvoltageScale);
+    //g_sM2Drive.sFocPMSM.fltUDcBus = MLIB_ConvSc_FLTsf(g_sM2Drive.sFocPMSM.f16UDcBus, g_fltM2DCBvoltageScale);
 
 #if DCBUS_NO_MEASUREMENT
-    g_sM2Drive.sFocPMSM.fltUDcBus = 24.0f;
+    //g_sM2Drive.sFocPMSM.fltUDcBus = 24.0f;
 #endif
     
     /* Sampled DC-Bus voltage filter */
@@ -418,14 +418,15 @@ static void M2_StateInitFast(void)
     /* Init sensors/actuators pointers */
     /* For PWM driver */
     g_sM2Pwm3ph.psUABC = &(g_sM2Drive.sFocPMSM.sDutyABC);
-    /* For ADC driver */
-    g_sM2AdcSensor.pf16UDcBus     = &(g_sM2Drive.sFocPMSM.f16UDcBus);
-    g_sM2AdcSensor.psIABC         = &(g_sM2Drive.sFocPMSM.sIABCFrac);
-    g_sM2AdcSensor.pui16SVMSector = &(g_sM2Drive.sFocPMSM.ui16SectorSVM);
-    g_sM2AdcSensor.pui16AuxChan   = &(g_sM2Drive.f16AdcAuxSample);
+    
+    /* Init pointer for currents and voltage measurement */
+    M2_SET_PTR_U_DC_BUS(g_sM2Drive.sFocPMSM.fltUDcBus);
+    M2_SET_PTR_I_ABC(g_sM2Drive.sFocPMSM.sIABC);
+    M2_SET_PTR_SECTOR(g_sM2Drive.sFocPMSM.ui16SectorSVM);
+    M2_SET_PTR_AUX_CHAN(g_sM2Drive.f16AdcAuxSample);
 
-    /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M2_MCDRV_ADC_GET(&g_sM2AdcSensor);
+    /* Get measured phase currents and DC-bus voltage (to prevent fault when SM is executed in ADC ISR) */
+    M2_MCDRV_PHCURR_DCBVOLT_GET(&g_sM2PhCurrDcBus);
 
     /* For ENC driver */
 //    g_sM2Enc.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
@@ -457,8 +458,8 @@ static void M2_StateInitFast(void)
 RAM_FUNC_LIB
 static void M2_StateStopFast(void)
 {
-    /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M2_MCDRV_ADC_GET(&g_sM2AdcSensor);
+    /* Get measured phase currents and DC-bus voltage */
+    M2_MCDRV_PHCURR_DCBVOLT_GET(&g_sM2PhCurrDcBus);
 
     /* Set encoder direction */
     M2_MCDRV_QD_SET_DIRECTION(&g_sM2Enc);
@@ -471,7 +472,7 @@ static void M2_StateStopFast(void)
     M2_MCDRV_BISS_GET(&g_sM2BissC);
 
     /* convert voltages from fractional measured values to float */
-    g_sM2Drive.sFocPMSM.fltUDcBus = MLIB_ConvSc_FLTsf(g_sM2Drive.sFocPMSM.f16UDcBus, g_fltM2DCBvoltageScale);
+    //g_sM2Drive.sFocPMSM.fltUDcBus = MLIB_ConvSc_FLTsf(g_sM2Drive.sFocPMSM.f16UDcBus, g_fltM2DCBvoltageScale);
 
     /* Sampled DC-Bus voltage filter */
     g_sM2Drive.sFocPMSM.fltUDcBusFilt =
@@ -520,8 +521,8 @@ static void M2_StateStopFast(void)
 RAM_FUNC_LIB
 static void M2_StateRunFast(void)
 {
-    /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M2_MCDRV_ADC_GET(&g_sM2AdcSensor);
+    /* Get measured phase currents and DC-bus voltage */
+    M2_MCDRV_PHCURR_DCBVOLT_GET(&g_sM2PhCurrDcBus);
 
     /* get position and speed from quadrature encoder sensor */
     M2_MCDRV_QD_GET_POSITION(&g_sM2Enc);
@@ -557,7 +558,7 @@ static void M2_StateRunFast(void)
 #endif
 
     /* Convert voltages from fractional measured values to float */
-    g_sM2Drive.sFocPMSM.fltUDcBus = MLIB_ConvSc_FLTsf(g_sM2Drive.sFocPMSM.f16UDcBus, g_fltM2DCBvoltageScale);
+    //g_sM2Drive.sFocPMSM.fltUDcBus = MLIB_ConvSc_FLTsf(g_sM2Drive.sFocPMSM.f16UDcBus, g_fltM2DCBvoltageScale);
 
 #if DCBUS_NO_MEASUREMENT
     g_sM2Drive.sFocPMSM.fltUDcBus = 24.0f;

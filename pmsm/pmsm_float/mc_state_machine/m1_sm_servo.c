@@ -185,8 +185,8 @@ sm_app_ctrl_t g_sM1Ctrl = {
 RAM_FUNC_LIB
 static void M1_StateFaultFast(void)
 {
-    /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M1_MCDRV_ADC_GET(&g_sM1AdcSensor);
+    /* Get measured phase currents and DC-bus voltage */
+    M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
 
     /* convert voltages from fractional measured values to float */
     //g_sM1Drive.sFocPMSM.fltUDcBus = MLIB_ConvSc_FLTsf(g_sM1Drive.sFocPMSM.f16UDcBus, g_fltM1DCBvoltageScale);
@@ -420,14 +420,15 @@ static void M1_StateInitFast(void)
     /* Init sensors/actuators pointers */
     /* For PWM driver */
     g_sM1Pwm3ph.psUABC = &(g_sM1Drive.sFocPMSM.sDutyABC);
-    /* For ADC driver */
-    g_sM1AdcSensor.pf16UDcBus     = &(g_sM1Drive.sFocPMSM.f16UDcBus);
-    g_sM1AdcSensor.psIABC         = &(g_sM1Drive.sFocPMSM.sIABCFrac);
-    g_sM1AdcSensor.pui16SVMSector = &(g_sM1Drive.sFocPMSM.ui16SectorSVM);
-    g_sM1AdcSensor.pui16AuxChan   = &(g_sM1Drive.f16AdcAuxSample);
+    
+    /* Init pointer for currents and voltage measurement */
+    M1_SET_PTR_U_DC_BUS(g_sM1Drive.sFocPMSM.fltUDcBus);
+    M1_SET_PTR_I_ABC(g_sM1Drive.sFocPMSM.sIABC);
+    M1_SET_PTR_SECTOR(g_sM1Drive.sFocPMSM.ui16SectorSVM);
+    M1_SET_PTR_AUX_CHAN(g_sM1Drive.f16AdcAuxSample);
 
-    /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M1_MCDRV_ADC_GET(&g_sM1AdcSensor);
+    /* Get measured phase currents and DC-bus voltage (to prevent fault when SM is executed in ADC ISR) */
+    M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
 
     /* For ENC driver */
 //    g_sM1Enc.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
@@ -468,8 +469,8 @@ static void M1_StateInitFast(void)
 RAM_FUNC_LIB
 static void M1_StateStopFast(void)
 {
-    /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M1_MCDRV_ADC_GET(&g_sM1AdcSensor);
+    /* Get measured phase currents and DC-bus voltage */
+    M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
 
     /* Set encoder direction */
     M1_MCDRV_QD_SET_DIRECTION(&g_sM1Enc);
@@ -535,8 +536,8 @@ static void M1_StateStopFast(void)
 RAM_FUNC_LIB
 static void M1_StateRunFast(void)
 {
-    /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M1_MCDRV_ADC_GET(&g_sM1AdcSensor);
+    /* Get measured phase currents and DC-bus voltage */
+    M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
 
     /* get position and speed from quadrature encoder sensor */
     M1_MCDRV_QD_GET_POSITION(&g_sM1Enc);
