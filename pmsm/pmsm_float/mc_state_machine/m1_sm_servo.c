@@ -538,16 +538,6 @@ static void M1_StateRunFast_Optim(void)
 
     /* get position and speed from quadrature encoder sensor */
     M1_MCDRV_QD_GET_POSITION(&g_sM1Enc);
-
-    /* If the user switches off */
-    if (!g_bM1SwitchAppOnOff)
-    {
-        /* Stop command */
-        g_sM1Ctrl.uiCtrl |= SM_CTRL_STOP;
-
-        g_sM1Drive.sPosition.a32PositionCmd = 0;
-        g_sM1Drive.sPosition.a32Position    = 0;
-    }
     
 //     SYSTICK_START();
 
@@ -1029,6 +1019,18 @@ static void M1_StateRunSlow(void)
     {
     	M1_BRAKE_CLEAR();
     }
+
+#if SERVO_OPTIM    
+    /* If the user switches off - checked before FaultDetection */
+    if (!g_bM1SwitchAppOnOff)
+    {
+        /* Stop command */
+        g_sM1Ctrl.uiCtrl |= SM_CTRL_STOP;
+
+        g_sM1Drive.sPosition.a32PositionCmd = 0;
+        g_sM1Drive.sPosition.a32Position    = 0;
+    }
+#endif /* SERVO_OPTIM */
     
     M1_FaultDetection();
 
@@ -1873,8 +1875,10 @@ static void M1_StateRunSpinSlow(void)
 
     if (g_sM1Drive.eControl == kControlMode_PositionFOC)
     {
+#if SERVO_OPTIM
         /* pass encoder speed to actual speed value */
         g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1BissC.ui16Pp));
+#endif /* SERVO_OPTIM */
     
         /* Actual speed filter */
         g_sM1Drive.sSpeed.fltSpeedFilt = GDFLIB_FilterIIR1_FLT(g_sM1Drive.sSpeed.fltSpeed, &g_sM1Drive.sSpeed.sSpeedFilter);
