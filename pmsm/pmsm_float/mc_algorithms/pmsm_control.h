@@ -244,6 +244,18 @@ RAM_FUNC_LIB
 void MCS_PMSMFocCtrl(mcs_pmsm_foc_t *psFocPMSM);
 
 /*!
+ * @brief Optimized PMSM field oriented current control.
+ *
+ * This function is used to compute PMSM field oriented current control.
+ *
+ * @param psFocPMSM     The pointer of the PMSM FOC structure
+ *
+ * @return None
+ */
+RAM_FUNC_LIB
+void MCS_PMSMFocCtrl_Optim(mcs_pmsm_foc_t *psFocPMSM);
+
+/*!
  * @brief PMSM field oriented speed control.
  *
  * This function is used to compute PMSM field oriented speed control.

@@ -143,6 +143,77 @@ void MCS_PMSMFocCtrl(mcs_pmsm_foc_t *psFocPMSM)
 }
 
 /*!
+ * @brief Optimized PMSM field oriented current control.
+ *
+ * This function is used to compute PMSM field oriented current control.
+ *
+ * @param psFocPMSM     The pointer of the PMSM FOC structure
+ *
+ * @return None
+ */
+RAM_FUNC_LIB  
+void MCS_PMSMFocCtrl_Optim(mcs_pmsm_foc_t *psFocPMSM)
+{
+    /* 3-phase to 2-phase transformation to stationary ref. frame */
+    GMCLIB_Clark_FLT(&psFocPMSM->sIABC, &psFocPMSM->sIAlBe);
+
+    /* 2-phase to 2-phase transformation to rotary ref. frame */
+//    psFocPMSM->sAnglePosEl.fltSin = GFLIB_Sin_FLTa((acc32_t)psFocPMSM->f16PosElExt);
+//    psFocPMSM->sAnglePosEl.fltCos = GFLIB_Cos_FLTa((acc32_t)psFocPMSM->f16PosElExt);
+    GFLIB_SinCos_FLTa((acc32_t)psFocPMSM->f16PosElExt, &psFocPMSM->sAnglePosEl);
+    
+    GMCLIB_Park_FLT(&psFocPMSM->sIAlBe, &psFocPMSM->sAnglePosEl, &psFocPMSM->sIDQ);
+
+    /* perform current control loop if enabled */
+    if (psFocPMSM->bCurrentLoopOn)
+    {
+        /* Zero cancellation filter */
+        psFocPMSM->sIDQReqFilt.fltQ = GDFLIB_FilterIIR1_FLT(psFocPMSM->sIDQReq.fltQ, &psFocPMSM->sIqReqZCFilter);
+      
+        /* D current error calculation */
+        psFocPMSM->sIDQError.fltD = MLIB_Sub_FLT(psFocPMSM->sIDQReq.fltD, psFocPMSM->sIDQ.fltD);
+        
+        /* Q current error calculation */
+#if     defined(Q_CURRENT_ZC_FILTER)
+        psFocPMSM->sIDQError.fltQ = MLIB_Sub_FLT(psFocPMSM->sIDQReqFilt.fltQ, psFocPMSM->sIDQ.fltQ);
+#else
+        psFocPMSM->sIDQError.fltQ = MLIB_Sub_FLT(psFocPMSM->sIDQReq.fltQ, psFocPMSM->sIDQ.fltQ);
+#endif
+
+#ifndef SERVO_OPTIM
+        /*** D - controller limitation calculation ***/
+        psFocPMSM->sIdPiParams.fltLowerLim = MLIB_MulNeg_FLT(psFocPMSM->fltDutyCycleLimit, psFocPMSM->fltUDcBusFilt);
+        psFocPMSM->sIdPiParams.fltUpperLim = MLIB_Mul_FLT(psFocPMSM->fltDutyCycleLimit, psFocPMSM->fltUDcBusFilt);
+#endif
+        
+        /* D current PI controller */
+        psFocPMSM->sUDQReq.fltD =
+            GFLIB_CtrlPIpAW_FLT(psFocPMSM->sIDQError.fltD, &psFocPMSM->bIdPiStopInteg, &psFocPMSM->sIdPiParams);
+
+#ifndef SERVO_OPTIM
+        /*** Q - controller limitation calculation ***/
+        psFocPMSM->sIqPiParams.fltUpperLim =
+            GFLIB_Sqrt_FLT(psFocPMSM->sIdPiParams.fltUpperLim * psFocPMSM->sIdPiParams.fltUpperLim -
+                           psFocPMSM->sUDQReq.fltD * psFocPMSM->sUDQReq.fltD);
+        psFocPMSM->sIqPiParams.fltLowerLim = MLIB_Neg_FLT(psFocPMSM->sIqPiParams.fltUpperLim);
+#endif
+        
+        /* Q current PI controller */
+        psFocPMSM->sUDQReq.fltQ =
+            GFLIB_CtrlPIpAW_FLT(psFocPMSM->sIDQError.fltQ, &psFocPMSM->bIqPiStopInteg, &psFocPMSM->sIqPiParams);
+    }
+
+    /* 2-phase to 2-phase transformation to stationary ref. frame */
+    GMCLIB_ParkInv_FLT(&psFocPMSM->sUDQReq, &psFocPMSM->sAnglePosEl, &psFocPMSM->sUAlBeReq);
+
+    /* DCBus ripple elimination */
+    GMCLIB_ElimDcBusRipFOC_F16ff(psFocPMSM->fltUDcBusFilt, &psFocPMSM->sUAlBeReq, &psFocPMSM->sUAlBeCompFrac);
+
+    /* space vector modulation */
+    psFocPMSM->ui16SectorSVM = GMCLIB_SvmStd_F16(&psFocPMSM->sUAlBeCompFrac, &psFocPMSM->sDutyABC);
+}
+
+/*!
  * @brief PMSM field oriented speed control.
  *
  * This function is used to compute PMSM field oriented speed control.

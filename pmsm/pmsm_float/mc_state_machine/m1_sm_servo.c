@@ -22,8 +22,6 @@
 #define M1_SVM_SECTOR_DEFAULT (2)        /* default SVM sector */
 #define M1_BLOCK_ROT_FAULT_SH (0.03125F) /* filter window */
 
-#define SERVO_OPTIM (1)
-
 /* CPU load measurement SysTick START / STOP macros */
 #define SYSTICK_START() (SysTick->VAL = SysTick->LOAD)
 #define SYSTICK_STOP(par1)   \
@@ -535,8 +533,6 @@ static void M1_StateStopFast_Optim(void)
 RAM_FUNC_LIB
 static void M1_StateRunFast_Optim(void)
 {
-//    SYSTICK_START();
-
     /* Get measured phase currents and DC-bus voltage */
     M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
 
@@ -553,13 +549,15 @@ static void M1_StateRunFast_Optim(void)
         g_sM1Drive.sPosition.a32Position    = 0;
     }
     
+//     SYSTICK_START();
+
+    /* Run sub-state function */
+    s_M1_STATE_RUN_TABLE_FAST[g_eM1StateRun]();
+    
 //    /* Stop CPU tick number couting and store actual and maximum ticks */
 //    SYSTICK_STOP(g_ui32NumberOfCycles2);
 //    g_ui32MaxNumberOfCycles2 =
 //        g_ui32NumberOfCycles2 > g_ui32MaxNumberOfCycles2 ? g_ui32NumberOfCycles2 : g_ui32MaxNumberOfCycles2;
-
-    /* Run sub-state function */
-    s_M1_STATE_RUN_TABLE_FAST[g_eM1StateRun]();
 
     /* PWM peripheral update */
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
@@ -1286,7 +1284,7 @@ static void M1_StateRunAlignFast_Optim(void)
 
     MCS_PMSMAlignment(&g_sM1Drive.sAlignment);
     g_sM1Drive.sFocPMSM.f16PosElExt = g_sM1Drive.sAlignment.f16PosAlign;
-    MCS_PMSMFocCtrl(&g_sM1Drive.sFocPMSM);
+    MCS_PMSMFocCtrl_Optim(&g_sM1Drive.sFocPMSM);
 }
 
 /*!
@@ -1316,14 +1314,9 @@ static void M1_StateRunSpinFast_Optim(void)
 
     /* Pass encoder position to FOC is enabled */
     g_sM1Drive.sFocPMSM.f16PosElExt = g_sM1Drive.f16PosElEnc;
-    g_sM1Drive.sFocPMSM.bPosExtOn   = TRUE;
 
     /* FOC */
-    g_sM1Drive.sFocPMSM.bCurrentLoopOn = TRUE;
-    MCS_PMSMFocCtrl(&g_sM1Drive.sFocPMSM);
-
-    /* pass encoder speed to actual speed value */
-    g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1BissC.ui16Pp));
+    MCS_PMSMFocCtrl_Optim(&g_sM1Drive.sFocPMSM);
 }
 
 /*!
@@ -1377,7 +1370,7 @@ static void M1_StateRunCalibFast(void)
  */
 RAM_FUNC_LIB
 static void M1_StateRunReadyFast(void)
-{F
+{
     /* Type the code to do when in the RUN READY sub-state */
     /* Clear actual speed values */
     g_sM1Drive.sScalarCtrl.fltFreqRamp = 0.0F;
@@ -1880,6 +1873,9 @@ static void M1_StateRunSpinSlow(void)
 
     if (g_sM1Drive.eControl == kControlMode_PositionFOC)
     {
+        /* pass encoder speed to actual speed value */
+        g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1BissC.ui16Pp));
+    
         /* Actual speed filter */
         g_sM1Drive.sSpeed.fltSpeedFilt = GDFLIB_FilterIIR1_FLT(g_sM1Drive.sSpeed.fltSpeed, &g_sM1Drive.sSpeed.sSpeedFilter);
         /* Actual position */
@@ -2058,6 +2054,10 @@ static void M1_TransRunAlignSpin(void)
     g_sM1Drive.sFocPMSM.sIDQReq.fltD  = 0.0F;
     g_sM1Drive.sFocPMSM.sIDQReq.fltQ  = 0.0F;
 
+#if SERVO_OPTIM
+    g_sM1Drive.sFocPMSM.bCurrentLoopOn = TRUE;
+#endif /* SERVO_OPTIM */
+    
     M1_ClearFOCVariables();
 
     /* To switch to the RUN SPIN sub-state */
