@@ -73,14 +73,14 @@ void MCDRV_BissCSetOffset(BISSC_Type *base)
 }
 
 /*!
- * @brief Function reads raw data and converts to single turn and multi turn revolutions
+ * @brief Function processes the data
  *
  * @param base   Pointer to the current object
  *
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_BissCDataRead(BISSC_Type *base)
+void MCDRV_BissCDataProc(BISSC_Type * base)
 {
   uint64_t ui64PositionRaw;
   
@@ -91,18 +91,7 @@ void MCDRV_BissCDataRead(BISSC_Type *base)
   /* Extract single turn and multiturn values */
   base->st = (uint32_t)((ui64PositionRaw) & (((uint64_t) 1 << base->ui8DevSTLen) - 1));
   base->mt = (uint32_t)((ui64PositionRaw >> base->ui8DevSTLen) & (((uint64_t) 1 << base->ui8DevMTLen) - 1));
-}
-
-/*!
- * @brief Function processes the data
- *
- * @param base   Pointer to the current object
- *
- * @return none
- */
-RAM_FUNC_LIB
-void MCDRV_BissCDataProc(BISSC_Type * base)
-{
+  
   /* mechanical position from single turn */
   base->f16PosMe = (frac16_t)(base->st - base->st_offset);
   
@@ -116,8 +105,8 @@ void MCDRV_BissCDataProc(BISSC_Type * base)
   /* calculation of error function for tracking observer */
   base->a32PosErr = (acc32_t)MLIB_Sub_F16(base->f16PosMe, base->f16PosMeEst);
 
-  /* speed estimation by the tracking observer */
-  base->fltSpdMeEst = base->sTo.fltSpeed;
+  /* Store speed estimation by the tracking observer */
+  *base->pfltSpdMeEst = base->sTo.fltSpeed;
   
   /* position in accumulator type for motor control purposes */
   //base->a32PosMeReal = (acc32_t)(( (((int32_t)base->mt) - 2048) << 15    ) + (((uint16_t)(base->st)) >> 1) ); 
@@ -127,5 +116,4 @@ void MCDRV_BissCDataProc(BISSC_Type * base)
   
   /* store results to user-defined variables */
   *base->pf16PosElEst = (frac16_t)(base->f16PosMeEst * base->ui16Pp);
-  *base->pfltSpdMeEst = (base->fltSpdMeEst);
 }

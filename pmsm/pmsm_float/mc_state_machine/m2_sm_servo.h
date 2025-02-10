@@ -110,6 +110,26 @@ void M2_SetPosition(acc32_t a32PositionCmdDemo);
 RAM_FUNC_LIB
 float_t M2_GetSpeed(void);
 
+/*!
+ * @brief Enable PWM outputs
+ *
+ * @param void  No input parameter
+ *
+ * @return None
+ */
+RAM_FUNC_LIB
+void M2_OpenPWM(void);
+
+/*!
+ * @brief Disable PWM outputs
+ *
+ * @param void  No input parameter
+ *
+ * @return None
+ */
+RAM_FUNC_LIB
+void M2_ClosePWM(void);
+
 #ifdef __cplusplus
 }
 #endif

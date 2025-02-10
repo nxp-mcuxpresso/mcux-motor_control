@@ -508,6 +508,16 @@ static void M1_StateStopFast_Optim(void)
     /* If the user switches on and position control mode selected */
     if ((g_bM1SwitchAppOnOff != FALSE) && (g_sM1Drive.eControl == kControlMode_PositionFOC))
     {
+        g_sM1Drive.sSpeed.fltSpeedCmd         = 0.0F;
+        g_sM1Drive.sScalarCtrl.fltFreqCmd     = 0.0F;
+        g_sM1Drive.sScalarCtrl.sUDQReq.fltQ   = 0.0F;
+        g_sM1Drive.sMCATctrl.sUDQReqMCAT.fltQ = 0.0F;
+        g_sM1Drive.sMCATctrl.sUDQReqMCAT.fltD = 0.0F;
+        g_sM1Drive.sMCATctrl.sIDQReqMCAT.fltQ = 0.0F;
+        g_sM1Drive.sMCATctrl.sIDQReqMCAT.fltD = 0.0F;
+
+        M1_ClearFOCVariables();
+      
         /* Set the switch on */
         g_bM1SwitchAppOnOff = TRUE;
 
@@ -1197,6 +1207,7 @@ static void M1_TransRunStop(void)
     /* Disable PWM outputs */
     M1_MCDRV_PWM3PH_DIS(&g_sM1Pwm3ph);
 
+#ifndef SERVO_OPTIM
     g_sM1Drive.sSpeed.fltSpeedCmd         = 0.0F;
     g_sM1Drive.sScalarCtrl.fltFreqCmd     = 0.0F;
     g_sM1Drive.sScalarCtrl.sUDQReq.fltQ   = 0.0F;
@@ -1206,6 +1217,7 @@ static void M1_TransRunStop(void)
     g_sM1Drive.sMCATctrl.sIDQReqMCAT.fltD = 0.0F;
 
     M1_ClearFOCVariables();
+#endif
 
     /* Acknowledge that the system can proceed into the STOP state */
     g_sM1Ctrl.uiCtrl |= SM_CTRL_STOP_ACK;
@@ -2523,4 +2535,32 @@ float_t M1_GetSpeed(void)
 {
     /* Return speed */
     return g_sM1Drive.sSpeed.fltSpeedCmd;
+}
+
+/*!
+ * @brief Enable PWM outputs
+ *
+ * @param void  No input parameter
+ *
+ * @return None
+ */
+RAM_FUNC_LIB
+void M1_OpenPWM(void)
+{
+  /* Enable PWM outputs */
+  M1_MCDRV_PWM3PH_EN(&g_sM1Pwm3ph);
+}
+
+/*!
+ * @brief Disable PWM outputs
+ *
+ * @param void  No input parameter
+ *
+ * @return None
+ */
+RAM_FUNC_LIB
+void M1_ClosePWM(void)
+{
+  /* Disable PWM outputs */
+  M1_MCDRV_PWM3PH_DIS(&g_sM1Pwm3ph);
 }

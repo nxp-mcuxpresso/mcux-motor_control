@@ -84,16 +84,6 @@ void MCDRV_BissCClear(BISSC_Type *base);
  */
 RAM_FUNC_LIB
 void MCDRV_BissCSetOffset(BISSC_Type *base);
-   
-/*!
- * @brief Function reads raw data and converts to single turn and multi turn revolutions
- *
- * @param base   Pointer to the current object
- *
- * @return none
- */
-RAM_FUNC_LIB
-void MCDRV_BissCDataRead(BISSC_Type *base);
 
 /*!
  * @brief Function processes the data

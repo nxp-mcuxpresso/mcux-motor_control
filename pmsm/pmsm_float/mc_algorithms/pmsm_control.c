@@ -167,14 +167,14 @@ void MCS_PMSMFocCtrl_Optim(mcs_pmsm_foc_t *psFocPMSM)
     /* perform current control loop if enabled */
     if (psFocPMSM->bCurrentLoopOn)
     {
-        /* Zero cancellation filter */
-        psFocPMSM->sIDQReqFilt.fltQ = GDFLIB_FilterIIR1_FLT(psFocPMSM->sIDQReq.fltQ, &psFocPMSM->sIqReqZCFilter);
-      
         /* D current error calculation */
         psFocPMSM->sIDQError.fltD = MLIB_Sub_FLT(psFocPMSM->sIDQReq.fltD, psFocPMSM->sIDQ.fltD);
         
+#if defined(Q_CURRENT_ZC_FILTER)      
+        /* Zero cancellation filter */
+        psFocPMSM->sIDQReqFilt.fltQ = GDFLIB_FilterIIR1_FLT(psFocPMSM->sIDQReq.fltQ, &psFocPMSM->sIqReqZCFilter);
+        
         /* Q current error calculation */
-#if     defined(Q_CURRENT_ZC_FILTER)
         psFocPMSM->sIDQError.fltQ = MLIB_Sub_FLT(psFocPMSM->sIDQReqFilt.fltQ, psFocPMSM->sIDQ.fltQ);
 #else
         psFocPMSM->sIDQError.fltQ = MLIB_Sub_FLT(psFocPMSM->sIDQReq.fltQ, psFocPMSM->sIDQ.fltQ);

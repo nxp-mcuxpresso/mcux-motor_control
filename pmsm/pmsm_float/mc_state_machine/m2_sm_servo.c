@@ -2508,3 +2508,31 @@ float_t M2_GetSpeed(void)
     /* Return speed */
     return g_sM2Drive.sSpeed.fltSpeedCmd;
 }
+
+/*!
+ * @brief Enable PWM outputs
+ *
+ * @param void  No input parameter
+ *
+ * @return None
+ */
+RAM_FUNC_LIB
+void M2_OpenPWM(void)
+{
+  /* Enable PWM outputs */
+  M2_MCDRV_PWM3PH_EN(&g_sM2Pwm3ph);
+}
+
+/*!
+ * @brief Disable PWM outputs
+ *
+ * @param void  No input parameter
+ *
+ * @return None
+ */
+RAM_FUNC_LIB
+void M2_ClosePWM(void)
+{
+  /* Disable PWM outputs */
+  M2_MCDRV_PWM3PH_DIS(&g_sM2Pwm3ph);
+}

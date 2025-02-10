@@ -1,6 +1,6 @@
 /*
 * Copyright 2016, Freescale Semiconductor, Inc.
-* Copyright 2016-2021, 2024 NXP
+* Copyright 2016-2021, 2024-2025 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -77,6 +77,16 @@ void MCDRV_eFlexPwm3PhOutEn(mcdrv_pwm3ph_pwma_t *this);
  */
 RAM_FUNC_LIB
 void MCDRV_eFlexPwm3PhOutDis(mcdrv_pwm3ph_pwma_t *this);
+
+/*!
+ * @brief Function disables PWM outputs
+ *
+ * @param this   Pointer to the current object
+ *
+ * @return none
+ */
+RAM_FUNC_LIB
+void MCDRV_eFlexPwm3PhOutDis_Optim(mcdrv_pwm3ph_pwma_t *this);
 
 /*!
  * @brief Function return actual value of over current flag

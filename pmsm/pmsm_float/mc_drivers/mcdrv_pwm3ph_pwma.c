@@ -1,6 +1,6 @@
 /*
 * Copyright 2016, Freescale Semiconductor, Inc.
-* Copyright 2016-2021, 2024 NXP
+* Copyright 2016-2021, 2024-2025 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -125,6 +125,21 @@ void MCDRV_eFlexPwm3PhOutDis(mcdrv_pwm3ph_pwma_t *this)
     this->pui32PwmBaseAddress->OUTEN =
         (this->pui32PwmBaseAddress->OUTEN & ~(uint16_t)PWM_OUTEN_PWMB_EN_MASK) | PWM_OUTEN_PWMB_EN(ui32MaskTemp);
 
+}
+
+/*!
+ * @brief Function disables PWM outputs
+ *
+ * @param this   Pointer to the current object
+ *
+ * @return none
+ */
+RAM_FUNC_LIB
+void MCDRV_eFlexPwm3PhOutDis_Optim(mcdrv_pwm3ph_pwma_t *this)
+{
+    /* PWM outputs of used PWM sub-modules 0, 1, 2 disabled */
+    /* PWM_A and PWM_B outputs */
+    this->pui32PwmBaseAddress->OUTEN = (this->pui32PwmBaseAddress->OUTEN & ~(uint16_t)(PWM_OUTEN_PWMA_EN(0x7) | PWM_OUTEN_PWMB_EN(0x7)));
 }
 
 /*!
