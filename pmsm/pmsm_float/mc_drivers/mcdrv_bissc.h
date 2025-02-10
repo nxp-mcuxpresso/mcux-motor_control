@@ -34,6 +34,7 @@ typedef struct _bissc_type
     biss_master_t *pMaster;        /* BiSS master handle pointer */
     float_t *pfltSpdMeEst;        /* pointer to measured mechanical speed  */
     frac16_t *pf16PosElEst;       /* pointer to measured electrical position */
+    acc32_t *pa32PosMeReal;       /* pointer to real position */ 
   
     uint32_t mt;
     uint32_t st;
