@@ -493,6 +493,43 @@ FMSTR_TSA_TABLE_END()
 //
 //#endif
 
+#if PMSM_SERVO
+/*!
+ * @brief Servo control table structure
+ *
+ * @param None
+ *
+ * @return None
+ */
+/* Servo control TSA table */
+FMSTR_TSA_TABLE_BEGIN(gsServo_table)
+
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.bFeedFrwdOn, FMSTR_TSA_UINT16)    /* M1 Speed Control - Feed forward Switch */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.fltFeedFrwdK1, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Feed Forward K1 Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.fltFeedFrwdK2, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Feed Forward K2 Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.fltPGain, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Speed PI controller Kp Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.fltIGain, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Speed PI controller Ki Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.fltUpperLim, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Speed PI controller High Limit */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.fltLowerLim, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Speed PI controller Low Limit */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltA1, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Speed ZC Filter A1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB0, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Speed ZC Filter B0 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB1, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Speed ZC Filter B1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltA1, FMSTR_TSA_FLOAT)   /* M1 Speed ZC Filter A1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB0, FMSTR_TSA_FLOAT)   /* M1 Speed ZC Filter B0 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB1, FMSTR_TSA_FLOAT)   /* M1 Speed ZC Filter B1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltB0, FMSTR_TSA_FLOAT)   /* M1 Iq ZC B0 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltB1, FMSTR_TSA_FLOAT)   /* M1 Iq ZC B1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltA1, FMSTR_TSA_FLOAT)   /* M1 Iq ZC A1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.bSpeedZCOn, FMSTR_TSA_FLOAT)   /* bSpeedZCOn */
+//FMSTR_TSA_RW_VAR(, FMSTR_TSA_FLOAT)   /*  */
+//FMSTR_TSA_RW_VAR(, FMSTR_TSA_FLOAT)   /*  */
+//FMSTR_TSA_RW_VAR(, FMSTR_TSA_FLOAT)   /*  */
+//FMSTR_TSA_RW_VAR(, FMSTR_TSA_FLOAT)   /*  */
+//FMSTR_TSA_RW_VAR(, FMSTR_TSA_FLOAT)   /*  */
+
+FMSTR_TSA_TABLE_END()
+#endif /* PMSM_SERVO */
+
 /*!
  * @brief Global table with global variables used in TSA
  *
