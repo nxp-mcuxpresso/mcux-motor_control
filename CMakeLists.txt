@@ -751,6 +751,8 @@ if (CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_imx943evk)
 			pmsm/pmsm_float/mc_drivers/mcdrv_bissc.h
 			pmsm/pmsm_float/mc_drivers/mcdrv_sinc.c
 			pmsm/pmsm_float/mc_drivers/mcdrv_sinc.h
+			pmsm/pmsm_float/mc_drivers/mcdrv_endat2p2.c
+			pmsm/pmsm_float/mc_drivers/mcdrv_endat2p2.h
 		BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
 	

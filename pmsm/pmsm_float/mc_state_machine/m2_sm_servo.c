@@ -456,8 +456,9 @@ static void M2_StateInitFast_Optim(void)
 
 
     /* For BISSC driver */
-    g_sM2BissC.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
-    g_sM2BissC.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
+    g_sM2Endat2p2.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
+    g_sM2Endat2p2.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
+    //g_sM2Endat2p2.pa32PosMeReal = &(g_sM2Drive.sPosition.a32Position);        /* TO BE DISCUSSED */
 
     /* INIT_DONE command */
     g_sM2Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
@@ -781,8 +782,9 @@ static void M2_StateInitFast(void)
 
 
     /* For BISSC driver */
-    g_sM2BissC.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
-    g_sM2BissC.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
+    g_sM2Endat2p2.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
+    g_sM2Endat2p2.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
+	//g_sM2Endat2p2.pa32PosMeReal = &(g_sM2Drive.sPosition.a32Position);        /* TO BE DISCUSSED */
 
     /* INIT_DONE command */
     g_sM2Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
@@ -1566,7 +1568,7 @@ static void M2_StateRunStartupFast(void)
             if (g_sM2Drive.sMCATctrl.ui16PospeSensor == MCAT_ENC_CTRL)
             {
                 /* pass encoder speed to actual speed value */
-                g_sM2Drive.sSpeed.fltSpeed = g_sM2Drive.fltSpeedEnc * ((float_t)(g_sM2BissC.ui16Pp));
+                g_sM2Drive.sSpeed.fltSpeed = g_sM2Drive.fltSpeedEnc * ((float_t)(g_sM2Endat2p2.ui16Pp));
             }
             else
             {
@@ -1708,7 +1710,7 @@ static void M2_StateRunSpinFast(void)
             if (g_sM2Drive.sMCATctrl.ui16PospeSensor == MCAT_ENC_CTRL)
             {
                 /* pass encoder speed to actual speed value */
-                g_sM2Drive.sSpeed.fltSpeed = g_sM2Drive.fltSpeedEnc * ((float_t)(g_sM2BissC.ui16Pp));
+                g_sM2Drive.sSpeed.fltSpeed = g_sM2Drive.fltSpeedEnc * ((float_t)(g_sM2Endat2p2.ui16Pp));
             }
             else
             {
@@ -1861,7 +1863,7 @@ static void M2_StateRunSpinSlow(void)
     {
 #if SERVO_OPTIM
         /* pass encoder speed to actual speed value */
-        g_sM2Drive.sSpeed.fltSpeed = g_sM2Drive.fltSpeedEnc * ((float_t)(g_sM2BissC.ui16Pp));
+        g_sM2Drive.sSpeed.fltSpeed = g_sM2Drive.fltSpeedEnc * ((float_t)(g_sM2Endat2p2.ui16Pp));
 #endif /* SERVO_OPTIM */
 
         /* Actual speed filter */
@@ -1869,7 +1871,7 @@ static void M2_StateRunSpinSlow(void)
         /* Actual position */
         //g_sM2Drive.sPosition.a32Position = g_sM2Enc.a32PosMeReal;
         //g_sM2Drive.sPosition.a32Position = g_sM2Biss.a32PosMeReal;  // PREDANIE MUSI IST CEZ POINTER...
-        g_sM2Drive.sPosition.a32Position = g_sM2BissC.a32PosMeReal;  // PREDANIE MUSI IST CEZ POINTER...
+        g_sM2Drive.sPosition.a32Position = g_sM2Endat2p2.a32PosMeReal;  // PREDANIE MUSI IST CEZ POINTER...
 
 
         /* Pass filtered speed to position structure */
@@ -1990,7 +1992,7 @@ static void M2_TransRunAlignStartup(void)
     /* Type the code to do when going from the RUN kRunState_Align to the RUN kRunState_Startup sub-state */
     /* initialize encoder driver */
     M2_MCDRV_QD_CLEAR(&g_sM2Enc);
-    M2_MCDRV_BISS_CLEAR(&g_sM2BissC);
+    M2_MCDRV_ENDAT2P2_CLEAR(&g_sM2Endat2p2);
 
     /* Clear application parameters */
     M2_ClearFOCVariables();
@@ -2032,8 +2034,8 @@ static void M2_TransRunAlignSpin(void)
     /* Type the code to do when going from the RUN STARTUP to the RUN SPIN sub-state */
     /* initialize encoder driver */
     M2_MCDRV_QD_CLEAR(&g_sM2Enc);
-    M2_MCDRV_BISS_CLEAR(&g_sM2BissC);
-    M2_MCDRV_BISS_SET_OFFSET(&g_sM2BissC);
+    M2_MCDRV_ENDAT2P2_CLEAR(&g_sM2Endat2p2);
+    M2_MCDRV_ENDAT2P2_SET_OFFSET(&g_sM2Endat2p2);
 
     g_sM2Drive.sFocPMSM.bPosExtOn = TRUE;  /* enable passing external electrical position from encoder to FOC */
     g_sM2Drive.sFocPMSM.bOpenLoop = FALSE; /* disable parallel runnig openloop and estimator */

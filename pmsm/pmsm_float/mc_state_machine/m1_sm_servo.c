@@ -809,7 +809,8 @@ static void M1_StateInitFast(void)
     
     /* For BISSC driver */
     g_sM1BissC.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
-    g_sM1BissC.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);    
+    g_sM1BissC.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
+    g_sM1BissC.pa32PosMeReal = &(g_sM1Drive.sPosition.a32Position);
 
     /* INIT_DONE command */
     g_sM1Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
