@@ -2347,7 +2347,7 @@ static void M1_FaultDetection(void)
     }
 
     /* Fault:   DC-bus over-voltage */
-    if (g_sM1Drive.sFocPMSM.fltUDcBusFilt > g_sM1Drive.sFaultThresholds.fltUDcBusOver)
+    if ((g_sM1Drive.sFocPMSM.fltUDcBusFilt > g_sM1Drive.sFaultThresholds.fltUDcBusOver) || M1_MCDRV_PWM3PH_FLT_OV_GET(&g_sM1Pwm3ph))
     {
     	FAULT_SET(g_sM1Drive.sFaultIdPending, FAULT_U_DCBUS_OVER);
     }

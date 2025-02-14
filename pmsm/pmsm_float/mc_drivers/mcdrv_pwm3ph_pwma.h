@@ -38,6 +38,7 @@ typedef struct _mcdrv_pwm3ph_pwma
     uint16_t ui16PhCSubNum;        /* PWMA phase C sub-module number */
     uint16_t ui16FaultFixNum;      /* PWMA fault number for fixed over-current fault detection */
     uint16_t ui16FaultAdjNum;      /* PWMA fault number for adjustable over-current fault detection */
+    uint16_t ui16FaultOVFixNum;    /* PWMA fault number for fixed over-voltage fault detection */
 } mcdrv_pwm3ph_pwma_t;
 
 /*******************************************************************************
@@ -97,6 +98,16 @@ void MCDRV_eFlexPwm3PhOutDis_Optim(mcdrv_pwm3ph_pwma_t *this);
  */
 RAM_FUNC_LIB
 bool_t MCDRV_eFlexPwm3PhFltGet(mcdrv_pwm3ph_pwma_t *this);
+   
+/*!
+ * @brief Function return actual value of over voltage flag
+ *
+ * @param this   Pointer to the current object
+ *
+ * @return boot_t true on success
+ */
+RAM_FUNC_LIB
+bool_t MCDRV_eFlexPwm3PhFltOVGet(mcdrv_pwm3ph_pwma_t *this);
 
 #ifdef __cplusplus
 }

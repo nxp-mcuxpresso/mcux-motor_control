@@ -455,7 +455,7 @@ static void M2_StateInitFast_Optim(void)
 //    g_sM2Biss.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
 
 
-    /* For BISSC driver */
+    /* For EnDat2.2 driver */
     g_sM2Endat2p2.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
     g_sM2Endat2p2.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
     //g_sM2Endat2p2.pa32PosMeReal = &(g_sM2Drive.sPosition.a32Position);        /* TO BE DISCUSSED */
@@ -499,6 +499,16 @@ static void M2_StateStopFast_Optim(void)
     /* If the user switches on and position control mode selected */
     if ((g_bM2SwitchAppOnOff != FALSE) && (g_sM2Drive.eControl == kControlMode_PositionFOC))
     {
+        g_sM2Drive.sSpeed.fltSpeedCmd         = 0.0F;
+        g_sM2Drive.sScalarCtrl.fltFreqCmd     = 0.0F;
+        g_sM2Drive.sScalarCtrl.sUDQReq.fltQ   = 0.0F;
+        g_sM2Drive.sMCATctrl.sUDQReqMCAT.fltQ = 0.0F;
+        g_sM2Drive.sMCATctrl.sUDQReqMCAT.fltD = 0.0F;
+        g_sM2Drive.sMCATctrl.sIDQReqMCAT.fltQ = 0.0F;
+        g_sM2Drive.sMCATctrl.sIDQReqMCAT.fltD = 0.0F;
+
+        M2_ClearFOCVariables();
+      
         /* Set the switch on */
         g_bM2SwitchAppOnOff = TRUE;
 
@@ -1182,6 +1192,7 @@ static void M2_TransRunStop(void)
     /* Disable PWM outputs */
     M2_MCDRV_PWM3PH_DIS(&g_sM2Pwm3ph);
 
+#ifndef SERVO_OPTIM
     g_sM2Drive.sSpeed.fltSpeedCmd         = 0.0F;
     g_sM2Drive.sScalarCtrl.fltFreqCmd     = 0.0F;
     g_sM2Drive.sScalarCtrl.sUDQReq.fltQ   = 0.0F;
@@ -1191,6 +1202,7 @@ static void M2_TransRunStop(void)
     g_sM2Drive.sMCATctrl.sIDQReqMCAT.fltD = 0.0F;
 
     M2_ClearFOCVariables();
+#endif
 
     /* Acknowledge that the system can proceed into the STOP state */
     g_sM2Ctrl.uiCtrl |= SM_CTRL_STOP_ACK;
@@ -2320,7 +2332,7 @@ static void M2_FaultDetection(void)
     }
 
     /* Fault:   DC-bus over-voltage */
-    if (g_sM2Drive.sFocPMSM.fltUDcBusFilt > g_sM2Drive.sFaultThresholds.fltUDcBusOver)
+    if ((g_sM2Drive.sFocPMSM.fltUDcBusFilt > g_sM2Drive.sFaultThresholds.fltUDcBusOver) || M2_MCDRV_PWM3PH_FLT_OV_GET(&g_sM2Pwm3ph))
     {
     	FAULT_SET(g_sM2Drive.sFaultIdPending, FAULT_U_DCBUS_OVER);
     }
