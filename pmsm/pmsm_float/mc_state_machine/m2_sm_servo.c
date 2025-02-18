@@ -458,7 +458,7 @@ static void M2_StateInitFast_Optim(void)
     /* For EnDat2.2 driver */
     g_sM2Endat2p2.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
     g_sM2Endat2p2.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
-    //g_sM2Endat2p2.pa32PosMeReal = &(g_sM2Drive.sPosition.a32Position);        /* TO BE DISCUSSED */
+    g_sM2Endat2p2.pa32PosMeReal = &(g_sM2Drive.sPosition.a32Position);
 
     /* INIT_DONE command */
     g_sM2Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
@@ -794,7 +794,7 @@ static void M2_StateInitFast(void)
     /* For BISSC driver */
     g_sM2Endat2p2.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
     g_sM2Endat2p2.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
-	//g_sM2Endat2p2.pa32PosMeReal = &(g_sM2Drive.sPosition.a32Position);        /* TO BE DISCUSSED */
+    g_sM2Endat2p2.pa32PosMeReal = &(g_sM2Drive.sPosition.a32Position);
 
     /* INIT_DONE command */
     g_sM2Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
@@ -1881,9 +1881,9 @@ static void M2_StateRunSpinSlow(void)
         /* Actual speed filter */
         g_sM2Drive.sSpeed.fltSpeedFilt = GDFLIB_FilterIIR1_FLT(g_sM2Drive.sSpeed.fltSpeed, &g_sM2Drive.sSpeed.sSpeedFilter);
         /* Actual position */
-        //g_sM2Drive.sPosition.a32Position = g_sM2Enc.a32PosMeReal;
-        //g_sM2Drive.sPosition.a32Position = g_sM2Biss.a32PosMeReal;  // PREDANIE MUSI IST CEZ POINTER...
-        g_sM2Drive.sPosition.a32Position = g_sM2Endat2p2.a32PosMeReal;  // PREDANIE MUSI IST CEZ POINTER...
+        //g_sM2Drive.sPosition.a32Position = g_sM2Enc.a32PosMeReal;		/* Position is passed using pointer */
+        //g_sM2Drive.sPosition.a32Position = g_sM2Biss.a32PosMeReal;  /* Position is passed using pointer */
+        // g_sM2Drive.sPosition.a32Position = g_sM2Endat2p2.a32PosMeReal;  /* Position is passed using pointer */ 
 
 
         /* Pass filtered speed to position structure */

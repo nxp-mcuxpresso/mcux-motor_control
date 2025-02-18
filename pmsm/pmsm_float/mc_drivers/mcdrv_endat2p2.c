@@ -142,7 +142,7 @@ void MCDRV_Endat2p2DataProc(mcdrv_endat2p2_t * base)
     /* Multiturn position in ACC32 */    
     base->a32PosMeReal = (acc32_t)(( (((int32_t)base->i64RevCounter)) << 15 ) + (uint16_t)(base->ui64EndatPosition >> 10U) );  
     /* TO BE DISCUSSED: value passed using pointer */
-    // *base->pa32PosMeReal = (acc32_t)(( (((int32_t)base->i64RevCounter)) << 15 ) + (uint16_t)(base->ui64EndatPosition >> 10U) );
+    *base->pa32PosMeReal = (acc32_t)(( (((int32_t)base->i64RevCounter)) << 15 ) + (uint16_t)(base->ui64EndatPosition >> 10U) );
     /* Electrical position in frac16 */
     *base->pf16PosElEst = (frac16_t)((base->i64EndatPosition >> 9U)  * base->ui16Pp ) - base->f16PosOffset; 
     /* Mechanical speed in flat */
