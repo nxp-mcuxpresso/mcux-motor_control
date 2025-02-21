@@ -36,10 +36,12 @@ typedef struct _bissc_type
     frac16_t *pf16PosElEst;       /* pointer to measured electrical position */
     acc32_t *pa32PosMeReal;       /* pointer to real position */ 
   
-    uint32_t mt;
-    uint32_t st;
+    uint32_t mt;                /* Actual value of multi-turn */
+    uint32_t st;                /* Actual value of single-turn */
+    int32_t i32ST_k_1;             /* Previous value of single-turn */
     uint32_t mt_offset;
     uint32_t st_offset;
+    float_t fltBiSSSpeed;
     
     AMCLIB_TRACK_OBSRV_T_FLT sTo; /* tracking observer structure */
      

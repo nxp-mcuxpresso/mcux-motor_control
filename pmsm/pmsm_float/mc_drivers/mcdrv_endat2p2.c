@@ -105,7 +105,7 @@ void MCDRV_Endat2p2DataProc(mcdrv_endat2p2_t * base)
     /* Position difference (delta) */
     base->i64EndatDiff = base->i64EndatPosition - base->i64EndatPositionOld;
     
-    /* Fint out direction */
+    /* Find out direction */
     if((base->i64EndatDiff) >= 0)
       base->bEndatDir = TRUE;
     else
@@ -117,6 +117,9 @@ void MCDRV_Endat2p2DataProc(mcdrv_endat2p2_t * base)
       if(base->i64EndatDiff < -16777216 ) // Half of range  (2^(25))/2
       {
          base->i64RevCounter++;
+         
+         /* Diff calculation when counter overflow */
+         base->i64EndatDiff = base->i64EndatPosition - base->i64EndatPositionOld + 33554432;
       }    
     }
     else /* bEndatDir == FALSE */
@@ -124,6 +127,9 @@ void MCDRV_Endat2p2DataProc(mcdrv_endat2p2_t * base)
       if(base->i64EndatDiff > 16777216 )
       {
          base->i64RevCounter--;
+         
+         /* Diff calculation when counter underflow */
+         base->i64EndatDiff = base->i64EndatPosition - base->i64EndatPositionOld - 33554432;
       }
     }
     

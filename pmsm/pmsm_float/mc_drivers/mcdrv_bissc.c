@@ -83,6 +83,8 @@ RAM_FUNC_LIB
 void MCDRV_BissCDataProc(BISSC_Type * base)
 {
   uint64_t ui64PositionRaw;
+  int32_t i32Diff;
+  int32_t i32ST;
   
   /* Read raw data from slave device ID 0 */
   ui64PositionRaw = BISS_SLVGetSCDRawData(base->pMaster, 0U);
@@ -94,6 +96,37 @@ void MCDRV_BissCDataProc(BISSC_Type * base)
   
   /* mechanical position from single turn */
   base->f16PosMe = (frac16_t)(base->st - base->st_offset);
+  
+//  /* Set position to middle */
+//  i32ST = (int32_t)base->st - (int32_t)((1 << base->ui8DevSTLen) / 2 );
+//  
+//  /* Position difference (delta) */
+//  i32Diff = base->st - base->i32ST_k_1;    /* TODO: check whether offset has impact */
+//  
+//  /* Store latest value of single turn revolutions */
+//  base->i32ST_k_1 = base->st;
+//      
+//  if(i32Diff< -((1 << base->ui8DevSTLen) / 2 ))
+//  {
+//     //base->i64RevCounter++;
+//     
+//     /* Diff calculation when counter overflow */
+//     i32Diff = base->st - base->i32ST_k_1 + (1 << base->ui8DevSTLen);
+//  }    
+//
+//  if(i32Diff > ((1 << base->ui8DevSTLen) / 2) )
+//  {
+//     //base->i64RevCounter--;
+//     
+//     /* Diff calculation when counter underflow */
+//     i32Diff = base->st - base->i32ST_k_1 - (1 << base->ui8DevSTLen);
+//  }
+//  
+//   /* Speed [Hz ~ rps (revolutions per second)] = PositionDelta / (SampleTime * MaxPositionNumber) = (PositionDelta * SampleFrequency) / MaxPositionNumber [Hz] */
+//   /* Speed [rpm] = 60 * Speed[Hz] */
+//   base->fltBiSSSpeed = ((float_t)i32Diff) * (64000.0F) * 60.0F / ((float_t)(1 << base->ui8DevSTLen));
+//   base->fltSpdMeEst = (base->fltBiSSSpeed) * ((2.0F * FLOAT_PI)/60.0F); // Mechanical angular speed [rad/s]
+
   
   ////////////////////////////////////////////////////////////////////////////
   /////////////// Tracking observer //////////////////////////////////////////

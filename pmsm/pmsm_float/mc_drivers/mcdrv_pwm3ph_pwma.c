@@ -42,8 +42,12 @@ void MCDRV_eFlexPwm3PhSet(mcdrv_pwm3ph_pwma_t *this)
     /* pointer to duty cycle structure */
     sUABCtemp = *this->psUABC;
 
+#if SERVO_OPTIM
+    f16ModuloTemp = this->ui16Modulo + 1;
+#else
     /* get modulo value from module 0 VAL1 register  */
     f16ModuloTemp = this->pui32PwmBaseAddress->SM[this->ui16PhASubNum].VAL1 + 1;
+#endif
 
     /* phase A */
     f16DutyCycle                                            = MLIB_Mul_F16(f16ModuloTemp, sUABCtemp.f16A);

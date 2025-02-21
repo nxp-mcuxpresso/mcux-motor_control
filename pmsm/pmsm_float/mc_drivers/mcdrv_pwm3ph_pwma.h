@@ -39,6 +39,7 @@ typedef struct _mcdrv_pwm3ph_pwma
     uint16_t ui16FaultFixNum;      /* PWMA fault number for fixed over-current fault detection */
     uint16_t ui16FaultAdjNum;      /* PWMA fault number for adjustable over-current fault detection */
     uint16_t ui16FaultOVFixNum;    /* PWMA fault number for fixed over-voltage fault detection */
+    uint16_t ui16Modulo;           /* PWMA modulo value */
 } mcdrv_pwm3ph_pwma_t;
 
 /*******************************************************************************
