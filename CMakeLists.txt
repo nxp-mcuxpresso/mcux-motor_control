@@ -81,6 +81,33 @@ if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_enc_dual.float)
     )
 endif()
 
+if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_servo.float)
+    mcux_component_version(3.0.0)
+    mcux_add_configuration(
+        CC  "-DPMSM_SNSLESS -DPMSM_SNSLESS_ENC -DPMSM_SERVO"
+    )
+    mcux_add_source(
+        SOURCES pmsm/pmsm_float/mc_algorithms/pmsm_control.c
+                pmsm/pmsm_float/mc_algorithms/pmsm_control.h
+                pmsm/pmsm_float/state_machine/state_machine.c
+                pmsm/pmsm_float/state_machine/state_machine.h
+                pmsm/pmsm_float/mc_state_machine/m1_sm_servo.c
+                pmsm/pmsm_float/mc_state_machine/m1_sm_servo.h
+                pmsm/pmsm_float/mc_state_machine/sm_servo_common.h
+                # freemaster/pmsm_float_servo_dual.pmpx  # consider if we create new one, like pmsm_float_servo.pmpx
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+    mcux_add_include(
+        INCLUDES pmsm/pmsm_float/mc_algorithms
+                 pmsm/pmsm_float/state_machine
+                 pmsm/pmsm_float/mc_state_machine
+                 pmsm/pmsm_float
+                 freemaster
+                 docs
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+endif()
+
 if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_servo_dual.float)
     mcux_component_version(3.0.0)
     mcux_add_configuration(

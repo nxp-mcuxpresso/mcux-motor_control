@@ -465,9 +465,9 @@ static void M1_StateInitFast_Optim(void)
     
     
     /* For BISSC driver */
-    g_sM1BissC.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
-    g_sM1BissC.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
-    g_sM1BissC.pa32PosMeReal = &(g_sM1Drive.sPosition.a32Position);
+    g_sM1PoSpeSensor.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
+    g_sM1PoSpeSensor.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
+    g_sM1PoSpeSensor.pa32PosMeReal = &(g_sM1Drive.sPosition.a32Position);
 
     /* INIT_DONE command */
     g_sM1Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
@@ -495,6 +495,8 @@ static void M1_StateInitFast_Optim(void)
 RAM_FUNC_LIB
 static void M1_StateStopFast_Optim(void)
 {
+//      SYSTICK_START();        
+  
     /* Get measured phase currents and DC-bus voltage */
     M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
 
@@ -532,6 +534,11 @@ static void M1_StateStopFast_Optim(void)
 
     /* PWM peripheral update */
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
+    
+//    /* Stop CPU tick number couting and store actual and maximum ticks */
+//    SYSTICK_STOP(g_ui32NumberOfCycles2);
+//    g_ui32MaxNumberOfCycles2 =
+//        g_ui32NumberOfCycles2 > g_ui32MaxNumberOfCycles2 ? g_ui32NumberOfCycles2 : g_ui32MaxNumberOfCycles2;
 }
 
 /*!
@@ -549,20 +556,20 @@ static void M1_StateRunFast_Optim(void)
 
     /* get position and speed from quadrature encoder sensor */
     M1_MCDRV_QD_GET_POSITION(&g_sM1Enc);
+ 
+//     SYSTICK_START();        
     
-//     SYSTICK_START();
-
     /* Run sub-state function */
     s_M1_STATE_RUN_TABLE_FAST[g_eM1StateRun]();
-    
+
 //    /* Stop CPU tick number couting and store actual and maximum ticks */
 //    SYSTICK_STOP(g_ui32NumberOfCycles2);
 //    g_ui32MaxNumberOfCycles2 =
 //        g_ui32NumberOfCycles2 > g_ui32MaxNumberOfCycles2 ? g_ui32NumberOfCycles2 : g_ui32MaxNumberOfCycles2;
-
+        
     /* PWM peripheral update */
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
-
+    
     /* Set current sensor for sampling - applies only to some devices. */
     M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1AdcSensor);
 }
@@ -808,9 +815,9 @@ static void M1_StateInitFast(void)
     
     
     /* For BISSC driver */
-    g_sM1BissC.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
-    g_sM1BissC.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
-    g_sM1BissC.pa32PosMeReal = &(g_sM1Drive.sPosition.a32Position);
+    g_sM1PoSpeSensor.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
+    g_sM1PoSpeSensor.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
+    g_sM1PoSpeSensor.pa32PosMeReal = &(g_sM1Drive.sPosition.a32Position);
 
     /* INIT_DONE command */
     g_sM1Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
@@ -1596,7 +1603,7 @@ static void M1_StateRunStartupFast(void)
             if (g_sM1Drive.sMCATctrl.ui16PospeSensor == MCAT_ENC_CTRL)
             {
                 /* pass encoder speed to actual speed value */
-                g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1BissC.ui16Pp));
+                g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1PoSpeSensor.ui16Pp));
             }
             else
             {
@@ -1738,7 +1745,7 @@ static void M1_StateRunSpinFast(void)
             if (g_sM1Drive.sMCATctrl.ui16PospeSensor == MCAT_ENC_CTRL)
             {
                 /* pass encoder speed to actual speed value */
-                g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1BissC.ui16Pp));
+                g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1PoSpeSensor.ui16Pp));
             }
             else
             {
@@ -1891,7 +1898,7 @@ static void M1_StateRunSpinSlow(void)
     {
 #if SERVO_OPTIM
         /* pass encoder speed to actual speed value */
-        g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1BissC.ui16Pp));
+        g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1PoSpeSensor.ui16Pp));
 #endif /* SERVO_OPTIM */
     
         /* Actual speed filter */
@@ -2019,7 +2026,7 @@ static void M1_TransRunAlignStartup(void)
     /* Type the code to do when going from the RUN kRunState_Align to the RUN kRunState_Startup sub-state */
     /* initialize encoder driver */
     M1_MCDRV_QD_CLEAR(&g_sM1Enc);
-    M1_MCDRV_BISS_CLEAR(&g_sM1BissC);
+    M1_MCDRV_POSPE_SENSOR_CLEAR(&g_sM1PoSpeSensor);
 
     /* Clear application parameters */
     M1_ClearFOCVariables();
@@ -2061,8 +2068,9 @@ static void M1_TransRunAlignSpin(void)
     /* Type the code to do when going from the RUN STARTUP to the RUN SPIN sub-state */
     /* initialize encoder driver */
     M1_MCDRV_QD_CLEAR(&g_sM1Enc);
-    M1_MCDRV_BISS_CLEAR(&g_sM1BissC);
-    M1_MCDRV_BISS_SET_OFFSET(&g_sM1BissC);
+    
+    M1_MCDRV_POSPE_SENSOR_CLEAR(&g_sM1PoSpeSensor);
+    M1_MCDRV_POSPE_SENSOR_SET_OFFSET(&g_sM1PoSpeSensor);
 
     g_sM1Drive.sFocPMSM.bPosExtOn = TRUE;  /* enable passing external electrical position from encoder to FOC */
     g_sM1Drive.sFocPMSM.bOpenLoop = FALSE; /* disable parallel runnig openloop and estimator */
