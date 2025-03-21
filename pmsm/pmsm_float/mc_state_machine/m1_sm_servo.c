@@ -22,15 +22,6 @@
 #define M1_SVM_SECTOR_DEFAULT (2)        /* default SVM sector */
 #define M1_BLOCK_ROT_FAULT_SH (0.03125F) /* filter window */
 
-/* CPU load measurement SysTick START / STOP macros */
-#define SYSTICK_START() (SysTick->VAL = SysTick->LOAD)
-#define SYSTICK_STOP(par1)   \
-    uint32_t val  = SysTick->VAL;  \
-    uint32_t load = SysTick->LOAD; \
-    par1          = load - val
-      
-uint32_t g_ui32NumberOfCycles2    = 0U;
-uint32_t g_ui32MaxNumberOfCycles2 = 0U;
 
 /*******************************************************************************
  * Prototypes
@@ -454,17 +445,8 @@ static void M1_StateInitFast_Optim(void)
 
     /* Get measured phase currents and DC-bus voltage (to prevent fault when SM is executed in ADC ISR) */
     M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
-
-    /* For ENC driver */
-//    g_sM1Enc.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
-//    g_sM1Enc.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
     
-    /* For FlexIO BISS driver */
-//    g_sM1Biss.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
-//    g_sM1Biss.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
-    
-    
-    /* For BISSC driver */
+    /* Init pointers for position/speed driver */
     g_sM1PoSpeSensor.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
     g_sM1PoSpeSensor.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
     g_sM1PoSpeSensor.pa32PosMeReal = &(g_sM1Drive.sPosition.a32Position);
@@ -495,17 +477,15 @@ static void M1_StateInitFast_Optim(void)
 RAM_FUNC_LIB
 static void M1_StateStopFast_Optim(void)
 {
-//      SYSTICK_START();        
-  
     /* Get measured phase currents and DC-bus voltage */
     M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
 
     /* Set encoder direction */
-    M1_MCDRV_QD_SET_DIRECTION(&g_sM1Enc);
+    M1_MCDRV_POSPE_SENSOR_SET_DIRECTION(&g_sM1PoSpeSensor);
 
     /* get position and speed from quadrature encoder sensor */
-    M1_MCDRV_QD_GET_POSITION(&g_sM1Enc);
-    M1_MCDRV_QD_GET_SPEED(&g_sM1Enc);
+    M1_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM1PoSpeSensor);
+    M1_MCDRV_POSPE_SENSOR_GET_SPEED(&g_sM1PoSpeSensor);
 
     /* If the user switches on and position control mode selected */
     if ((g_bM1SwitchAppOnOff != FALSE) && (g_sM1Drive.eControl == kControlMode_PositionFOC))
@@ -534,11 +514,6 @@ static void M1_StateStopFast_Optim(void)
 
     /* PWM peripheral update */
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
-    
-//    /* Stop CPU tick number couting and store actual and maximum ticks */
-//    SYSTICK_STOP(g_ui32NumberOfCycles2);
-//    g_ui32MaxNumberOfCycles2 =
-//        g_ui32NumberOfCycles2 > g_ui32MaxNumberOfCycles2 ? g_ui32NumberOfCycles2 : g_ui32MaxNumberOfCycles2;
 }
 
 /*!
@@ -555,23 +530,16 @@ static void M1_StateRunFast_Optim(void)
     M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
 
     /* get position and speed from quadrature encoder sensor */
-    M1_MCDRV_QD_GET_POSITION(&g_sM1Enc);
- 
-//     SYSTICK_START();        
+    M1_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM1PoSpeSensor);     
     
     /* Run sub-state function */
     s_M1_STATE_RUN_TABLE_FAST[g_eM1StateRun]();
-
-//    /* Stop CPU tick number couting and store actual and maximum ticks */
-//    SYSTICK_STOP(g_ui32NumberOfCycles2);
-//    g_ui32MaxNumberOfCycles2 =
-//        g_ui32NumberOfCycles2 > g_ui32MaxNumberOfCycles2 ? g_ui32NumberOfCycles2 : g_ui32MaxNumberOfCycles2;
         
     /* PWM peripheral update */
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
     
     /* Set current sensor for sampling - applies only to some devices. */
-    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1PhCurrDcBus);
 }
 #else
 /*!
@@ -804,17 +772,8 @@ static void M1_StateInitFast(void)
 
     /* Get measured phase currents and DC-bus voltage (to prevent fault when SM is executed in ADC ISR) */
     M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
-
-    /* For ENC driver */
-//    g_sM1Enc.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
-//    g_sM1Enc.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
     
-    /* For FlexIO BISS driver */
-//    g_sM1Biss.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
-//    g_sM1Biss.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
-    
-    
-    /* For BISSC driver */
+    /* Init pointers for position/speed driver */
     g_sM1PoSpeSensor.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
     g_sM1PoSpeSensor.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
     g_sM1PoSpeSensor.pa32PosMeReal = &(g_sM1Drive.sPosition.a32Position);
@@ -849,11 +808,11 @@ static void M1_StateStopFast(void)
     M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
 
     /* Set encoder direction */
-    M1_MCDRV_QD_SET_DIRECTION(&g_sM1Enc);
+    M1_MCDRV_POSPE_SENSOR_SET_DIRECTION(&g_sM1PoSpeSensor);
 
     /* get position and speed from quadrature encoder sensor */
-    M1_MCDRV_QD_GET_POSITION(&g_sM1Enc);
-    M1_MCDRV_QD_GET_SPEED(&g_sM1Enc);
+    M1_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM1PoSpeSensor);
+    M1_MCDRV_POSPE_SENSOR_GET_SPEED(&g_sM1PoSpeSensor);
 
     /* If the user switches on or set non-zero speed*/
     if ((g_bM1SwitchAppOnOff != FALSE) || (g_sM1Drive.sSpeed.fltSpeedCmd != 0.0F))
@@ -883,7 +842,7 @@ static void M1_StateRunFast(void)
     M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
 
     /* get position and speed from quadrature encoder sensor */
-    M1_MCDRV_QD_GET_POSITION(&g_sM1Enc);
+    M1_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM1PoSpeSensor);
 
     /* If the user switches off */
     if (!g_bM1SwitchAppOnOff)
@@ -909,7 +868,7 @@ static void M1_StateRunFast(void)
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
 
     /* Set current sensor for sampling - applies only to some devices. */
-    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1PhCurrDcBus);
 }
 #endif
 
@@ -1149,8 +1108,8 @@ static void M1_TransStopRun(void)
     /* PWM duty cycles calculation and update */
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
 
-    /* Clear offset filters */
-    M1_MCDRV_CURR_3PH_CALIB_INIT(&g_sM1AdcSensor);
+    /* Clear offset filters - applies only to some devices. */
+    M1_MCDRV_CURR_3PH_CALIB_INIT(&g_sM1PhCurrDcBus);
 
     /* Enable PWM output */
     M1_MCDRV_PWM3PH_EN(&g_sM1Pwm3ph);
@@ -1159,7 +1118,7 @@ static void M1_TransStopRun(void)
     g_sM1Drive.ui16CounterState = g_sM1Drive.ui16TimeCalibration;
 
     /* Update modulo counter */
-    M1_MCDRV_QD_SET_PULSES(&g_sM1Enc);
+    M1_MCDRV_POSPE_SENSOR_SET_PULSES(&g_sM1PoSpeSensor);
 
     /* Calibration sub-state when transition to RUN */
     g_eM1StateRun = kRunState_Calib;
@@ -1245,8 +1204,8 @@ static void M1_StateRunCalibFast_Optim(void)
     /* Type the code to do when in the RUN CALIB sub-state
        performing ADC offset calibration */
 
-    /* Call offset measurement */
-    M1_MCDRV_CURR_3PH_CALIB(&g_sM1AdcSensor);
+    /* Call offset measurement - applies only to some devices. */
+    M1_MCDRV_CURR_3PH_CALIB(&g_sM1PhCurrDcBus);
 
     /* Change SVM sector in range <1;6> to measure all AD channel mapping combinations */
     if (++g_sM1Drive.sFocPMSM.ui16SectorSVM > 6U)
@@ -1374,8 +1333,8 @@ static void M1_StateRunCalibFast(void)
     /* Type the code to do when in the RUN CALIB sub-state
        performing ADC offset calibration */
 
-    /* Call offset measurement */
-    M1_MCDRV_CURR_3PH_CALIB(&g_sM1AdcSensor);
+    /* Call offset measurement - applies only to some devices. */
+    M1_MCDRV_CURR_3PH_CALIB(&g_sM1PhCurrDcBus);
 
     /* Change SVM sector in range <1;6> to measure all AD channel mapping combinations */
     if (++g_sM1Drive.sFocPMSM.ui16SectorSVM > 6U)
@@ -1788,8 +1747,8 @@ static void M1_StateRunCalibSlow(void)
 {
     if (--g_sM1Drive.ui16CounterState == 0U)
     {
-	  /* Write calibrated offset values */
-	  M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1AdcSensor);
+	  /* Write calibrated offset values - applies only to some devices. */
+	  M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1PhCurrDcBus);
       /* To switch to the RUN READY sub-state */
       M1_TransRunCalibReady();
     }
@@ -1904,7 +1863,7 @@ static void M1_StateRunSpinSlow(void)
         /* Actual speed filter */
         g_sM1Drive.sSpeed.fltSpeedFilt = GDFLIB_FilterIIR1_FLT(g_sM1Drive.sSpeed.fltSpeed, &g_sM1Drive.sSpeed.sSpeedFilter);
         /* Actual position */
-        //g_sM1Drive.sPosition.a32Position = g_sM1Enc.a32PosMeReal;
+        //g_sM1Drive.sPosition.a32Position = g_sM1PoSpeSensor.a32PosMeReal;
         //g_sM1Drive.sPosition.a32Position = g_sM1Biss.a32PosMeReal;  // Position is passed using pointer */ 
         
         
@@ -2025,7 +1984,6 @@ static void M1_TransRunAlignStartup(void)
 {
     /* Type the code to do when going from the RUN kRunState_Align to the RUN kRunState_Startup sub-state */
     /* initialize encoder driver */
-    M1_MCDRV_QD_CLEAR(&g_sM1Enc);
     M1_MCDRV_POSPE_SENSOR_CLEAR(&g_sM1PoSpeSensor);
 
     /* Clear application parameters */
@@ -2066,9 +2024,7 @@ RAM_FUNC_LIB
 static void M1_TransRunAlignSpin(void)
 {
     /* Type the code to do when going from the RUN STARTUP to the RUN SPIN sub-state */
-    /* initialize encoder driver */
-    M1_MCDRV_QD_CLEAR(&g_sM1Enc);
-    
+    /* initialize encoder driver */ 
     M1_MCDRV_POSPE_SENSOR_CLEAR(&g_sM1PoSpeSensor);
     M1_MCDRV_POSPE_SENSOR_SET_OFFSET(&g_sM1PoSpeSensor);
 

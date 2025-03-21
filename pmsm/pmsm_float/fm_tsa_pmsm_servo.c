@@ -444,7 +444,7 @@ FMSTR_TSA_TABLE_END()
 #endif
 
 ///*!
-// * @brief g_sM1Enc driver structure
+// * @brief g_sM1PoSpeSensor driver structure
 // *
 // * @param None
 // *
@@ -454,14 +454,14 @@ FMSTR_TSA_TABLE_END()
 //FMSTR_TSA_TABLE_BEGIN(gsM1Enc_table)
 //
 ///* gsM1Enc structure definition */
-//FMSTR_TSA_RW_VAR(g_sM1Enc.fltSpdMeEst, FMSTR_TSA_FLOAT)   /* M1 Measured Mechanical Speed */
-//FMSTR_TSA_RW_VAR(g_sM1Enc.f16PosMe, FMSTR_TSA_FRAC16)     /* M1 Meassured Mechanical Position */
-//FMSTR_TSA_RW_VAR(g_sM1Enc.f16PosMeEst, FMSTR_TSA_FRAC16)  /* M1 Position Encoder Mechanical */
-//FMSTR_TSA_RW_VAR(g_sM1Enc.bDirection, FMSTR_TSA_UINT16)   /* M1 Encoder direction */
-//FMSTR_TSA_RW_VAR(g_sM1Enc.fltSpdEncMin, FMSTR_TSA_FLOAT)  /* M1 Encoder minimal speed */
-//FMSTR_TSA_RW_VAR(g_sM1Enc.ui16Pp, FMSTR_TSA_UINT16)       /* M1 Pole pairs */
-//FMSTR_TSA_RW_VAR(g_sM1Enc.ui16PulseNumber, FMSTR_TSA_UINT16)    /* M1 Encoder pulses */
-//FMSTR_TSA_RW_VAR(g_sM1Enc.a32PosMeGain, FMSTR_TSA_FRAC32)       /* M1 Position mechanical gain */
+//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.fltSpdMeEst, FMSTR_TSA_FLOAT)   /* M1 Measured Mechanical Speed */
+//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.f16PosMe, FMSTR_TSA_FRAC16)     /* M1 Meassured Mechanical Position */
+//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.f16PosMeEst, FMSTR_TSA_FRAC16)  /* M1 Position Encoder Mechanical */        // NOT USED CURRENTLY
+//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.bDirection, FMSTR_TSA_UINT16)   /* M1 Encoder direction */
+//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.fltSpdEncMin, FMSTR_TSA_FLOAT)  /* M1 Encoder minimal speed */
+//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.ui16Pp, FMSTR_TSA_UINT16)       /* M1 Pole pairs */
+//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.ui16PulseNumber, FMSTR_TSA_UINT16)    /* M1 Encoder pulses */
+//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.a32PosMeGain, FMSTR_TSA_FRAC32)       /* M1 Position mechanical gain */
 //
 //FMSTR_TSA_TABLE_END()
 //#endif
