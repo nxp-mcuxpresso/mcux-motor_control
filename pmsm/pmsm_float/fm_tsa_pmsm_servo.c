@@ -476,8 +476,6 @@ FMSTR_TSA_TABLE_END()
 FMSTR_TSA_TABLE_BEGIN(gsM1PoSpeSensor_table)
 
 /* g_sM1PoSpeSensor structure definition */
-//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.bDirection, FMSTR_TSA_UINT16)       /* M1 Encoder direction */
-//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.ui16PulseNumber, FMSTR_TSA_UINT16)  /* M1 Encoder pulses */
 FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.ui16Pp, FMSTR_TSA_UINT16)             /* M1 Pole pairs */
 
 FMSTR_TSA_TABLE_END()

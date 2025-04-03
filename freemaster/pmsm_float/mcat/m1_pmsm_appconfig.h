@@ -5,8 +5,8 @@
 */
 
 /*
-    * FILE NAME: ../../../examples/_boards/imx943evk/demo_apps/mc_pmsm/pmsm_servo_dual/cm7_core1/m1_pmsm_appconfig.h
-    * DATE: Thu Apr 03 2025, 08:40:43
+    * FILE NAME: pmsm_float/mcat/m1_pmsm_appconfig.h
+    * DATE: Thu Apr 03 2025, 10:38:55
 */
 
 /*
@@ -58,10 +58,6 @@
         "speedLoopSLKp": 0.009202212,
         "speedLoopSLKi": 0.00008095,
         "speedLoopManualConstantTunning": false
-    },
-    "sensors": {
-        "sensorEncPulseNumber": 2000,
-        "sensorEncDir": 0
     },
     "positionLoop": {
         "positionLoopSampleTime": 0.00025,
@@ -148,9 +144,6 @@
 #define M1_SPEED_IIR_ZC_B0 (0.00391163F)
 #define M1_SPEED_IIR_ZC_B1 (0.00391163F)
 #define M1_SPEED_IIR_ZC_A1 (0.992177F)
-/* SENSORS*/
-#define M1_POSPE_ENC_PULSES (2000)
-#define M1_POSPE_ENC_DIRECTION (0)
 /* POSITIONLOOP*/
 #define M1_SERVO_POSITION_P_HIGH_LIMIT (1570.80F)
 #define M1_SERVO_POSITION_P_LOW_LIMIT (-1570.80F)
