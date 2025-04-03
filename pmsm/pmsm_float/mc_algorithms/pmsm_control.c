@@ -158,8 +158,6 @@ void MCS_PMSMFocCtrl_Optim(mcs_pmsm_foc_t *psFocPMSM)
     GMCLIB_Clark_FLT(&psFocPMSM->sIABC, &psFocPMSM->sIAlBe);
 
     /* 2-phase to 2-phase transformation to rotary ref. frame */
-//    psFocPMSM->sAnglePosEl.fltSin = GFLIB_Sin_FLTa((acc32_t)psFocPMSM->f16PosElExt);
-//    psFocPMSM->sAnglePosEl.fltCos = GFLIB_Cos_FLTa((acc32_t)psFocPMSM->f16PosElExt);
     GFLIB_SinCos_FLTa((acc32_t)psFocPMSM->f16PosElExt, &psFocPMSM->sAnglePosEl);
     
     GMCLIB_Park_FLT(&psFocPMSM->sIAlBe, &psFocPMSM->sAnglePosEl, &psFocPMSM->sIDQ);

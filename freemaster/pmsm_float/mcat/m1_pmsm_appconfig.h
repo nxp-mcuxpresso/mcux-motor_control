@@ -1,45 +1,34 @@
-/*******************************************************************************
-*
-* Copyright 2013-2016 Freescale Semiconductor, Inc.
-* Copyright 2016-2024 NXP
-*
-* NXP Proprietary. This software is owned or controlled by NXP and may
-* only be used strictly in accordance with the applicable license terms. 
-* By expressly accepting such terms or by downloading, installing,
-* activating and/or otherwise using the software, you are agreeing that
-* you have read, and that you agree to comply with and are bound by,
-* such license terms.  If you do not agree to be bound by the applicable
-* license terms, then you may not retain, install, activate or otherwise
-* use the software.
-* 
-*
-****************************************************************************/
+/*
+    * Copyright 2025 NXP 
+    *
+    * SPDX-License-Identifier: BSD-3-Clause 
+*/
 
 /*
-    * FILE NAME: ../boards/lpcxpresso55s36/mc_pmsm/pmsm_enc/m1_pmsm_appconfig.h
-    * DATE: Tue Jan 02 2024, 09:11:52
+    * FILE NAME: ../../../examples/_boards/imx943evk/demo_apps/mc_pmsm/pmsm_servo_dual/cm7_core1/m1_pmsm_appconfig.h
+    * DATE: Thu Apr 03 2025, 08:40:43
 */
 
 /*
 {
     "parameters": {
-        "parametersPP": 4,
-        "parametersRs": 0.72,
-        "parametersLd": 0.000326,
-        "parametersLq": 0.000294,
-        "parametersKe": 0.0393,
-        "parametersJ": 0.000017,
-        "parametersIphNom": 2,
+        "parametersPP": 5,
+        "parametersRs": 0.2,
+        "parametersLd": 0.00022,
+        "parametersLq": 0.000218,
+        "parametersKe": 0.12,
+        "parametersJ": 0.0000268,
+        "parametersIphNom": 8,
         "parametersUphNom": 15,
         "parametersNnom": 4000,
-        "parametersImax": 8.25,
-        "parametersUdcbMax": 60.8,
+        "parametersImax": 34.2,
+        "parametersUdcbMax": 77.35,
         "parametersUdcbTrip": 28,
         "parametersUdcbUnder": 16,
         "parametersUdcbOver": 30,
         "parametersNover": 4399,
         "parametersNmin": 300,
-        "parametersEblock": 0.7,
+        "parametersEblock": 0.2,
         "parametersEblockPer": 2000,
         "parametersNmax": 4400,
         "parametersUdcbIIRf0": 100,
@@ -47,46 +36,50 @@
         "parametersFaultDuration": 6,
         "parametersFreewheelDuration": 1.5,
         "parametersScalarUqMin": 1,
-        "parametersAlignVoltage": 1.2,
+        "parametersAlignVoltage": 0.6,
         "parametersAlignDuration": 1,
         "parametersScalarVHzRatio": 100
     },
     "currentLoop": {
-        "currentLoopSampleTime": 0.0001,
-        "currentLoopF0": 288,
+        "currentLoopSampleTime": 0.00003125,
+        "currentLoopF0": 300,
         "currentLoopKsi": 1,
         "currentLoopOutputLimit": 90
     },
     "speedLoop": {
-        "speedLoopSampleTime": 0.001,
-        "speedLoopF0": 28,
+        "speedLoopSampleTime": 0.00025,
+        "speedLoopF0": 10,
         "speedLoopKsi": 1,
         "speedLoopIncUp": 5000,
         "speedLoopIncDown": 5000,
         "speedLoopCutOffFreq": 100,
-        "speedLoopUpperLimit": 2,
-        "speedLoopLowerLimit": -2,
+        "speedLoopUpperLimit": 4,
+        "speedLoopLowerLimit": -4,
         "speedLoopSLKp": 0.009202212,
         "speedLoopSLKi": 0.00008095,
         "speedLoopManualConstantTunning": false
     },
     "sensors": {
-        "sensorEncPulseNumber": 1000,
-        "sensorEncDir": 0,
-        "sensorEncNmin": 0,
-        "sensorObsrvParSampleTime": 0.0001,
-        "sensorObsrvParF0": 100,
-        "sensorObsrvParKsi": 1,
-        "positionLoopPLKp": 0.12
+        "sensorEncPulseNumber": 2000,
+        "sensorEncDir": 0
+    },
+    "positionLoop": {
+        "positionLoopSampleTime": 0.00025,
+        "positionLoopF0": 10,
+        "positionLoopKsi": 1,
+        "servo_positionLoopUpperLimit": 3000,
+        "servo_positionLoopLowerLimit": -3000,
+        "servo_speedLoopUpperLimit": 4,
+        "servo_speedLoopLowerLimit": -4
     },
     "sensorless": {
-        "sensorlessBemfObsrvF0": 300,
+        "sensorlessBemfObsrvF0": 150,
         "sensorlessBemfObsrvKsi": 1,
-        "sensorlessTrackObsrvF0": 70,
+        "sensorlessTrackObsrvF0": 35,
         "sensorlessTrackObsrvKsi": 1,
         "sensorlessTrackObsrvIIRSpeedCutOff": 400,
         "sensorlessStartupRamp": 3000,
-        "sensorlessStartupCurrent": 0.65,
+        "sensorlessStartupCurrent": 0.6,
         "sensorlessMergingSpeed": 500,
         "sensorlessMergingCoeff": 100
     }
@@ -95,93 +88,99 @@
 
 /*
 {
-    "motorName": "Teknic",
-    "motorDescription": "Configuration for the Teknic motor."
+    "motorName": "HEIDRIVE HMD06-011-048-60-OPB1MW230",
+    "motorDescription": "default MCAT appconfig"
 }
 */
 
-#ifndef __M1_PMSM_APPCONFIG_H
-#define __M1_PMSM_APPCONFIG_H
+#ifndef __M1_PMSM_APPCONFIG_H 
+#define __M1_PMSM_APPCONFIG_H 
 
 /* PARAMETERS*/
-#define M1_MOTOR_PP (4)
-#define M1_I_PH_NOM (2.0F)
-#define M1_N_NOM (1675.52F)
-#define M1_I_MAX (8.25F)
-#define M1_U_DCB_MAX (60.8F)
+#define M1_MOTOR_PP (5)
+#define M1_I_PH_NOM (8.0F)
+#define M1_N_NOM (2094.40F)
+#define M1_I_MAX (34.2F)
+#define M1_U_DCB_MAX (77.35F)
 #define M1_U_DCB_TRIP (28.0F)
 #define M1_U_DCB_UNDERVOLTAGE (16.0F)
 #define M1_U_DCB_OVERVOLTAGE (30.0F)
-#define M1_N_OVERSPEED (1842.65F)
-#define M1_N_MIN (125.664F)
-#define M1_E_BLOCK_TRH (0.7F)
+#define M1_N_OVERSPEED (2303.31F)
+#define M1_N_MIN (157.080F)
+#define M1_E_BLOCK_TRH (0.2F)
 #define M1_E_BLOCK_PER (2000)
-#define M1_N_MAX (1843.07F)
-#define M1_CALIB_DURATION (200)
-#define M1_FAULT_DURATION (6000)
-#define M1_FREEWHEEL_DURATION (1500)
+#define M1_N_MAX (2303.83F)
+#define M1_CALIB_DURATION (800)
+#define M1_FAULT_DURATION (24000)
+#define M1_FREEWHEEL_DURATION (6000)
 #define M1_SCALAR_UQ_MIN (1.0F)
-#define M1_ALIGN_VOLTAGE (1.2F)
-#define M1_ALIGN_DURATION (10000)
-#define M1_U_MAX (35.1029F)
-#define M1_FREQ_MAX (293.333F)
-#define M1_N_ANGULAR_MAX (2.38732F)
-#define M1_UDCB_IIR_B0 (0.0304590F)
-#define M1_UDCB_IIR_B1 (0.0304590F)
-#define M1_UDCB_IIR_A1 (0.939082F)
-#define M1_SCALAR_VHZ_FACTOR_GAIN (0.0562500F)
-#define M1_SCALAR_INTEG_GAIN ACC32(0.0586667)
-#define M1_SCALAR_RAMP_UP (0.0333333F)
-#define M1_SCALAR_RAMP_DOWN (0.0333333F)
+#define M1_ALIGN_VOLTAGE (0.6F)
+#define M1_ALIGN_DURATION (32000)
+#define M1_U_MAX (44.6581F)
+#define M1_FREQ_MAX (366.667F)
+#define M1_N_ANGULAR_MAX (1.90986F)
+#define M1_UDCB_IIR_B0 (0.00972203F)
+#define M1_UDCB_IIR_B1 (0.00972203F)
+#define M1_UDCB_IIR_A1 (0.980556F)
+#define M1_SCALAR_VHZ_FACTOR_GAIN (0.0450000F)
+#define M1_SCALAR_INTEG_GAIN ACC32(0.0229167)
+#define M1_SCALAR_RAMP_UP (0.0130208F)
+#define M1_SCALAR_RAMP_DOWN (0.0130208F)
 /* CURRENTLOOP*/
-#define M1_D_KP_GAIN (0.459831F)
-#define M1_D_KI_GAIN (0.106749F)
-#define M1_Q_KP_GAIN (0.344020F)
-#define M1_Q_KI_GAIN (0.0962702F)
+#define M1_D_KP_GAIN (0.629380F)
+#define M1_D_KI_GAIN (0.0122136F)
+#define M1_Q_KP_GAIN (0.621841F)
+#define M1_Q_KI_GAIN (0.0121026F)
+#define M1_Q_IIR_ZC_B0 (0.0190910F)
+#define M1_Q_IIR_ZC_B1 (0.0190910F)
+#define M1_Q_IIR_ZC_A1 (0.961818F)
 #define M1_CLOOP_LIMIT (0.519615F)
 /* SPEEDLOOP*/
-#define M1_SPEED_RAMP_UP (2.09440F)
-#define M1_SPEED_RAMP_DOWN (2.09440F)
-#define M1_SPEED_LOOP_HIGH_LIMIT (2.0F)
-#define M1_SPEED_LOOP_LOW_LIMIT (-2.0F)
-#define M1_SPEED_PI_PROP_GAIN (0.00920221F)
-#define M1_SPEED_PI_INTEG_GAIN (0.0000809469F)
-#define M1_SPEED_IIR_B0 (0.0304590F)
-#define M1_SPEED_IIR_B1 (0.0304590F)
-#define M1_SPEED_IIR_A1 (0.939082F)
+#define M1_SPEED_RAMP_UP (0.654498F)
+#define M1_SPEED_RAMP_DOWN (0.654498F)
+#define M1_SPEED_LOOP_HIGH_LIMIT (4.0F)
+#define M1_SPEED_LOOP_LOW_LIMIT (-4.0F)
+#define M1_SPEED_PI_PROP_GAIN (0.00561298F)
+#define M1_SPEED_PI_INTEG_GAIN (0.0000220421F)
+#define M1_SPEED_IIR_B0 (0.0728205F)
+#define M1_SPEED_IIR_B1 (0.0728205F)
+#define M1_SPEED_IIR_A1 (0.854359F)
+#define M1_SPEED_IIR_ZC_B0 (0.00391163F)
+#define M1_SPEED_IIR_ZC_B1 (0.00391163F)
+#define M1_SPEED_IIR_ZC_A1 (0.992177F)
 /* SENSORS*/
-#define M1_POSPE_ENC_PULSES (1000)
+#define M1_POSPE_ENC_PULSES (2000)
 #define M1_POSPE_ENC_DIRECTION (0)
-#define M1_POSPE_ENC_N_MIN (0.0F)
-#define M1_POSPE_MECH_POS_GAIN ACC32(16.384)
-#define M1_POS_P_PROP_GAIN FRAC16(0.12)
-#define M1_POSPE_TO_KP_GAIN (1256.64F)
-#define M1_POSPE_TO_KI_GAIN (39.4784F)
-#define M1_POSPE_TO_THETA_GAIN (0.0000318310F)
+/* POSITIONLOOP*/
+#define M1_SERVO_POSITION_P_HIGH_LIMIT (1570.80F)
+#define M1_SERVO_POSITION_P_LOW_LIMIT (-1570.80F)
+#define M1_SERVO_POSITION_P_PROP_GAIN (657.974F)
+#define M1_SERVO_FEED_FRWD_K1 (20.9440F)
+#define M1_SERVO_FEED_FRWD_K2 (0.166667F)
+#define M1_SERVO_IIR_ZC_B0 (0.00779278F)
+#define M1_SERVO_IIR_ZC_B1 (0.00779278F)
+#define M1_SERVO_IIR_ZC_A1 (0.984414F)
+#define M1_SERVO_SPEED_PI_PROP_GAIN (0.00841947F)
+#define M1_SERVO_SPEED_PI_INTEG_GAIN (0.0000661263F)
+#define M1_SERVO_SPEED_PI_HIGH_LIMIT (4.0F)
+#define M1_SERVO_SPEED_PI_LOW_LIMIT (-4.0F)
 /* SENSORLESS*/
-#define M1_OL_START_RAMP_INC (0.125664F)
-#define M1_OL_START_I (0.65F)
-#define M1_MERG_SPEED_TRH (209.440F)
-#define M1_MERG_COEFF FRAC16(0.00333333)
-#define M1_I_SCALE (0.819095F)
-#define M1_U_SCALE (0.251256F)
-#define M1_E_SCALE (0.251256F)
-#define M1_WI_SCALE (0.0000738693F)
-#define M1_BEMF_DQ_KP_GAIN (0.508991F)
-#define M1_BEMF_DQ_KI_GAIN (0.115830F)
-#define M1_TO_KP_GAIN (879.646F)
-#define M1_TO_KI_GAIN (19.3444F)
-#define M1_TO_THETA_GAIN (0.0000318310F)
-#define M1_TO_SPEED_IIR_B0 (0.111635F)
-#define M1_TO_SPEED_IIR_B1 (0.111635F)
-#define M1_TO_SPEED_IIR_A1 (0.776730F)
+#define M1_OL_START_RAMP_INC (0.0490874F)
+#define M1_OL_START_I (0.6F)
+#define M1_MERG_SPEED_TRH (261.799F)
+#define M1_MERG_COEFF FRAC16(0.00131226)
+#define M1_I_SCALE (0.972376F)
+#define M1_U_SCALE (0.138122F)
+#define M1_E_SCALE (0.138122F)
+#define M1_WI_SCALE (0.0000301105F)
+#define M1_BEMF_DQ_KP_GAIN (0.214690F)
+#define M1_BEMF_DQ_KI_GAIN (0.00610682F)
+#define M1_TO_KP_GAIN (439.823F)
+#define M1_TO_KI_GAIN (1.51128F)
+#define M1_TO_THETA_GAIN (0.00000994718F)
+#define M1_TO_SPEED_IIR_B0 (0.0377861F)
+#define M1_TO_SPEED_IIR_B1 (0.0377861F)
+#define M1_TO_SPEED_IIR_A1 (0.924428F)
 /* USER INPUT START */
-
-
-
-#define AA 1
-#define BB 3
-#define CC 4
-#define DD 2
 /* USER INPUT END */
 #endif /* __M1_PMSM_APPCONFIG_H */

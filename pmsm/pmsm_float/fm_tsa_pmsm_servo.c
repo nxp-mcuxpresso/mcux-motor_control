@@ -131,6 +131,12 @@ FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedPiParams.fltPGain, FMSTR_TSA_FLOAT)    
 FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedPiParams.fltUpperLim, FMSTR_TSA_FLOAT) /* M1 Speed Loop Limit High */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedPiParams.fltLowerLim, FMSTR_TSA_FLOAT) /* M1 Speed Loop Limit Low */
 
+/* ZC filter switch, g_sM1Drive.sSpeed.sSpeedCmdZCFilter */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.bSpeedZCOn, FMSTR_TSA_UINT16)                                /* M1 Speed ZC Filter Switch */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltA1, FMSTR_TSA_FLOAT)          /* M1 Speed ZC Filter A1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB0, FMSTR_TSA_FLOAT)          /* M1 Speed ZC Filter B0 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB1, FMSTR_TSA_FLOAT)          /* M1 Speed ZC Filter B1 */
+
 /* sSpeed.sAlignment definitions */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sAlignment.ui16Time, FMSTR_TSA_UINT16) /* M1 Alignment Duration */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sAlignment.fltUdReq, FMSTR_TSA_FLOAT)  /* M1 Alignment Voltage */
@@ -180,6 +186,11 @@ FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sTo.fltThGain, FMSTR_TSA_FLOAT) /* M1 Obsrv
 /* sFocPMSM.sIqPiParams definitions */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqPiParams.fltIGain, FMSTR_TSA_FLOAT) /* M1 Iq Ki Gain */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqPiParams.fltPGain, FMSTR_TSA_FLOAT) /* M1 Iq Kp Gain */
+
+/* g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoef */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltB0, FMSTR_TSA_FLOAT)           /* M1 Iq ZC B0 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltB1, FMSTR_TSA_FLOAT)           /* M1 Iq ZC B1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltA1, FMSTR_TSA_FLOAT)           /* M1 Iq ZC A1 */
 
 /* sFocPMSM.sIABC definitions */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIABC.fltA, FMSTR_TSA_FLOAT) /* M1 Phase Current A */
@@ -307,6 +318,12 @@ FMSTR_TSA_RW_VAR(g_sM2Drive.sSpeed.sSpeedPiParams.fltPGain, FMSTR_TSA_FLOAT)    
 FMSTR_TSA_RW_VAR(g_sM2Drive.sSpeed.sSpeedPiParams.fltUpperLim, FMSTR_TSA_FLOAT) /* M2 Speed Loop Limit High */
 FMSTR_TSA_RW_VAR(g_sM2Drive.sSpeed.sSpeedPiParams.fltLowerLim, FMSTR_TSA_FLOAT) /* M2 Speed Loop Limit Low */
 
+/* ZC filter switch, g_sM2Drive.sSpeed.sSpeedCmdZCFilter */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sSpeed.bSpeedZCOn, FMSTR_TSA_UINT16)                                /* M2 Speed ZC Filter Switch */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltA1, FMSTR_TSA_FLOAT)          /* M2 Speed ZC Filter A1 */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB0, FMSTR_TSA_FLOAT)          /* M2 Speed ZC Filter B0 */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB1, FMSTR_TSA_FLOAT)          /* M2 Speed ZC Filter B1 */
+
 /* sSpeed.sAlignment definitions */
 FMSTR_TSA_RW_VAR(g_sM2Drive.sAlignment.ui16Time, FMSTR_TSA_UINT16) /* M2 Alignment Duration */
 FMSTR_TSA_RW_VAR(g_sM2Drive.sAlignment.fltUdReq, FMSTR_TSA_FLOAT)  /* M2 Alignment Voltage */
@@ -356,6 +373,11 @@ FMSTR_TSA_RW_VAR(g_sM2Drive.sFocPMSM.sTo.fltThGain, FMSTR_TSA_FLOAT) /* M2 Obsrv
 /* sFocPMSM.sIqPiParams definitions */
 FMSTR_TSA_RW_VAR(g_sM2Drive.sFocPMSM.sIqPiParams.fltIGain, FMSTR_TSA_FLOAT) /* M2 Iq Ki Gain */
 FMSTR_TSA_RW_VAR(g_sM2Drive.sFocPMSM.sIqPiParams.fltPGain, FMSTR_TSA_FLOAT) /* M2 Iq Kp Gain */
+
+/* g_sM2Drive.sFocPMSM.sIqReqZCFilter.sFltCoef */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltB0, FMSTR_TSA_FLOAT)           /* M2 Iq ZC B0 */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltB1, FMSTR_TSA_FLOAT)           /* M2 Iq ZC B1 */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltA1, FMSTR_TSA_FLOAT)           /* M2 Iq ZC A1 */
 
 /* sFocPMSM.sIABC definitions */
 FMSTR_TSA_RW_VAR(g_sM2Drive.sFocPMSM.sIABC.fltA, FMSTR_TSA_FLOAT) /* M2 Phase Current A */
@@ -443,59 +465,49 @@ FMSTR_TSA_TABLE_END()
 
 #endif
 
-///*!
-// * @brief g_sM1PoSpeSensor driver structure
-// *
-// * @param None
-// *
-// * @return None
-// */
-//#ifdef PMSM_SNSLESS_ENC
-//FMSTR_TSA_TABLE_BEGIN(gsM1Enc_table)
-//
-///* gsM1Enc structure definition */
-//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.fltSpdMeEst, FMSTR_TSA_FLOAT)   /* M1 Measured Mechanical Speed */
-//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.f16PosMe, FMSTR_TSA_FRAC16)     /* M1 Meassured Mechanical Position */
-//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.f16PosMeEst, FMSTR_TSA_FRAC16)  /* M1 Position Encoder Mechanical */        // NOT USED CURRENTLY
-//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.bDirection, FMSTR_TSA_UINT16)   /* M1 Encoder direction */
-//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.fltSpdEncMin, FMSTR_TSA_FLOAT)  /* M1 Encoder minimal speed */
-//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.ui16Pp, FMSTR_TSA_UINT16)       /* M1 Pole pairs */
-//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.ui16PulseNumber, FMSTR_TSA_UINT16)    /* M1 Encoder pulses */
-//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.a32PosMeGain, FMSTR_TSA_FRAC32)       /* M1 Position mechanical gain */
-//
-//FMSTR_TSA_TABLE_END()
-//#endif
-//
-//#ifdef DUAL_MOTOR
-//
-///*!
-// * @brief g_sM2Enc driver structure
-// *
-// * @param None
-// *
-// * @return None
-// */
-//#ifdef PMSM_SNSLESS_ENC
-//FMSTR_TSA_TABLE_BEGIN(gsM2Enc_table)
-//
-///* gsM2Enc structure definition */
-//FMSTR_TSA_RW_VAR(g_sM2Enc.fltSpdMeEst, FMSTR_TSA_FLOAT)   /* M2 Measured Mechanical Speed */
-//FMSTR_TSA_RW_VAR(g_sM2Enc.f16PosMe, FMSTR_TSA_FRAC16)     /* M2 Meassured Mechanical Position */
-//FMSTR_TSA_RW_VAR(g_sM2Enc.f16PosMeEst, FMSTR_TSA_FRAC16)  /* M2 Position Encoder Mechanical */
-//FMSTR_TSA_RW_VAR(g_sM2Enc.bDirection, FMSTR_TSA_UINT16)   /* M2 Encoder direction */
-//FMSTR_TSA_RW_VAR(g_sM2Enc.fltSpdEncMin, FMSTR_TSA_FLOAT)  /* M2 Encoder minimal speed */
-//FMSTR_TSA_RW_VAR(g_sM2Enc.ui16Pp, FMSTR_TSA_UINT16)       /* M2 Pole pairs */
-//FMSTR_TSA_RW_VAR(g_sM2Enc.ui16PulseNumber, FMSTR_TSA_UINT16)    /* M2 Encoder pulses */
-//FMSTR_TSA_RW_VAR(g_sM2Enc.a32PosMeGain, FMSTR_TSA_FRAC32)       /* M2 Position mechanical gain */
-//
-//FMSTR_TSA_TABLE_END()
-//#endif
-//
-//#endif
+/*!
+ * @brief g_sM1PoSpeSensor driver structure
+ *
+ * @param None
+ *
+ * @return None
+ */
+#ifdef PMSM_SNSLESS_ENC
+FMSTR_TSA_TABLE_BEGIN(gsM1PoSpeSensor_table)
+
+/* g_sM1PoSpeSensor structure definition */
+//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.bDirection, FMSTR_TSA_UINT16)       /* M1 Encoder direction */
+//FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.ui16PulseNumber, FMSTR_TSA_UINT16)  /* M1 Encoder pulses */
+FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.ui16Pp, FMSTR_TSA_UINT16)             /* M1 Pole pairs */
+
+FMSTR_TSA_TABLE_END()
+#endif
+
+#ifdef DUAL_MOTOR
+
+/*!
+ * @brief g_sM2PoSpeSensor driver structure
+ *
+ * @param None
+ *
+ * @return None
+ */
+#ifdef PMSM_SNSLESS_ENC
+FMSTR_TSA_TABLE_BEGIN(gsM2PoSpeSensor_table)
+
+/* g_sM2PoSpeSensor structure definition */
+//FMSTR_TSA_RW_VAR(g_sM2PoSpeSensor.bDirection, FMSTR_TSA_UINT16)       /* M2 Encoder direction */
+//FMSTR_TSA_RW_VAR(g_sM2PoSpeSensor.ui16PulseNumber, FMSTR_TSA_UINT16)  /* M2 Encoder pulses */
+FMSTR_TSA_RW_VAR(g_sM2PoSpeSensor.ui16Pp, FMSTR_TSA_UINT16)             /* M2 Pole pairs */
+
+FMSTR_TSA_TABLE_END()
+#endif
+
+#endif
 
 #if PMSM_SERVO
 /*!
- * @brief Servo control table structure
+ * @brief Servo control table structures
  *
  * @param None
  *
@@ -504,28 +516,35 @@ FMSTR_TSA_TABLE_END()
 /* Servo control TSA table */
 FMSTR_TSA_TABLE_BEGIN(gsServo_table)
 
-FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.bFeedFrwdOn, FMSTR_TSA_UINT16)    /* M1 Speed Control - Feed forward Switch */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.fltFeedFrwdK1, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Feed Forward K1 Gain */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.fltFeedFrwdK2, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Feed Forward K2 Gain */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.fltPGain, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Speed PI controller Kp Gain */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.fltIGain, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Speed PI controller Ki Gain */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.fltUpperLim, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Speed PI controller High Limit */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.fltLowerLim, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Speed PI controller Low Limit */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltA1, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Speed ZC Filter A1 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB0, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Speed ZC Filter B0 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB1, FMSTR_TSA_FLOAT)   /* M1 Servo Control - Speed ZC Filter B1 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltA1, FMSTR_TSA_FLOAT)   /* M1 Speed ZC Filter A1 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB0, FMSTR_TSA_FLOAT)   /* M1 Speed ZC Filter B0 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB1, FMSTR_TSA_FLOAT)   /* M1 Speed ZC Filter B1 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltB0, FMSTR_TSA_FLOAT)   /* M1 Iq ZC B0 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltB1, FMSTR_TSA_FLOAT)   /* M1 Iq ZC B1 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltA1, FMSTR_TSA_FLOAT)   /* M1 Iq ZC A1 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.bSpeedZCOn, FMSTR_TSA_FLOAT)   /* bSpeedZCOn */
-//FMSTR_TSA_RW_VAR(, FMSTR_TSA_FLOAT)   /*  */
-//FMSTR_TSA_RW_VAR(, FMSTR_TSA_FLOAT)   /*  */
-//FMSTR_TSA_RW_VAR(, FMSTR_TSA_FLOAT)   /*  */
-//FMSTR_TSA_RW_VAR(, FMSTR_TSA_FLOAT)   /*  */
-//FMSTR_TSA_RW_VAR(, FMSTR_TSA_FLOAT)   /*  */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.bFeedFrwdOn, FMSTR_TSA_UINT16)                            /* M1 Servo Control - Feed Forward Switch */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.fltFeedFrwdK1, FMSTR_TSA_FLOAT)                           /* M1 Servo Control - Feed Forward K1 Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.fltFeedFrwdK2, FMSTR_TSA_FLOAT)                           /* M1 Servo Control - Feed Forward K2 Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.fltPGain, FMSTR_TSA_FLOAT)                 /* M1 Servo Control - Speed PI controller Kp Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.fltIGain, FMSTR_TSA_FLOAT)                 /* M1 Servo Control - Speed PI controller Ki Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.fltUpperLim, FMSTR_TSA_FLOAT)              /* M1 Servo Control - Speed PI controller High Limit */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.fltLowerLim, FMSTR_TSA_FLOAT)              /* M1 Servo Control - Speed PI controller Low Limit */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltA1, FMSTR_TSA_FLOAT)       /* M1 Servo Control - Speed ZC Filter A1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB0, FMSTR_TSA_FLOAT)       /* M1 Servo Control - Speed ZC Filter B0 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB1, FMSTR_TSA_FLOAT)       /* M1 Servo Control - Speed ZC Filter B1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sPositionPiParams.fltPGain, FMSTR_TSA_FLOAT)              /* M1 Servo Control - Position P controller Kp Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sPositionPiParams.fltUpperLim, FMSTR_TSA_FLOAT)           /* M1 Servo Control - Position P controller High Limit */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sPositionPiParams.fltLowerLim, FMSTR_TSA_FLOAT)           /* M1 Servo Control - Position P controller Low Limit */
+
+#ifdef DUAL_MOTOR
+FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.bFeedFrwdOn, FMSTR_TSA_UINT16)                            /* M2 Servo Control - Feed Forward Switch */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.fltFeedFrwdK1, FMSTR_TSA_FLOAT)                           /* M2 Servo Control - Feed Forward K1 Gain */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.fltFeedFrwdK2, FMSTR_TSA_FLOAT)                           /* M2 Servo Control - Feed Forward K2 Gain */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.sSpeedPiParams.fltPGain, FMSTR_TSA_FLOAT)                 /* M2 Servo Control - Speed PI controller Kp Gain */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.sSpeedPiParams.fltIGain, FMSTR_TSA_FLOAT)                 /* M2 Servo Control - Speed PI controller Ki Gain */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.sSpeedPiParams.fltUpperLim, FMSTR_TSA_FLOAT)              /* M2 Servo Control - Speed PI controller High Limit */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.sSpeedPiParams.fltLowerLim, FMSTR_TSA_FLOAT)              /* M2 Servo Control - Speed PI controller Low Limit */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltA1, FMSTR_TSA_FLOAT)       /* M2 Servo Control - Speed ZC Filter A1 */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB0, FMSTR_TSA_FLOAT)       /* M2 Servo Control - Speed ZC Filter B0 */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB1, FMSTR_TSA_FLOAT)       /* M2 Servo Control - Speed ZC Filter B1 */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.sPositionPiParams.fltPGain, FMSTR_TSA_FLOAT)              /* M2 Servo Control - Position P controller Kp Gain */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.sPositionPiParams.fltUpperLim, FMSTR_TSA_FLOAT)           /* M2 Servo Control - Position P controller High Limit */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.sPositionPiParams.fltLowerLim, FMSTR_TSA_FLOAT)           /* M2 Servo Control - Position P controller Low Limit */
+#endif
 
 FMSTR_TSA_TABLE_END()
 #endif /* PMSM_SERVO */
@@ -907,12 +926,17 @@ FMSTR_TSA_TABLE(M2_global_table)
 FMSTR_TSA_TABLE(gsM2Drive_table)
 #endif
 
-//#ifdef PMSM_SNSLESS_ENC
-//FMSTR_TSA_TABLE(gsM1Enc_table)
-//#ifdef DUAL_MOTOR
-//FMSTR_TSA_TABLE(gsM2Enc_table)
-//#endif
-//#endif
+#ifdef PMSM_SNSLESS_ENC
+FMSTR_TSA_TABLE(gsM1PoSpeSensor_table)
+#ifdef DUAL_MOTOR
+FMSTR_TSA_TABLE(gsM2PoSpeSensor_table)
+#endif
+#endif
+
+#if PMSM_SERVO
+FMSTR_TSA_TABLE(gsServo_table)
+#endif
+
 
 #ifdef MID_EN
 FMSTR_TSA_TABLE(gsMid_table)
