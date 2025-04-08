@@ -27,9 +27,7 @@
  * Definitions
  ******************************************************************************/
 
-#ifdef PMSM_SERVO
 #define Q_CURRENT_ZC_FILTER
-#endif
    
 /*! @brief mcs alignment structure */
 typedef struct _mcs_alignment_a1
@@ -132,7 +130,6 @@ typedef struct _mcs_openloop_a1
 /*! @brief mcs position structure */
 typedef struct _mcs_position_a1
 {
-#ifdef PMSM_SERVO
     GFLIB_CTRL_PI_P_AW_T_FLT sPositionPiParams;/* Position PI controller parameters */
     GFLIB_CTRL_PI_P_AW_T_FLT sSpeedPiParams;   /* Speed PI controller parameters */
     GDFLIB_FILTER_IIR1_T_FLT sSpeedReqZCFilter;    /* Zero cancellation parameters */
@@ -166,10 +163,6 @@ typedef struct _mcs_position_a1
     float_t fltIqReq;                        /* Output of ASR */
     bool_t bSpeedPiStopInteg;                /* Speed PI controller saturation flag */
     bool_t bIqPiLimFlag;                     /* Saturation flag of Iq controller */
-#else
-    frac16_t f16PositionPGain; /* Position P gain */
-    frac16_t f16SpeedReq;      /* Output from P position controller in fraction */
-#endif
     
     acc32_t a32Position;                        /* Actual accumulator Position */
     acc32_t a32PositionError;                   /* Acumullator Position error */

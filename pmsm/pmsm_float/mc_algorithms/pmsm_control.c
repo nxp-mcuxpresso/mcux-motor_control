@@ -261,7 +261,6 @@ void MCS_PMSMFocCtrlSpeed(mcs_speed_t *psSpeed)
 RAM_FUNC_LIB  
 void MCS_PMSMFocCtrlPosition(mcs_position_t *psPosition)
 {
-#ifdef PMSM_SERVO
     /* Position error calculation */
     psPosition->fltPositionError = MLIB_Conv_FLTa((psPosition->a32PositionCmd - psPosition->a32Position));
     
@@ -315,12 +314,6 @@ void MCS_PMSMFocCtrlPosition(mcs_position_t *psPosition)
 
     /* Desired current by the speed PI controller */
     psPosition->fltIqReq =  GFLIB_CtrlPIpAW_FLT(psPosition->fltSpeedError, &psPosition->bSpeedPiStopInteg, &psPosition->sSpeedPiParams);
-#else
-    /* Position error calculation */
-    psPosition->a32PositionError = ((psPosition->a32PositionCmd) - (psPosition->a32Position));
-    /* Position P controller output */
-    psPosition->f16SpeedReq = MLIB_MulSat_F16as((psPosition->a32PositionError), (psPosition->f16PositionPGain));
-#endif 
 }
 
 /*!

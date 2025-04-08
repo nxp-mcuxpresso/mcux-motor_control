@@ -1,6 +1,6 @@
 /*
-* Copyright 2016, Freescale Semiconductor, Inc.
-* Copyright 2016-2021, 2024-2025 NXP
+*
+* Copyright 2025 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -503,7 +503,6 @@ FMSTR_TSA_TABLE_END()
 
 #endif
 
-#if PMSM_SERVO
 /*!
  * @brief Servo control table structures
  *
@@ -545,7 +544,6 @@ FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.sPositionPiParams.fltLowerLim, FMSTR_TSA_F
 #endif
 
 FMSTR_TSA_TABLE_END()
-#endif /* PMSM_SERVO */
 
 /*!
  * @brief Global table with global variables used in TSA
@@ -931,9 +929,7 @@ FMSTR_TSA_TABLE(gsM2PoSpeSensor_table)
 #endif
 #endif
 
-#if PMSM_SERVO
 FMSTR_TSA_TABLE(gsServo_table)
-#endif
 
 
 #ifdef MID_EN

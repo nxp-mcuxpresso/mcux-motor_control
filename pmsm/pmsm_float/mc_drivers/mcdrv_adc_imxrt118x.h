@@ -1,6 +1,6 @@
 /*
  * Copyright 2013 - 2015, Freescale Semiconductor, Inc.
-* Copyright 2016-2021, 2024 NXP
+* Copyright 2016-2021, 2024-2025 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -12,8 +12,8 @@
 * use the software.
  */
 
-#ifndef _MCDRV_ADC_LPC_H_
-#define _MCDRV_ADC_LPC_H_
+#ifndef _MCDRV_ADC_IMXRT118X_H_
+#define _MCDRV_ADC_IMXRT118X_H_
 
 #include "fsl_lpadc.h"
 
@@ -155,4 +155,4 @@ void MCDRV_AuxValGet(mcdrv_adc_t *this);
 }
 #endif
 
-#endif /* _MCDRV_ADC_LPC_H_ */
+#endif /* _MCDRV_ADC_IMXRT118X_H_ */
