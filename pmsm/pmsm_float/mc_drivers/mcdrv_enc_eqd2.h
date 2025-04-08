@@ -30,13 +30,12 @@ typedef struct _mcdrv_eqd_enc_t
     EQDC_Type *pui32QdBase;       /* pointer to QD module base address*/
     float_t *pfltSpdMeEst;        /* pointer to measured mechanical speed  */
     frac16_t *pf16PosElEst;       /* pointer to measured electrical position */
-    acc32_t a32PosErr;            /* position error to tracking observer  */
+    acc32_t *pa32PosMeReal;       /* pointer to real position (revolution counter + mechanical position) */
+
     float_t fltSpdMeEst;          /* estimated speed calculated using tracking observer */
     frac16_t f16PosMe;            /* mechanical position calculated using encoder edges */
     uint16_t ui16Pp;              /* number of motor pole pairs */
     bool_t bDirection;            /* encoder direction */
-    float_t fltSpdEncMin;         /* encoder minimal speed resolution */
-    acc32_t a32PosMeReal;         /* real position (revolution counter + mechanical position) */
     frac16_t f16RevCounter;       /* revolution counter measured by periphery */
     uint16_t ui16PulseNumber;     /* quadrature pulses per one revolution */
     
@@ -64,8 +63,6 @@ typedef struct _mcdrv_eqd_enc_t
     float_t  fltSpeedFracToAngularCoeff;
     
     uint32_t ui32QDTimerFrequency;
-    
-    
 } mcdrv_eqd_enc_t;
 
 extern volatile float g_fltM1speedScale;

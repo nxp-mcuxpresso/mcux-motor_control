@@ -322,27 +322,27 @@ static void M1_StateInitFast(void)
     g_sM1Drive.sPosition.fltSpeedLoopTs = 1.0F/(float_t)(g_sClockSetup.ui16M1SpeedLoopFreq);
     
     /* Servo parameters - Position P controller */
-    g_sM1Drive.sPosition.sPositionPiParams.fltPGain    = M1_SERVO_POSITION_P_PROP_GAIN; //789.5683520871486; //bandwidth 15Hz // M1_POSITION_P_PROP_GAIN
+    g_sM1Drive.sPosition.sPositionPiParams.fltPGain    = M1_SERVO_POSITION_P_PROP_GAIN;
     g_sM1Drive.sPosition.sPositionPiParams.fltIGain    = 0.0F;
-    g_sM1Drive.sPosition.sPositionPiParams.fltUpperLim = M1_SERVO_POSITION_P_HIGH_LIMIT; //1256; //3000rpm to rad/s ~ 2*pi*3000*pp/60 // 
-    g_sM1Drive.sPosition.sPositionPiParams.fltLowerLim = M1_SERVO_POSITION_P_LOW_LIMIT; //-1256; // M1_POSITION_P_LOW_LIMIT
+    g_sM1Drive.sPosition.sPositionPiParams.fltUpperLim = M1_SERVO_POSITION_P_HIGH_LIMIT;
+    g_sM1Drive.sPosition.sPositionPiParams.fltLowerLim = M1_SERVO_POSITION_P_LOW_LIMIT;
     
     /* Servo parameters - Feed Forward */
-    g_sM1Drive.sPosition.fltFeedFrwdK1 = M1_SERVO_FEED_FRWD_K1; //16.755160819145566F; //M1_SERVO_FEED_FRWD_K1
-    g_sM1Drive.sPosition.fltFeedFrwdK2 = M1_SERVO_FEED_FRWD_K2; //0.088888888888889F; //M1_SERVO_FEED_FRWD_K2
+    g_sM1Drive.sPosition.fltFeedFrwdK1 = M1_SERVO_FEED_FRWD_K1;
+    g_sM1Drive.sPosition.fltFeedFrwdK2 = M1_SERVO_FEED_FRWD_K2;
     g_sM1Drive.sPosition.fltPositionCmd_stored = 0.0F;
     g_sM1Drive.sPosition.fltFirstDerivation_stored = 0.0F;
   
     /* Servo parameters - Speed PI controller */
-    g_sM1Drive.sPosition.sSpeedPiParams.fltPGain    = M1_SERVO_SPEED_PI_PROP_GAIN; //0.012904856394345; //M1_SERVO_SPEED_PI_PROP_GAIN
-    g_sM1Drive.sPosition.sSpeedPiParams.fltIGain    = M1_SERVO_SPEED_PI_INTEG_GAIN; //0.0001520317576653987; //M1_SERVO_SPEED_PI_INTEG_GAIN
-    g_sM1Drive.sPosition.sSpeedPiParams.fltUpperLim = M1_SERVO_SPEED_PI_HIGH_LIMIT; //4; //M1_SERVO_SPEED_PI_HIGH_LIMIT
-    g_sM1Drive.sPosition.sSpeedPiParams.fltLowerLim = M1_SERVO_SPEED_PI_LOW_LIMIT; //-4; //M1_SERVO_SPEED_PI_LOW_LIMIT
+    g_sM1Drive.sPosition.sSpeedPiParams.fltPGain    = M1_SERVO_SPEED_PI_PROP_GAIN;
+    g_sM1Drive.sPosition.sSpeedPiParams.fltIGain    = M1_SERVO_SPEED_PI_INTEG_GAIN;
+    g_sM1Drive.sPosition.sSpeedPiParams.fltUpperLim = M1_SERVO_SPEED_PI_HIGH_LIMIT;
+    g_sM1Drive.sPosition.sSpeedPiParams.fltLowerLim = M1_SERVO_SPEED_PI_LOW_LIMIT;
     
     /* Servo parameters - Zero cancellation parameters */
-    g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB0 = M1_SERVO_IIR_ZC_B0; //0.011643797196960;  //M1_SERVO_IIR_ZC_B0
-    g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB1 = M1_SERVO_IIR_ZC_B1; //0.011643797196960;  //M1_SERVO_IIR_ZC_B1
-    g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltA1 = M1_SERVO_IIR_ZC_A1; //0.976712405606081;  //M1_SERVO_IIR_ZC_A1
+    g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB0 = M1_SERVO_IIR_ZC_B0;
+    g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB1 = M1_SERVO_IIR_ZC_B1;
+    g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltA1 = M1_SERVO_IIR_ZC_A1;
     GDFLIB_FilterIIR1Init_FLT(&g_sM1Drive.sPosition.sSpeedReqZCFilter);  
     g_sM1Drive.sPosition.bFeedFrwdOn = TRUE;
 
@@ -428,6 +428,7 @@ static void M1_StateInitFast(void)
     /* For ENC driver */
     g_sM1Enc.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
     g_sM1Enc.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
+    g_sM1Enc.pa32PosMeReal = &(g_sM1Drive.sPosition.a32Position);
 
     /* INIT_DONE command */
     g_sM1Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
@@ -1343,9 +1344,8 @@ static void M1_StateRunSpinSlow(void)
     {
         /* Actual speed filter */
         g_sM1Drive.sSpeed.fltSpeedFilt = GDFLIB_FilterIIR1_FLT(g_sM1Drive.sSpeed.fltSpeed, &g_sM1Drive.sSpeed.sSpeedFilter);
-        /* Actual position */
-        g_sM1Drive.sPosition.a32Position = g_sM1Enc.a32PosMeReal;  // PREDANIE MUSI IST CEZ POINTER...
         
+        /* Actual position - passed using pointer */        
         
         /* Pass filtered speed to position structure */
         g_sM1Drive.sPosition.fltSpeedFilt = g_sM1Drive.sSpeed.fltSpeedFilt;

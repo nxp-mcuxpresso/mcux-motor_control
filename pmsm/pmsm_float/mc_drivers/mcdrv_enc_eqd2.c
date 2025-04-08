@@ -47,7 +47,7 @@ void MCDRV_QdEncGetPosition(mcdrv_eqd_enc_t *this)
     this->f16RevCounter = (frac16_t)(this->pui32QdBase->REV);
 
     /* calculating position for position control */
-    this->a32PosMeReal = (acc32_t)( ( ( ((int32_t)(this->f16RevCounter)) << 15) + (((uint16_t)(this->f16PosMe)) >> 1) ) ); 
+    *this->pa32PosMeReal = (acc32_t)( ( ( ((int32_t)(this->f16RevCounter)) << 15) + (((uint16_t)(this->f16PosMe)) >> 1) ) );
 
     /* store results to user-defined variables */
     *this->pf16PosElEst = (frac16_t)(this->f16PosMe * this->ui16Pp);
