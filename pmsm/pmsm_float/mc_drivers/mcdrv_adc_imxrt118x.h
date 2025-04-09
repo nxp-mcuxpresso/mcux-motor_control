@@ -28,12 +28,6 @@
 
 #define MCDRV_ADC (3)
 
-/* init sensors/actuators pointers */
-#define M1_SET_PTR_U_DC_BUS(par1) (g_sM1AdcSensor.pf16UDcBus = &(par1))
-#define M1_SET_PTR_I_ABC(par1) (g_sM1AdcSensor.psIABC = &(par1))
-#define M1_SET_PTR_SECTOR(par1) (g_sM1AdcSensor.pui16SVMSector = &(par1))
-#define M1_SET_PTR_AUX_CHAN(par1) (g_sM1AdcSensor.pui16AuxChan = &(par1))
-
 typedef struct _pha_ab
 {
     GDFLIB_FILTER_MA_T_A32 ui16FiltPhaA; /* phase A offset filter */
