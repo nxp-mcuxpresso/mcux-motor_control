@@ -1,6 +1,6 @@
 /*
-* Copyright 2016, Freescale Semiconductor, Inc.
-* Copyright 2016-2021, 2024-2025 NXP
+*
+* Copyright 2025 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -225,7 +225,7 @@ RAM_FUNC_LIB
 static void M2_StateFaultFast_Optim(void)
 {
     /* Get measured phase currents and DC-bus voltage */
-    M2_MCDRV_PHCURR_DCBVOLT_GET(&g_sM2PhCurrDcBus);
+    M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
 
     /* Disable user application switch */
     g_bM2SwitchAppOnOff = FALSE;
@@ -443,7 +443,7 @@ static void M2_StateInitFast_Optim(void)
     M2_SET_PTR_AUX_CHAN(g_sM2Drive.f16AdcAuxSample);
 
     /* Get measured phase currents and DC-bus voltage (to prevent fault when SM is executed in ADC ISR) */
-    M2_MCDRV_PHCURR_DCBVOLT_GET(&g_sM2PhCurrDcBus);
+    M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
     
     /* Init pointers for position/speed driver */
     g_sM2PoSpeSensor.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
@@ -477,7 +477,7 @@ RAM_FUNC_LIB
 static void M2_StateStopFast_Optim(void)
 {  
     /* Get measured phase currents and DC-bus voltage */
-    M2_MCDRV_PHCURR_DCBVOLT_GET(&g_sM2PhCurrDcBus);
+    M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
 
     /* Set encoder direction */
     M2_MCDRV_POSPE_SENSOR_SET_DIRECTION(&g_sM2PoSpeSensor);
@@ -526,7 +526,7 @@ RAM_FUNC_LIB
 static void M2_StateRunFast_Optim(void)
 {
     /* Get measured phase currents and DC-bus voltage */
-    M2_MCDRV_PHCURR_DCBVOLT_GET(&g_sM2PhCurrDcBus);
+    M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
 
     /* get position and speed from quadrature encoder sensor */
     M2_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM2PoSpeSensor);      
@@ -538,7 +538,7 @@ static void M2_StateRunFast_Optim(void)
     M2_MCDRV_PWM3PH_SET(&g_sM2Pwm3ph);
     
     /* Set current sensor for sampling - applies only to some devices. */
-    M2_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM2PhCurrDcBus);
+    M2_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM2Curr3phDcBus);
 }
 #else
 /*!
@@ -552,7 +552,7 @@ RAM_FUNC_LIB
 static void M2_StateFaultFast(void)
 {
     /* Get measured phase currents and DC-bus voltage */
-    M2_MCDRV_PHCURR_DCBVOLT_GET(&g_sM2PhCurrDcBus);
+    M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
 
     /* Disable user application switch */
     g_bM2SwitchAppOnOff = FALSE;
@@ -770,7 +770,7 @@ static void M2_StateInitFast(void)
     M2_SET_PTR_AUX_CHAN(g_sM2Drive.f16AdcAuxSample);
 
     /* Get measured phase currents and DC-bus voltage (to prevent fault when SM is executed in ADC ISR) */
-    M2_MCDRV_PHCURR_DCBVOLT_GET(&g_sM2PhCurrDcBus);
+    M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
     
     /* Init pointers for position/speed driver */
     g_sM2PoSpeSensor.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
@@ -804,7 +804,7 @@ RAM_FUNC_LIB
 static void M2_StateStopFast(void)
 {
     /* Get measured phase currents and DC-bus voltage */
-    M2_MCDRV_PHCURR_DCBVOLT_GET(&g_sM2PhCurrDcBus);
+    M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
 
     /* Set encoder direction */
     M2_MCDRV_POSPE_SENSOR_SET_DIRECTION(&g_sM2PoSpeSensor);
@@ -838,7 +838,7 @@ RAM_FUNC_LIB
 static void M2_StateRunFast(void)
 {
     /* Get measured phase currents and DC-bus voltage */
-    M2_MCDRV_PHCURR_DCBVOLT_GET(&g_sM2PhCurrDcBus);
+    M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
 
     /* get position and speed from quadrature encoder sensor */
     M2_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM2PoSpeSensor);
@@ -867,7 +867,7 @@ static void M2_StateRunFast(void)
     M2_MCDRV_PWM3PH_SET(&g_sM2Pwm3ph);
 
     /* Set current sensor for sampling - applies only to some devices. */
-    M2_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM2PhCurrDcBus);
+    M2_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM2Curr3phDcBus);
 }
 #endif
 
@@ -1108,7 +1108,7 @@ static void M2_TransStopRun(void)
     M2_MCDRV_PWM3PH_SET(&g_sM2Pwm3ph);
 
     /* Clear offset filters - applies only to some devices. */
-    M2_MCDRV_CURR_3PH_CALIB_INIT(&g_sM2PhCurrDcBus);
+    M2_MCDRV_CURR_3PH_CALIB_INIT(&g_sM2Curr3phDcBus);
 
     /* Enable PWM output */
     M2_MCDRV_PWM3PH_EN(&g_sM2Pwm3ph);
@@ -1204,7 +1204,7 @@ static void M2_StateRunCalibFast_Optim(void)
        performing ADC offset calibration */
 
     /* Call offset measurement - applies only to some devices. */
-    M2_MCDRV_CURR_3PH_CALIB(&g_sM2PhCurrDcBus);
+    M2_MCDRV_CURR_3PH_CALIB(&g_sM2Curr3phDcBus);
 
     /* Change SVM sector in range <1;6> to measure all AD channel mapping combinations */
     if (++g_sM2Drive.sFocPMSM.ui16SectorSVM > 6U)
@@ -1333,7 +1333,7 @@ static void M2_StateRunCalibFast(void)
        performing ADC offset calibration */
 
     /* Call offset measurement - applies only to some devices. */
-    M2_MCDRV_CURR_3PH_CALIB(&g_sM2PhCurrDcBus);
+    M2_MCDRV_CURR_3PH_CALIB(&g_sM2Curr3phDcBus);
 
     /* Change SVM sector in range <1;6> to measure all AD channel mapping combinations */
     if (++g_sM2Drive.sFocPMSM.ui16SectorSVM > 6U)
@@ -1747,7 +1747,7 @@ static void M2_StateRunCalibSlow(void)
     if (--g_sM2Drive.ui16CounterState == 0U)
     {
 	  /* Write calibrated offset values - applies only to some devices. */
-	  M2_MCDRV_CURR_3PH_CALIB_SET(&g_sM2PhCurrDcBus);
+	  M2_MCDRV_CURR_3PH_CALIB_SET(&g_sM2Curr3phDcBus);
       /* To switch to the RUN READY sub-state */
       M2_TransRunCalibReady();
     }

@@ -226,7 +226,7 @@ RAM_FUNC_LIB
 static void M1_StateFaultFast_Optim(void)
 {
     /* Get measured phase currents and DC-bus voltage */
-    M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* Disable user application switch */
     g_bM1SwitchAppOnOff = FALSE;
@@ -444,7 +444,7 @@ static void M1_StateInitFast_Optim(void)
     M1_SET_PTR_AUX_CHAN(g_sM1Drive.f16AdcAuxSample);
 
     /* Get measured phase currents and DC-bus voltage (to prevent fault when SM is executed in ADC ISR) */
-    M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
     
     /* Init pointers for position/speed driver */
     g_sM1PoSpeSensor.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
@@ -478,7 +478,7 @@ RAM_FUNC_LIB
 static void M1_StateStopFast_Optim(void)
 {
     /* Get measured phase currents and DC-bus voltage */
-    M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* Set encoder direction */
     M1_MCDRV_POSPE_SENSOR_SET_DIRECTION(&g_sM1PoSpeSensor);
@@ -527,7 +527,7 @@ RAM_FUNC_LIB
 static void M1_StateRunFast_Optim(void)
 {
     /* Get measured phase currents and DC-bus voltage */
-    M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* get position and speed from quadrature encoder sensor */
     M1_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM1PoSpeSensor);     
@@ -539,7 +539,7 @@ static void M1_StateRunFast_Optim(void)
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
     
     /* Set current sensor for sampling - applies only to some devices. */
-    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1PhCurrDcBus);
+    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1Curr3phDcBus);
 }
 #else
 /*!
@@ -553,7 +553,7 @@ RAM_FUNC_LIB
 static void M1_StateFaultFast(void)
 {
     /* Get measured phase currents and DC-bus voltage */
-    M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* Disable user application switch */
     g_bM1SwitchAppOnOff = FALSE;
@@ -771,7 +771,7 @@ static void M1_StateInitFast(void)
     M1_SET_PTR_AUX_CHAN(g_sM1Drive.f16AdcAuxSample);
 
     /* Get measured phase currents and DC-bus voltage (to prevent fault when SM is executed in ADC ISR) */
-    M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
     
     /* Init pointers for position/speed driver */
     g_sM1PoSpeSensor.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
@@ -805,7 +805,7 @@ RAM_FUNC_LIB
 static void M1_StateStopFast(void)
 {
     /* Get measured phase currents and DC-bus voltage */
-    M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* Set encoder direction */
     M1_MCDRV_POSPE_SENSOR_SET_DIRECTION(&g_sM1PoSpeSensor);
@@ -839,7 +839,7 @@ RAM_FUNC_LIB
 static void M1_StateRunFast(void)
 {
     /* Get measured phase currents and DC-bus voltage */
-    M1_MCDRV_PHCURR_DCBVOLT_GET(&g_sM1PhCurrDcBus);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* get position and speed from quadrature encoder sensor */
     M1_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM1PoSpeSensor);
@@ -868,7 +868,7 @@ static void M1_StateRunFast(void)
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
 
     /* Set current sensor for sampling - applies only to some devices. */
-    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1PhCurrDcBus);
+    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1Curr3phDcBus);
 }
 #endif
 
@@ -1109,7 +1109,7 @@ static void M1_TransStopRun(void)
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
 
     /* Clear offset filters - applies only to some devices. */
-    M1_MCDRV_CURR_3PH_CALIB_INIT(&g_sM1PhCurrDcBus);
+    M1_MCDRV_CURR_3PH_CALIB_INIT(&g_sM1Curr3phDcBus);
 
     /* Enable PWM output */
     M1_MCDRV_PWM3PH_EN(&g_sM1Pwm3ph);
@@ -1205,7 +1205,7 @@ static void M1_StateRunCalibFast_Optim(void)
        performing ADC offset calibration */
 
     /* Call offset measurement - applies only to some devices. */
-    M1_MCDRV_CURR_3PH_CALIB(&g_sM1PhCurrDcBus);
+    M1_MCDRV_CURR_3PH_CALIB(&g_sM1Curr3phDcBus);
 
     /* Change SVM sector in range <1;6> to measure all AD channel mapping combinations */
     if (++g_sM1Drive.sFocPMSM.ui16SectorSVM > 6U)
@@ -1334,7 +1334,7 @@ static void M1_StateRunCalibFast(void)
        performing ADC offset calibration */
 
     /* Call offset measurement - applies only to some devices. */
-    M1_MCDRV_CURR_3PH_CALIB(&g_sM1PhCurrDcBus);
+    M1_MCDRV_CURR_3PH_CALIB(&g_sM1Curr3phDcBus);
 
     /* Change SVM sector in range <1;6> to measure all AD channel mapping combinations */
     if (++g_sM1Drive.sFocPMSM.ui16SectorSVM > 6U)
@@ -1748,7 +1748,7 @@ static void M1_StateRunCalibSlow(void)
     if (--g_sM1Drive.ui16CounterState == 0U)
     {
 	  /* Write calibrated offset values - applies only to some devices. */
-	  M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1PhCurrDcBus);
+	  M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1Curr3phDcBus);
       /* To switch to the RUN READY sub-state */
       M1_TransRunCalibReady();
     }

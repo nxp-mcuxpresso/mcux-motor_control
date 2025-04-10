@@ -19,7 +19,7 @@
 			<member name="mapfile_pre_select" type="sint32">0</member>
 			<member name="comm_params_saved" type="sint32">0</member>
 			<member name="comm_state_saved" type="sint32">0</member>
-			<member name="comm_state_enabled" type="sint32">1</member>
+			<member name="comm_state_enabled" type="sint32">0</member>
 			<member name="cthread_boosting" type="sint32">0</member>
 			<member name="cthread_prio_base" type="sint32">3</member>
 			<member name="cthread_prio_boost" type="sint32">3</member>
@@ -12798,7 +12798,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">M2 SVM Sector</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">1000</member>
-			<member name="address" type="string">g_sM1Drive.sFocPMSM.ui16SectorSVM</member>
+			<member name="address" type="string">g_sM2Drive.sFocPMSM.ui16SectorSVM</member>
 			<member name="last_addr" type="uint32">0x20005404</member>
 			<member name="byte_size" type="sint32">2</member>
 			<member name="description" type="string"/>
@@ -49866,39 +49866,39 @@ b#10 0000 - Missing Pp value</member>
 			<member name="forecolor" type="uint32">0x0</member>
 		</object>
 		<object name="ObjId0029" type="CObArray" length="6">
-			<member name="index0" type="CObject_ptr">ObjId3618</member>
-			<member name="index1" type="CObject_ptr">ObjId3619</member>
-			<member name="index2" type="CObject_ptr">ObjId3620</member>
-			<member name="index3" type="CObject_ptr">ObjId3621</member>
-			<member name="index4" type="CObject_ptr">ObjId3622</member>
-			<member name="index5" type="CObject_ptr">ObjId3623</member>
+			<member name="index0" type="CObject_ptr">ObjId4000</member>
+			<member name="index1" type="CObject_ptr">ObjId4001</member>
+			<member name="index2" type="CObject_ptr">ObjId4002</member>
+			<member name="index3" type="CObject_ptr">ObjId4003</member>
+			<member name="index4" type="CObject_ptr">ObjId4004</member>
+			<member name="index5" type="CObject_ptr">ObjId4005</member>
 		</object>
-		<object name="ObjId3618" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId4000" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">0</member>
 		</object>
-		<object name="ObjId3619" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId4001" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">1</member>
 		</object>
-		<object name="ObjId3620" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId4002" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">2</member>
 		</object>
-		<object name="ObjId3621" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId4003" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">70</member>
 			<member name="column_ix" type="sint32">3</member>
 		</object>
-		<object name="ObjId3622" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId4004" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">200</member>
 			<member name="column_ix" type="sint32">4</member>
 		</object>
-		<object name="ObjId3623" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId4005" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">0</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">5</member>
