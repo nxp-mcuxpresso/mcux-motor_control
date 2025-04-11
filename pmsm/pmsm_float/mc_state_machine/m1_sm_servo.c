@@ -447,9 +447,9 @@ static void M1_StateInitFast_Optim(void)
     M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
     
     /* Init pointers for position/speed driver */
-    g_sM1PoSpeSensor.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
-    g_sM1PoSpeSensor.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
-    g_sM1PoSpeSensor.pa32PosMeReal = &(g_sM1Drive.sPosition.a32Position);
+    g_sM1Enc.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
+    g_sM1Enc.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
+    g_sM1Enc.pa32PosMeReal = &(g_sM1Drive.sPosition.a32Position);
 
     /* INIT_DONE command */
     g_sM1Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
@@ -481,11 +481,11 @@ static void M1_StateStopFast_Optim(void)
     M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* Set encoder direction */
-    M1_MCDRV_POSPE_SENSOR_SET_DIRECTION(&g_sM1PoSpeSensor);
+    M1_MCDRV_ENC_SET_DIRECTION(&g_sM1Enc);
 
     /* get position and speed from quadrature encoder sensor */
-    M1_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM1PoSpeSensor);
-    M1_MCDRV_POSPE_SENSOR_GET_SPEED(&g_sM1PoSpeSensor);
+    M1_MCDRV_ENC_GET_POSITION(&g_sM1Enc);
+    M1_MCDRV_ENC_GET_SPEED(&g_sM1Enc);
 
     /* If the user switches on and position control mode selected */
     if ((g_bM1SwitchAppOnOff != FALSE) && (g_sM1Drive.eControl == kControlMode_PositionFOC))
@@ -530,7 +530,7 @@ static void M1_StateRunFast_Optim(void)
     M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* get position and speed from quadrature encoder sensor */
-    M1_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM1PoSpeSensor);     
+    M1_MCDRV_ENC_GET_POSITION(&g_sM1Enc);     
     
     /* Run sub-state function */
     s_M1_STATE_RUN_TABLE_FAST[g_eM1StateRun]();
@@ -774,9 +774,9 @@ static void M1_StateInitFast(void)
     M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
     
     /* Init pointers for position/speed driver */
-    g_sM1PoSpeSensor.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
-    g_sM1PoSpeSensor.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
-    g_sM1PoSpeSensor.pa32PosMeReal = &(g_sM1Drive.sPosition.a32Position);
+    g_sM1Enc.pf16PosElEst = &(g_sM1Drive.f16PosElEnc);
+    g_sM1Enc.pfltSpdMeEst = &(g_sM1Drive.fltSpeedEnc);
+    g_sM1Enc.pa32PosMeReal = &(g_sM1Drive.sPosition.a32Position);
 
     /* INIT_DONE command */
     g_sM1Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
@@ -808,11 +808,11 @@ static void M1_StateStopFast(void)
     M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* Set encoder direction */
-    M1_MCDRV_POSPE_SENSOR_SET_DIRECTION(&g_sM1PoSpeSensor);
+    M1_MCDRV_ENC_SET_DIRECTION(&g_sM1Enc);
 
     /* get position and speed from quadrature encoder sensor */
-    M1_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM1PoSpeSensor);
-    M1_MCDRV_POSPE_SENSOR_GET_SPEED(&g_sM1PoSpeSensor);
+    M1_MCDRV_ENC_GET_POSITION(&g_sM1Enc);
+    M1_MCDRV_ENC_GET_SPEED(&g_sM1Enc);
 
     /* If the user switches on or set non-zero speed*/
     if ((g_bM1SwitchAppOnOff != FALSE) || (g_sM1Drive.sSpeed.fltSpeedCmd != 0.0F))
@@ -842,7 +842,7 @@ static void M1_StateRunFast(void)
     M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* get position and speed from quadrature encoder sensor */
-    M1_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM1PoSpeSensor);
+    M1_MCDRV_ENC_GET_POSITION(&g_sM1Enc);
 
     /* If the user switches off */
     if (!g_bM1SwitchAppOnOff)
@@ -1118,7 +1118,7 @@ static void M1_TransStopRun(void)
     g_sM1Drive.ui16CounterState = g_sM1Drive.ui16TimeCalibration;
 
     /* Update modulo counter */
-    M1_MCDRV_POSPE_SENSOR_SET_PULSES(&g_sM1PoSpeSensor);
+    M1_MCDRV_ENC_SET_PULSES(&g_sM1Enc);
 
     /* Calibration sub-state when transition to RUN */
     g_eM1StateRun = kRunState_Calib;
@@ -1562,7 +1562,7 @@ static void M1_StateRunStartupFast(void)
             if (g_sM1Drive.sMCATctrl.ui16PospeSensor == MCAT_ENC_CTRL)
             {
                 /* pass encoder speed to actual speed value */
-                g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1PoSpeSensor.ui16Pp));
+                g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1Enc.ui16Pp));
             }
             else
             {
@@ -1704,7 +1704,7 @@ static void M1_StateRunSpinFast(void)
             if (g_sM1Drive.sMCATctrl.ui16PospeSensor == MCAT_ENC_CTRL)
             {
                 /* pass encoder speed to actual speed value */
-                g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1PoSpeSensor.ui16Pp));
+                g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1Enc.ui16Pp));
             }
             else
             {
@@ -1857,13 +1857,13 @@ static void M1_StateRunSpinSlow(void)
     {
 #if SERVO_OPTIM
         /* pass encoder speed to actual speed value */
-        g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1PoSpeSensor.ui16Pp));
+        g_sM1Drive.sSpeed.fltSpeed = g_sM1Drive.fltSpeedEnc * ((float_t)(g_sM1Enc.ui16Pp));
 #endif /* SERVO_OPTIM */
     
         /* Actual speed filter */
         g_sM1Drive.sSpeed.fltSpeedFilt = GDFLIB_FilterIIR1_FLT(g_sM1Drive.sSpeed.fltSpeed, &g_sM1Drive.sSpeed.sSpeedFilter);
         /* Actual position */
-        //g_sM1Drive.sPosition.a32Position = g_sM1PoSpeSensor.a32PosMeReal;
+        //g_sM1Drive.sPosition.a32Position = g_sM1Enc.a32PosMeReal;
         //g_sM1Drive.sPosition.a32Position = g_sM1Biss.a32PosMeReal;  // Position is passed using pointer */ 
         
         
@@ -1984,7 +1984,7 @@ static void M1_TransRunAlignStartup(void)
 {
     /* Type the code to do when going from the RUN kRunState_Align to the RUN kRunState_Startup sub-state */
     /* initialize encoder driver */
-    M1_MCDRV_POSPE_SENSOR_CLEAR(&g_sM1PoSpeSensor);
+    M1_MCDRV_ENC_CLEAR(&g_sM1Enc);
 
     /* Clear application parameters */
     M1_ClearFOCVariables();
@@ -2025,8 +2025,8 @@ static void M1_TransRunAlignSpin(void)
 {
     /* Type the code to do when going from the RUN STARTUP to the RUN SPIN sub-state */
     /* initialize encoder driver */ 
-    M1_MCDRV_POSPE_SENSOR_CLEAR(&g_sM1PoSpeSensor);
-    M1_MCDRV_POSPE_SENSOR_SET_OFFSET(&g_sM1PoSpeSensor);
+    M1_MCDRV_ENC_CLEAR(&g_sM1Enc);
+    M1_MCDRV_ENC_SET_OFFSET(&g_sM1Enc);
 
     g_sM1Drive.sFocPMSM.bPosExtOn = TRUE;  /* enable passing external electrical position from encoder to FOC */
     g_sM1Drive.sFocPMSM.bOpenLoop = FALSE; /* disable parallel runnig openloop and estimator */

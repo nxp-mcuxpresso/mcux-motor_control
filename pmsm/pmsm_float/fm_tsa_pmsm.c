@@ -474,7 +474,7 @@ FMSTR_TSA_TABLE_END()
 #endif
 
 /*!
- * @brief g_sM1PoSpeSensor driver structure
+ * @brief g_sM1Enc driver structure
  *
  * @param None
  *
@@ -484,9 +484,9 @@ FMSTR_TSA_TABLE_END()
 FMSTR_TSA_TABLE_BEGIN(gsM1PoSpeSensor_table)
 
 /* gsM1Enc structure definition */
-FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.fltSpdMeEst, FMSTR_TSA_FLOAT)   /* M1 Speed Mechanical Encoder */
-FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.f16PosMe, FMSTR_TSA_FRAC16)     /* M1 Position Mechanical Encoder */
-FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.ui16Pp, FMSTR_TSA_UINT16)       /* M1 Pole pairs */
+FMSTR_TSA_RW_VAR(g_sM1Enc.fltSpdMeEst, FMSTR_TSA_FLOAT)   /* M1 Speed Mechanical Encoder */
+FMSTR_TSA_RW_VAR(g_sM1Enc.f16PosMe, FMSTR_TSA_FRAC16)     /* M1 Position Mechanical Encoder */
+FMSTR_TSA_RW_VAR(g_sM1Enc.ui16Pp, FMSTR_TSA_UINT16)       /* M1 Pole pairs */
 
 FMSTR_TSA_TABLE_END()
 #endif

@@ -5862,7 +5862,7 @@
 			<member name="name" type="string">M1 Position Mechanical Encoder</member>
 			<member name="unit" type="string">deg</member>
 			<member name="period" type="sint32">1000</member>
-			<member name="address" type="string">g_sM1PoSpeSensor.f16PosMe</member>
+			<member name="address" type="string">g_sM1Enc.f16PosMe</member>
 			<member name="last_addr" type="uint32">0x20003260</member>
 			<member name="byte_size" type="sint32">2</member>
 			<member name="description" type="string"/>
@@ -5921,7 +5921,7 @@
 			<member name="name" type="string">M1 Speed Mechanical Encoder</member>
 			<member name="unit" type="string">rpm</member>
 			<member name="period" type="sint32">1000</member>
-			<member name="address" type="string">g_sM1PoSpeSensor.fltSpdMeEst</member>
+			<member name="address" type="string">g_sM1Enc.fltSpdMeEst</member>
 			<member name="last_addr" type="uint32">0x2000325C</member>
 			<member name="byte_size" type="sint32">4</member>
 			<member name="description" type="string"/>
@@ -13122,7 +13122,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">M2 Speed Mechanical Encoder</member>
 			<member name="unit" type="string">rpm</member>
 			<member name="period" type="sint32">1000</member>
-			<member name="address" type="string">g_sM2PoSpeSensor.fltSpdMeEst</member>
+			<member name="address" type="string">g_sM2Enc.fltSpdMeEst</member>
 			<member name="last_addr" type="uint32">0x20003D44</member>
 			<member name="byte_size" type="sint32">4</member>
 			<member name="description" type="string"/>
@@ -13691,7 +13691,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">M2 Position Mechanical Encoder</member>
 			<member name="unit" type="string">deg</member>
 			<member name="period" type="sint32">1000</member>
-			<member name="address" type="string">g_sM2PoSpeSensor.f16PosMe</member>
+			<member name="address" type="string">g_sM2Enc.f16PosMe</member>
 			<member name="last_addr" type="uint32">0x20003D48</member>
 			<member name="byte_size" type="sint32">2</member>
 			<member name="description" type="string"/>
@@ -17885,7 +17885,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">M1 Pole pairs</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">1000</member>
-			<member name="address" type="string">g_sM1PoSpeSensor.ui16Pp</member>
+			<member name="address" type="string">g_sM1Enc.ui16Pp</member>
 			<member name="last_addr" type="uint32">0x20003264</member>
 			<member name="byte_size" type="sint32">2</member>
 			<member name="description" type="string"/>
@@ -17934,7 +17934,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">M2 Pole pairs</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">1000</member>
-			<member name="address" type="string">g_sM2PoSpeSensor.ui16Pp</member>
+			<member name="address" type="string">g_sM2Enc.ui16Pp</member>
 			<member name="last_addr" type="uint32">0x20003D4E</member>
 			<member name="byte_size" type="sint32">2</member>
 			<member name="description" type="string"/>
@@ -17983,7 +17983,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">M1 Position mechanical gain</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">1000</member>
-			<member name="address" type="string">g_sM1PoSpeSensor.a32PosMeGain</member>
+			<member name="address" type="string">g_sM1Enc.a32PosMeGain</member>
 			<member name="last_addr" type="uint32">0x20000C84</member>
 			<member name="byte_size" type="sint32">4</member>
 			<member name="description" type="string"/>
@@ -18032,7 +18032,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">M2 Position mechanical gain</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">1000</member>
-			<member name="address" type="string">g_sM2PoSpeSensor.a32PosMeGain</member>
+			<member name="address" type="string">g_sM2Enc.a32PosMeGain</member>
 			<member name="last_addr" type="uint32">0x20000CD0</member>
 			<member name="byte_size" type="sint32">4</member>
 			<member name="description" type="string"/>
@@ -18679,7 +18679,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">i64EndatPosition</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">100</member>
-			<member name="address" type="string">g_sM2PoSpeSensor.i64EndatPosition</member>
+			<member name="address" type="string">g_sM2Enc.i64EndatPosition</member>
 			<member name="last_addr" type="uint32">0x20003D58</member>
 			<member name="byte_size" type="sint32">8</member>
 			<member name="description" type="string"/>
@@ -18728,7 +18728,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">i64EndatPositionMT</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">100</member>
-			<member name="address" type="string">g_sM2PoSpeSensor.i64EndatPositionMT</member>
+			<member name="address" type="string">g_sM2Enc.i64EndatPositionMT</member>
 			<member name="last_addr" type="uint32">0x20003D68</member>
 			<member name="byte_size" type="sint32">8</member>
 			<member name="description" type="string"/>
@@ -18777,7 +18777,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">i64RevCounter</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">100</member>
-			<member name="address" type="string">g_sM2PoSpeSensor.i64RevCounter</member>
+			<member name="address" type="string">g_sM2Enc.i64RevCounter</member>
 			<member name="last_addr" type="uint32">0x20003D70</member>
 			<member name="byte_size" type="sint32">8</member>
 			<member name="description" type="string"/>
@@ -18826,7 +18826,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">bEndatDir</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">100</member>
-			<member name="address" type="string">g_sM2PoSpeSensor.bEndatDir</member>
+			<member name="address" type="string">g_sM2Enc.bEndatDir</member>
 			<member name="last_addr" type="uint32">0x20003D84</member>
 			<member name="byte_size" type="sint32">2</member>
 			<member name="description" type="string"/>
@@ -18875,7 +18875,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">fltEndatSpeed</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">100</member>
-			<member name="address" type="string">g_sM2PoSpeSensor.fltEndatSpeed</member>
+			<member name="address" type="string">g_sM2Enc.fltEndatSpeed</member>
 			<member name="last_addr" type="uint32">0x20003D80</member>
 			<member name="byte_size" type="sint32">4</member>
 			<member name="description" type="string"/>
@@ -18924,7 +18924,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">ui64EndatPosition</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">100</member>
-			<member name="address" type="string">g_sM2PoSpeSensor.ui64EndatPosition</member>
+			<member name="address" type="string">g_sM2Enc.ui64EndatPosition</member>
 			<member name="last_addr" type="uint32">0x20003D50</member>
 			<member name="byte_size" type="sint32">8</member>
 			<member name="description" type="string"/>
@@ -18973,7 +18973,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">i64EndatDiff</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">100</member>
-			<member name="address" type="string">g_sM2PoSpeSensor.i64EndatDiff</member>
+			<member name="address" type="string">g_sM2Enc.i64EndatDiff</member>
 			<member name="last_addr" type="uint32">0x20003D78</member>
 			<member name="byte_size" type="sint32">8</member>
 			<member name="description" type="string"/>
@@ -19068,10 +19068,10 @@ b#10 0000 - Missing Pp value</member>
 			<member name="modif_last_addr" type="uint32">0x0</member>
 		</object>
 		<object name="ObjId3684" type="CVariable">
-			<member name="name" type="string">g_sM1PoSpeSensor.fltBiSSSpeed</member>
+			<member name="name" type="string">g_sM1Enc.fltBiSSSpeed</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">100</member>
-			<member name="address" type="string">g_sM1PoSpeSensor.fltBiSSSpeed</member>
+			<member name="address" type="string">g_sM1Enc.fltBiSSSpeed</member>
 			<member name="last_addr" type="uint32">0x20003238</member>
 			<member name="byte_size" type="sint32">4</member>
 			<member name="description" type="string"/>
@@ -19117,10 +19117,10 @@ b#10 0000 - Missing Pp value</member>
 			<member name="modif_last_addr" type="uint32">0x0</member>
 		</object>
 		<object name="ObjId3685" type="CVariable">
-			<member name="name" type="string">g_sM1PoSpeSensor.fltSpdMeEst</member>
+			<member name="name" type="string">g_sM1Enc.fltSpdMeEst</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">100</member>
-			<member name="address" type="string">g_sM1PoSpeSensor.fltSpdMeEst</member>
+			<member name="address" type="string">g_sM1Enc.fltSpdMeEst</member>
 			<member name="last_addr" type="uint32">0x2000325C</member>
 			<member name="byte_size" type="sint32">4</member>
 			<member name="description" type="string"/>
@@ -19173,7 +19173,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="last_addr" type="uint32">0x20005664</member>
 			<member name="byte_size" type="sint32">4</member>
 			<member name="description" type="string"/>
-			<member name="comment" type="string">g_sM1PoSpeSensor.pfltSpdMeEst</member>
+			<member name="comment" type="string">g_sM1Enc.pfltSpdMeEst</member>
 			<member name="virtual" type="sint32">0</member>
 			<member name="virtual_default" type="string">0</member>
 			<member name="treat_as" type="sint32">2</member>

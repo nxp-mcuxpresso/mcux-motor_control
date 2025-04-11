@@ -5801,7 +5801,7 @@
 			<member name="name" type="string">M1 Position Mechanical Encoder</member>
 			<member name="unit" type="string">deg</member>
 			<member name="period" type="sint32">1000</member>
-			<member name="address" type="string">g_sM1PoSpeSensor.f16PosMe</member>
+			<member name="address" type="string">g_sM1Enc.f16PosMe</member>
 			<member name="last_addr" type="uint32">0x20001C24</member>
 			<member name="byte_size" type="sint32">2</member>
 			<member name="description" type="string"/>
@@ -5860,7 +5860,7 @@
 			<member name="name" type="string">M1 Speed Mechanical Encoder</member>
 			<member name="unit" type="string">rpm</member>
 			<member name="period" type="sint32">1000</member>
-			<member name="address" type="string">g_sM1PoSpeSensor.fltSpdMeEst</member>
+			<member name="address" type="string">g_sM1Enc.fltSpdMeEst</member>
 			<member name="last_addr" type="uint32">0x20001C20</member>
 			<member name="byte_size" type="sint32">4</member>
 			<member name="description" type="string"/>
@@ -12255,7 +12255,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="name" type="string">M1 Pole pairs</member>
 			<member name="unit" type="string">unit</member>
 			<member name="period" type="sint32">1000</member>
-			<member name="address" type="string">g_sM1PoSpeSensor.ui16Pp</member>
+			<member name="address" type="string">g_sM1Enc.ui16Pp</member>
 			<member name="last_addr" type="uint32">0x20001C26</member>
 			<member name="byte_size" type="sint32">2</member>
 			<member name="description" type="string"/>

@@ -446,9 +446,9 @@ static void M2_StateInitFast_Optim(void)
     M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
     
     /* Init pointers for position/speed driver */
-    g_sM2PoSpeSensor.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
-    g_sM2PoSpeSensor.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
-    g_sM2PoSpeSensor.pa32PosMeReal = &(g_sM2Drive.sPosition.a32Position);
+    g_sM2Enc.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
+    g_sM2Enc.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
+    g_sM2Enc.pa32PosMeReal = &(g_sM2Drive.sPosition.a32Position);
 
     /* INIT_DONE command */
     g_sM2Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
@@ -480,11 +480,11 @@ static void M2_StateStopFast_Optim(void)
     M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
 
     /* Set encoder direction */
-    M2_MCDRV_POSPE_SENSOR_SET_DIRECTION(&g_sM2PoSpeSensor);
+    M2_MCDRV_ENC_SET_DIRECTION(&g_sM2Enc);
 
     /* get position and speed from quadrature encoder sensor */
-    M2_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM2PoSpeSensor);
-    M2_MCDRV_POSPE_SENSOR_GET_SPEED(&g_sM2PoSpeSensor);
+    M2_MCDRV_ENC_GET_POSITION(&g_sM2Enc);
+    M2_MCDRV_ENC_GET_SPEED(&g_sM2Enc);
 
     /* If the user switches on and position control mode selected */
     if ((g_bM2SwitchAppOnOff != FALSE) && (g_sM2Drive.eControl == kControlMode_PositionFOC))
@@ -529,7 +529,7 @@ static void M2_StateRunFast_Optim(void)
     M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
 
     /* get position and speed from quadrature encoder sensor */
-    M2_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM2PoSpeSensor);      
+    M2_MCDRV_ENC_GET_POSITION(&g_sM2Enc);      
     
     /* Run sub-state function */
     s_M2_STATE_RUN_TABLE_FAST[g_eM2StateRun]();
@@ -773,9 +773,9 @@ static void M2_StateInitFast(void)
     M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
     
     /* Init pointers for position/speed driver */
-    g_sM2PoSpeSensor.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
-    g_sM2PoSpeSensor.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
-    g_sM2PoSpeSensor.pa32PosMeReal = &(g_sM2Drive.sPosition.a32Position);
+    g_sM2Enc.pf16PosElEst = &(g_sM2Drive.f16PosElEnc);
+    g_sM2Enc.pfltSpdMeEst = &(g_sM2Drive.fltSpeedEnc);
+    g_sM2Enc.pa32PosMeReal = &(g_sM2Drive.sPosition.a32Position);
 
     /* INIT_DONE command */
     g_sM2Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
@@ -807,11 +807,11 @@ static void M2_StateStopFast(void)
     M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
 
     /* Set encoder direction */
-    M2_MCDRV_POSPE_SENSOR_SET_DIRECTION(&g_sM2PoSpeSensor);
+    M2_MCDRV_ENC_SET_DIRECTION(&g_sM2Enc);
 
     /* get position and speed from quadrature encoder sensor */
-    M2_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM2PoSpeSensor);
-    M2_MCDRV_POSPE_SENSOR_GET_SPEED(&g_sM2PoSpeSensor);
+    M2_MCDRV_ENC_GET_POSITION(&g_sM2Enc);
+    M2_MCDRV_ENC_GET_SPEED(&g_sM2Enc);
 
     /* If the user switches on or set non-zero speed*/
     if ((g_bM2SwitchAppOnOff != FALSE) || (g_sM2Drive.sSpeed.fltSpeedCmd != 0.0F))
@@ -841,7 +841,7 @@ static void M2_StateRunFast(void)
     M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
 
     /* get position and speed from quadrature encoder sensor */
-    M2_MCDRV_POSPE_SENSOR_GET_POSITION(&g_sM2PoSpeSensor);
+    M2_MCDRV_ENC_GET_POSITION(&g_sM2Enc);
 
     /* If the user switches off */
     if (!g_bM2SwitchAppOnOff)
@@ -1117,7 +1117,7 @@ static void M2_TransStopRun(void)
     g_sM2Drive.ui16CounterState = g_sM2Drive.ui16TimeCalibration;
 
     /* Update modulo counter */
-    M2_MCDRV_POSPE_SENSOR_SET_PULSES(&g_sM2PoSpeSensor);
+    M2_MCDRV_ENC_SET_PULSES(&g_sM2Enc);
 
     /* Calibration sub-state when transition to RUN */
     g_eM2StateRun = kRunState_Calib;
@@ -1561,7 +1561,7 @@ static void M2_StateRunStartupFast(void)
             if (g_sM2Drive.sMCATctrl.ui16PospeSensor == MCAT_ENC_CTRL)
             {
                 /* pass encoder speed to actual speed value */
-                g_sM2Drive.sSpeed.fltSpeed = g_sM2Drive.fltSpeedEnc * ((float_t)(g_sM2PoSpeSensor.ui16Pp));
+                g_sM2Drive.sSpeed.fltSpeed = g_sM2Drive.fltSpeedEnc * ((float_t)(g_sM2Enc.ui16Pp));
             }
             else
             {
@@ -1703,7 +1703,7 @@ static void M2_StateRunSpinFast(void)
             if (g_sM2Drive.sMCATctrl.ui16PospeSensor == MCAT_ENC_CTRL)
             {
                 /* pass encoder speed to actual speed value */
-                g_sM2Drive.sSpeed.fltSpeed = g_sM2Drive.fltSpeedEnc * ((float_t)(g_sM2PoSpeSensor.ui16Pp));
+                g_sM2Drive.sSpeed.fltSpeed = g_sM2Drive.fltSpeedEnc * ((float_t)(g_sM2Enc.ui16Pp));
             }
             else
             {
@@ -1856,13 +1856,13 @@ static void M2_StateRunSpinSlow(void)
     {
 #if SERVO_OPTIM
         /* pass encoder speed to actual speed value */
-        g_sM2Drive.sSpeed.fltSpeed = g_sM2Drive.fltSpeedEnc * ((float_t)(g_sM2PoSpeSensor.ui16Pp));
+        g_sM2Drive.sSpeed.fltSpeed = g_sM2Drive.fltSpeedEnc * ((float_t)(g_sM2Enc.ui16Pp));
 #endif /* SERVO_OPTIM */
     
         /* Actual speed filter */
         g_sM2Drive.sSpeed.fltSpeedFilt = GDFLIB_FilterIIR1_FLT(g_sM2Drive.sSpeed.fltSpeed, &g_sM2Drive.sSpeed.sSpeedFilter);
         /* Actual position */
-        //g_sM2Drive.sPosition.a32Position = g_sM2PoSpeSensor.a32PosMeReal;
+        //g_sM2Drive.sPosition.a32Position = g_sM2Enc.a32PosMeReal;
         //g_sM2Drive.sPosition.a32Position = g_sM2Biss.a32PosMeReal;  // Position is passed using pointer */ 
         
         
@@ -1983,7 +1983,7 @@ static void M2_TransRunAlignStartup(void)
 {
     /* Type the code to do when going from the RUN kRunState_Align to the RUN kRunState_Startup sub-state */
     /* initialize encoder driver */
-    M2_MCDRV_POSPE_SENSOR_CLEAR(&g_sM2PoSpeSensor);
+    M2_MCDRV_ENC_CLEAR(&g_sM2Enc);
 
     /* Clear application parameters */
     M2_ClearFOCVariables();
@@ -2024,8 +2024,8 @@ static void M2_TransRunAlignSpin(void)
 {
     /* Type the code to do when going from the RUN STARTUP to the RUN SPIN sub-state */
     /* initialize encoder driver */ 
-    M2_MCDRV_POSPE_SENSOR_CLEAR(&g_sM2PoSpeSensor);
-    M2_MCDRV_POSPE_SENSOR_SET_OFFSET(&g_sM2PoSpeSensor);
+    M2_MCDRV_ENC_CLEAR(&g_sM2Enc);
+    M2_MCDRV_ENC_SET_OFFSET(&g_sM2Enc);
 
     g_sM2Drive.sFocPMSM.bPosExtOn = TRUE;  /* enable passing external electrical position from encoder to FOC */
     g_sM2Drive.sFocPMSM.bOpenLoop = FALSE; /* disable parallel runnig openloop and estimator */

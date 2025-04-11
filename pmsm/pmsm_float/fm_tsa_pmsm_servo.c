@@ -466,7 +466,7 @@ FMSTR_TSA_TABLE_END()
 #endif
 
 /*!
- * @brief g_sM1PoSpeSensor driver structure
+ * @brief g_sM1Enc driver structure
  *
  * @param None
  *
@@ -475,8 +475,8 @@ FMSTR_TSA_TABLE_END()
 #ifdef PMSM_SNSLESS_ENC
 FMSTR_TSA_TABLE_BEGIN(gsM1PoSpeSensor_table)
 
-/* g_sM1PoSpeSensor structure definition */
-FMSTR_TSA_RW_VAR(g_sM1PoSpeSensor.ui16Pp, FMSTR_TSA_UINT16)             /* M1 Pole pairs */
+/* g_sM1Enc structure definition */
+FMSTR_TSA_RW_VAR(g_sM1Enc.ui16Pp, FMSTR_TSA_UINT16)             /* M1 Pole pairs */
 
 FMSTR_TSA_TABLE_END()
 #endif
@@ -484,7 +484,7 @@ FMSTR_TSA_TABLE_END()
 #ifdef DUAL_MOTOR
 
 /*!
- * @brief g_sM2PoSpeSensor driver structure
+ * @brief g_sM2Enc driver structure
  *
  * @param None
  *
@@ -493,10 +493,10 @@ FMSTR_TSA_TABLE_END()
 #ifdef PMSM_SNSLESS_ENC
 FMSTR_TSA_TABLE_BEGIN(gsM2PoSpeSensor_table)
 
-/* g_sM2PoSpeSensor structure definition */
-//FMSTR_TSA_RW_VAR(g_sM2PoSpeSensor.bDirection, FMSTR_TSA_UINT16)       /* M2 Encoder direction */
-//FMSTR_TSA_RW_VAR(g_sM2PoSpeSensor.ui16PulseNumber, FMSTR_TSA_UINT16)  /* M2 Encoder pulses */
-FMSTR_TSA_RW_VAR(g_sM2PoSpeSensor.ui16Pp, FMSTR_TSA_UINT16)             /* M2 Pole pairs */
+/* g_sM2Enc structure definition */
+//FMSTR_TSA_RW_VAR(g_sM2Enc.bDirection, FMSTR_TSA_UINT16)       /* M2 Encoder direction */
+//FMSTR_TSA_RW_VAR(g_sM2Enc.ui16PulseNumber, FMSTR_TSA_UINT16)  /* M2 Encoder pulses */
+FMSTR_TSA_RW_VAR(g_sM2Enc.ui16Pp, FMSTR_TSA_UINT16)             /* M2 Pole pairs */
 
 FMSTR_TSA_TABLE_END()
 #endif
