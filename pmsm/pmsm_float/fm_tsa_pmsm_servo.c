@@ -473,9 +473,11 @@ FMSTR_TSA_TABLE_END()
  * @return None
  */
 #ifdef PMSM_SNSLESS_ENC
-FMSTR_TSA_TABLE_BEGIN(gsM1PoSpeSensor_table)
+FMSTR_TSA_TABLE_BEGIN(gsM1Enc_table)
 
 /* g_sM1Enc structure definition */
+FMSTR_TSA_RW_VAR(g_sM1Enc.fltSpdMeEst, FMSTR_TSA_FLOAT)         /* M1 Speed Mechanical Encoder */
+FMSTR_TSA_RW_VAR(g_sM1Enc.f16PosMe, FMSTR_TSA_FRAC16)           /* M1 Position Mechanical Encoder */
 FMSTR_TSA_RW_VAR(g_sM1Enc.ui16Pp, FMSTR_TSA_UINT16)             /* M1 Pole pairs */
 
 FMSTR_TSA_TABLE_END()
@@ -491,11 +493,11 @@ FMSTR_TSA_TABLE_END()
  * @return None
  */
 #ifdef PMSM_SNSLESS_ENC
-FMSTR_TSA_TABLE_BEGIN(gsM2PoSpeSensor_table)
+FMSTR_TSA_TABLE_BEGIN(gsM2Enc_table)
 
 /* g_sM2Enc structure definition */
-//FMSTR_TSA_RW_VAR(g_sM2Enc.bDirection, FMSTR_TSA_UINT16)       /* M2 Encoder direction */
-//FMSTR_TSA_RW_VAR(g_sM2Enc.ui16PulseNumber, FMSTR_TSA_UINT16)  /* M2 Encoder pulses */
+FMSTR_TSA_RW_VAR(g_sM2Enc.fltSpdMeEst, FMSTR_TSA_FLOAT)         /* M2 Speed Mechanical Encoder */
+FMSTR_TSA_RW_VAR(g_sM2Enc.f16PosMe, FMSTR_TSA_FRAC16)           /* M2 Position Mechanical Encoder */
 FMSTR_TSA_RW_VAR(g_sM2Enc.ui16Pp, FMSTR_TSA_UINT16)             /* M2 Pole pairs */
 
 FMSTR_TSA_TABLE_END()
@@ -923,9 +925,9 @@ FMSTR_TSA_TABLE(gsM2Drive_table)
 #endif
 
 #ifdef PMSM_SNSLESS_ENC
-FMSTR_TSA_TABLE(gsM1PoSpeSensor_table)
+FMSTR_TSA_TABLE(gsM1Enc_table)
 #ifdef DUAL_MOTOR
-FMSTR_TSA_TABLE(gsM2PoSpeSensor_table)
+FMSTR_TSA_TABLE(gsM2Enc_table)
 #endif
 #endif
 

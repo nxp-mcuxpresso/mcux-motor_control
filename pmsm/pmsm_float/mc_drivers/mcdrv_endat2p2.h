@@ -38,11 +38,10 @@ typedef struct _mcdrv_endat2p2
     
     float_t *pfltSpdMeEst;        /* pointer to measured mechanical speed  */
     frac16_t *pf16PosElEst;       /* pointer to measured electrical position */
-    acc32_t *pa32PosMeReal;       /* pointer to real position */ 
-     
-    acc32_t a32PosMeReal;         /* real position (revolution counter + mechanical position) */
+    acc32_t *pa32PosMeReal;       /* pointer to real position (revolution counter + mechanical position) */ 
+
     acc32_t a32PosErr;            /* position error to tracking observer  */
-    float_t fltSpdMeEst;          /* estimated speed calculated using tracking observer */
+    float_t fltSpdMeEst;          /* estimated speed calculated using encoder edges */
     frac16_t f16PosMe;            /* mechanical position calculated using encoder edges */
     frac16_t f16PosMeEst;         /* estimated position calculated using tracking observer */
     
@@ -57,7 +56,6 @@ typedef struct _mcdrv_endat2p2
     int64_t i64EndatPositionMT;
     int64_t i64RevCounter;
     int64_t i64EndatDiff;
-    float_t fltEndatSpeed;
     bool_t bEndatDir;
 
 } mcdrv_endat2p2_t;
@@ -101,14 +99,24 @@ RAM_FUNC_LIB
 void MCDRV_Endat2p2DataRead(mcdrv_endat2p2_t *base);
 
 /*!
- * @brief Function processes the data
+ * @brief Function processes the data (fast-loop)
  *
  * @param base   Pointer to the current object
  *
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_Endat2p2DataProc(mcdrv_endat2p2_t * base);
+void MCDRV_EnDatGetPositionFoc(mcdrv_endat2p2_t * base);
+
+/*!
+ * @brief Function processes the data (slow-loop)
+ *
+ * @param base   Pointer to the current object
+ *
+ * @return none
+ */
+RAM_FUNC_LIB
+void MCDRV_EnDatGetPositionFullAndSpeed(mcdrv_endat2p2_t * base);
 
 #if defined(__cplusplus)
 }

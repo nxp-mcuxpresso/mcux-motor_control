@@ -42,18 +42,13 @@ RAM_FUNC_LIB
 void MCDRV_BissCClear(BISSC_Type *base)
 {
   base->a32PosMeReal = ACC32(0.0);         /* real position (revolution counter + mechanical position) */
-  base->a32PosErr = ACC32(0.0);            /* position error to tracking observer  */
   base->fltSpdMeEst = 0.0F;          /* estimated speed calculated using tracking observer */
   base->f16PosMe = FRAC16(0.0);            /* mechanical position calculated using encoder edges */
   base->f16PosMeEst = FRAC16(0.0);         /* estimated position calculated using tracking observer */
-
-  /* initilize tracking observer */
-  base->sTo.f32Theta = FRAC32(0.0);
-  base->sTo.fltSpeed = 0.0F;
-  base->sTo.fltI_1   = 0.0F;
   
   base->mt_offset = 0U;
   base->st_offset = 0U;
+  base->f16PosOffset = 0U;
 }
 
 /*!
@@ -66,25 +61,30 @@ void MCDRV_BissCClear(BISSC_Type *base)
 RAM_FUNC_LIB
 void MCDRV_BissCSetOffset(BISSC_Type *base)
 {
-//    base->f16PosMeOffset =  (frac16_t)(base->f16PosMe);
+  int32_t i32ST;
+  
   base->mt_offset = base->mt;
   base->st_offset = base->st;
 
+  /* Set position to middle */
+  i32ST = (int32_t)base->st - (int32_t)((1 << base->ui8DevSTLen) / 2 );
+  
+  /* Position offset */
+  base->f16PosOffset = (frac16_t)(i32ST  * base->ui16Pp); 
+  
 }
-
+  
 /*!
- * @brief Function processes the data
+ * @brief Function reads raw data and converts to single turn and multi turn revolutions
  *
  * @param base   Pointer to the current object
  *
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_BissCDataProc(BISSC_Type * base)
+void MCDRV_BissCDataRead(BISSC_Type *base)
 {
   uint64_t ui64PositionRaw;
-  int32_t i32Diff;
-  int32_t i32ST;
   
   /* Read raw data from slave device ID 0 */
   ui64PositionRaw = BISS_SLVGetSCDRawData(base->pMaster, 0U);
@@ -93,60 +93,74 @@ void MCDRV_BissCDataProc(BISSC_Type * base)
   /* Extract single turn and multiturn values */
   base->st = (uint32_t)((ui64PositionRaw) & (((uint64_t) 1 << base->ui8DevSTLen) - 1));
   base->mt = (uint32_t)((ui64PositionRaw >> base->ui8DevSTLen) & (((uint64_t) 1 << base->ui8DevMTLen) - 1));
+}
   
-  /* mechanical position from single turn */
-  base->f16PosMe = (frac16_t)(base->st - base->st_offset);
-  
-//  /* Set position to middle */
-//  i32ST = (int32_t)base->st - (int32_t)((1 << base->ui8DevSTLen) / 2 );
-//  
-//  /* Position difference (delta) */
-//  i32Diff = base->st - base->i32ST_k_1;    /* TODO: check whether offset has impact */
-//  
-//  /* Store latest value of single turn revolutions */
-//  base->i32ST_k_1 = base->st;
-//      
-//  if(i32Diff< -((1 << base->ui8DevSTLen) / 2 ))
-//  {
-//     //base->i64RevCounter++;
-//     
-//     /* Diff calculation when counter overflow */
-//     i32Diff = base->st - base->i32ST_k_1 + (1 << base->ui8DevSTLen);
-//  }    
-//
-//  if(i32Diff > ((1 << base->ui8DevSTLen) / 2) )
-//  {
-//     //base->i64RevCounter--;
-//     
-//     /* Diff calculation when counter underflow */
-//     i32Diff = base->st - base->i32ST_k_1 - (1 << base->ui8DevSTLen);
-//  }
-//  
-//   /* Speed [Hz ~ rps (revolutions per second)] = PositionDelta / (SampleTime * MaxPositionNumber) = (PositionDelta * SampleFrequency) / MaxPositionNumber [Hz] */
-//   /* Speed [rpm] = 60 * Speed[Hz] */
-//   base->fltBiSSSpeed = ((float_t)i32Diff) * (64000.0F) * 60.0F / ((float_t)(1 << base->ui8DevSTLen));
-//   base->fltSpdMeEst = (base->fltBiSSSpeed) * ((2.0F * FLOAT_PI)/60.0F); // Mechanical angular speed [rad/s]
+/*!
+ * @brief Function processes the data (fast-loop)
+ *
+ * @param base   Pointer to the current object
+ *
+ * @return none
+ */
+RAM_FUNC_LIB
+void MCDRV_BissCGetPositionFoc(BISSC_Type *base)
+{  
+  /* Mechanical position from single turn and set position to middle */
+  base->f16PosMe = (frac16_t)((int32_t)base->st - (int32_t)((1 << base->ui8DevSTLen) / 2 ));
+    
+  /* Electrical position in frac16 */
+  *base->pf16PosElEst = (frac16_t)(base->f16PosMe * base->ui16Pp ) - base->f16PosOffset; 
+}
 
+/*!
+ * @brief Function processes the data (slow-loop)
+ *
+ * @param base   Pointer to the current object
+ *
+ * @return none
+ */
+RAM_FUNC_LIB
+void MCDRV_BissCGetPositionFullAndSpeed(BISSC_Type *base)
+{
+  int32_t i32ST;
+  float_t fltSpdMech;
+
+  /* Set position to middle */
+  i32ST = (int32_t)base->st - (int32_t)((1 << base->ui8DevSTLen) / 2 );
   
-  ////////////////////////////////////////////////////////////////////////////
-  /////////////// Tracking observer //////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////
+  /* Position difference (delta) */
+  base->i32Diff = i32ST - base->i32ST_k_1;    /* TODO: check whether offset has impact */
+         
+  if(base->i32Diff< -((1 << base->ui8DevSTLen) / 2 ))
+  {
+//     base->i64RevCounter++;
+    
+     /* Diff calculation when counter overflow */
+     base->i32Diff = i32ST - base->i32ST_k_1 + (1 << base->ui8DevSTLen);
+  }    
+
+  if(base->i32Diff > ((1 << base->ui8DevSTLen) / 2) )
+  {
+//     base->i64RevCounter--;
      
-  /* tracking observer calculation */
-  base->f16PosMeEst = (frac16_t)AMCLIB_TrackObsrv_A32af(base->a32PosErr, &base->sTo);
-
-  /* calculation of error function for tracking observer */
-  base->a32PosErr = (acc32_t)MLIB_Sub_F16(base->f16PosMe, base->f16PosMeEst);
-
-  /* Store speed estimation by the tracking observer */
-  *base->pfltSpdMeEst = base->sTo.fltSpeed;
+     /* Diff calculation when counter underflow */
+     base->i32Diff = i32ST - base->i32ST_k_1 - (1 << base->ui8DevSTLen);
+  }
   
-  /* position in accumulator type for motor control purposes */
-  //base->a32PosMeReal = (acc32_t)(( (((int32_t)base->mt) - 2048) << 15    ) + (((uint16_t)(base->st)) >> 1) ); 
-  *base->pa32PosMeReal = (acc32_t)(( (((int32_t)base->mt) - 2048) << 15    ) + (((uint16_t)(base->st)) >> 1) );
+  /* Speed [Hz ~ rps (revolutions per second)] = PositionDelta / (SampleTime * MaxPositionNumber) = (PositionDelta * SampleFrequency) / MaxPositionNumber [Hz] */
+  /* Speed [rpm] = 60 * Speed[Hz] */
+  fltSpdMech = ((float_t)base->i32Diff) * (4000.0F) * 60.0F / ((float_t)(1 << base->ui8DevSTLen));
   
-  //base->a32PosMeReal = (acc32_t)(( (((int32_t)(base->mt - base->mt_offset)) - 2048) << 15    ) + (((uint16_t)(base->st - base->st_offset)) >> 1) );
+  /* Mechanical angular speed [rad/s]  */
+  base->fltSpdMeEst = fltSpdMech * ((2.0F * FLOAT_PI)/60.0F);
   
-  /* store results to user-defined variables */
-  *base->pf16PosElEst = (frac16_t)(base->f16PosMeEst * base->ui16Pp);
+  /* Store latest value of single turn revolutions */
+  base->i32ST_k_1 = i32ST;
+   
+   /* Mechanical angular speed [rad/s]  */
+   *base->pfltSpdMeEst = base->fltSpdMeEst;
+   
+   /* Position in accumulator type for motor control purposes */
+   base->a32PosMeReal = (acc32_t)(( (((int32_t)base->mt) - 2048) << 15    ) + (((uint16_t)(base->st)) >> 1) );
+   *base->pa32PosMeReal = base->a32PosMeReal;
 }

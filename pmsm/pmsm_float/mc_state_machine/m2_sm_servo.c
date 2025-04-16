@@ -482,9 +482,8 @@ static void M2_StateStopFast_Optim(void)
     /* Set encoder direction */
     M2_MCDRV_ENC_SET_DIRECTION(&g_sM2Enc);
 
-    /* get position and speed from quadrature encoder sensor */
-    M2_MCDRV_ENC_GET_POSITION(&g_sM2Enc);
-    M2_MCDRV_ENC_GET_SPEED(&g_sM2Enc);
+    /* Get encoder sensor data required in fast-loop calculations */
+    M2_MCDRV_ENC_GET_DATA_FAST(&g_sM2Enc);
 
     /* If the user switches on and position control mode selected */
     if ((g_bM2SwitchAppOnOff != FALSE) && (g_sM2Drive.eControl == kControlMode_PositionFOC))
@@ -528,8 +527,8 @@ static void M2_StateRunFast_Optim(void)
     /* Get measured phase currents and DC-bus voltage */
     M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
 
-    /* get position and speed from quadrature encoder sensor */
-    M2_MCDRV_ENC_GET_POSITION(&g_sM2Enc);      
+    /* Get encoder sensor data required in fast-loop calculations */
+    M2_MCDRV_ENC_GET_DATA_FAST(&g_sM2Enc);    
     
     /* Run sub-state function */
     s_M2_STATE_RUN_TABLE_FAST[g_eM2StateRun]();
@@ -809,9 +808,8 @@ static void M2_StateStopFast(void)
     /* Set encoder direction */
     M2_MCDRV_ENC_SET_DIRECTION(&g_sM2Enc);
 
-    /* get position and speed from quadrature encoder sensor */
-    M2_MCDRV_ENC_GET_POSITION(&g_sM2Enc);
-    M2_MCDRV_ENC_GET_SPEED(&g_sM2Enc);
+    /* Get encoder sensor data required in fast-loop calculations */
+    M2_MCDRV_ENC_GET_DATA_FAST(&g_sM2Enc);
 
     /* If the user switches on or set non-zero speed*/
     if ((g_bM2SwitchAppOnOff != FALSE) || (g_sM2Drive.sSpeed.fltSpeedCmd != 0.0F))
@@ -840,8 +838,8 @@ static void M2_StateRunFast(void)
     /* Get measured phase currents and DC-bus voltage */
     M2_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM2Curr3phDcBus);
 
-    /* get position and speed from quadrature encoder sensor */
-    M2_MCDRV_ENC_GET_POSITION(&g_sM2Enc);
+    /* Get encoder sensor data required in fast-loop calculations */
+    M2_MCDRV_ENC_GET_DATA_FAST(&g_sM2Enc);
 
     /* If the user switches off */
     if (!g_bM2SwitchAppOnOff)
@@ -945,6 +943,9 @@ static void M2_StateInitSlow(void)
 RAM_FUNC_LIB
 static void M2_StateStopSlow(void)
 {
+    /* Get encoder sensor data required in slow-loop calculations */
+    M2_MCDRV_ENC_GET_DATA_SLOW(&g_sM2Enc);
+    
     /* Sampled DC-Bus voltage filter */
     g_sM2Drive.sFocPMSM.fltUDcBusFilt =
         GDFLIB_FilterIIR1_FLT(g_sM2Drive.sFocPMSM.fltUDcBus, &g_sM2Drive.sFocPMSM.sUDcBusFilter);
@@ -983,6 +984,9 @@ static void M2_StateStopSlow(void)
 RAM_FUNC_LIB
 static void M2_StateRunSlow(void)
 {
+    /* Get encoder sensor data required in slow-loop calculations */
+    M2_MCDRV_ENC_GET_DATA_SLOW(&g_sM2Enc);
+    
     /* Sampled DC-Bus voltage filter */
     g_sM2Drive.sFocPMSM.fltUDcBusFilt =
         GDFLIB_FilterIIR1_FLT(g_sM2Drive.sFocPMSM.fltUDcBus, &g_sM2Drive.sFocPMSM.sUDcBusFilter);
@@ -1861,10 +1865,8 @@ static void M2_StateRunSpinSlow(void)
     
         /* Actual speed filter */
         g_sM2Drive.sSpeed.fltSpeedFilt = GDFLIB_FilterIIR1_FLT(g_sM2Drive.sSpeed.fltSpeed, &g_sM2Drive.sSpeed.sSpeedFilter);
-        /* Actual position */
-        //g_sM2Drive.sPosition.a32Position = g_sM2Enc.a32PosMeReal;
-        //g_sM2Drive.sPosition.a32Position = g_sM2Biss.a32PosMeReal;  // Position is passed using pointer */ 
         
+        /* Actual position (g_sM2Drive.sPosition.a32Position) - passed using pointer */       
         
         /* Pass filtered speed to position structure */
         g_sM2Drive.sPosition.fltSpeedFilt = g_sM2Drive.sSpeed.fltSpeedFilt;

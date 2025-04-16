@@ -41,12 +41,10 @@ typedef struct _bissc_type
     int32_t i32ST_k_1;             /* Previous value of single-turn */
     uint32_t mt_offset;
     uint32_t st_offset;
-    float_t fltBiSSSpeed;
-    
-    AMCLIB_TRACK_OBSRV_T_FLT sTo; /* tracking observer structure */
+    frac16_t f16PosOffset;
+    int32_t i32Diff;
      
     acc32_t a32PosMeReal;         /* real position (revolution counter + mechanical position) */
-    acc32_t a32PosErr;            /* position error to tracking observer  */
     float_t fltSpdMeEst;          /* estimated speed calculated using tracking observer */
     frac16_t f16PosMe;            /* mechanical position calculated using encoder edges */
     frac16_t f16PosMeEst;         /* estimated position calculated using tracking observer */
@@ -88,14 +86,34 @@ RAM_FUNC_LIB
 void MCDRV_BissCSetOffset(BISSC_Type *base);
 
 /*!
- * @brief Function processes the data
+ * @brief Function reads raw data and converts to single turn and multi turn revolutions
  *
  * @param base   Pointer to the current object
  *
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_BissCDataProc(BISSC_Type * base);
+void MCDRV_BissCDataRead(BISSC_Type *base);
+
+/*!
+ * @brief Function processes the data (fast-loop)
+ *
+ * @param base   Pointer to the current object
+ *
+ * @return none
+ */
+RAM_FUNC_LIB
+void MCDRV_BissCGetPositionFoc(BISSC_Type *base);
+
+/*!
+ * @brief Function processes the data (slow-loop)
+ *
+ * @param base   Pointer to the current object
+ *
+ * @return none
+ */
+RAM_FUNC_LIB
+void MCDRV_BissCGetPositionFullAndSpeed(BISSC_Type *base);
 
 #if defined(__cplusplus)
 }
