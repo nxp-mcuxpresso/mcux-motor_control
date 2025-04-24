@@ -18670,7 +18670,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="period" type="sint32">1000</member>
 			<member name="address" type="string">g_sAppIdFM.cUserPath1</member>
 			<member name="last_addr" type="uint32">0x200038D8</member>
-			<member name="byte_size" type="sint32">80</member>
+			<member name="byte_size" type="sint32">90</member>
 			<member name="description" type="string"/>
 			<member name="comment" type="string"/>
 			<member name="virtual" type="sint32">0</member>
@@ -18719,7 +18719,7 @@ b#10 0000 - Missing Pp value</member>
 			<member name="period" type="sint32">1000</member>
 			<member name="address" type="string">g_sAppIdFM.cUserPath2</member>
 			<member name="last_addr" type="uint32">0x20003928</member>
-			<member name="byte_size" type="sint32">80</member>
+			<member name="byte_size" type="sint32">90</member>
 			<member name="description" type="string"/>
 			<member name="comment" type="string"/>
 			<member name="virtual" type="sint32">0</member>

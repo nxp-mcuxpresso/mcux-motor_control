@@ -460,7 +460,6 @@ FMSTR_TSA_RW_VAR(g_sM2Drive.sMCATctrl.sUDQReqMCAT.fltQ, FMSTR_TSA_FLOAT) /* M2 M
 
 #ifdef PMSM_SNSLESS_ENC
 /* gsM2Drive.sPosition structure definition */
-FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.f16PositionPGain, FMSTR_TSA_FRAC16) /* M2 Position P conroller P Gain */
 FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.a32Position, FMSTR_TSA_FRAC32)      /* M2 Position Actual */
 FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.a32PositionError, FMSTR_TSA_FRAC32) /* M2 Position Error */
 FMSTR_TSA_RW_VAR(g_sM2Drive.sPosition.a32PositionCmd, FMSTR_TSA_FRAC32)   /* M2 Position Required */
@@ -631,8 +630,8 @@ FMSTR_TSA_TABLE_END()
 FMSTR_TSA_TABLE_BEGIN(sAppIdFM_table)
 
 /* Board ID structure definition */
-FMSTR_TSA_RW_MEM(g_sAppIdFM.cUserPath1, FMSTR_TSA_UINT8, &g_sAppIdFM.cUserPath1[0], 80)         /* User Path 1 */
-FMSTR_TSA_RW_MEM(g_sAppIdFM.cUserPath2, FMSTR_TSA_UINT8, &g_sAppIdFM.cUserPath2[0], 80)         /* User Path 2 */
+FMSTR_TSA_RW_MEM(g_sAppIdFM.cUserPath1, FMSTR_TSA_UINT8, &g_sAppIdFM.cUserPath1[0], 90)         /* User Path 1 */
+FMSTR_TSA_RW_MEM(g_sAppIdFM.cUserPath2, FMSTR_TSA_UINT8, &g_sAppIdFM.cUserPath2[0], 90)         /* User Path 2 */
 FMSTR_TSA_RO_MEM(g_sAppIdFM.cBoardID, FMSTR_TSA_UINT8, &g_sAppIdFM.cBoardID[0], 20)             /* Board ID */
 FMSTR_TSA_RO_MEM(g_sAppIdFM.cExampleID, FMSTR_TSA_UINT8, &g_sAppIdFM.cExampleID[0], 30)         /* Example ID */
 FMSTR_TSA_RO_MEM(g_sAppIdFM.cAppVer, FMSTR_TSA_UINT8, &g_sAppIdFM.cAppVer[0], 5)
