@@ -100,14 +100,14 @@ void MCS_PMSMFocCtrl(mcs_pmsm_foc_t *psFocPMSM)
     /* perform current control loop if enabled */
     if (psFocPMSM->bCurrentLoopOn)
     {
-        /* Zero cancellation filter */
-        psFocPMSM->sIDQReqFilt.fltQ = GDFLIB_FilterIIR1_FLT(psFocPMSM->sIDQReq.fltQ, &psFocPMSM->sIqReqZCFilter);
-      
         /* D current error calculation */
         psFocPMSM->sIDQError.fltD = MLIB_Sub_FLT(psFocPMSM->sIDQReq.fltD, psFocPMSM->sIDQ.fltD);
         
+#if defined(Q_CURRENT_ZC_FILTER)     
+        /* Zero cancellation filter */
+        psFocPMSM->sIDQReqFilt.fltQ = GDFLIB_FilterIIR1_FLT(psFocPMSM->sIDQReq.fltQ, &psFocPMSM->sIqReqZCFilter);
+        
         /* Q current error calculation */
-#if     defined(Q_CURRENT_ZC_FILTER)
         psFocPMSM->sIDQError.fltQ = MLIB_Sub_FLT(psFocPMSM->sIDQReqFilt.fltQ, psFocPMSM->sIDQ.fltQ);
 #else
         psFocPMSM->sIDQError.fltQ = MLIB_Sub_FLT(psFocPMSM->sIDQReq.fltQ, psFocPMSM->sIDQ.fltQ);
@@ -177,24 +177,10 @@ void MCS_PMSMFocCtrl_Optim(mcs_pmsm_foc_t *psFocPMSM)
 #else
         psFocPMSM->sIDQError.fltQ = MLIB_Sub_FLT(psFocPMSM->sIDQReq.fltQ, psFocPMSM->sIDQ.fltQ);
 #endif
-
-#ifndef SERVO_OPTIM
-        /*** D - controller limitation calculation ***/
-        psFocPMSM->sIdPiParams.fltLowerLim = MLIB_MulNeg_FLT(psFocPMSM->fltDutyCycleLimit, psFocPMSM->fltUDcBusFilt);
-        psFocPMSM->sIdPiParams.fltUpperLim = MLIB_Mul_FLT(psFocPMSM->fltDutyCycleLimit, psFocPMSM->fltUDcBusFilt);
-#endif
         
         /* D current PI controller */
         psFocPMSM->sUDQReq.fltD =
             GFLIB_CtrlPIpAW_FLT(psFocPMSM->sIDQError.fltD, &psFocPMSM->bIdPiStopInteg, &psFocPMSM->sIdPiParams);
-
-#ifndef SERVO_OPTIM
-        /*** Q - controller limitation calculation ***/
-        psFocPMSM->sIqPiParams.fltUpperLim =
-            GFLIB_Sqrt_FLT(psFocPMSM->sIdPiParams.fltUpperLim * psFocPMSM->sIdPiParams.fltUpperLim -
-                           psFocPMSM->sUDQReq.fltD * psFocPMSM->sUDQReq.fltD);
-        psFocPMSM->sIqPiParams.fltLowerLim = MLIB_Neg_FLT(psFocPMSM->sIqPiParams.fltUpperLim);
-#endif
         
         /* Q current PI controller */
         psFocPMSM->sUDQReq.fltQ =
@@ -233,8 +219,6 @@ void MCS_PMSMFocCtrlSpeed(mcs_speed_t *psSpeed)
         psSpeed->fltSpeedCmdFilt  = GDFLIB_FilterIIR1_FLT(psSpeed->fltSpeedCmd, &psSpeed->sSpeedCmdZCFilter);
         /* Speed error calculation */
         psSpeed->fltSpeedError = MLIB_Sub_FLT(psSpeed->fltSpeedCmdFilt, psSpeed->fltSpeedFilt);
-   
-//        psSpeed->fltSpeedRamp = psSpeed->fltSpeedCmdFilt; // for freewheel purposes. 
     }
     else
     {
