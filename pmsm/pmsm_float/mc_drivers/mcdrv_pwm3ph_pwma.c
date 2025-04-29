@@ -185,31 +185,31 @@ bool_t MCDRV_eFlexPwm3PhFltGet(mcdrv_pwm3ph_pwma_t *this)
 }
 
 /*!
- * @brief Function return actual value of over voltage flag
+ * @brief Function return actual value of fault flag
  *
  * @param this   Pointer to the current object
  *
  * @return boot_t true on success
  */
 RAM_FUNC_LIB
-bool_t MCDRV_eFlexPwm3PhFltOVGet(mcdrv_pwm3ph_pwma_t *this)
+bool_t MCDRV_eFlexPwm3PhFlt2Get(mcdrv_pwm3ph_pwma_t *this)
 {
-    bool_t bStatusPass = FALSE;	//ui16FaultOVFixNum
+    bool_t bStatusPass = FALSE;
     uint16_t ui16StatusFlags;
     uint16_t ui16StatusPins;
     
     /* read fault flags */    
-    ui16StatusFlags = (((this->pui32PwmBaseAddress->FSTS & PWM_FSTS_FFLAG_MASK) >> PWM_FSTS_FFLAG_SHIFT) & ((uint16_t)(1) << this->ui16FaultOVFixNum));
+    ui16StatusFlags = (((this->pui32PwmBaseAddress->FSTS & PWM_FSTS_FFLAG_MASK) >> PWM_FSTS_FFLAG_SHIFT) & ((uint16_t)(1) << this->ui16Fault2FixNum));
     
     /* read fault pins status */   
     /* Reading pin status because fault flag is only triggered by signal edge, there can be situations where fault signals are     
      * asserted the moment system is powered on, and eFlexPWM module hasn't been initialized yet. In thiscase, fault flags won't     
      * be set even though fault signals are valid.     
      *  */    
-    ui16StatusPins = (((this->pui32PwmBaseAddress->FSTS & PWM_FSTS_FFPIN_MASK) >> PWM_FSTS_FFPIN_SHIFT) & ((uint16_t)(1) << this->ui16FaultOVFixNum));
+    ui16StatusPins = (((this->pui32PwmBaseAddress->FSTS & PWM_FSTS_FFPIN_MASK) >> PWM_FSTS_FFPIN_SHIFT) & ((uint16_t)(1) << this->ui16Fault2FixNum));
     
     /* clear faults flag */    
-    this->pui32PwmBaseAddress->FSTS = ((this->pui32PwmBaseAddress->FSTS & ~(PWM_FSTS_FFLAG_MASK)) | ((uint16_t)(1) << this->ui16FaultOVFixNum));
+    this->pui32PwmBaseAddress->FSTS = ((this->pui32PwmBaseAddress->FSTS & ~(PWM_FSTS_FFLAG_MASK)) | ((uint16_t)(1) << this->ui16Fault2FixNum));
     
     if((ui16StatusFlags > 0)||(ui16StatusPins > 0))    
     {    	
