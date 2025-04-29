@@ -30,9 +30,12 @@ Some examples are available just for selected platforms. The following applicati
   
 - **mc_pmsm_enc_dual** - Sensor and sensorless FOC example utilizing floating-point arithmetic for dual motor 
   control application. The MID software is available. The MCAT is not available for this example.
+
+- **mc_pmsm_servo** - Sensor FOC example utilizing floating-point arithmetic for single motor 
+  control application. The MID software is not available yet. The MCAT is available.
   
 - **mc_pmsm_servo_dual** - Sensor FOC example utilizing floating-point arithmetic for dual motor 
-  control application. The MID software is available. The MCAT is not available for this example.
+  control application. The MID software is not available yet. The MCAT is available only for Motor Controller 1.
   
 - **mc_bldc** - Sensorless 6-step speed control example utilizing fractional and/or floating-point arithmetics. The example 
   with MCAT allows for rapid application development.
