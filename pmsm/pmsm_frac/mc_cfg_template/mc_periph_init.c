@@ -21,7 +21,7 @@
 /*******************************************************************************
  * Variables - only template (to be framework builtable)
  ******************************************************************************/
-mcdrv_adc_temp_t g_sM1AdcSensor;
+mcdrv_adc_temp_t g_sM1Curr3phDcBus;
 mcdrv_pwm_temp_t g_sM1Pwm3ph;
 mcdrv_enc_temp_t g_sM1Enc;
 

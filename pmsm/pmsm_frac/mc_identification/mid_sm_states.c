@@ -85,7 +85,7 @@ static void MID_StateStart(void)
   if (--g_sMidDrive.ui16CounterState == 0U)
   {
     /* write calibrated offset values when calibration is done */
-    M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1Curr3phDcBus);
     
     /* Clear captured faults in MID */
     MID_FAULT_CLEAR_ALL(g_sMID.ui16FaultMID);
@@ -115,7 +115,7 @@ static void MID_StateStart(void)
   else
   {
     /* call offset measurement */
-    M1_MCDRV_CURR_3PH_CALIB(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_CALIB(&g_sM1Curr3phDcBus);
 
     /* change SVM sector in range <1;6> to measure all AD channel mapping combinations */
     if (++g_sMidDrive.sFocPMSM.ui16SectorSVM > 6U)
@@ -447,7 +447,7 @@ static void MID_TransStop2Start(void)
   M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
 
   /* Clear offset filters */
-  M1_MCDRV_CURR_3PH_CALIB_INIT(&g_sM1AdcSensor);
+  M1_MCDRV_CURR_3PH_CALIB_INIT(&g_sM1Curr3phDcBus);
 
   /* Enable PWM output */
   M1_MCDRV_PWM3PH_EN(&g_sM1Pwm3ph);
@@ -513,7 +513,7 @@ static void MID_FaultDetection(void)
 void MID_ProcessFast_FL(void)
 {
     /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M1_MCDRV_ADC_GET(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* Sampled DC-Bus voltage filter */
     g_sMidDrive.sFocPMSM.f16UDcBusFilt =
@@ -540,7 +540,7 @@ void MID_ProcessFast_FL(void)
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
 
     /* set current sensor for  sampling */
-    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1Curr3phDcBus);
 }
 
 /*!
@@ -597,10 +597,10 @@ void MID_Init(void)
     g_sM1Pwm3ph.psUABC = &(g_sMidDrive.sFocPMSM.sDutyABC);
     
     /* For ADC driver */
-    g_sM1AdcSensor.pf16UDcBus     = &(g_sMidDrive.sFocPMSM.f16UDcBus);
-    g_sM1AdcSensor.psIABC         = &(g_sMidDrive.sFocPMSM.sIABC);
-    g_sM1AdcSensor.pui16SVMSector = &(g_sMidDrive.sFocPMSM.ui16SectorSVM);
-    g_sM1AdcSensor.pui16AuxChan   = &(g_sMidDrive.f16AdcAuxSample);
+    g_sM1Curr3phDcBus.pf16UDcBus     = &(g_sMidDrive.sFocPMSM.f16UDcBus);
+    g_sM1Curr3phDcBus.psIABC         = &(g_sMidDrive.sFocPMSM.sIABC);
+    g_sM1Curr3phDcBus.pui16SVMSector = &(g_sMidDrive.sFocPMSM.ui16SectorSVM);
+    g_sM1Curr3phDcBus.pui16AuxChan   = &(g_sMidDrive.f16AdcAuxSample);
     
     /* Set the initial MID SM variables. */
     g_sMID.eMIDState = kMID_Stop;

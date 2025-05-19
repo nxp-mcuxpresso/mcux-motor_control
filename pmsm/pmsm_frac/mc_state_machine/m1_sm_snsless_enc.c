@@ -146,7 +146,7 @@ sm_app_ctrl_t g_sM1Ctrl = {
 static void M1_StateFaultFast(void)
 {
     /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M1_MCDRV_ADC_GET(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* Sampled DC-Bus voltage filter */
     g_sM1Drive.sFocPMSM.f16UDcBusFilt =
@@ -371,13 +371,13 @@ static void M1_StateInitFast(void)
 static void M1_StateStopFast(void)
 {
     /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M1_MCDRV_ADC_GET(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* Set encoder direction */
-    M1_MCDRV_QD_SET_DIRECTION(&g_sM1Enc);
+    M1_MCDRV_ENC_SET_DIRECTION(&g_sM1Enc);
 
     /* get position and speed from quadrature encoder sensor */
-    M1_MCDRV_QD_GET(&g_sM1Enc);
+    M1_MCDRV_ENC_GET(&g_sM1Enc);
 
     /* Sampled DC-Bus voltage filter */
     g_sM1Drive.sFocPMSM.f16UDcBusFilt =
@@ -426,10 +426,10 @@ static void M1_StateStopFast(void)
 static void M1_StateRunFast(void)
 {
     /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M1_MCDRV_ADC_GET(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* get position and speed from quadrature encoder sensor */
-    M1_MCDRV_QD_GET(&g_sM1Enc);
+    M1_MCDRV_ENC_GET(&g_sM1Enc);
 
     /* If the user switches off */
     if (!g_bM1SwitchAppOnOff)
@@ -472,7 +472,7 @@ static void M1_StateRunFast(void)
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
 
     /* set current sensor for  sampling */
-    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1Curr3phDcBus);
 }
 
 /*!
@@ -625,7 +625,7 @@ static void M1_TransStopRun(void)
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
 
     /* Clear offset filters */
-    M1_MCDRV_CURR_3PH_CALIB_INIT(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_CALIB_INIT(&g_sM1Curr3phDcBus);
 
     /* Enable PWM output */
     M1_MCDRV_PWM3PH_EN(&g_sM1Pwm3ph);
@@ -634,7 +634,7 @@ static void M1_TransStopRun(void)
     g_sM1Drive.ui16CounterState = g_sM1Drive.ui16TimeCalibration;
 
     /* Update modulo counter */
-    M1_MCDRV_QD_SET_PULSES(&g_sM1Enc);
+    M1_MCDRV_ENC_SET_PULSES(&g_sM1Enc);
 
     /* Calibration sub-state when transition to RUN */
     g_eM1StateRun = kRunState_Calib;
@@ -716,7 +716,7 @@ static void M1_StateRunCalibFast(void)
        performing ADC offset calibration */
 
     /* Call offset measurement */
-    M1_MCDRV_CURR_3PH_CALIB(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_CALIB(&g_sM1Curr3phDcBus);
 
     /* Change SVM sector in range <1;6> to measure all AD channel mapping combinations */
     if (++g_sM1Drive.sFocPMSM.ui16SectorSVM > 6U)
@@ -1134,7 +1134,7 @@ static void M1_StateRunCalibSlow(void)
     if (--g_sM1Drive.ui16CounterState == 0U)
     {
         /* write calibrated offset values */
-        M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1AdcSensor);
+        M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1Curr3phDcBus);
 
         M1_TransRunCalibReady();
     }
@@ -1383,7 +1383,7 @@ static void M1_TransRunAlignStartup(void)
 {
     /* Type the code to do when going from the RUN kRunState_Align to the RUN kRunState_Startup sub-state */
     /* initialize encoder driver */
-    M1_MCDRV_QD_CLEAR(&g_sM1Enc);
+    M1_MCDRV_ENC_CLEAR(&g_sM1Enc);
 
     /* Clear application parameters */
     M1_ClearFOCVariables();
@@ -1423,7 +1423,7 @@ static void M1_TransRunAlignSpin(void)
 {
     /* Type the code to do when going from the RUN STARTUP to the RUN SPIN sub-state */
     /* initialize encoder driver */
-    M1_MCDRV_QD_CLEAR(&g_sM1Enc);
+    M1_MCDRV_ENC_CLEAR(&g_sM1Enc);
 
     g_sM1Drive.sFocPMSM.bPosExtOn = TRUE;  /* enable passing external electrical position from encoder to FOC */
     g_sM1Drive.sFocPMSM.bOpenLoop = FALSE; /* disable parallel runnig openloop and estimator */

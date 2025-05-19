@@ -144,7 +144,7 @@ sm_app_ctrl_t g_sM1Ctrl = {
 static void M1_StateFaultFast(void)
 {
     /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M1_MCDRV_ADC_GET(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* Sampled DC-Bus voltage filter */
     g_sM1Drive.sFocPMSM.f16UDcBusFilt =
@@ -351,7 +351,7 @@ static void M1_StateInitFast(void)
 static void M1_StateStopFast(void)
 {
     /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M1_MCDRV_ADC_GET(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* Sampled DC-Bus voltage filter */
     g_sM1Drive.sFocPMSM.f16UDcBusFilt =
@@ -400,7 +400,7 @@ static void M1_StateStopFast(void)
 static void M1_StateRunFast(void)
 {
     /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M1_MCDRV_ADC_GET(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* If the user switches off */
     if (!g_bM1SwitchAppOnOff)
@@ -440,7 +440,7 @@ static void M1_StateRunFast(void)
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
 
     /* Set current sensor for sampling - applies only to some devices. */
-    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1Curr3phDcBus);
 }
 
 /*!
@@ -583,7 +583,7 @@ static void M1_TransStopRun(void)
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
 
     /* Clear offset filters */
-    M1_MCDRV_CURR_3PH_CALIB_INIT(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_CALIB_INIT(&g_sM1Curr3phDcBus);
 
     /* Enable PWM output */
     M1_MCDRV_PWM3PH_EN(&g_sM1Pwm3ph);
@@ -671,7 +671,7 @@ static void M1_StateRunCalibFast(void)
        performing ADC offset calibration */
 
     /* call offset measurement */
-    M1_MCDRV_CURR_3PH_CALIB(&g_sM1AdcSensor);
+    M1_MCDRV_CURR_3PH_CALIB(&g_sM1Curr3phDcBus);
 
     /* change SVM sector in range <1;6> to measure all AD channel mapping combinations */
     if (++g_sM1Drive.sFocPMSM.ui16SectorSVM > 6U)
@@ -1008,7 +1008,7 @@ static void M1_StateRunCalibSlow(void)
     if (--g_sM1Drive.ui16CounterState == 0U)
     {
         /* write calibrated offset values */
-        M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1AdcSensor);
+        M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1Curr3phDcBus);
 
         M1_TransRunCalibReady();
     }

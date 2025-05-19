@@ -56,7 +56,7 @@
 /******************************************************************************
  * Define motor ADC control functions
  ******************************************************************************/
-#define M1_MCDRV_ADC_GET(par)
+#define M1_MCDRV_CURR_3PH_VOLT_DCB_GET(par)
 #define M1_MCDRV_CURR_3PH_CHAN_ASSIGN(par)
 #define M1_MCDRV_CURR_3PH_CALIB_INIT(par)
 #define M1_MCDRV_CURR_3PH_CALIB(par)
@@ -74,18 +74,18 @@
  * Init sensors/actuators pointers
  ******************************************************************************/
 #define M1_SET_PTR_DUTY(par) (g_sM1Pwm3ph.psUABC = &(par))
-#define M1_SET_PTR_U_DC_BUS(par) (g_sM1AdcSensor.pf16UDcBus = &(par))
-#define M1_SET_PTR_I_ABC(par) (g_sM1AdcSensor.psIABC = &(par))
-#define M1_SET_PTR_SECTOR(par) (g_sM1AdcSensor.pui16SVMSector = &(par))
-#define M1_SET_PTR_AUX_CHAN(par) (g_sM1AdcSensor.pui16AuxChan = &(par))
+#define M1_SET_PTR_U_DC_BUS(par) (g_sM1Curr3phDcBus.pf16UDcBus = &(par))
+#define M1_SET_PTR_I_ABC(par) (g_sM1Curr3phDcBus.psIABC = &(par))
+#define M1_SET_PTR_SECTOR(par) (g_sM1Curr3phDcBus.pui16SVMSector = &(par))
+#define M1_SET_PTR_AUX_CHAN(par) (g_sM1Curr3phDcBus.pui16AuxChan = &(par))
 
 /******************************************************************************
  * Define position and speed sensor - quadrature encoder
  ******************************************************************************/
-#define M1_MCDRV_QD_GET(par)
-#define M1_MCDRV_QD_SET_DIRECTION(par)
-#define M1_MCDRV_QD_SET_PULSES(par)
-#define M1_MCDRV_QD_CLEAR(par)
+#define M1_MCDRV_ENC_GET(par)
+#define M1_MCDRV_ENC_SET_DIRECTION(par)
+#define M1_MCDRV_ENC_SET_PULSES(par)
+#define M1_MCDRV_ENC_CLEAR(par)
 
 /******************************************************************************
  * global variable definitions - definitions are only template
@@ -110,7 +110,7 @@ typedef struct _mcdrv_enc_temp_t
   acc32_t a32PosMeReal;         /* real position (revolution counter + mechanical position) */
 } mcdrv_enc_temp_t;
 
-extern mcdrv_adc_temp_t g_sM1AdcSensor;
+extern mcdrv_adc_temp_t g_sM1Curr3phDcBus;
 extern mcdrv_pwm_temp_t g_sM1Pwm3ph;
 extern mcdrv_enc_temp_t g_sM1Enc;
 /*******************************************************************************
