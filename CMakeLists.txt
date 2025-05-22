@@ -785,6 +785,23 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1180_pwma_e
     )
 endif()
 
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1186_pwma_enc)
+    mcux_component_version(3.0.0)
+    mcux_add_source(
+        SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_imxrt1186.h
+                pmsm/pmsm_float/mc_drivers/mcdrv_adc_imxrt1186.c
+                pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.c
+                pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.h
+                pmsm/pmsm_float/mc_drivers/mcdrv_enc_eqd2.c
+                pmsm/pmsm_float/mc_drivers/mcdrv_enc_eqd2.h
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+    mcux_add_include(
+        INCLUDES pmsm/pmsm_float/mc_drivers
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+endif()
+
 if (CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_imx943evk)
 	mcux_component_version(3.0.0)
     mcux_add_source(
