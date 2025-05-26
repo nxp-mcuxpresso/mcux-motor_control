@@ -44,7 +44,6 @@ void MCDRV_SincReadPhCurrDcBusVolt(mcdrv_sinc_t *this)
 {
   float_t fltTmp;
   uint32_t ui32ChannelId;
-  uint32_t iu32Dummy;
   int32_t i32Sinc1ResultsArray;
   float_t fltSinc1Results[4];
 
@@ -55,8 +54,8 @@ void MCDRV_SincReadPhCurrDcBusVolt(mcdrv_sinc_t *this)
 
       this->pui32SincBaseAddress->NIS = u32CurrentCocMask;	// Clear the CHF flag
 
-      /* Read FIFO to discard useless data in FIFO */
-      iu32Dummy = this->pui32SincBaseAddress->CHANNEL[ui32ChannelId].CRDATA;
+      /* Read FIFO to discard useless data in FIFO, do not use this sample */
+      i32Sinc1ResultsArray = (int32_t)this->pui32SincBaseAddress->CHANNEL[ui32ChannelId].CRDATA;
        
       // ENOB is 13 bits, so right bitshift of 19
       i32Sinc1ResultsArray = (int32_t)(this->pui32SincBaseAddress->CHANNEL[ui32ChannelId].CRDATA) >> 19U;
