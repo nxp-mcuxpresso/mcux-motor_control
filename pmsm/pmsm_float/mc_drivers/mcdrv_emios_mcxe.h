@@ -34,6 +34,8 @@ typedef struct _mcdrv_pwm3ph_emios_t
 
 void MCDRV_eMIOS_PhSet(mcdrv_pwm3ph_emios_t *this);
 
+bool_t MCDRV_eMIOS_PhFltGet(mcdrv_pwm3ph_emios_t *this);
+
    
 
 #ifdef __cplusplus

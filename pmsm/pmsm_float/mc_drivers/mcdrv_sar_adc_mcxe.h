@@ -72,7 +72,6 @@ typedef struct _mcdrv_adc
     uint16_t ui16AdcCurrC;
     uint16_t ui16AdcDCBVolt;
 
-//    lpadc_conv_result_t s_ADC_ResultStructure;
 } mcdrv_adc_t;
 
 
@@ -85,6 +84,12 @@ typedef struct _mcdrv_adc
  * @return none
  */
 void MCDRV_CurrAndVoltDcBusGet(mcdrv_adc_t *this);
+
+void MCDRV_Curr3Ph2ShCalibSet(mcdrv_adc_t *this);
+
+void MCDRV_Curr3Ph2ShCalib(mcdrv_adc_t *this);
+
+void MCDRV_Curr3Ph2ShCalibInit(mcdrv_adc_t *this);
 
 
 #ifdef __cplusplus

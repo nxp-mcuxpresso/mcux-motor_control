@@ -26,7 +26,7 @@
  * Code
  ******************************************************************************/
 
-frac16_t f16DutyCycleA, f16DutyCycleB, f16DutyCycleC, f16DutyCycleTemp, f16ModuloTemp; //CLEAR PB
+frac16_t f16DutyCycleA, f16DutyCycleB, f16DutyCycleC, f16DutyCycleTemp, f16ModuloTemp;
 
 void MCDRV_eMIOS_PhSet(mcdrv_pwm3ph_emios_t *this)
 {
@@ -55,4 +55,11 @@ void MCDRV_eMIOS_PhSet(mcdrv_pwm3ph_emios_t *this)
     this->pui32PwmBaseAddress->UC[3U].A = EMIOS_A_A(f16ModuloTemp - f16DutyCycleC);
     this->pui32PwmBaseAddress->UC[3U].B = EMIOS_B_B(f16ModuloTemp + f16DutyCycleC);
     
+}
+
+
+bool_t MCDRV_eMIOS_PhFltGet(mcdrv_pwm3ph_emios_t *this)
+{
+
+    return (false);
 }

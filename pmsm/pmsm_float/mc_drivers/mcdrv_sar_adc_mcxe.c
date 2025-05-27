@@ -42,13 +42,13 @@ void MCDRV_CurrAndVoltDcBusGet(mcdrv_adc_t *this)
 
         BCTU_ClearFifoStatusFlags(BCTU, kBCTU_Fifo_1_Int);
 
-        
         this->ui16AdcCurrA = result[0].convRes;
         this->ui16AdcCurrC = result[1].convRes;
         this->ui16AdcCurrB = result[2].convRes;
         ui16Dummy =  result[3].convRes;
         this->ui16AdcDCBVolt = result[4].convRes;
         ui16Dummy =  result[5].convRes;
+        ui16Dummy = ui16Dummy; 
         
         *this->pf16UDcBus    = (frac16_t)(this->ui16AdcDCBVolt);
                 

@@ -666,6 +666,8 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_mcxe3xx)
                 pmsm/pmsm_float/mc_drivers/mcdrv_lcu_mcxe.h
 				pmsm/pmsm_float/mc_drivers/mcdrv_emios_mcxe.c
                 pmsm/pmsm_float/mc_drivers/mcdrv_emios_mcxe.h
+				pmsm/pmsm_float/mc_drivers/mcdrv_enc_emios.c
+                pmsm/pmsm_float/mc_drivers/mcdrv_enc_emios.h
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_include(
