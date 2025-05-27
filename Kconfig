@@ -239,6 +239,10 @@ menu "Motor control"
         config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcncxn_pwma_qdc
             bool "driver_adcncxn_pwma_qdc"
             depends on MCUX_HW_DEVICE_MCXN236 || MCUX_HW_DEVICE_MCXN947
+			
+	config MCUX_COMPONENT_middleware.motor_control.mc_drivers_mcxe3xx
+            bool "drivers_mcxe3xx"
+            depends on MCUX_HW_DEVICE_MCXE31B
     
         config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1010_pwma
             bool "driver_adcimxrt1010_pwma"
