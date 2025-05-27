@@ -23,10 +23,10 @@
  ******************************************************************************/
 
 /* init sensors/actuators pointers */
-#define M1_SET_PTR_U_DC_BUS(par1) (g_sM1AdcSensor.pf16UDcBus = &(par1))
-#define M1_SET_PTR_I_ABC(par1) (g_sM1AdcSensor.psIABC = &(par1))
-#define M1_SET_PTR_SECTOR(par1) (g_sM1AdcSensor.pui16SVMSector = &(par1))
-#define M1_SET_PTR_AUX_CHAN(par1) (g_sM1AdcSensor.pui16AuxChan = &(par1))
+#define M1_SET_PTR_U_DC_BUS(par1) (g_sM1Curr3phDcBus.pf16UDcBus = &(par1))
+#define M1_SET_PTR_I_ABC(par1) (g_sM1Curr3phDcBus.psIABC = &(par1))
+#define M1_SET_PTR_SECTOR(par1) (g_sM1Curr3phDcBus.pui16SVMSector = &(par1))
+#define M1_SET_PTR_AUX_CHAN(par1) (g_sM1Curr3phDcBus.pui16AuxChan = &(par1))
 
 typedef struct _pha_bc
 {

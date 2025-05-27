@@ -485,6 +485,21 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adclpc_ftm_frac)
     )
 endif()
 
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcxe_ftm_float)
+    mcux_component_version(3.0.0)
+    mcux_add_source(
+        SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxe.c
+                pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxe.h
+                pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_ftm.c
+                pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_ftm.h
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+    mcux_add_include(
+        INCLUDES pmsm/pmsm_float/mc_drivers
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+endif()
+
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_frac)
     mcux_component_version(3.0.0)
     mcux_add_source(
