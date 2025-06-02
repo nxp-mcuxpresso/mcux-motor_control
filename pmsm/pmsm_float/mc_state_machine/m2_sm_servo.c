@@ -1502,8 +1502,14 @@ static void M2_StateRunStartupFast(void)
     /* Open loop startup */
     MCS_PMSMOpenLoopStartUp(&g_sM2Drive.sStartUp);
 
-    /* Pass f16SpeedRampOpenloop to f16SpeedRamp*/
+    /* Pass fltSpeedRampOpenloop to fltSpeedRamp */
     g_sM2Drive.sSpeed.fltSpeedRamp = g_sM2Drive.sStartUp.fltSpeedRampOpenLoop;
+    
+    if(g_sM2Drive.sSpeed.bSpeedZCOn)
+    {
+        /* Pass fltSpeedRampOpenloop to fltSpeedCmdFilt */
+        g_sM2Drive.sSpeed.fltSpeedCmdFilt = g_sM2Drive.sStartUp.fltSpeedRampOpenLoop;
+    }
 
     /* Position and speed for FOC */
     g_sM2Drive.sFocPMSM.f16PosElExt = g_sM2Drive.sStartUp.f16PosMerged;
@@ -1735,6 +1741,7 @@ static void M2_StateRunFreewheelFast(void)
     g_sM2Drive.sSpeed.fltSpeed         = 0.0F;
     g_sM2Drive.sSpeed.fltSpeedFilt     = 0.0F;
     g_sM2Drive.sSpeed.fltSpeedRamp     = 0.0F;
+    g_sM2Drive.sSpeed.fltSpeedCmdFilt     = 0.0F;
 }
 #endif
 

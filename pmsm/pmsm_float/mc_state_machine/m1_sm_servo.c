@@ -1502,8 +1502,14 @@ static void M1_StateRunStartupFast(void)
     /* Open loop startup */
     MCS_PMSMOpenLoopStartUp(&g_sM1Drive.sStartUp);
 
-    /* Pass f16SpeedRampOpenloop to f16SpeedRamp*/
+    /* Pass fltSpeedRampOpenloop to fltSpeedRamp */
     g_sM1Drive.sSpeed.fltSpeedRamp = g_sM1Drive.sStartUp.fltSpeedRampOpenLoop;
+    
+    if(g_sM1Drive.sSpeed.bSpeedZCOn)
+    {
+        /* Pass fltSpeedRampOpenloop to fltSpeedCmdFilt */
+        g_sM1Drive.sSpeed.fltSpeedCmdFilt = g_sM1Drive.sStartUp.fltSpeedRampOpenLoop;
+    }
 
     /* Position and speed for FOC */
     g_sM1Drive.sFocPMSM.f16PosElExt = g_sM1Drive.sStartUp.f16PosMerged;
@@ -1735,6 +1741,7 @@ static void M1_StateRunFreewheelFast(void)
     g_sM1Drive.sSpeed.fltSpeed         = 0.0F;
     g_sM1Drive.sSpeed.fltSpeedFilt     = 0.0F;
     g_sM1Drive.sSpeed.fltSpeedRamp     = 0.0F;
+    g_sM1Drive.sSpeed.fltSpeedCmdFilt     = 0.0F;
 }
 #endif
 
@@ -1752,6 +1759,7 @@ static void M1_StateRunCalibSlow(void)
     {
 	  /* Write calibrated offset values - applies only to some devices. */
 	  M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1Curr3phDcBus);
+      
       /* To switch to the RUN READY sub-state */
       M1_TransRunCalibReady();
     }

@@ -119,6 +119,7 @@ FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.fltSpeedFilt, FMSTR_TSA_FLOAT) /* M1 Speed fi
 FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.fltSpeed, FMSTR_TSA_FLOAT)     /* M1 Speed Estimated */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.fltSpeedRamp, FMSTR_TSA_FLOAT) /* M1 Speed Ramp */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.fltSpeedCmd, FMSTR_TSA_FLOAT)  /* M1 Speed Required */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.fltSpeedCmdFilt, FMSTR_TSA_FLOAT)  /* M1 Speed Required Filtered (from zero cancellation) */
 
 /* sSpeed.sSpeedFilter.sSpeedFilter definitions */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.fltA1, FMSTR_TSA_FLOAT) /* M1 Speed Filter A1 */
@@ -320,6 +321,7 @@ FMSTR_TSA_RW_VAR(g_sM2Drive.sSpeed.fltSpeedFilt, FMSTR_TSA_FLOAT) /* M2 Speed fi
 FMSTR_TSA_RW_VAR(g_sM2Drive.sSpeed.fltSpeed, FMSTR_TSA_FLOAT)     /* M2 Speed Estimated */
 FMSTR_TSA_RW_VAR(g_sM2Drive.sSpeed.fltSpeedRamp, FMSTR_TSA_FLOAT) /* M2 Speed Ramp */
 FMSTR_TSA_RW_VAR(g_sM2Drive.sSpeed.fltSpeedCmd, FMSTR_TSA_FLOAT)  /* M2 Speed Required */
+FMSTR_TSA_RW_VAR(g_sM2Drive.sSpeed.fltSpeedCmdFilt, FMSTR_TSA_FLOAT)  /* M2 Speed Required Filtered (from zero cancellation) */
 
 /* sSpeed.sSpeedFilter.sSpeedFilter definitions */
 FMSTR_TSA_RW_VAR(g_sM2Drive.sSpeed.sSpeedFilter.sFltCoeff.fltA1, FMSTR_TSA_FLOAT) /* M2 Speed Filter A1 */

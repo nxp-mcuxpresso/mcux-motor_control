@@ -215,10 +215,12 @@ void MCS_PMSMFocCtrlSpeed(mcs_speed_t *psSpeed)
 
     if(psSpeed->bSpeedZCOn)
     {
+        /* Speed ramp generation - due to FAULT and FREEWHEEL working */
+        psSpeed->fltSpeedRamp = GFLIB_Ramp_FLT(psSpeed->fltSpeedCmd, &psSpeed->sSpeedRampParams);
         /* Speed zero cancellation filter */
-        psSpeed->fltSpeedCmdFilt  = GDFLIB_FilterIIR1_FLT(psSpeed->fltSpeedCmd, &psSpeed->sSpeedCmdZCFilter);
+        psSpeed->fltSpeedCmdFilt  = GDFLIB_FilterIIR1_FLT(psSpeed->fltSpeedCmd, &psSpeed->sSpeedCmdZCFilter);        
         /* Speed error calculation */
-        psSpeed->fltSpeedError = MLIB_Sub_FLT(psSpeed->fltSpeedCmdFilt, psSpeed->fltSpeedFilt);
+        psSpeed->fltSpeedError = MLIB_Sub_FLT(psSpeed->fltSpeedCmdFilt, psSpeed->fltSpeedFilt); 
     }
     else
     {
