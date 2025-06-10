@@ -29,9 +29,9 @@
 #endif
 
 #define NUM_MEAS 		20U                     /* AP MID - Number of measurement. */
-#define I_NOMINAL 		5.0F                    /* AP MID - Nominal current [A]. */
-#define I_POSMAX 		6.0F                    /* AP MID - Maximum positive current [A]. */
-#define I_NEGMAX 		-6.0F                   /* AP MID - Minimum positive current [A]. */
+#define I_NOMINAL 		2.5F                    /* AP MID - Nominal current [A]. */
+#define I_POSMAX 		3.0F                    /* AP MID - Maximum positive current [A]. */
+#define I_NEGMAX 		-3.0F                   /* AP MID - Minimum positive current [A]. */
 #define I_LD			0.0F                    /* AP MID - Current to determine inductance in d-axis [A]. */
 #define I_LQ			I_NOMINAL               /* AP MID - Current to determine inductance in q-axis [A]. */
 
