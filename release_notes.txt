@@ -29,6 +29,7 @@ MCUXpresso SDK 25.06.00, Motor control middleware v3.1.0
 	- Encoder driver which uses Tracking Observer has hardcoded contstants
 	- Some newer versions of FRDM-LVPMSM motor schield is populated with different switching transistors.
 	  Therefore, increased deadtime might be needed to avoid power stage overheating.
+	- Version of motor control components is not correctly updated to v3.1.0 in CMakeLists.txt (GitHub) and SW-Content-Register.txt (MCUXpresso SDK Package) files.
 
 
 MCUXpresso SDK 24.12.00, Motor control middleware v3.0.0
