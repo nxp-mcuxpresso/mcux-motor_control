@@ -4,7 +4,23 @@ Release notes
 Release notes for the motor-control middleware group of applications released together with the
 MCUXpresso SDK. The latest documentation for the motor control SDK examples is available on [MCUXpresso SDK for Motor Control](https://www.nxp.com/sdkmotorcontrol) web.
 
+MCUXpresso SDK 25.09.00, Motor control middleware v3.2.0
+========================================================
 
+	Leading platforms:
+	- mc_pmsm_snsless: LPCXpresso860-MAX, LPCXpresso55S69-EVK, MC56F80000-EVK, TWR-MC55F8200, FRDM-MCXE247
+	- mc_pmsm_enc: MIMXRT1170-EVKB, MIMXRT1180-EVK, FRDM-MCXA153, FRDM-MCXA156, FRDM-MCXA266, FRDM-MCXA344, FRDM-MCXA346, FRDM-MCXA366, FRDM-MCXN236, FRDM-MCXN947, 
+	  LPCXpresso55S36-EVK, MC56F81000-EVK, MC56F83000-EVK, TWR-MC56F8400
+	- mc_pmsm_enc_iopamp: LPCXpresso55S36-EVK
+	- mc_pmsm_enc_dual: LPCXpresso55S36-EVK
+	- mc_pmsm_servo: i.MX943-EVK
+	- mc_pmsm_servo_dual: i.MX943-EVK
+	- mc_bldc: MIMXRT1170-EVKB, LPCXpresso55S36-EVK
+
+	What is new:
+
+	Known issues:
+	
 MCUXpresso SDK 25.06.00, Motor control middleware v3.1.0
 ========================================================
 
