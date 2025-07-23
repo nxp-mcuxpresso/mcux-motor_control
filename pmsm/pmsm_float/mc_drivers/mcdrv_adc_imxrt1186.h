@@ -25,6 +25,8 @@
  * Definitions
  ******************************************************************************/
 
+
+#define NOT_USED(x) ((void)(x))
 #define MCDRV_ADC (3)
 
 typedef struct _pha_ab
