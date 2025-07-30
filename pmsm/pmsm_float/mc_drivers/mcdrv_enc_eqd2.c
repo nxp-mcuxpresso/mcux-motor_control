@@ -65,11 +65,16 @@ void MCDRV_QdEncGetPosition(mcdrv_eqd_enc_t *this)
 void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this)
 {
     int64_t i64Numerator;
+    uint16_t ui16Dummy;
 
     /* Read POSDH, POSDPERH and LASTEDGEH */
-    this->i16POSDH = this->pui32QdBase->POSDH;
+    ui16Dummy = this->pui32QdBase->POSD;
+    this->i16POSDH = (int16_t)(this->pui32QdBase->POSDH);
     this->ui16POSDPERH = this->pui32QdBase->POSDPERH;
     this->ui16LASTEDGEH = this->pui32QdBase->LASTEDGEH;
+    
+    /* warning suppression  */
+    NOT_USED(ui16Dummy);
 
     /* POSDH == 0? */
     if(this->i16POSDH != 0)
