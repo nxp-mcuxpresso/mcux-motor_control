@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 NXP
+ * Copyright 2024-2025 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -43,7 +43,7 @@
 #define CFG_USER_DESCRIPTION_LENGTH 20U
    
 /* Reserved memory space to fit structure into the one page */
-#define FLASH_CONF_RESERVED_SPACE 114U
+#define FLASH_CONF_RESERVED_SPACE 90U
 
 /* Update configurations in the flash enums */
 typedef enum _drv_flash_cfg_t
@@ -92,6 +92,9 @@ typedef struct _app_conf_flash_t
   float_t fltIdPiIGain;                 /* g_sM1Drive.sFocPMSM.sIdPiParams.fltIGain */
   float_t fltIqPiPGain;                 /* g_sM1Drive.sFocPMSM.sIqPiParams.fltPGain */
   float_t fltIqPiIGain;                 /* g_sM1Drive.sFocPMSM.sIqPiParams.fltIGain */
+  float_t fltIqZCfilterB0;              /* g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltB0 */
+  float_t fltIqZCfilterB1;              /* g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltB1 */
+  float_t fltIqZCfilterA1;              /* g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltA1 */
   float_t fltDutyCycleLimit;            /* g_sM1Drive.sFocPMSM.fltDutyCycleLimit */
   float_t fltSpeedRampUp;               /* g_sM1Drive.sSpeed.sSpeedRampParams.fltRampUp */
   float_t fltSpeedRampDown;             /* g_sM1Drive.sSpeed.sSpeedRampParams.fltRampDown */
@@ -102,6 +105,9 @@ typedef struct _app_conf_flash_t
   float_t fltSpeedFilterB0;             /* g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.fltB0 */
   float_t fltSpeedFilterB1;             /* g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.fltB1 */
   float_t fltSpeedFilterA1;             /* g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.fltA1 */
+  float_t fltSpeedZCfilterB0;           /* g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB0 */
+  float_t fltSpeedZCfilterB1;           /* g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB1 */
+  float_t fltSpeedZCfilterA1;           /* g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltA1 */
   float_t fltUDcBusFilterB0;            /* g_sM1Drive.sFocPMSM.sUDcBusFilter.sFltCoeff.fltB0 */
   float_t fltUDcBusFilterB1;            /* g_sM1Drive.sFocPMSM.sUDcBusFilter.sFltCoeff.fltB1 */
   float_t fltUDcBusFilterA1;            /* g_sM1Drive.sFocPMSM.sUDcBusFilter.sFltCoeff.fltA1 */
@@ -117,15 +123,19 @@ typedef struct _app_conf_flash_t
   float_t fltSpeedElEstB0;              /* g_sM1Drive.sFocPMSM.sSpeedElEstFilt.sFltCoeff.fltB0 */
   float_t fltSpeedElEstB1;              /* g_sM1Drive.sFocPMSM.sSpeedElEstFilt.sFltCoeff.fltB1 */
   float_t fltSpeedElEstA1;              /* g_sM1Drive.sFocPMSM.sSpeedElEstFilt.sFltCoeff.fltA1 */
-  frac16_t f16PositionPGain;            /* g_sM1Drive.sPosition.f16PositionPGain */
   uint16_t ui16EncPp;                   /* g_sM1Enc.ui16Pp */
-  uint16_t ui16EncPulseNumber;          /* g_sM1Enc.ui16PulseNumber */
-  bool_t bEncDirection;                 /* g_sM1Enc.bDirection */
-  float_t fltSpdEncMin;                 /* g_sM1Enc.fltSpdEncMin */
-  acc32_t a32PosMeGain;                 /* g_sM1Enc.a32PosMeGain */
-  float_t fltEncPGain;                  /* g_sM1Enc.sTo.fltPGain */
-  float_t fltEncIGain;                  /* g_sM1Enc.sTo.fltIGain */
-  float_t fltEncThGain;                 /* g_sM1Enc.sTo.fltThGain */
+  float_t fltServoPositionUpperLim;     /* g_sM1Drive.sPosition.sPositionPiParams.fltUpperLim */
+  float_t fltServoPositionLowerLim;     /* g_sM1Drive.sPosition.sPositionPiParams.fltLowerLim */
+  float_t fltServoPositionPGain;        /* g_sM1Drive.sPosition.sPositionPiParams.fltPGain */
+  float_t fltServoPositionFrwdK1;       /* g_sM1Drive.sPosition.fltFeedFrwdK1 */
+  float_t fltServoPositionFrwdK2;       /* g_sM1Drive.sPosition.fltFeedFrwdK2 */
+  float_t fltServoSpeedZCB0;            /* g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB0 */
+  float_t fltServoSpeedZCB1;            /* g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB1 */
+  float_t fltServoSpeedZCA1;            /* g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltA1 */
+  float_t fltServoSpeedPGain;           /* g_sM1Drive.sPosition.sSpeedPiParams.fltPGain */
+  float_t fltServoSpeedIGain;           /* g_sM1Drive.sPosition.sSpeedPiParams.fltIGain */
+  float_t fltServoSpeedUpperLim;       /* g_sM1Drive.sPosition.sSpeedPiParams.fltUpperLim */
+  float_t fltServoSpeedLowerLim;        /* g_sM1Drive.sPosition.sSpeedPiParams.fltLowerLim */
   char cDescription[CFG_USER_DESCRIPTION_LENGTH];       /* User's description */
   uint32_t ui32CheckSum;                                /* Checksum value */
   uint16_t ui16Reserved[FLASH_CONF_RESERVED_SPACE];     /* Reserved place to reach page-aligned structure */

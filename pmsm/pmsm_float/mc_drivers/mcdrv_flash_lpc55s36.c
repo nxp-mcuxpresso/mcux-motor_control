@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 NXP
+ * Copyright 2024-2025 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -45,8 +45,11 @@
   M1_SCALAR_INTEG_GAIN,\
   M1_D_KP_GAIN,\
   M1_D_KI_GAIN,\
-  M1_SPEED_PI_PROP_GAIN,\
-  M1_SPEED_PI_INTEG_GAIN,\
+  M1_Q_KP_GAIN,\
+  M1_Q_KI_GAIN,\
+  M1_Q_IIR_ZC_B0,\
+  M1_Q_IIR_ZC_B1,\
+  M1_Q_IIR_ZC_A1,\
   M1_CLOOP_LIMIT,\
   M1_SPEED_RAMP_UP,\
   M1_SPEED_RAMP_DOWN,\
@@ -57,6 +60,9 @@
   M1_SPEED_IIR_B0,\
   M1_SPEED_IIR_B1,\
   M1_SPEED_IIR_A1,\
+  M1_SPEED_IIR_ZC_B0,\
+  M1_SPEED_IIR_ZC_B1,\
+  M1_SPEED_IIR_ZC_A1,\
   M1_UDCB_IIR_B0,\
   M1_UDCB_IIR_B1,\
   M1_UDCB_IIR_A1,\
@@ -72,15 +78,19 @@
   M1_TO_SPEED_IIR_B0,\
   M1_TO_SPEED_IIR_B1,\
   M1_TO_SPEED_IIR_A1,\
-  M1_POS_P_PROP_GAIN,\
   M1_MOTOR_PP,\
-  M1_POSPE_ENC_PULSES,\
-  M1_POSPE_ENC_DIRECTION,\
-  M1_POSPE_ENC_N_MIN,\
-  M1_POSPE_MECH_POS_GAIN,\
-  M1_POSPE_TO_KP_GAIN,\
-  M1_POSPE_TO_KI_GAIN,\
-  M1_POSPE_TO_THETA_GAIN,\
+  M1_SERVO_POSITION_P_HIGH_LIMIT ,\
+  M1_SERVO_POSITION_P_LOW_LIMIT ,\
+  M1_SERVO_POSITION_P_PROP_GAIN ,\
+  M1_SERVO_FEED_FRWD_K1 ,\
+  M1_SERVO_FEED_FRWD_K2 ,\
+  M1_SERVO_IIR_ZC_B0 ,\
+  M1_SERVO_IIR_ZC_B1 ,\
+  M1_SERVO_IIR_ZC_A1 ,\
+  M1_SERVO_SPEED_PI_PROP_GAIN ,\
+  M1_SERVO_SPEED_PI_INTEG_GAIN ,\
+  M1_SERVO_SPEED_PI_HIGH_LIMIT ,\
+  M1_SERVO_SPEED_PI_LOW_LIMIT ,\
   "Default parameters"}
 
 /*******************************************************************************
@@ -182,6 +192,9 @@ bool_t Drv_Flash_Init(void)
     }
 
     Drv_ParamsSwap(kFlashCfg_Read);
+    
+    /* Number of configuration which was loaded during initialization */
+    g_sM1FlashCtrl.ui32CfgIndex = firstConfig;
   }
 #endif
 
@@ -415,7 +428,10 @@ void Drv_ParamsSwap(drv_flash_cfg_t eOperation)
     g_sM1Drive.sFocPMSM.sIdPiParams.fltPGain = g_sAppConfRun.fltIdPiPGain;
     g_sM1Drive.sFocPMSM.sIdPiParams.fltIGain = g_sAppConfRun.fltIdPiIGain;
     g_sM1Drive.sFocPMSM.sIqPiParams.fltPGain = g_sAppConfRun.fltIqPiPGain;
-    g_sM1Drive.sFocPMSM.sIqPiParams.fltIGain = g_sAppConfRun.fltIqPiIGain;
+    g_sM1Drive.sFocPMSM.sIqPiParams.fltIGain = g_sAppConfRun.fltIqPiIGain;  
+    g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltB0 = g_sAppConfRun.fltIqZCfilterB0;
+    g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltB1 = g_sAppConfRun.fltIqZCfilterB1;
+    g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltA1 = g_sAppConfRun.fltIqZCfilterA1;    
     g_sM1Drive.sFocPMSM.fltDutyCycleLimit = g_sAppConfRun.fltDutyCycleLimit;
     g_sM1Drive.sSpeed.sSpeedRampParams.fltRampUp = g_sAppConfRun.fltSpeedRampUp;
     g_sM1Drive.sSpeed.sSpeedRampParams.fltRampDown = g_sAppConfRun.fltSpeedRampDown;
@@ -426,6 +442,9 @@ void Drv_ParamsSwap(drv_flash_cfg_t eOperation)
     g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.fltB0 = g_sAppConfRun.fltSpeedFilterB0;
     g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.fltB1 = g_sAppConfRun.fltSpeedFilterB1;
     g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.fltA1 = g_sAppConfRun.fltSpeedFilterA1;
+    g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB0 = g_sAppConfRun.fltSpeedZCfilterB0;
+    g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB1 = g_sAppConfRun.fltSpeedZCfilterB1;
+    g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltA1 = g_sAppConfRun.fltSpeedZCfilterA1;  
     g_sM1Drive.sFocPMSM.sUDcBusFilter.sFltCoeff.fltB0 = g_sAppConfRun.fltUDcBusFilterB0;
     g_sM1Drive.sFocPMSM.sUDcBusFilter.sFltCoeff.fltB1= g_sAppConfRun.fltUDcBusFilterB1;
     g_sM1Drive.sFocPMSM.sUDcBusFilter.sFltCoeff.fltA1 = g_sAppConfRun.fltUDcBusFilterA1;
@@ -441,19 +460,23 @@ void Drv_ParamsSwap(drv_flash_cfg_t eOperation)
     g_sM1Drive.sFocPMSM.sSpeedElEstFilt.sFltCoeff.fltB0 = g_sAppConfRun.fltSpeedElEstB0;
     g_sM1Drive.sFocPMSM.sSpeedElEstFilt.sFltCoeff.fltB1 = g_sAppConfRun.fltSpeedElEstB1;
     g_sM1Drive.sFocPMSM.sSpeedElEstFilt.sFltCoeff.fltA1 = g_sAppConfRun.fltSpeedElEstA1;
-    g_sM1Drive.sPosition.f16PositionPGain = g_sAppConfRun.f16PositionPGain;
     g_sM1Enc.ui16Pp = g_sAppConfRun.ui16EncPp;
-    g_sM1Enc.ui16PulseNumber = g_sAppConfRun.ui16EncPulseNumber;
-    g_sM1Enc.bDirection = g_sAppConfRun.bEncDirection;
-    g_sM1Enc.fltSpdEncMin = g_sAppConfRun.fltSpdEncMin;
-    g_sM1Enc.a32PosMeGain = g_sAppConfRun.a32PosMeGain;
-    g_sM1Enc.sTo.fltPGain = g_sAppConfRun.fltEncPGain;
-    g_sM1Enc.sTo.fltIGain = g_sAppConfRun.fltEncIGain;
-    g_sM1Enc.sTo.fltThGain = g_sAppConfRun.fltEncThGain;
-
+    g_sM1Drive.sPosition.sPositionPiParams.fltUpperLim = g_sAppConfRun.fltServoPositionUpperLim;
+    g_sM1Drive.sPosition.sPositionPiParams.fltLowerLim = g_sAppConfRun.fltServoPositionLowerLim;
+    g_sM1Drive.sPosition.sPositionPiParams.fltPGain = g_sAppConfRun.fltServoPositionPGain;   
+    g_sM1Drive.sPosition.fltFeedFrwdK1 = g_sAppConfRun.fltServoPositionFrwdK1;  
+    g_sM1Drive.sPosition.fltFeedFrwdK2 = g_sAppConfRun.fltServoPositionFrwdK2;  
+    g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB0 = g_sAppConfRun.fltServoSpeedZCB0; 
+    g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB1 = g_sAppConfRun.fltServoSpeedZCB1;
+    g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltA1 = g_sAppConfRun.fltServoSpeedZCA1; 
+    g_sM1Drive.sPosition.sSpeedPiParams.fltPGain = g_sAppConfRun.fltServoSpeedPGain;      
+    g_sM1Drive.sPosition.sSpeedPiParams.fltIGain = g_sAppConfRun.fltServoSpeedIGain;      
+    g_sM1Drive.sPosition.sSpeedPiParams.fltUpperLim = g_sAppConfRun.fltServoSpeedUpperLim;   
+    g_sM1Drive.sPosition.sSpeedPiParams.fltLowerLim = g_sAppConfRun.fltServoSpeedLowerLim;   
+    
     /* Call update direction and pulses to correct propage changes */
-    M1_MCDRV_QD_SET_DIRECTION(&g_sM1Enc);
-    M1_MCDRV_QD_SET_PULSES(&g_sM1Enc);
+    M1_MCDRV_ENC_SET_DIRECTION(&g_sM1Enc);
+    M1_MCDRV_ENC_SET_PULSES(&g_sM1Enc);
 
     /* Copy strig of user description */
     for(uint16_t i = 0U; i < CFG_USER_DESCRIPTION_LENGTH; i++)
@@ -498,7 +521,10 @@ void Drv_ParamsSwap(drv_flash_cfg_t eOperation)
     g_sAppConfRun.fltIdPiPGain = g_sM1Drive.sFocPMSM.sIdPiParams.fltPGain;
     g_sAppConfRun.fltIdPiIGain = g_sM1Drive.sFocPMSM.sIdPiParams.fltIGain;
     g_sAppConfRun.fltIqPiPGain = g_sM1Drive.sFocPMSM.sIqPiParams.fltPGain;
-    g_sAppConfRun.fltIqPiIGain = g_sM1Drive.sFocPMSM.sIqPiParams.fltIGain;
+    g_sAppConfRun.fltIqPiIGain = g_sM1Drive.sFocPMSM.sIqPiParams.fltIGain;    
+    g_sAppConfRun.fltIqZCfilterB0 = g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltB0;
+    g_sAppConfRun.fltIqZCfilterB1 = g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltB1;
+    g_sAppConfRun.fltIqZCfilterA1 = g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.fltA1;     
     g_sAppConfRun.fltDutyCycleLimit = g_sM1Drive.sFocPMSM.fltDutyCycleLimit;
     g_sAppConfRun.fltSpeedRampUp = g_sM1Drive.sSpeed.sSpeedRampParams.fltRampUp;
     g_sAppConfRun.fltSpeedRampDown = g_sM1Drive.sSpeed.sSpeedRampParams.fltRampDown;
@@ -508,7 +534,10 @@ void Drv_ParamsSwap(drv_flash_cfg_t eOperation)
     g_sAppConfRun.fltSpeedPiIGain = g_sM1Drive.sSpeed.sSpeedPiParams.fltIGain;
     g_sAppConfRun.fltSpeedFilterB0 = g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.fltB0;
     g_sAppConfRun.fltSpeedFilterB1 = g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.fltB1;
-    g_sAppConfRun.fltSpeedFilterA1 = g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.fltA1;
+    g_sAppConfRun.fltSpeedFilterA1 = g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.fltA1;  
+    g_sAppConfRun.fltSpeedZCfilterB0 = g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB0;
+    g_sAppConfRun.fltSpeedZCfilterB1 = g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB1;
+    g_sAppConfRun.fltSpeedZCfilterA1 = g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltA1;   
     g_sAppConfRun.fltUDcBusFilterB0 = g_sM1Drive.sFocPMSM.sUDcBusFilter.sFltCoeff.fltB0;
     g_sAppConfRun.fltUDcBusFilterB1 = g_sM1Drive.sFocPMSM.sUDcBusFilter.sFltCoeff.fltB1;
     g_sAppConfRun.fltUDcBusFilterA1 = g_sM1Drive.sFocPMSM.sUDcBusFilter.sFltCoeff.fltA1;
@@ -524,15 +553,19 @@ void Drv_ParamsSwap(drv_flash_cfg_t eOperation)
     g_sAppConfRun.fltSpeedElEstB0 = g_sM1Drive.sFocPMSM.sSpeedElEstFilt.sFltCoeff.fltB0;
     g_sAppConfRun.fltSpeedElEstB1 = g_sM1Drive.sFocPMSM.sSpeedElEstFilt.sFltCoeff.fltB1;
     g_sAppConfRun.fltSpeedElEstA1 = g_sM1Drive.sFocPMSM.sSpeedElEstFilt.sFltCoeff.fltA1;
-    g_sAppConfRun.f16PositionPGain = g_sM1Drive.sPosition.f16PositionPGain;
-    g_sAppConfRun.ui16EncPp = g_sM1Enc.ui16Pp;
-    g_sAppConfRun.ui16EncPulseNumber = g_sM1Enc.ui16PulseNumber;
-    g_sAppConfRun.bEncDirection = g_sM1Enc.bDirection;
-    g_sAppConfRun.fltSpdEncMin = g_sM1Enc.fltSpdEncMin;
-    g_sAppConfRun.a32PosMeGain = g_sM1Enc.a32PosMeGain;
-    g_sAppConfRun.fltEncPGain = g_sM1Enc.sTo.fltPGain;
-    g_sAppConfRun.fltEncIGain = g_sM1Enc.sTo.fltIGain;
-    g_sAppConfRun.fltEncThGain = g_sM1Enc.sTo.fltThGain;
+    g_sAppConfRun.ui16EncPp = g_sM1Enc.ui16Pp; 
+    g_sAppConfRun.fltServoPositionUpperLim = g_sM1Drive.sPosition.sPositionPiParams.fltUpperLim;
+    g_sAppConfRun.fltServoPositionLowerLim = g_sM1Drive.sPosition.sPositionPiParams.fltLowerLim;
+    g_sAppConfRun.fltServoPositionPGain = g_sM1Drive.sPosition.sPositionPiParams.fltPGain;   
+    g_sAppConfRun.fltServoPositionFrwdK1 = g_sM1Drive.sPosition.fltFeedFrwdK1;  
+    g_sAppConfRun.fltServoPositionFrwdK2 = g_sM1Drive.sPosition.fltFeedFrwdK2;     
+    g_sAppConfRun.fltServoSpeedZCB0 = g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB0;
+    g_sAppConfRun.fltServoSpeedZCB1 = g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltB1;
+    g_sAppConfRun.fltServoSpeedZCA1 = g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.fltA1;  
+    g_sAppConfRun.fltServoSpeedPGain = g_sM1Drive.sPosition.sSpeedPiParams.fltPGain;      
+    g_sAppConfRun.fltServoSpeedIGain = g_sM1Drive.sPosition.sSpeedPiParams.fltIGain;      
+    g_sAppConfRun.fltServoSpeedUpperLim = g_sM1Drive.sPosition.sSpeedPiParams.fltUpperLim;   
+    g_sAppConfRun.fltServoSpeedLowerLim = g_sM1Drive.sPosition.sSpeedPiParams.fltLowerLim;  
 
     /* Copy strig of user description */
     for(uint16_t i = 0U; i < CFG_USER_DESCRIPTION_LENGTH; i++)

@@ -602,6 +602,9 @@ endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_lpcadc_pwma_enc)
     mcux_component_version(3.1.0)
+	mcux_add_configuration(
+		CC  "-DMCDRV_FLASH_LPC55S36"
+    )
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_lpc55s36.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adc_lpc55s36.c
@@ -609,8 +612,8 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_lpcadc_pwma_enc)
                 pmsm/pmsm_float/mc_drivers/mcdrv_eflexpwm_lpc.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_enc_qd.c
                 pmsm/pmsm_float/mc_drivers/mcdrv_enc_qd.h
-                # pmsm/pmsm_float/mc_drivers/mcdrv_flash_lpc55s36.h # exclude because flash driver missing
-                # pmsm/pmsm_float/mc_drivers/mcdrv_flash_lpc55s36.c # exclude because flash driver missing
+                pmsm/pmsm_float/mc_drivers/mcdrv_flash_lpc55s36.h
+                pmsm/pmsm_float/mc_drivers/mcdrv_flash_lpc55s36.c
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_include(

@@ -32,7 +32,9 @@
 #endif
 
 #if ENABLE_FLASH_PARAM_UPDATE
+#if MCDRV_FLASH_LPC55S36
 #include "mcdrv_flash_lpc55s36.h"
+#endif
 #endif
 
 /*******************************************************************************
