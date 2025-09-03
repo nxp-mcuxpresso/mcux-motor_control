@@ -56,6 +56,7 @@
  *
  * @return none
  */
+RAM_FUNC_LIB
 void MCDRV_CurrAndVoltDcBusGet(mcdrv_adc_t *this)
 {
     uint16_t ui16Dummy;
@@ -128,6 +129,7 @@ void MCDRV_CurrAndVoltDcBusGet(mcdrv_adc_t *this)
  *
  * @return none
  */
+RAM_FUNC_LIB
 void MCDRV_Curr3Ph2ShCalibInit(mcdrv_adc_t *this)
 {
 
@@ -170,6 +172,7 @@ void MCDRV_Curr3Ph2ShCalibInit(mcdrv_adc_t *this)
  *
  * @return none
  */
+RAM_FUNC_LIB
 void MCDRV_Curr3Ph2ShCalib(mcdrv_adc_t *this)
 {
 
@@ -218,6 +221,7 @@ void MCDRV_Curr3Ph2ShCalib(mcdrv_adc_t *this)
  *
  * @return none
  */
+RAM_FUNC_LIB
 void MCDRV_Curr3Ph2ShCalibSet(mcdrv_adc_t *this)
 {
 

@@ -62,6 +62,7 @@ void MCDRV_QdEncGetPosition(mcdrv_eqd_enc_t *this)
  *
  * @return none
  */
+RAM_FUNC_LIB
 void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this)
 {
     int64_t i64Numerator;
@@ -221,6 +222,7 @@ void MCDRV_QdEncSetPulses(mcdrv_eqd_enc_t *this)
  *
  * @return none
  */
+RAM_FUNC_LIB
 void MCDRV_QdEncUpdateParameters(mcdrv_eqd_enc_t *this)
 {
     this->i32Q10Cnt2PosGain = ((0xffffffffU/(4*(1*this->ui16PulseNumber)))*1024); // #define M1_QDC_LINE_RECIPROCAL_4_POS_GEN
