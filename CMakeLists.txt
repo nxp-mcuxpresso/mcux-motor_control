@@ -678,8 +678,6 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_mcxe3xx)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_sar_adc_mcxe.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_sar_adc_mcxe.c
-                pmsm/pmsm_float/mc_drivers/mcdrv_bctu_mcxe.c
-                pmsm/pmsm_float/mc_drivers/mcdrv_bctu_mcxe.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_lcu_mcxe.c
                 pmsm/pmsm_float/mc_drivers/mcdrv_lcu_mcxe.h
 				pmsm/pmsm_float/mc_drivers/mcdrv_emios_mcxe.c
