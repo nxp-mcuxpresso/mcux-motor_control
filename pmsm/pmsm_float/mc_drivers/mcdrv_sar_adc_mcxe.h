@@ -17,7 +17,6 @@
 #include "gdflib.h"
 #include "mlib_types.h"
 #include "gmclib.h"
-#include "mcdrv_bctu_mcxe.h"
 #include "fsl_bctu.h"
  
 typedef struct _pha_ab
