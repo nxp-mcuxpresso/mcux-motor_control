@@ -11,14 +11,14 @@
 * use the software.
  */
 
-#ifndef _MCDRV_ENDAT2P2_H_
-#define _MCDRV_ENDAT2P2_H_
+#ifndef _MCDRV_ENDAT3_H_
+#define _MCDRV_ENDAT3_H_
 
 #include "fsl_common.h"
 #include "mlib_types.h"
 #include "mlib.h"
 #include "amclib_FP.h"
-#include "fsl_endat2p2.h"
+#include "fsl_endat3.h"
 
 
 /*!
@@ -30,35 +30,27 @@
  * Definitions
  ******************************************************************************/
 
-typedef struct _mcdrv_endat2p2
+typedef struct _mcdrv_endat3
 {
+  ENDAT3_Type *pui32EnDat3BaseAddress;      /* Pointer to EnDat3 base */
+  endat3_rsp_t rsp;
   
-    endat2p2_dev_t *dev;
-    endat2p2_recv_data_t data;
-    
-    float_t *pfltSpdMeEst;        /* pointer to measured mechanical speed  */
-    frac16_t *pf16PosElEst;       /* pointer to measured electrical position */
-    acc32_t *pa32PosMeReal;       /* pointer to real position (revolution counter + mechanical position) */ 
+  float_t *pfltSpdMeEst;        /* pointer to measured mechanical speed  */
+  frac16_t *pf16PosElEst;       /* pointer to measured electrical position */
+  acc32_t *pa32PosMeReal;       /* pointer to real position (revolution counter + mechanical position) */ 
+  
+  float_t fltSpdMeEst;          /* estimated speed calculated using encoder edges */
+  frac16_t f16PosMe;            /* mechanical position calculated using encoder edges */
+  frac16_t f16PosOffset;              
+  uint16_t ui16Pp;              /* number of motor pole pairs */
+  uint64_t ui64EndatPosition;   /* position at step k (unsigned) */
+  int64_t i64EndatPosition;     /* position at step k (signed) */
+  int64_t i64EndatPositionOld;  /* position at step k-1 (signed) */
+  int64_t i64RevCounter;        /* multiturn revolution counter */
+  int64_t i64EndatDiff;         /* position difference between steps k and k-1 */
+  bool_t bEndatDir;             /* direction of the encoder rotation */
 
-    acc32_t a32PosErr;            /* position error to tracking observer  */
-    float_t fltSpdMeEst;          /* estimated speed calculated using encoder edges */
-    frac16_t f16PosMe;            /* mechanical position calculated using encoder edges */
-    frac16_t f16PosMeEst;         /* estimated position calculated using tracking observer */
-    
-    frac16_t f16PosOffset;
-    
-    uint16_t ui16Pp;              /* number of motor pole pairs */
-    
-    uint64_t ui64EndatPosition;
-
-    int64_t i64EndatPosition;
-    int64_t i64EndatPositionOld;
-    int64_t i64EndatPositionMT;
-    int64_t i64RevCounter;
-    int64_t i64EndatDiff;
-    bool_t bEndatDir;
-
-} mcdrv_endat2p2_t;
+} mcdrv_endat3_t;
 
 /*******************************************************************************
  * API
@@ -76,7 +68,7 @@ extern "C" {
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_Endat2p2Clear(mcdrv_endat2p2_t *base);
+void MCDRV_Endat3Clear(mcdrv_endat3_t *base);
 
 /*!
  * @brief Function sets revolutions offset
@@ -86,7 +78,7 @@ void MCDRV_Endat2p2Clear(mcdrv_endat2p2_t *base);
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_Endat2p2SetOffset(mcdrv_endat2p2_t *base);
+void MCDRV_Endat3SetOffset(mcdrv_endat3_t *base);
    
 /*!
  * @brief Function reads raw data and converts to single turn and multi turn revolutions
@@ -96,7 +88,7 @@ void MCDRV_Endat2p2SetOffset(mcdrv_endat2p2_t *base);
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_Endat2p2DataRead(mcdrv_endat2p2_t *base);
+void MCDRV_Endat3DataRead(mcdrv_endat3_t *base);
 
 /*!
  * @brief Function processes the data (fast-loop)
@@ -106,7 +98,7 @@ void MCDRV_Endat2p2DataRead(mcdrv_endat2p2_t *base);
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_EnDat2p2GetPositionFoc(mcdrv_endat2p2_t * base);
+void MCDRV_EnDat3GetPositionFoc(mcdrv_endat3_t * base);
 
 /*!
  * @brief Function processes the data (slow-loop)
@@ -116,11 +108,11 @@ void MCDRV_EnDat2p2GetPositionFoc(mcdrv_endat2p2_t * base);
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_EnDat2p2GetPositionFullAndSpeed(mcdrv_endat2p2_t * base);
+void MCDRV_EnDat3GetPositionFullAndSpeed(mcdrv_endat3_t * base);
 
 #if defined(__cplusplus)
 }
 #endif /*_cplusplus*/
 /*@}*/
 
-#endif /* MCDRV_ENDAT2P2_H_*/
+#endif /* MCDRV_Endat3_H_*/

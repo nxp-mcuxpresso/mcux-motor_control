@@ -11,7 +11,7 @@
 * use the software.
  */
 
-#include "mcdrv_endat2p2.h"
+#include "mcdrv_endat3.h"
 
 /*******************************************************************************
  * Definitions
@@ -39,15 +39,11 @@
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_Endat2p2Clear(mcdrv_endat2p2_t *base)
+void MCDRV_Endat3Clear(mcdrv_endat3_t *base)
 {
-  base->a32PosErr = ACC32(0.0);            /* position error to tracking observer  */
   base->fltSpdMeEst = 0.0F;                /* estimated speed calculated using encoder edges */
   base->f16PosMe = FRAC16(0.0);            /* mechanical position calculated using encoder edges */
-  base->f16PosMeEst = FRAC16(0.0);         /* estimated position calculated using tracking observer */
-  
   base->f16PosOffset = 0U;
-
 }
 
 /*!
@@ -58,15 +54,12 @@ void MCDRV_Endat2p2Clear(mcdrv_endat2p2_t *base)
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_Endat2p2SetOffset(mcdrv_endat2p2_t *base)
+void MCDRV_Endat3SetOffset(mcdrv_endat3_t *base)
 {
-    /* Copy position data */
-    base->ui64EndatPosition = base->data.position.position;
-    /* Set position to middle */
-    base->i64EndatPosition = (int64_t)(base->ui64EndatPosition) - 16777216;
-    /* Position offset */
-    base->f16PosOffset = (frac16_t)((base->i64EndatPosition >> 9U)  * base->ui16Pp ); 
-
+  /* Set position to middle */
+  base->i64EndatPosition = (int64_t)(base->ui64EndatPosition) - 16777216;
+  /* Position offset */
+  base->f16PosOffset = (frac16_t)((base->i64EndatPosition >> 9U)  * base->ui16Pp ); 
 }
 
 /*!
@@ -77,10 +70,9 @@ void MCDRV_Endat2p2SetOffset(mcdrv_endat2p2_t *base)
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_Endat2p2DataRead(mcdrv_endat2p2_t *base)
+void MCDRV_Endat3DataRead(mcdrv_endat3_t *base)
 {
-  /* Receive data from EnDat2.2 sensor */
-    ENDAT2P2_RecvData(base->dev, ENDAT2P2_CMD_SEND_POSITION_VALUE, &(base->data));      
+  ENDAT3_getRsp(base->pui32EnDat3BaseAddress, 0, &base->rsp);      
 }
 
 /*!
@@ -91,19 +83,24 @@ void MCDRV_Endat2p2DataRead(mcdrv_endat2p2_t *base)
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_EnDat2p2GetPositionFoc(mcdrv_endat2p2_t * base)
+void MCDRV_EnDat3GetPositionFoc(mcdrv_endat3_t * base)
 {
-    /* Copy position data */
-    base->ui64EndatPosition = base->data.position.position;
-    
-    /* Set position to middle */
-    base->i64EndatPosition = (int64_t)(base->ui64EndatPosition) - 16777216; // ui64EndatPosition - (2^25)/2
-    
-    /* Mechanical position */
-    base->f16PosMe = (frac16_t)(base->i64EndatPosition >> 9U);
-
-    /* Electrical position in frac16 */
-    *base->pf16PosElEst = (frac16_t)((base->i64EndatPosition >> 9U)  * base->ui16Pp ) - base->f16PosOffset; 
+  uint64_t position;
+  
+  /* Read HPF data */
+  position = ENDAT3_READ_HPF_DATA(base->rsp.hpf.hpf64);
+  
+  /* Shift HPF data to get 25bits value (encoder resolution). */
+  base->ui64EndatPosition = (position & 0xFFFFFFFF) >> 7;
+  
+  /* Set position to middle */
+  base->i64EndatPosition = (int64_t)(base->ui64EndatPosition) - 16777216; // ui64EndatPosition - (2^25)/2
+  
+  /* Mechanical position */
+  base->f16PosMe = (frac16_t)(base->i64EndatPosition >> 9U);
+  
+  /* Electrical position in frac16 */
+  *base->pf16PosElEst = (frac16_t)((base->i64EndatPosition >> 9U)  * base->ui16Pp ) - base->f16PosOffset; 
 }
 
 /*!
@@ -114,15 +111,9 @@ void MCDRV_EnDat2p2GetPositionFoc(mcdrv_endat2p2_t * base)
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_EnDat2p2GetPositionFullAndSpeed(mcdrv_endat2p2_t * base)
+void MCDRV_EnDat3GetPositionFullAndSpeed(mcdrv_endat3_t * base)
 {
     float_t fltSpdMech;
-    
-    /* Copy position data */
-    base->ui64EndatPosition = base->data.position.position;
-    
-    /* Set position to middle */
-    base->i64EndatPosition = (int64_t)(base->ui64EndatPosition) - 16777216; // ui64EndatPosition - (2^25)/2
     
     /* Position difference (delta) */
     base->i64EndatDiff = base->i64EndatPosition - base->i64EndatPositionOld;
@@ -156,8 +147,6 @@ void MCDRV_EnDat2p2GetPositionFullAndSpeed(mcdrv_endat2p2_t * base)
     }
     
     /* Multiturn position */
-    /* PositionMT = RevCounter * maxRange + ActualPosition */
-    base->i64EndatPositionMT = base->i64RevCounter * (33554432) + base->ui64EndatPosition; //Full range 2^(25)
     
     /* Speed [Hz ~ rps (revolutions per second)] = PositionDelta / (SampleTime * MaxPositionNumber) = (PositionDelta * SampleFrequency) / MaxPositionNumber [Hz] */
     /* Speed [rpm] = 60 * Speed[Hz] */
