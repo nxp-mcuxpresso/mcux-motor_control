@@ -141,6 +141,7 @@ MCAA_ESTIMRL_RET_T_FLT 	  eEstimRetVal;         /* Return value of the MCAA_Esti
 MCAA_ESTIMRL_INIT_T_FLT g_sEstimRLInitCfg;      /* RL estimation initialization structure */
 MCAA_ESTIMRL_T_FLT 	  g_sEstimRLStruct;     /* RL estimation configuration structure */
 MCAA_ESTIMRL_RUN_T_FLT  g_sEstimRLCtrlRun;      /* Control manual mode and measured values in modes 1, 2 */
+MCAA_ESTIMRL_ADV_TUNE_T g_sEstimRLAdvTune;      /* Advanced tuning parameters EstimRL algorithm */
 uint8_t u8ModeEstimRL;                          /* Selected identification mode */
 uint8_t u8PlotCnt;                              /* Plot counter. */
 float_t	fltIDcPlot;                             /* DC current [A]. */ 
@@ -241,7 +242,7 @@ static void MID_StateRL(void)
 #endif  
     GMCLIB_Clark_FLT(&g_sMidDrive.sFocPMSM.sIABC, &g_sMidDrive.sFocPMSM.sIAlBe);
     
-    eEstimRetVal = MCAA_EstimRL_FLT(g_sMidDrive.sFocPMSM.fltUDcBus, &g_sMidDrive.sFocPMSM.sIAlBe, &g_sEstimRLStruct, &g_sEstimRLCtrlRun, &g_sMidDrive.sFocPMSM.sUAlBeReq);
+    eEstimRetVal = MCAA_EstimRL_FLT(g_sMidDrive.sFocPMSM.fltUDcBus, &g_sMidDrive.sFocPMSM.sIAlBe, &g_sEstimRLStruct, &g_sEstimRLCtrlRun, &g_sEstimRLAdvTune, &g_sMidDrive.sFocPMSM.sUAlBeReq);
         
     /* DCBus ripple elimination */
     GMCLIB_ElimDcBusRipFOC_F16ff(g_sMidDrive.sFocPMSM.fltUDcBus, &g_sMidDrive.sFocPMSM.sUAlBeReq, &g_sMidDrive.sFocPMSM.sUAlBeCompFrac);
@@ -550,7 +551,7 @@ static void MID_TransStart2RL(void)
           break;
     }
         
-    eEstimRetValInit = MCAA_EstimRLInit_FLT(F_SAMPLING, &g_sEstimRLInitCfg ,&g_sEstimRLStruct);
+    eEstimRetValInit = MCAA_EstimRLInit_FLT(F_SAMPLING, &g_sEstimRLInitCfg ,&g_sEstimRLStruct, &g_sEstimRLAdvTune);
     
     switch(eEstimRetValInit)
     {
@@ -917,6 +918,10 @@ void MID_Init_AR(void)
 
     /* Clear rest of variables  */
     MID_ClearFOCVariables();
+    
+    /* Copy default parameters for advanced tuning EstimRL algorithm. */
+    /* Update the specific parameter after this assigmnet. */
+    g_sEstimRLAdvTune = ESTIMRL_ADV_TUNE_DEFAULT;
 
     /* Init sensors/actuators pointers */
     /* For PWM driver */

@@ -1,5 +1,5 @@
 /*
-* Copyright 2021, 2024 NXP
+* Copyright 2021, 2024-2025 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -39,10 +39,10 @@ extern "C" {
 /*******************************************************************************
 * Macros
 *******************************************************************************/
-#define MCAA_EstimRLInit_FLT_C(u32SamplingFreq, psParam, psCtrl)               \
-        MCAA_EstimRLInit_FLT_FC(u32SamplingFreq, psParam, psCtrl)
-#define MCAA_EstimRL_FLT_C(fltUDcBus, psIAlBeFbck, psCtrl, sParam, psUAlBeReq) \
-        MCAA_EstimRL_FLT_FC(fltUDcBus, psIAlBeFbck, psCtrl, sParam, psUAlBeReq)
+#define MCAA_EstimRLInit_FLT_C(u32SamplingFreq, psParam, psCtrl, psAdvTune)    \
+        MCAA_EstimRLInit_FLT_FC(u32SamplingFreq, psParam, psCtrl, psAdvTune)
+#define MCAA_EstimRL_FLT_C(fltUDcBus, psIAlBeFbck, psCtrl, sParam, psAdvTune, psUAlBeReq) \
+        MCAA_EstimRL_FLT_FC(fltUDcBus, psIAlBeFbck, psCtrl, sParam, psAdvTune, psUAlBeReq)
 
 /*******************************************************************************
 * Types
@@ -195,16 +195,45 @@ typedef struct
   uint8_t u8LdqSwitch;  /* Switches between Ld (u8LdqSwitch = 0) and Lq (u8LdqSwitch = 1) measurement */
 } MCAA_ESTIMRL_RUN_T_FLT;
 
+/* Parameters for advanced tuning algorithm. */
+typedef struct
+{
+float_t  fltACf;        // MCAA_ESTIMRL_ACF (500.0f) /* Frequency of the injected AC current [Hz] */
+uint16_t u16Timeout;    // MCAA_ESTIMRL_TIMEOUT (2u) /* Convergence detector timeout [s] */
+uint16_t  u16DCBusThr;  // MCAA_ESTIMRL_DCB_THR (10u) /* DC bus limit counter threshold */
+float_t  fltCdLimL;     // MCAA_ESTIMRL_CD_LIML (-1000.0f) /* Convergence detector lower limit */
+float_t  fltCdLimH;     // MCAA_ESTIMRL_CD_LIMH (-100.0f) /* Convergence detector coarse/fine tracking threshold */
+float_t  fltCdCoarseThr;        // MCAA_ESTIMRL_CD_COARSE_THR (0.1f) /* Convergence detector coarse threshold */ 
+float_t  fltCdFineThr;          // MCAA_ESTIMRL_CD_FINE_THR (3.90625e-03f) /* Convergence detector fine threshold */
+float_t  fltACIamp;     // MCAA_ESTIMRL_AC_IAMP (0.1f) /* AC current amplitude fraction of the maximal current */
+float_t  fltPllLambdaDQ;        // MCAA_ESTIMRL_PLL_LAMBDA_DQ (0.05f) /* PLL d/q axis MA filter coefficient */
+float_t  fltPllLambdaDC;        // MCAA_ESTIMRL_PLL_LAMBDA_DC (0.05f) /* PLL DC current MA filter coefficient */
+float_t  fltPllLambdaStd;       // MCAA_ESTIMRL_PLL_LAMBDA_STD (0.01f) /* PLL current noise standard deviation MA filter coefficient */
+float_t  fltPllKp;              // MCAA_ESTIMRL_PLL_KP (50.0f) /* PLL phase controller proportional gain */
+float_t  flt_DCIRamp;   // MCAA_ESTIMRL_DC_IRAMP (0.002f) /* DC current ramp factor */
+float_t  fltACDCKi;     // MCAA_ESTIMRL_ACDC_KI (0.0001f) /* AC/DC voltage controller integral gain (for Idcmax = IDCMAX_NOMINAL) */
+float_t  fltIDCMaxNom;  // IDCMAX_NOMINAL (100.0f) /* Nominal value of the max. DC current for scaling of controller time constants */
+float_t  fltUDCBusNom;  // UDCBUS_NOMINAL (12.0f) /* Nominal value of the DC bus voltage for scaling of controller time constants */
+float_t  fltDCBusElimIdx;       // MCAA_ESTIMRL_DCB_ELIM_IDX (0.866025403784439f) /* DC bus eliminator inverse modulation index */
+float_t  fltAvgMul;     // MCAA_ESTIMRL_AVG_MUL (300.0f) /* Averaging window length multiplier */
+float_t  fltAvgMin;     // MCAA_ESTIMRL_AVG_MIN (0.4f) /* Averaging window minimum length [seconds] */
+float_t  fltAvgMax;     // MCAA_ESTIMRL_AVG_MAX (1.0f) /* Maximum length of the noise averaging window [seconds]. Must be <= 1 for the fixed-point implementation. */
+} MCAA_ESTIMRL_ADV_TUNE_T;
+
+extern const MCAA_ESTIMRL_ADV_TUNE_T ESTIMRL_ADV_TUNE_DEFAULT;
+
 /****************************************************************************
 * Exported function prototypes
 ****************************************************************************/
 extern MCAA_ESTIMRLINIT_RET_T_FLT MCAA_EstimRLInit_FLT_FC(uint32_t u32SamplingFreq,
                                                           MCAA_ESTIMRL_INIT_T_FLT *psParam,
-                                                          MCAA_ESTIMRL_T_FLT *const psCtrl);
+                                                          MCAA_ESTIMRL_T_FLT *const psCtrl,
+                                                          MCAA_ESTIMRL_ADV_TUNE_T *psAdvTune);
 extern MCAA_ESTIMRL_RET_T_FLT MCAA_EstimRL_FLT_FC(float_t fltUDcBus,
                                                   const GMCLIB_2COOR_ALBE_T_FLT *const pIAlBeFbck,
                                                   MCAA_ESTIMRL_T_FLT *const psCtrl,
                                                   MCAA_ESTIMRL_RUN_T_FLT *psParam,
+                                                  MCAA_ESTIMRL_ADV_TUNE_T *psAdvTune,
                                                   GMCLIB_2COOR_ALBE_T_FLT *const pUAlBeReq);
 
 /****************************************************************************

@@ -876,6 +876,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm33f)
     mcux_component_version(3.1.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_algorithms/mcaa_lib/cm33f_iar/Include/MCAA_EstimRL_FLT.h
+				pmsm/pmsm_float/mc_algorithms/mcaa_lib/cm33f_iar/Include/MCAA_EstimBJ_FLT.h
         TOOLCHAINS iar
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
