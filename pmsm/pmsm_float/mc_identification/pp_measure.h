@@ -15,7 +15,7 @@
 #ifndef PP_MEASURE_H_
 #define PP_MEASURE_H_
 
-#include "mid_mc_api_connector.h"
+#include "mid_def.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,7 +24,7 @@ extern "C" {
 /*******************************************************************************
  * API
  ******************************************************************************/
-extern void MID_getPp(mid_get_pp_t* sPpMeasFcn);
+extern void MID_getPp(mid_get_pp_t* sPpMeasFcn, mcs_pmsm_foc_t* sFocPmsm);
 
 #ifdef __cplusplus
 }

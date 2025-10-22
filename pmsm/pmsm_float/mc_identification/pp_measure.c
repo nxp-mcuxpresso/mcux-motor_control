@@ -17,7 +17,7 @@
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
-#define MID_RAMP_COEFF_MULT (MID_FAST_LOOP_TS / MID_SPEED_RAMP_TIME)
+#define MID_RAMP_COEFF_MULT (1.0/(float_t)(M1_PWM_FREQ / MID_SPEED_RAMP_TIME))
 
 /*******************************************************************************
  * Code
@@ -31,10 +31,8 @@
  *
  * @return None
  */
-void MID_getPp(mid_get_pp_t* sPpMeasFcn)
+void MID_getPp(mid_get_pp_t* sPpMeasFcn, mcs_pmsm_foc_t* sFocPmsm)
 {
-    GMCLIB_2COOR_DQ_T_FLT sIDQReq;
-
     /* Initialisation */
     if(sPpMeasFcn->bActive == FALSE)
     {
@@ -44,16 +42,15 @@ void MID_getPp(mid_get_pp_t* sPpMeasFcn)
         sPpMeasFcn->sFreqElRampParam.fltRampUp      = sPpMeasFcn->fltFreqElReq * MID_RAMP_COEFF_MULT;
         sPpMeasFcn->sFreqElRampParam.fltRampDown    = sPpMeasFcn->fltFreqElReq * MID_RAMP_COEFF_MULT;
         sPpMeasFcn->fltFreqMax                      = sPpMeasFcn->fltFreqElReq;
-        sPpMeasFcn->sFreqIntegrator.a32Gain         = MLIB_Conv_A32f(sPpMeasFcn->fltFreqMax * MID_FAST_LOOP_TS * 2.0F);
+        sPpMeasFcn->sFreqIntegrator.a32Gain         = MLIB_Conv_A32f(sPpMeasFcn->fltFreqMax * (1.0/(float_t)M1_PWM_FREQ) * 2.0F);
         sPpMeasFcn->sFreqIntegrator.f32IAccK_1      = FRAC32(0.0F);
         GFLIB_IntegratorInit_F16(0, &sPpMeasFcn->sFreqIntegrator);
         GFLIB_RampInit_FLT(0.0F, &sPpMeasFcn->sFreqElRampParam);
     }
 
     /* Set Id required */
-    sIDQReq.fltD = sPpMeasFcn->fltIdReqOpenLoop;
-    sIDQReq.fltQ = 0.0F;
-    MID_MC_SetIDQReq(sIDQReq);
+    sFocPmsm->sIDQReq.fltD = sPpMeasFcn->fltIdReqOpenLoop;
+    sFocPmsm->sIDQReq.fltQ = 0.0F;
 
     /* Else start incrementing position */
     if(sPpMeasFcn->ui16WaitingSteady == 0U)
@@ -61,13 +58,13 @@ void MID_getPp(mid_get_pp_t* sPpMeasFcn)
         /* Ramp electrical speed */
         sPpMeasFcn->fltFreqElRamp = GFLIB_Ramp_FLT(sPpMeasFcn->fltFreqElReq, &sPpMeasFcn->sFreqElRampParam);
         /* Integrate electrical speed to get electrical position */
-        MID_MC_SetExternalPosEl(GFLIB_Integrator_F16(MLIB_ConvSc_F16ff(sPpMeasFcn->fltFreqElRamp, sPpMeasFcn->fltFreqMax), &sPpMeasFcn->sFreqIntegrator));
+        sFocPmsm->f16PosElExt = GFLIB_Integrator_F16(MLIB_ConvSc_F16ff(sPpMeasFcn->fltFreqElRamp, sPpMeasFcn->fltFreqMax), &sPpMeasFcn->sFreqIntegrator);
     }
 
     /* If position overflows, wait 2400ms in zero position */
-    if(((MID_MC_GetExternalPosEl() < FRAC16(0.0F)) && (sPpMeasFcn->f16PosElLast > FRAC16(0.0F))) || (sPpMeasFcn->ui16WaitingSteady == 1U))
+    if(((sFocPmsm->f16PosElExt < FRAC16(0.0F)) && (sPpMeasFcn->f16PosElLast > FRAC16(0.0F))) || (sPpMeasFcn->ui16WaitingSteady == 1U))
     {
-        MID_MC_SetExternalPosEl(FRAC16(-1.0F));
+        sFocPmsm->f16PosElExt = FRAC16(-1.0F);
 
         /* Initialise waiting */
         if(sPpMeasFcn->ui16WaitingSteady == 0U)
@@ -81,15 +78,15 @@ void MID_getPp(mid_get_pp_t* sPpMeasFcn)
         /* Escape waiting in steady position after 2400 ms */
         if(sPpMeasFcn->ui16LoopCounter > MID_TIME_2400MS)
         {
-            MID_MC_SetExternalPosEl(FRAC16(0.0F));
+            sFocPmsm->f16PosElExt = FRAC16(0.0F);
             sPpMeasFcn->f16PosElLast = FRAC16(0.0F);
             sPpMeasFcn->ui16WaitingSteady = 0U;
         }
     }
 
     /* Save last position */
-    sPpMeasFcn->f16PosElLast = sPpMeasFcn->f16PosElCurrent;
-    sPpMeasFcn->f16PosElCurrent = MID_MC_GetExternalPosEl();
+    sPpMeasFcn->f16PosElLast    = sPpMeasFcn->f16PosElCurrent;
+    sPpMeasFcn->f16PosElCurrent = sFocPmsm->f16PosElExt;
 
     if(sPpMeasFcn->ui16PpDetermined > 0U)
     {

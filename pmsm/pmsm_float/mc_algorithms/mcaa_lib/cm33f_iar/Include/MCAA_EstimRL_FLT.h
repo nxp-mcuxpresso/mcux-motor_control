@@ -50,30 +50,30 @@ extern "C" {
 /* MCAA_EstimRLInit return value enum. */
 typedef enum
 {
-  RET_INIT_OK = 0,              /* Initialization successful. */
-  RET_INIT_ERROR = 1,           /* Invalid inputs. */
+  ESTIMRL_RET_INIT_OK = 0,              /* Initialization successful. */
+  ESTIMRL_RET_INIT_ERROR = 1,           /* Invalid inputs. */
 } MCAA_ESTIMRLINIT_RET_T_FLT;
 
 /* MCAA_EstimRL return value enum. */
 typedef enum
 {
-  RET_IN_PROGRESS = 0,          /* Parameter estimation is in progress. The MCAA_EstimRL must be called again in the next sampling period. */
-  RET_DONE = 1,                 /* Parameter estimation has finished. */
-  RET_ERROR = 2,                /* Parameter estimation has failed. */
+  ESTIMRL_RET_IN_PROGRESS = 0,          /* Parameter estimation is in progress. The MCAA_EstimRL must be called again in the next sampling period. */
+  ESTIMRL_RET_DONE = 1,                 /* Parameter estimation has finished. */
+  ESTIMRL_RET_ERROR = 2,                /* Parameter estimation has failed. */
 } MCAA_ESTIMRL_RET_T_FLT;
 
 /* MCAA_EstimRL internal state enum. */
 typedef enum
 {
-  STATE_UNINITIALIZED = 0,      /* RL estimator is not initialized. */
-  STATE_MEAS_LD,                /* Measurement of d-axis inductance. */
-  STATE_MEAS_LQ,                /* Measurement of q-axis inductance. */
-  STATE_LD_TO_LQ,               /* Transition between axes. */
-  STATE_POSTPROCESS_LD,         /* Postprocessing of accumulated values for d-axis measurement. */
-  STATE_POSTPROCESS_LQ,         /* Postprocessing of accumulated values for q-axis measurement. */
-  STATE_UNWIND,                 /* Gradual turn-off of the DC current at the end of measurement. */
-  STATE_DONE,                   /* Measurement finished. */
-  STATE_ERROR,                  /* Failure. */
+  ESTIMRL_STATE_UNINITIALIZED = 0,      /* RL estimator is not initialized. */
+  ESTIMRL_STATE_MEAS_LD,                /* Measurement of d-axis inductance. */
+  ESTIMRL_STATE_MEAS_LQ,                /* Measurement of q-axis inductance. */
+  ESTIMRL_STATE_LD_TO_LQ,               /* Transition between axes. */
+  ESTIMRL_STATE_POSTPROCESS_LD,         /* Postprocessing of accumulated values for d-axis measurement. */
+  ESTIMRL_STATE_POSTPROCESS_LQ,         /* Postprocessing of accumulated values for q-axis measurement. */
+  ESTIMRL_STATE_UNWIND,                 /* Gradual turn-off of the DC current at the end of measurement. */
+  ESTIMRL_STATE_DONE,                   /* Measurement finished. */
+  ESTIMRL_STATE_ERROR,                  /* Failure. */
 } MCAA_ESTIMRL_STATE_T_FLT;
 
 /* DC bus ripple eliminator structure. */

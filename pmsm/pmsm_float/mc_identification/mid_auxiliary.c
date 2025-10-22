@@ -25,10 +25,8 @@
  *
  * @return None
  */
-void MID_alignment(mid_align_t* sAlignmentFcn)
+void MID_alignment(mid_align_t* sAlignmentFcn, mcs_pmsm_foc_t* sFocPmsm)
 {
-    GMCLIB_2COOR_DQ_T_FLT sIDQReq;
-
     /* if alignment hasn't started, set the duration of the alignment process */
     if(sAlignmentFcn->bActive == FALSE)
     {
@@ -43,16 +41,15 @@ void MID_alignment(mid_align_t* sAlignmentFcn)
     if(sAlignmentFcn->ui16LoopCounter > 0U)
     {
         /* require d-axis voltage for an alignment */
-        sIDQReq.fltD = sAlignmentFcn->fltCurrentAlign;
-        sIDQReq.fltQ = 0.0F;
-        MID_MC_SetIDQReq(sIDQReq);
+        sFocPmsm->sIDQReq.fltD = sAlignmentFcn->fltCurrentAlign;
+        sFocPmsm->sIDQReq.fltQ = 0.0F;
     }
     else
     {
         /* after defined time period set required d-axis current to zero */
-        sIDQReq.fltD = 0.0F;
-        sIDQReq.fltQ = 0.0F;
-        MID_MC_SetIDQReq(sIDQReq);
+        sFocPmsm->sIDQReq.fltD = 0.0F;
+        sFocPmsm->sIDQReq.fltQ = 0.0F;
+
         sAlignmentFcn->bActive = FALSE;
     }
 }

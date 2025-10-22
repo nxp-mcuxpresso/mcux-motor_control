@@ -12,7 +12,7 @@
 /*
 {
     "parameters": {
-        "parametersPP": 5,
+        "parametersPp": 5,
         "parametersRs": 0.2,
         "parametersLd": 0.00022,
         "parametersLq": 0.000218,
