@@ -425,7 +425,7 @@ static void M1_StateInitFast_Optim(void)
     g_fltM1speedMechanicalScale = (60.0F / (2.0F * FLOAT_PI));
 
     /* Application timing */
-    g_sM1Drive.ui16FastCtrlLoopFreq = (g_sClockSetup.ui16M1PwmFreq / ((uint16_t)M1_FOC_FREQ_VS_PWM_FREQ));
+    g_sM1Drive.ui16FastCtrlLoopFreq = (g_sClockSetup.ui16M1PwmFreq * ((uint16_t)M1_FOC_FREQ_VS_PWM_FREQ));
     g_sM1Drive.ui16SlowCtrlLoopFreq = g_sClockSetup.ui16M1SpeedLoopFreq;
     g_sM1Drive.ui32CpuFrequency = g_sClockSetup.ui32CpuFrequency;
 
@@ -751,7 +751,7 @@ static void M1_StateInitFast(void)
     g_fltM1speedMechanicalScale = (60.0F / (2.0F * FLOAT_PI));
 
     /* Application timing */
-    g_sM1Drive.ui16FastCtrlLoopFreq = (g_sClockSetup.ui16M1PwmFreq / ((uint16_t)M1_FOC_FREQ_VS_PWM_FREQ));
+    g_sM1Drive.ui16FastCtrlLoopFreq = (g_sClockSetup.ui16M1PwmFreq * ((uint16_t)M1_FOC_FREQ_VS_PWM_FREQ));
     g_sM1Drive.ui16SlowCtrlLoopFreq = g_sClockSetup.ui16M1SpeedLoopFreq;
     g_sM1Drive.ui32CpuFrequency = g_sClockSetup.ui32CpuFrequency;
 

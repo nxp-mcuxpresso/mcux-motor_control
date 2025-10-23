@@ -53,9 +53,6 @@ void MCDRV_SincReadPhCurrDcBusVolt(mcdrv_sinc_t *this)
       const uint32_t u32CurrentCocMask = (uint32_t)(1U << (ui32ChannelId + SINC_NIS_CHF0_SHIFT));
 
       this->pui32SincBaseAddress->NIS = u32CurrentCocMask;	// Clear the CHF flag
-
-//      /* Read FIFO to discard useless data in FIFO, do not use this sample */
-//      i32Sinc1ResultsArray = (int32_t)this->pui32SincBaseAddress->CHANNEL[ui32ChannelId].CRDATA;
        
       // ENOB is 13 bits, so right bitshift of 19
       i32Sinc1ResultsArray = (int32_t)(this->pui32SincBaseAddress->CHANNEL[ui32ChannelId].CRDATA) >> 19U;
@@ -66,14 +63,23 @@ void MCDRV_SincReadPhCurrDcBusVolt(mcdrv_sinc_t *this)
   /* Use the newest SINC measured phase currents */
   this->psIABC->fltA = (-1.0F) * fltSinc1Results[this->ui8ChannelCurrA] * this->fltCurrentScale;
   this->psIABC->fltB = (-1.0F) * fltSinc1Results[this->ui8ChannelCurrB] * this->fltCurrentScale;
-  this->psIABC->fltC = (-1.0F) * fltSinc1Results[this->ui8ChannelCurrC] * this->fltCurrentScale;
   
+  /* Phase current C can be measured, or computed */
+  this->psIABC->fltC = (-1.0F) * fltSinc1Results[this->ui8ChannelCurrC] * this->fltCurrentScale;
   this->psIABC->fltC = ((-1.0F) * this->psIABC->fltA) - this->psIABC->fltB;
   
   *this->pfltUDcBus = fltSinc1Results[this->ui8ChannelVoltDCB] * this->fltDCBvoltageScale;
   
 }
 
+
+/*!
+ * @brief Function reads SINC data and converts to measured phase currentsand DC-bus voltage (3 channels)
+ *
+ * @param base   Pointer to the current object
+ *
+ * @return none
+ */
 RAM_FUNC_LIB
 void MCDRV_SincReadPhCurrDcBusVolt_3chnl(mcdrv_sinc_t *this)
 {
@@ -91,9 +97,6 @@ void MCDRV_SincReadPhCurrDcBusVolt_3chnl(mcdrv_sinc_t *this)
         const uint32_t u32CurrentCocMask = (uint32_t)(1U << (ui32ChannelId + SINC_NIS_CHF0_SHIFT));
 
         this->pui32SincBaseAddress->NIS = u32CurrentCocMask;	// Clear the CHF flag
-        
-        /* Read FIFO to discard useless data in FIFO, do not use this sample */
-//        i32Sinc1ResultsArray = (int32_t)this->pui32SincBaseAddress->CHANNEL[ui32ChannelId].CRDATA;
 
         // ENOB is 13 bits, so right bitshift of 19
         i32Sinc1ResultsArray = (int32_t)(this->pui32SincBaseAddress->CHANNEL[ui32ChannelId].CRDATA) >> 19U;
@@ -106,11 +109,6 @@ void MCDRV_SincReadPhCurrDcBusVolt_3chnl(mcdrv_sinc_t *this)
      this->psIABC->fltB = (-1.0F) * fltSinc1Results[this->ui8ChannelCurrB] * this->fltCurrentScale;
      this->psIABC->fltC = ((-1.0F) * this->psIABC->fltA) -  this->psIABC->fltB;
     *this->pfltUDcBus = fltSinc1Results[this->ui8ChannelVoltDCB] * this->fltDCBvoltageScale;
-  
-  
-  
-  
-  
   
 }
 
