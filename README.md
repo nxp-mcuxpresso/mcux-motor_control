@@ -41,7 +41,7 @@ Some examples are available just for selected platforms. The following applicati
   with MCAT allows for rapid application development.
   
 All examples support the FreeMASTER interface for quick and simple application debugging, tuning, control,and monitoring. 
-See www.nxp.com/freemaster and the application user's guide for more information.
+See [www.nxp.com/freemaster](www.nxp.com/freemaster) and the application user's guide for more information.
   
 ### Feedback
 

@@ -5,7 +5,7 @@
 	</main>
 	<objects>
 		<object name="ObjId0000" type="CPrjDoc">
-			<member name="version" type="string">3.2.5.2</member>
+			<member name="version" type="string">3.2.4.5</member>
 			<member name="enum_db_man" type="CEnumList">ObjId0001</member>
 			<member name="variables" type="CObListEx">ObjId0003</member>
 			<member name="stimulators" type="CObListEx">ObjId0004</member>
@@ -17,9 +17,16 @@
 			<member name="mapfile_listerr_ena" type="sint32">0</member>
 			<member name="mapfile_listerr_mode" type="sint32">1</member>
 			<member name="mapfile_pre_select" type="sint32">0</member>
-			<member name="comm_params_saved" type="sint32">0</member>
+			<member name="comm_params_saved" type="sint32">1</member>
 			<member name="comm_state_saved" type="sint32">0</member>
 			<member name="comm_state_enabled" type="sint32">0</member>
+			<member name="comm_port" type="sint32">0</member>
+			<member name="comm_port_hint" type="string">COM_ALL</member>
+			<member name="comm_speed" type="sint32">115200</member>
+			<member name="comm_rs232_conn" type="string">RS232; port=COM1;speed=115200;</member>
+			<member name="comm_plugin_use" type="sint32">0</member>
+			<member name="comm_plugin_id" type="string"/>
+			<member name="comm_plugin_conn" type="string"/>
 			<member name="cthread_boosting" type="sint32">0</member>
 			<member name="cthread_prio_base" type="sint32">3</member>
 			<member name="cthread_prio_boost" type="sint32">3</member>
@@ -16193,39 +16200,39 @@ b#10 0000 - Missing Pp value</member>
 			<member name="forecolor" type="uint32">0x0</member>
 		</object>
 		<object name="ObjId0695" type="CObArray" length="6">
-			<member name="index0" type="CObject_ptr">ObjId0696</member>
-			<member name="index1" type="CObject_ptr">ObjId0697</member>
-			<member name="index2" type="CObject_ptr">ObjId0698</member>
-			<member name="index3" type="CObject_ptr">ObjId0699</member>
-			<member name="index4" type="CObject_ptr">ObjId0700</member>
-			<member name="index5" type="CObject_ptr">ObjId2499</member>
+			<member name="index0" type="CObject_ptr">ObjId3142</member>
+			<member name="index1" type="CObject_ptr">ObjId3143</member>
+			<member name="index2" type="CObject_ptr">ObjId3144</member>
+			<member name="index3" type="CObject_ptr">ObjId3145</member>
+			<member name="index4" type="CObject_ptr">ObjId3146</member>
+			<member name="index5" type="CObject_ptr">ObjId3147</member>
 		</object>
-		<object name="ObjId0696" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3142" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">320</member>
 			<member name="column_ix" type="sint32">0</member>
 		</object>
-		<object name="ObjId0697" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3143" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">130</member>
 			<member name="column_ix" type="sint32">1</member>
 		</object>
-		<object name="ObjId0698" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3144" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">82</member>
 			<member name="column_ix" type="sint32">2</member>
 		</object>
-		<object name="ObjId0699" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3145" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">50</member>
 			<member name="column_ix" type="sint32">3</member>
 		</object>
-		<object name="ObjId0700" type="CPrjItemBlock_ColInfo">
-			<member name="column_visible" type="sint32">0</member>
+		<object name="ObjId3146" type="CPrjItemBlock_ColInfo">
+			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">200</member>
 			<member name="column_ix" type="sint32">4</member>
 		</object>
-		<object name="ObjId2499" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3147" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">0</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">5</member>
@@ -18224,39 +18231,39 @@ b#10 0000 - Missing Pp value</member>
 			<member name="forecolor" type="uint32">0x0</member>
 		</object>
 		<object name="ObjId0894" type="CObArray" length="6">
-			<member name="index0" type="CObject_ptr">ObjId0895</member>
-			<member name="index1" type="CObject_ptr">ObjId0896</member>
-			<member name="index2" type="CObject_ptr">ObjId0897</member>
-			<member name="index3" type="CObject_ptr">ObjId0898</member>
-			<member name="index4" type="CObject_ptr">ObjId0899</member>
-			<member name="index5" type="CObject_ptr">ObjId2500</member>
+			<member name="index0" type="CObject_ptr">ObjId3148</member>
+			<member name="index1" type="CObject_ptr">ObjId3149</member>
+			<member name="index2" type="CObject_ptr">ObjId3150</member>
+			<member name="index3" type="CObject_ptr">ObjId3151</member>
+			<member name="index4" type="CObject_ptr">ObjId3152</member>
+			<member name="index5" type="CObject_ptr">ObjId3153</member>
 		</object>
-		<object name="ObjId0895" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3148" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">172</member>
 			<member name="column_ix" type="sint32">0</member>
 		</object>
-		<object name="ObjId0896" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3149" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">115</member>
 			<member name="column_ix" type="sint32">1</member>
 		</object>
-		<object name="ObjId0897" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3150" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">82</member>
 			<member name="column_ix" type="sint32">2</member>
 		</object>
-		<object name="ObjId0898" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3151" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">50</member>
 			<member name="column_ix" type="sint32">3</member>
 		</object>
-		<object name="ObjId0899" type="CPrjItemBlock_ColInfo">
-			<member name="column_visible" type="sint32">0</member>
+		<object name="ObjId3152" type="CPrjItemBlock_ColInfo">
+			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">200</member>
 			<member name="column_ix" type="sint32">4</member>
 		</object>
-		<object name="ObjId2500" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3153" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">0</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">5</member>
@@ -20515,39 +20522,39 @@ b#10 0000 - Missing Pp value</member>
 			<member name="forecolor" type="uint32">0x0</member>
 		</object>
 		<object name="ObjId1093" type="CObArray" length="6">
-			<member name="index0" type="CObject_ptr">ObjId3112</member>
-			<member name="index1" type="CObject_ptr">ObjId3113</member>
-			<member name="index2" type="CObject_ptr">ObjId3114</member>
-			<member name="index3" type="CObject_ptr">ObjId3115</member>
-			<member name="index4" type="CObject_ptr">ObjId3116</member>
-			<member name="index5" type="CObject_ptr">ObjId3117</member>
+			<member name="index0" type="CObject_ptr">ObjId3154</member>
+			<member name="index1" type="CObject_ptr">ObjId3155</member>
+			<member name="index2" type="CObject_ptr">ObjId3156</member>
+			<member name="index3" type="CObject_ptr">ObjId3157</member>
+			<member name="index4" type="CObject_ptr">ObjId3158</member>
+			<member name="index5" type="CObject_ptr">ObjId3159</member>
 		</object>
-		<object name="ObjId3112" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3154" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">212</member>
 			<member name="column_ix" type="sint32">0</member>
 		</object>
-		<object name="ObjId3113" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3155" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">124</member>
 			<member name="column_ix" type="sint32">1</member>
 		</object>
-		<object name="ObjId3114" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3156" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">2</member>
 		</object>
-		<object name="ObjId3115" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3157" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">50</member>
 			<member name="column_ix" type="sint32">3</member>
 		</object>
-		<object name="ObjId3116" type="CPrjItemBlock_ColInfo">
-			<member name="column_visible" type="sint32">0</member>
+		<object name="ObjId3158" type="CPrjItemBlock_ColInfo">
+			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">200</member>
 			<member name="column_ix" type="sint32">4</member>
 		</object>
-		<object name="ObjId3117" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3159" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">0</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">5</member>
@@ -22246,39 +22253,39 @@ b#10 0000 - Missing Pp value</member>
 			<member name="forecolor" type="uint32">0x0</member>
 		</object>
 		<object name="ObjId1260" type="CObArray" length="6">
-			<member name="index0" type="CObject_ptr">ObjId3095</member>
-			<member name="index1" type="CObject_ptr">ObjId3096</member>
-			<member name="index2" type="CObject_ptr">ObjId3097</member>
-			<member name="index3" type="CObject_ptr">ObjId3098</member>
-			<member name="index4" type="CObject_ptr">ObjId3099</member>
-			<member name="index5" type="CObject_ptr">ObjId3100</member>
+			<member name="index0" type="CObject_ptr">ObjId3160</member>
+			<member name="index1" type="CObject_ptr">ObjId3161</member>
+			<member name="index2" type="CObject_ptr">ObjId3162</member>
+			<member name="index3" type="CObject_ptr">ObjId3163</member>
+			<member name="index4" type="CObject_ptr">ObjId3164</member>
+			<member name="index5" type="CObject_ptr">ObjId3165</member>
 		</object>
-		<object name="ObjId3095" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3160" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">215</member>
 			<member name="column_ix" type="sint32">0</member>
 		</object>
-		<object name="ObjId3096" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3161" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">135</member>
 			<member name="column_ix" type="sint32">1</member>
 		</object>
-		<object name="ObjId3097" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3162" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">2</member>
 		</object>
-		<object name="ObjId3098" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3163" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">50</member>
 			<member name="column_ix" type="sint32">3</member>
 		</object>
-		<object name="ObjId3099" type="CPrjItemBlock_ColInfo">
-			<member name="column_visible" type="sint32">0</member>
+		<object name="ObjId3164" type="CPrjItemBlock_ColInfo">
+			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">200</member>
 			<member name="column_ix" type="sint32">4</member>
 		</object>
-		<object name="ObjId3100" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3165" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">0</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">5</member>
@@ -23997,39 +24004,39 @@ b#10 0000 - Missing Pp value</member>
 			<member name="forecolor" type="uint32">0x0</member>
 		</object>
 		<object name="ObjId1419" type="CObArray" length="6">
-			<member name="index0" type="CObject_ptr">ObjId1420</member>
-			<member name="index1" type="CObject_ptr">ObjId1421</member>
-			<member name="index2" type="CObject_ptr">ObjId1422</member>
-			<member name="index3" type="CObject_ptr">ObjId1423</member>
-			<member name="index4" type="CObject_ptr">ObjId1424</member>
-			<member name="index5" type="CObject_ptr">ObjId2503</member>
+			<member name="index0" type="CObject_ptr">ObjId3166</member>
+			<member name="index1" type="CObject_ptr">ObjId3167</member>
+			<member name="index2" type="CObject_ptr">ObjId3168</member>
+			<member name="index3" type="CObject_ptr">ObjId3169</member>
+			<member name="index4" type="CObject_ptr">ObjId3170</member>
+			<member name="index5" type="CObject_ptr">ObjId3171</member>
 		</object>
-		<object name="ObjId1420" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3166" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">298</member>
 			<member name="column_ix" type="sint32">0</member>
 		</object>
-		<object name="ObjId1421" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3167" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">1</member>
 		</object>
-		<object name="ObjId1422" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3168" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">2</member>
 		</object>
-		<object name="ObjId1423" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3169" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">70</member>
 			<member name="column_ix" type="sint32">3</member>
 		</object>
-		<object name="ObjId1424" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3170" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">200</member>
 			<member name="column_ix" type="sint32">4</member>
 		</object>
-		<object name="ObjId2503" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3171" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">0</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">5</member>
@@ -25750,39 +25757,39 @@ b#10 0000 - Missing Pp value</member>
 			<member name="forecolor" type="uint32">0x0</member>
 		</object>
 		<object name="ObjId1574" type="CObArray" length="6">
-			<member name="index0" type="CObject_ptr">ObjId1575</member>
-			<member name="index1" type="CObject_ptr">ObjId1576</member>
-			<member name="index2" type="CObject_ptr">ObjId1577</member>
-			<member name="index3" type="CObject_ptr">ObjId1578</member>
-			<member name="index4" type="CObject_ptr">ObjId1579</member>
-			<member name="index5" type="CObject_ptr">ObjId2504</member>
+			<member name="index0" type="CObject_ptr">ObjId3172</member>
+			<member name="index1" type="CObject_ptr">ObjId3173</member>
+			<member name="index2" type="CObject_ptr">ObjId3174</member>
+			<member name="index3" type="CObject_ptr">ObjId3175</member>
+			<member name="index4" type="CObject_ptr">ObjId3176</member>
+			<member name="index5" type="CObject_ptr">ObjId3177</member>
 		</object>
-		<object name="ObjId1575" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3172" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">274</member>
 			<member name="column_ix" type="sint32">0</member>
 		</object>
-		<object name="ObjId1576" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3173" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">115</member>
 			<member name="column_ix" type="sint32">1</member>
 		</object>
-		<object name="ObjId1577" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3174" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">104</member>
 			<member name="column_ix" type="sint32">2</member>
 		</object>
-		<object name="ObjId1578" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3175" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">70</member>
 			<member name="column_ix" type="sint32">3</member>
 		</object>
-		<object name="ObjId1579" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3176" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">200</member>
 			<member name="column_ix" type="sint32">4</member>
 		</object>
-		<object name="ObjId2504" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3177" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">0</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">5</member>
@@ -29514,39 +29521,39 @@ b#10 0000 - Missing Pp value</member>
 			<member name="forecolor" type="uint32">0x0</member>
 		</object>
 		<object name="ObjId1957" type="CObArray" length="6">
-			<member name="index0" type="CObject_ptr">ObjId3089</member>
-			<member name="index1" type="CObject_ptr">ObjId3090</member>
-			<member name="index2" type="CObject_ptr">ObjId3091</member>
-			<member name="index3" type="CObject_ptr">ObjId3092</member>
-			<member name="index4" type="CObject_ptr">ObjId3093</member>
-			<member name="index5" type="CObject_ptr">ObjId3094</member>
+			<member name="index0" type="CObject_ptr">ObjId3178</member>
+			<member name="index1" type="CObject_ptr">ObjId3179</member>
+			<member name="index2" type="CObject_ptr">ObjId3180</member>
+			<member name="index3" type="CObject_ptr">ObjId3181</member>
+			<member name="index4" type="CObject_ptr">ObjId3182</member>
+			<member name="index5" type="CObject_ptr">ObjId3183</member>
 		</object>
-		<object name="ObjId3089" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3178" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">290</member>
 			<member name="column_ix" type="sint32">0</member>
 		</object>
-		<object name="ObjId3090" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3179" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">1</member>
 		</object>
-		<object name="ObjId3091" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3180" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">2</member>
 		</object>
-		<object name="ObjId3092" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3181" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">70</member>
 			<member name="column_ix" type="sint32">3</member>
 		</object>
-		<object name="ObjId3093" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3182" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">200</member>
 			<member name="column_ix" type="sint32">4</member>
 		</object>
-		<object name="ObjId3094" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3183" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">0</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">5</member>
@@ -31280,39 +31287,39 @@ b#10 0000 - Missing Pp value</member>
 			<member name="forecolor" type="uint32">0x0</member>
 		</object>
 		<object name="ObjId2181" type="CObArray" length="6">
-			<member name="index0" type="CObject_ptr">ObjId2182</member>
-			<member name="index1" type="CObject_ptr">ObjId2183</member>
-			<member name="index2" type="CObject_ptr">ObjId2184</member>
-			<member name="index3" type="CObject_ptr">ObjId2185</member>
-			<member name="index4" type="CObject_ptr">ObjId2186</member>
-			<member name="index5" type="CObject_ptr">ObjId2506</member>
+			<member name="index0" type="CObject_ptr">ObjId3184</member>
+			<member name="index1" type="CObject_ptr">ObjId3185</member>
+			<member name="index2" type="CObject_ptr">ObjId3186</member>
+			<member name="index3" type="CObject_ptr">ObjId3187</member>
+			<member name="index4" type="CObject_ptr">ObjId3188</member>
+			<member name="index5" type="CObject_ptr">ObjId3189</member>
 		</object>
-		<object name="ObjId2182" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3184" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">256</member>
 			<member name="column_ix" type="sint32">0</member>
 		</object>
-		<object name="ObjId2183" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3185" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">1</member>
 		</object>
-		<object name="ObjId2184" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3186" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">2</member>
 		</object>
-		<object name="ObjId2185" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3187" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">70</member>
 			<member name="column_ix" type="sint32">3</member>
 		</object>
-		<object name="ObjId2186" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3188" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
 			<member name="column_width" type="sint32">200</member>
 			<member name="column_ix" type="sint32">4</member>
 		</object>
-		<object name="ObjId2506" type="CPrjItemBlock_ColInfo">
+		<object name="ObjId3189" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">0</member>
 			<member name="column_width" type="sint32">120</member>
 			<member name="column_ix" type="sint32">5</member>
