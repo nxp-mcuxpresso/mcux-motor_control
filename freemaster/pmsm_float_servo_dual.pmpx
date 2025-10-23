@@ -5,7 +5,7 @@
 	</main>
 	<objects>
 		<object name="ObjId0000" type="CPrjDoc">
-			<member name="version" type="string">3.2.4.3</member>
+			<member name="version" type="string">3.2.4.5</member>
 			<member name="enum_db_man" type="CEnumList">ObjId0001</member>
 			<member name="variables" type="CObListEx">ObjId0003</member>
 			<member name="stimulators" type="CObListEx">ObjId0004</member>
@@ -1046,6 +1046,7 @@
 			<member name="item393" type="CObject_ptr">ObjId3848</member>
 			<member name="item394" type="CObject_ptr">ObjId3849</member>
 			<member name="item395" type="CObject_ptr">ObjId4046</member>
+			<member name="item396" type="CObject_ptr">ObjId4112</member>
 		</object>
 		<object name="ObjId0366" type="CVariable">
 			<member name="name" type="string">M1 Application State</member>
@@ -20771,6 +20772,65 @@ b#10 0000 - Missing Pp value</member>
 			<member name="modif_address" type="string"/>
 			<member name="modif_last_addr" type="uint32">0x0</member>
 		</object>
+		<object name="ObjId4112" type="CVariable">
+			<member name="name" type="string">M1 Speed Required Filtered</member>
+			<member name="unit" type="string">rpm</member>
+			<member name="period" type="sint32">1000</member>
+			<member name="address" type="string">g_sM1Drive.sSpeed.fltSpeedCmdFilt</member>
+			<member name="last_addr" type="uint32">0x20000940</member>
+			<member name="byte_size" type="sint32">4</member>
+			<member name="description" type="string"/>
+			<member name="comment" type="string"/>
+			<member name="virtual" type="sint32">0</member>
+			<member name="virtual_default" type="string">0</member>
+			<member name="treat_as" type="sint32">2</member>
+			<member name="type_fmt" type="string">IEEE floating point</member>
+			<member name="bit_shift" type="sint32">0</member>
+			<member name="bit_mask" type="string">no mask (-1)</member>
+			<member name="value_trf" type="CObject_ptr">ObjId4113</member>
+			<member name="enum_enabled" type="sint32">0</member>
+			<member name="enum_num_always" type="sint32">0</member>
+			<member name="enum_default_val" type="string">unknown</member>
+			<member name="enum_num_with_default" type="sint32">1</member>
+			<member name="enum" type="string"/>
+			<member name="show_as" type="sint32">4</member>
+			<member name="show_val" type="sint32">1</member>
+			<member name="show_max" type="sint32">0</member>
+			<member name="show_min" type="sint32">0</member>
+			<member name="show_num_fixed_digs" type="sint32">2147483647</member>
+			<member name="show_num_lzero_fill" type="sint32">0</member>
+			<member name="show_num_afp_digs" type="sint32">0</member>
+			<member name="show_num_exp" type="sint32">0</member>
+			<member name="show_ascii_zterm" type="sint32">0</member>
+			<member name="show_ascii_rev" type="sint32">0</member>
+			<member name="show_ascii_hex" type="sint32">1</member>
+			<member name="show_ascii_chwdt" type="sint32">1</member>
+			<member name="filt_enabled" type="sint32">0</member>
+			<member name="filt_reset_onmod" type="sint32">1</member>
+			<member name="filt_time" type="uint32">0x1388</member>
+			<member name="modif_mode" type="sint32">1</member>
+			<member name="modif_edit_mode" type="sint32">2</member>
+			<member name="modif_set_mode" type="sint32">0</member>
+			<member name="modif_auto_fin" type="sint32">1</member>
+			<member name="modif_auto_hide" type="sint32">1</member>
+			<member name="modif_predefs_modes" type="uint32">0x1</member>
+			<member name="modif_predefs_other" type="string"/>
+			<member name="modif_set_min" type="string"/>
+			<member name="modif_set_max" type="string"/>
+			<member name="modif_set_step" type="string"/>
+			<member name="modif_address" type="string"/>
+			<member name="modif_last_addr" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4113" type="CNumTrfLin2P">
+			<member name="x1" type="string">0</member>
+			<member name="y1" type="string">0</member>
+			<member name="x2" type="string">1</member>
+			<member name="y2" type="string">FMSTR_M1_speedAngularScale</member>
+			<member name="var_x1" type="CObject_ptr">NULL</member>
+			<member name="var_y1" type="CObject_ptr">NULL</member>
+			<member name="var_x2" type="CObject_ptr">NULL</member>
+			<member name="var_y2" type="CObject_ptr">ObjId0376</member>
+		</object>
 		<object name="ObjId0004" type="CObList"/>
 		<object name="ObjId0005" type="CObList"/>
 		<object name="ObjId0006" type="CMapWordToOb"/>
@@ -21010,6 +21070,7 @@ b#10 0000 - Missing Pp value</member>
 		<object name="ObjId0027" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0768</member>
 			<member name="item1" type="CObject_ptr">ObjId2467</member>
+			<member name="item2" type="CObject_ptr">ObjId4114</member>
 		</object>
 		<object name="ObjId0768" type="CPrjItemBlock">
 			<member name="parent_item" type="CObject_ptr">ObjId0024</member>
@@ -21091,7 +21152,7 @@ b#10 0000 - Missing Pp value</member>
 		</object>
 		<object name="ObjId0772" type="CPrjItemBlock">
 			<member name="parent_item" type="CObject_ptr">ObjId0768</member>
-			<member name="tree_expand" type="sint32">1</member>
+			<member name="tree_expand" type="sint32">0</member>
 			<member name="data_capture_mode" type="sint32">0</member>
 			<member name="data_capture_onaction" type="sint32">0</member>
 			<member name="data_capture_file_type" type="sint32">0</member>
@@ -23271,7 +23332,7 @@ b#10 0000 - Missing Pp value</member>
 		<object name="ObjId0978" type="CObArray" length="0"/>
 		<object name="ObjId0979" type="CPrjItemBlock">
 			<member name="parent_item" type="CObject_ptr">ObjId0768</member>
-			<member name="tree_expand" type="sint32">1</member>
+			<member name="tree_expand" type="sint32">0</member>
 			<member name="data_capture_mode" type="sint32">0</member>
 			<member name="data_capture_onaction" type="sint32">0</member>
 			<member name="data_capture_file_type" type="sint32">0</member>
@@ -25176,7 +25237,7 @@ b#10 0000 - Missing Pp value</member>
 		</object>
 		<object name="ObjId1156" type="CPrjItemBlock">
 			<member name="parent_item" type="CObject_ptr">ObjId0768</member>
-			<member name="tree_expand" type="sint32">1</member>
+			<member name="tree_expand" type="sint32">0</member>
 			<member name="data_capture_mode" type="sint32">0</member>
 			<member name="data_capture_onaction" type="sint32">0</member>
 			<member name="data_capture_file_type" type="sint32">0</member>
@@ -27459,7 +27520,7 @@ b#10 0000 - Missing Pp value</member>
 		<object name="ObjId3768" type="CObArray" length="0"/>
 		<object name="ObjId1356" type="CPrjItemBlock">
 			<member name="parent_item" type="CObject_ptr">ObjId0768</member>
-			<member name="tree_expand" type="sint32">1</member>
+			<member name="tree_expand" type="sint32">0</member>
 			<member name="data_capture_mode" type="sint32">0</member>
 			<member name="data_capture_onaction" type="sint32">0</member>
 			<member name="data_capture_file_type" type="sint32">0</member>
@@ -29289,7 +29350,7 @@ b#10 0000 - Missing Pp value</member>
 		<object name="ObjId3813" type="CObArray" length="0"/>
 		<object name="ObjId1511" type="CPrjItemBlock">
 			<member name="parent_item" type="CObject_ptr">ObjId0768</member>
-			<member name="tree_expand" type="sint32">1</member>
+			<member name="tree_expand" type="sint32">0</member>
 			<member name="data_capture_mode" type="sint32">0</member>
 			<member name="data_capture_onaction" type="sint32">0</member>
 			<member name="data_capture_file_type" type="sint32">0</member>
@@ -38273,7 +38334,7 @@ b#10 0000 - Missing Pp value</member>
 		</object>
 		<object name="ObjId2471" type="CPrjItemBlock">
 			<member name="parent_item" type="CObject_ptr">ObjId2467</member>
-			<member name="tree_expand" type="sint32">1</member>
+			<member name="tree_expand" type="sint32">0</member>
 			<member name="data_capture_mode" type="sint32">0</member>
 			<member name="data_capture_onaction" type="sint32">0</member>
 			<member name="data_capture_file_type" type="sint32">0</member>
@@ -40218,7 +40279,7 @@ b#10 0000 - Missing Pp value</member>
 		</object>
 		<object name="ObjId2656" type="CPrjItemBlock">
 			<member name="parent_item" type="CObject_ptr">ObjId2467</member>
-			<member name="tree_expand" type="sint32">1</member>
+			<member name="tree_expand" type="sint32">0</member>
 			<member name="data_capture_mode" type="sint32">0</member>
 			<member name="data_capture_onaction" type="sint32">0</member>
 			<member name="data_capture_file_type" type="sint32">0</member>
@@ -41895,7 +41956,7 @@ b#10 0000 - Missing Pp value</member>
 		</object>
 		<object name="ObjId2809" type="CPrjItemBlock">
 			<member name="parent_item" type="CObject_ptr">ObjId2467</member>
-			<member name="tree_expand" type="sint32">1</member>
+			<member name="tree_expand" type="sint32">0</member>
 			<member name="data_capture_mode" type="sint32">0</member>
 			<member name="data_capture_onaction" type="sint32">0</member>
 			<member name="data_capture_file_type" type="sint32">0</member>
@@ -43999,7 +44060,7 @@ b#10 0000 - Missing Pp value</member>
 		<object name="ObjId3804" type="CObArray" length="0"/>
 		<object name="ObjId2989" type="CPrjItemBlock">
 			<member name="parent_item" type="CObject_ptr">ObjId2467</member>
-			<member name="tree_expand" type="sint32">1</member>
+			<member name="tree_expand" type="sint32">0</member>
 			<member name="data_capture_mode" type="sint32">0</member>
 			<member name="data_capture_onaction" type="sint32">0</member>
 			<member name="data_capture_file_type" type="sint32">0</member>
@@ -49067,6 +49128,2712 @@ b#10 0000 - Missing Pp value</member>
 			<member name="font_underline" type="sint32">0</member>
 			<member name="alignment" type="sint32">33</member>
 			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4114" type="CPrjItemBlock">
+			<member name="parent_item" type="CObject_ptr">ObjId0024</member>
+			<member name="tree_expand" type="sint32">1</member>
+			<member name="data_capture_mode" type="sint32">0</member>
+			<member name="data_capture_onaction" type="sint32">0</member>
+			<member name="data_capture_file_type" type="sint32">0</member>
+			<member name="data_capture_dir" type="string">C:\Data</member>
+			<member name="data_absolute_time" type="sint32">0</member>
+			<member name="name" type="string">DUAL</member>
+			<member name="href" type="string"/>
+			<member name="watch_variables" type="CObListEx">ObjId4115</member>
+			<member name="watch_functions" type="CObListEx">ObjId4116</member>
+			<member name="child_items" type="CObList">ObjId4117</member>
+			<member name="cell_format" type="CPrjItemBlock_CellFormat">ObjId4162</member>
+			<member name="column_info" type="CObArrayEx">ObjId4163</member>
+			<member name="variable_info" type="CMapObToObEx">ObjId4170</member>
+			<member name="show_grid" type="sint32">1</member>
+			<member name="show_bar" type="sint32">1</member>
+			<member name="ena_row_sizing" type="sint32">1</member>
+			<member name="ena_col_sizing" type="sint32">1</member>
+			<member name="ena_col_swapping" type="sint32">1</member>
+			<member name="ena_inplace_params" type="sint32">1</member>
+			<member name="ena_inplace_values" type="sint32">1</member>
+			<sub name="watch_views" length="0"/>
+		</object>
+		<object name="ObjId4115" type="CObList">
+			<member name="item0" type="CObject_ptr">ObjId0367</member>
+			<member name="item1" type="CObject_ptr">ObjId0366</member>
+			<member name="item2" type="CObject_ptr">ObjId0384</member>
+			<member name="item3" type="CObject_ptr">ObjId0414</member>
+			<member name="item4" type="CObject_ptr">ObjId0479</member>
+			<member name="item5" type="CObject_ptr">ObjId0480</member>
+			<member name="item6" type="CObject_ptr">ObjId0377</member>
+			<member name="item7" type="CObject_ptr">ObjId0393</member>
+			<member name="item8" type="CObject_ptr">ObjId0392</member>
+			<member name="item9" type="CObject_ptr">ObjId0443</member>
+			<member name="item10" type="CObject_ptr">ObjId0490</member>
+			<member name="item11" type="CObject_ptr">ObjId0438</member>
+			<member name="item12" type="CObject_ptr">ObjId0439</member>
+			<member name="item13" type="CObject_ptr">ObjId0440</member>
+			<member name="item14" type="CObject_ptr">ObjId0441</member>
+			<member name="item15" type="CObject_ptr">ObjId0442</member>
+			<member name="item16" type="CObject_ptr">ObjId0460</member>
+			<member name="item17" type="CObject_ptr">ObjId0459</member>
+			<member name="item18" type="CObject_ptr">ObjId0605</member>
+			<member name="item19" type="CObject_ptr">ObjId0606</member>
+			<member name="item20" type="CObject_ptr">ObjId0607</member>
+			<member name="item21" type="CObject_ptr">ObjId0646</member>
+			<member name="item22" type="CObject_ptr">ObjId0644</member>
+			<member name="item23" type="CObject_ptr">ObjId0645</member>
+			<member name="item24" type="CObject_ptr">ObjId0640</member>
+			<member name="item25" type="CObject_ptr">ObjId0642</member>
+			<member name="item26" type="CObject_ptr">ObjId0608</member>
+			<member name="item27" type="CObject_ptr">ObjId0609</member>
+			<member name="item28" type="CObject_ptr">ObjId0610</member>
+			<member name="item29" type="CObject_ptr">ObjId0611</member>
+			<member name="item30" type="CObject_ptr">ObjId0612</member>
+			<member name="item31" type="CObject_ptr">ObjId0613</member>
+			<member name="item32" type="CObject_ptr">ObjId0614</member>
+			<member name="item33" type="CObject_ptr">ObjId0615</member>
+			<member name="item34" type="CObject_ptr">ObjId0616</member>
+			<member name="item35" type="CObject_ptr">ObjId0617</member>
+		</object>
+		<object name="ObjId4116" type="CObList"/>
+		<object name="ObjId4117" type="CObList">
+			<member name="item0" type="CObject_ptr">ObjId4118</member>
+			<member name="item1" type="CObject_ptr">ObjId4131</member>
+			<member name="item2" type="CObject_ptr">ObjId4149</member>
+		</object>
+		<object name="ObjId4118" type="CPrjItemScope">
+			<member name="parent_item" type="CObject_ptr">ObjId4114</member>
+			<member name="tree_expand" type="sint32">1</member>
+			<member name="data_capture_mode" type="sint32">0</member>
+			<member name="data_capture_onaction" type="sint32">0</member>
+			<member name="data_capture_file_type" type="sint32">0</member>
+			<member name="data_capture_dir" type="string">C:\Data</member>
+			<member name="data_absolute_time" type="sint32">0</member>
+			<member name="name" type="string">Position</member>
+			<member name="href" type="string"/>
+			<member name="graph_buffer" type="sint32">1000</member>
+			<member name="graph_type" type="sint32">0</member>
+			<member name="graph_x_units" type="sint32">2</member>
+			<member name="graph_x_label" type="string">Time</member>
+			<member name="graph_x_addunits" type="sint32">1</member>
+			<member name="graph_legend_loc" type="sint32">0</member>
+			<member name="graph_legen_vis" type="sint32">1</member>
+			<member name="graph_legend_inside" type="sint32">1</member>
+			<member name="graph_grid_horz" type="sint32">1</member>
+			<member name="graph_grid_vert" type="sint32">1</member>
+			<member name="graph_x_min" type="real64">0.00000000000000000000e+00</member>
+			<member name="graph_x_max" type="real64">1.00000000000000000000e+02</member>
+			<member name="graph_x_min_auto" type="sint32">1</member>
+			<member name="graph_x_max_auto" type="sint32">1</member>
+			<member name="graph_break_line" type="sint32">0</member>
+			<member name="graph_var_count" type="sint32">6</member>
+			<member name="var_count" type="sint32">6</member>
+			<member name="var0_info" type="CPrjItemRS_VarInfo">ObjId4119</member>
+			<member name="var1_info" type="CPrjItemRS_VarInfo">ObjId4120</member>
+			<member name="var2_info" type="CPrjItemRS_VarInfo">ObjId4121</member>
+			<member name="var3_info" type="CPrjItemRS_VarInfo">ObjId4122</member>
+			<member name="var4_info" type="CPrjItemRS_VarInfo">ObjId4123</member>
+			<member name="var5_info" type="CPrjItemRS_VarInfo">ObjId4124</member>
+			<member name="yblock0_info" type="CPrjItemRS_YBlockInfo">ObjId4125</member>
+			<member name="yblock1_info" type="CPrjItemRS_YBlockInfo">ObjId4126</member>
+			<member name="yblock2_info" type="CPrjItemRS_YBlockInfo">ObjId4127</member>
+			<member name="yblock3_info" type="CPrjItemRS_YBlockInfo">ObjId4128</member>
+			<member name="yblock4_info" type="CPrjItemRS_YBlockInfo">ObjId4129</member>
+			<member name="yblock5_info" type="CPrjItemRS_YBlockInfo">ObjId4130</member>
+			<member name="scope_period" type="real64">1.00000000000000002082e-02</member>
+			<member name="scope_x_autoscale" type="sint32">1</member>
+			<member name="scope_x_width" type="real64">1.00000000000000000000e+01</member>
+			<member name="scope_ignore_duplicity" type="sint32">0</member>
+		</object>
+		<object name="ObjId4119" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0479</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">0</member>
+			<member name="color" type="uint32">0x2E2DED</member>
+		</object>
+		<object name="ObjId4120" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0480</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">0</member>
+			<member name="color" type="uint32">0x478C00</member>
+		</object>
+		<object name="ObjId4121" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0377</member>
+			<member name="visible" type="sint32">0</member>
+			<member name="y_block" type="sint32">1</member>
+			<member name="color" type="uint32">0xA95918</member>
+		</object>
+		<object name="ObjId4122" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0482</member>
+			<member name="visible" type="sint32">0</member>
+			<member name="y_block" type="sint32">1</member>
+			<member name="color" type="uint32">0x227DF3</member>
+		</object>
+		<object name="ObjId4123" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0644</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">2</member>
+			<member name="color" type="uint32">0x912C66</member>
+		</object>
+		<object name="ObjId4124" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0645</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">2</member>
+			<member name="color" type="uint32">0x201DA1</member>
+		</object>
+		<object name="ObjId4125" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">0</member>
+			<member name="laxis_label" type="string">rev</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4126" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">1</member>
+			<member name="laxis_label" type="string">rpm</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4127" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">2</member>
+			<member name="laxis_label" type="string">lAxis</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4128" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">3</member>
+			<member name="laxis_label" type="string">lAxis</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4129" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">4</member>
+			<member name="laxis_label" type="string">lAxis</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4130" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">5</member>
+			<member name="laxis_label" type="string">lAxis</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4131" type="CPrjItemScope">
+			<member name="parent_item" type="CObject_ptr">ObjId4114</member>
+			<member name="tree_expand" type="sint32">1</member>
+			<member name="data_capture_mode" type="sint32">0</member>
+			<member name="data_capture_onaction" type="sint32">0</member>
+			<member name="data_capture_file_type" type="sint32">0</member>
+			<member name="data_capture_dir" type="string">C:\Data</member>
+			<member name="data_absolute_time" type="sint32">0</member>
+			<member name="name" type="string">Speed Controller</member>
+			<member name="href" type="string"/>
+			<member name="graph_buffer" type="sint32">1000</member>
+			<member name="graph_type" type="sint32">0</member>
+			<member name="graph_x_units" type="sint32">2</member>
+			<member name="graph_x_label" type="string">Time</member>
+			<member name="graph_x_addunits" type="sint32">1</member>
+			<member name="graph_legend_loc" type="sint32">0</member>
+			<member name="graph_legen_vis" type="sint32">1</member>
+			<member name="graph_legend_inside" type="sint32">1</member>
+			<member name="graph_grid_horz" type="sint32">1</member>
+			<member name="graph_grid_vert" type="sint32">1</member>
+			<member name="graph_x_min" type="real64">0.00000000000000000000e+00</member>
+			<member name="graph_x_max" type="real64">1.00000000000000000000e+02</member>
+			<member name="graph_x_min_auto" type="sint32">1</member>
+			<member name="graph_x_max_auto" type="sint32">1</member>
+			<member name="graph_break_line" type="sint32">0</member>
+			<member name="graph_var_count" type="sint32">11</member>
+			<member name="var_count" type="sint32">11</member>
+			<member name="var0_info" type="CPrjItemRS_VarInfo">ObjId4132</member>
+			<member name="var1_info" type="CPrjItemRS_VarInfo">ObjId4133</member>
+			<member name="var2_info" type="CPrjItemRS_VarInfo">ObjId4134</member>
+			<member name="var3_info" type="CPrjItemRS_VarInfo">ObjId4135</member>
+			<member name="var4_info" type="CPrjItemRS_VarInfo">ObjId4136</member>
+			<member name="var5_info" type="CPrjItemRS_VarInfo">ObjId4137</member>
+			<member name="var6_info" type="CPrjItemRS_VarInfo">ObjId4138</member>
+			<member name="var7_info" type="CPrjItemRS_VarInfo">ObjId4139</member>
+			<member name="var8_info" type="CPrjItemRS_VarInfo">ObjId4140</member>
+			<member name="var9_info" type="CPrjItemRS_VarInfo">ObjId4141</member>
+			<member name="var10_info" type="CPrjItemRS_VarInfo">ObjId4142</member>
+			<member name="yblock0_info" type="CPrjItemRS_YBlockInfo">ObjId4143</member>
+			<member name="yblock1_info" type="CPrjItemRS_YBlockInfo">ObjId4144</member>
+			<member name="yblock2_info" type="CPrjItemRS_YBlockInfo">ObjId4145</member>
+			<member name="yblock3_info" type="CPrjItemRS_YBlockInfo">ObjId4146</member>
+			<member name="yblock4_info" type="CPrjItemRS_YBlockInfo">ObjId4147</member>
+			<member name="yblock5_info" type="CPrjItemRS_YBlockInfo">ObjId4148</member>
+			<member name="scope_period" type="real64">1.00000000000000002082e-02</member>
+			<member name="scope_x_autoscale" type="sint32">1</member>
+			<member name="scope_x_width" type="real64">1.00000000000000000000e+01</member>
+			<member name="scope_ignore_duplicity" type="sint32">0</member>
+		</object>
+		<object name="ObjId4132" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0377</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">0</member>
+			<member name="color" type="uint32">0xFF00</member>
+		</object>
+		<object name="ObjId4133" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0393</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">0</member>
+			<member name="color" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4134" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0374</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">0</member>
+			<member name="color" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4135" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId4112</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">0</member>
+			<member name="color" type="uint32">0x201DA1</member>
+		</object>
+		<object name="ObjId4136" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0447</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">1</member>
+			<member name="color" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4137" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0400</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">1</member>
+			<member name="color" type="uint32">0xFFFF00</member>
+		</object>
+		<object name="ObjId4138" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0640</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">2</member>
+			<member name="color" type="uint32">0x9338B3</member>
+		</object>
+		<object name="ObjId4139" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0642</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">2</member>
+			<member name="color" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4140" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0659</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">2</member>
+			<member name="color" type="uint32">0x5F59F1</member>
+		</object>
+		<object name="ObjId4141" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0661</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">3</member>
+			<member name="color" type="uint32">0x6AC379</member>
+		</object>
+		<object name="ObjId4142" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0653</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">3</member>
+			<member name="color" type="uint32">0xD39A59</member>
+		</object>
+		<object name="ObjId4143" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">0</member>
+			<member name="laxis_label" type="string">rpm</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4144" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">1</member>
+			<member name="laxis_label" type="string">Amps</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4145" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">2</member>
+			<member name="laxis_label" type="string">lAxis</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4146" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">3</member>
+			<member name="laxis_label" type="string">lAxis</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4147" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">4</member>
+			<member name="laxis_label" type="string">lAxis</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4148" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">5</member>
+			<member name="laxis_label" type="string">lAxis</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4149" type="CPrjItemRec">
+			<member name="parent_item" type="CObject_ptr">ObjId4114</member>
+			<member name="tree_expand" type="sint32">1</member>
+			<member name="data_capture_mode" type="sint32">0</member>
+			<member name="data_capture_onaction" type="sint32">0</member>
+			<member name="data_capture_file_type" type="sint32">0</member>
+			<member name="data_capture_dir" type="string">C:\Data</member>
+			<member name="data_absolute_time" type="sint32">0</member>
+			<member name="name" type="string">Phase Currents</member>
+			<member name="href" type="string"/>
+			<member name="graph_buffer" type="sint32">1000</member>
+			<member name="graph_type" type="sint32">0</member>
+			<member name="graph_x_units" type="sint32">2</member>
+			<member name="graph_x_label" type="string">Time</member>
+			<member name="graph_x_addunits" type="sint32">1</member>
+			<member name="graph_legend_loc" type="sint32">0</member>
+			<member name="graph_legen_vis" type="sint32">1</member>
+			<member name="graph_legend_inside" type="sint32">1</member>
+			<member name="graph_grid_horz" type="sint32">1</member>
+			<member name="graph_grid_vert" type="sint32">1</member>
+			<member name="graph_x_min" type="real64">0.00000000000000000000e+00</member>
+			<member name="graph_x_max" type="real64">1.00000000000000000000e+02</member>
+			<member name="graph_x_min_auto" type="sint32">1</member>
+			<member name="graph_x_max_auto" type="sint32">1</member>
+			<member name="graph_break_line" type="sint32">0</member>
+			<member name="graph_var_count" type="sint32">6</member>
+			<member name="var_count" type="sint32">6</member>
+			<member name="var0_info" type="CPrjItemRS_VarInfo">ObjId4150</member>
+			<member name="var1_info" type="CPrjItemRS_VarInfo">ObjId4151</member>
+			<member name="var2_info" type="CPrjItemRS_VarInfo">ObjId4152</member>
+			<member name="var3_info" type="CPrjItemRS_VarInfo">ObjId4153</member>
+			<member name="var4_info" type="CPrjItemRS_VarInfo">ObjId4154</member>
+			<member name="var5_info" type="CPrjItemRS_VarInfo">ObjId4155</member>
+			<member name="yblock0_info" type="CPrjItemRS_YBlockInfo">ObjId4156</member>
+			<member name="yblock1_info" type="CPrjItemRS_YBlockInfo">ObjId4157</member>
+			<member name="yblock2_info" type="CPrjItemRS_YBlockInfo">ObjId4158</member>
+			<member name="yblock3_info" type="CPrjItemRS_YBlockInfo">ObjId4159</member>
+			<member name="yblock4_info" type="CPrjItemRS_YBlockInfo">ObjId4160</member>
+			<member name="yblock5_info" type="CPrjItemRS_YBlockInfo">ObjId4161</member>
+			<member name="rec_time_base" type="sint32">99</member>
+			<member name="rec_total_samples" type="sint32">158</member>
+			<member name="trig_pretrigger" type="sint32">20</member>
+			<member name="trig_arun" type="sint32">1</member>
+			<member name="trig_aload" type="sint32">1</member>
+			<member name="trig_astop_ena" type="sint32">1</member>
+			<member name="trig_astop_delay" type="real64">1.00000000000000000000e+00</member>
+			<member name="trig_hold_ena" type="sint32">1</member>
+			<member name="trig_hold_delay" type="real64">1.00000000000000000000e+00</member>
+			<member name="trig_zero_x" type="sint32">1</member>
+			<member name="rec_id" type="sint32">0</member>
+		</object>
+		<object name="ObjId4150" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0370</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">0</member>
+			<member name="color" type="uint32">0xFF00</member>
+		</object>
+		<object name="ObjId4151" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0389</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">0</member>
+			<member name="color" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4152" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0390</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">0</member>
+			<member name="color" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4153" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0621</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">1</member>
+			<member name="color" type="uint32">0xFF00FF</member>
+		</object>
+		<object name="ObjId4154" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0622</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">1</member>
+			<member name="color" type="uint32">0x912C66</member>
+		</object>
+		<object name="ObjId4155" type="CPrjItemRS_VarInfo">
+			<member name="variable" type="CObject_ptr">ObjId0623</member>
+			<member name="visible" type="sint32">1</member>
+			<member name="y_block" type="sint32">1</member>
+			<member name="color" type="uint32">0x201DA1</member>
+		</object>
+		<object name="ObjId4156" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">0</member>
+			<member name="laxis_label" type="string">Amps</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4157" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">1</member>
+			<member name="laxis_label" type="string">deg</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4158" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">3</member>
+			<member name="laxis_label" type="string">lAxis</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4159" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">4</member>
+			<member name="laxis_label" type="string">lAxis</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4160" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">5</member>
+			<member name="laxis_label" type="string">lAxis</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4161" type="CPrjItemRS_YBlockInfo">
+			<member name="join_class" type="sint32">6</member>
+			<member name="laxis_label" type="string">lAxis</member>
+			<member name="laxis_style" type="sint32">0</member>
+			<member name="laxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="laxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="laxis_min_auto" type="sint32">1</member>
+			<member name="laxis_max_auto" type="sint32">1</member>
+			<member name="raxis_label" type="string">rAxis</member>
+			<member name="raxis_style" type="sint32">0</member>
+			<member name="raxis_min" type="real64">-1.00000000000000000000e+01</member>
+			<member name="raxis_max" type="real64">1.00000000000000000000e+01</member>
+			<member name="raxis_min_auto" type="sint32">1</member>
+			<member name="raxis_max_auto" type="sint32">1</member>
+			<member name="raxis_subsets" type="sint32">0</member>
+		</object>
+		<object name="ObjId4162" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">0</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4163" type="CObArray" length="6">
+			<member name="index0" type="CObject_ptr">ObjId4164</member>
+			<member name="index1" type="CObject_ptr">ObjId4165</member>
+			<member name="index2" type="CObject_ptr">ObjId4166</member>
+			<member name="index3" type="CObject_ptr">ObjId4167</member>
+			<member name="index4" type="CObject_ptr">ObjId4168</member>
+			<member name="index5" type="CObject_ptr">ObjId4169</member>
+		</object>
+		<object name="ObjId4164" type="CPrjItemBlock_ColInfo">
+			<member name="column_visible" type="sint32">1</member>
+			<member name="column_width" type="sint32">251</member>
+			<member name="column_ix" type="sint32">0</member>
+		</object>
+		<object name="ObjId4165" type="CPrjItemBlock_ColInfo">
+			<member name="column_visible" type="sint32">1</member>
+			<member name="column_width" type="sint32">120</member>
+			<member name="column_ix" type="sint32">1</member>
+		</object>
+		<object name="ObjId4166" type="CPrjItemBlock_ColInfo">
+			<member name="column_visible" type="sint32">1</member>
+			<member name="column_width" type="sint32">120</member>
+			<member name="column_ix" type="sint32">2</member>
+		</object>
+		<object name="ObjId4167" type="CPrjItemBlock_ColInfo">
+			<member name="column_visible" type="sint32">1</member>
+			<member name="column_width" type="sint32">50</member>
+			<member name="column_ix" type="sint32">3</member>
+		</object>
+		<object name="ObjId4168" type="CPrjItemBlock_ColInfo">
+			<member name="column_visible" type="sint32">0</member>
+			<member name="column_width" type="sint32">200</member>
+			<member name="column_ix" type="sint32">4</member>
+		</object>
+		<object name="ObjId4169" type="CPrjItemBlock_ColInfo">
+			<member name="column_visible" type="sint32">0</member>
+			<member name="column_width" type="sint32">120</member>
+			<member name="column_ix" type="sint32">5</member>
+		</object>
+		<object name="ObjId4170" type="CMapObToObEx">
+			<member name="key0" type="CObject_ptr">ObjId0366</member>
+			<member name="value0" type="CObject_ptr">ObjId4171</member>
+			<member name="key1" type="CObject_ptr">ObjId0367</member>
+			<member name="value1" type="CObject_ptr">ObjId4177</member>
+			<member name="key2" type="CObject_ptr">ObjId0377</member>
+			<member name="value2" type="CObject_ptr">ObjId4183</member>
+			<member name="key3" type="CObject_ptr">ObjId0384</member>
+			<member name="value3" type="CObject_ptr">ObjId4189</member>
+			<member name="key4" type="CObject_ptr">ObjId0392</member>
+			<member name="value4" type="CObject_ptr">ObjId4195</member>
+			<member name="key5" type="CObject_ptr">ObjId0393</member>
+			<member name="value5" type="CObject_ptr">ObjId4201</member>
+			<member name="key6" type="CObject_ptr">ObjId0414</member>
+			<member name="value6" type="CObject_ptr">ObjId4207</member>
+			<member name="key7" type="CObject_ptr">ObjId0438</member>
+			<member name="value7" type="CObject_ptr">ObjId4213</member>
+			<member name="key8" type="CObject_ptr">ObjId0439</member>
+			<member name="value8" type="CObject_ptr">ObjId4219</member>
+			<member name="key9" type="CObject_ptr">ObjId0440</member>
+			<member name="value9" type="CObject_ptr">ObjId4225</member>
+			<member name="key10" type="CObject_ptr">ObjId0441</member>
+			<member name="value10" type="CObject_ptr">ObjId4231</member>
+			<member name="key11" type="CObject_ptr">ObjId0442</member>
+			<member name="value11" type="CObject_ptr">ObjId4237</member>
+			<member name="key12" type="CObject_ptr">ObjId0443</member>
+			<member name="value12" type="CObject_ptr">ObjId4243</member>
+			<member name="key13" type="CObject_ptr">ObjId0459</member>
+			<member name="value13" type="CObject_ptr">ObjId4249</member>
+			<member name="key14" type="CObject_ptr">ObjId0460</member>
+			<member name="value14" type="CObject_ptr">ObjId4255</member>
+			<member name="key15" type="CObject_ptr">ObjId0479</member>
+			<member name="value15" type="CObject_ptr">ObjId4261</member>
+			<member name="key16" type="CObject_ptr">ObjId0480</member>
+			<member name="value16" type="CObject_ptr">ObjId4267</member>
+			<member name="key17" type="CObject_ptr">ObjId0490</member>
+			<member name="value17" type="CObject_ptr">ObjId4273</member>
+			<member name="key18" type="CObject_ptr">ObjId0605</member>
+			<member name="value18" type="CObject_ptr">ObjId4279</member>
+			<member name="key19" type="CObject_ptr">ObjId0606</member>
+			<member name="value19" type="CObject_ptr">ObjId4285</member>
+			<member name="key20" type="CObject_ptr">ObjId0607</member>
+			<member name="value20" type="CObject_ptr">ObjId4291</member>
+			<member name="key21" type="CObject_ptr">ObjId0608</member>
+			<member name="value21" type="CObject_ptr">ObjId4297</member>
+			<member name="key22" type="CObject_ptr">ObjId0609</member>
+			<member name="value22" type="CObject_ptr">ObjId4303</member>
+			<member name="key23" type="CObject_ptr">ObjId0610</member>
+			<member name="value23" type="CObject_ptr">ObjId4309</member>
+			<member name="key24" type="CObject_ptr">ObjId0611</member>
+			<member name="value24" type="CObject_ptr">ObjId4315</member>
+			<member name="key25" type="CObject_ptr">ObjId0612</member>
+			<member name="value25" type="CObject_ptr">ObjId4321</member>
+			<member name="key26" type="CObject_ptr">ObjId0613</member>
+			<member name="value26" type="CObject_ptr">ObjId4327</member>
+			<member name="key27" type="CObject_ptr">ObjId0614</member>
+			<member name="value27" type="CObject_ptr">ObjId4333</member>
+			<member name="key28" type="CObject_ptr">ObjId0615</member>
+			<member name="value28" type="CObject_ptr">ObjId4339</member>
+			<member name="key29" type="CObject_ptr">ObjId0616</member>
+			<member name="value29" type="CObject_ptr">ObjId4345</member>
+			<member name="key30" type="CObject_ptr">ObjId0617</member>
+			<member name="value30" type="CObject_ptr">ObjId4351</member>
+			<member name="key31" type="CObject_ptr">ObjId0640</member>
+			<member name="value31" type="CObject_ptr">ObjId4357</member>
+			<member name="key32" type="CObject_ptr">ObjId0642</member>
+			<member name="value32" type="CObject_ptr">ObjId4363</member>
+			<member name="key33" type="CObject_ptr">ObjId0644</member>
+			<member name="value33" type="CObject_ptr">ObjId4369</member>
+			<member name="key34" type="CObject_ptr">ObjId0645</member>
+			<member name="value34" type="CObject_ptr">ObjId4375</member>
+			<member name="key35" type="CObject_ptr">ObjId0646</member>
+			<member name="value35" type="CObject_ptr">ObjId4381</member>
+		</object>
+		<object name="ObjId4171" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4172</member>
+		</object>
+		<object name="ObjId4172" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4173</member>
+			<member name="index1" type="CObject_ptr">ObjId4174</member>
+			<member name="index2" type="CObject_ptr">ObjId4175</member>
+			<member name="index3" type="CObject_ptr">ObjId4176</member>
+		</object>
+		<object name="ObjId4173" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">0</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4174" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">0</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4175" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">0</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4176" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">0</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4177" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4178</member>
+		</object>
+		<object name="ObjId4178" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4179</member>
+			<member name="index1" type="CObject_ptr">ObjId4180</member>
+			<member name="index2" type="CObject_ptr">ObjId4181</member>
+			<member name="index3" type="CObject_ptr">ObjId4182</member>
+		</object>
+		<object name="ObjId4179" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4180" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4181" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4182" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4183" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4184</member>
+		</object>
+		<object name="ObjId4184" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4185</member>
+			<member name="index1" type="CObject_ptr">ObjId4186</member>
+			<member name="index2" type="CObject_ptr">ObjId4187</member>
+			<member name="index3" type="CObject_ptr">ObjId4188</member>
+		</object>
+		<object name="ObjId4185" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4186" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4187" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4188" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4189" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4190</member>
+		</object>
+		<object name="ObjId4190" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4191</member>
+			<member name="index1" type="CObject_ptr">ObjId4192</member>
+			<member name="index2" type="CObject_ptr">ObjId4193</member>
+			<member name="index3" type="CObject_ptr">ObjId4194</member>
+		</object>
+		<object name="ObjId4191" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4192" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4193" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4194" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4195" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">16</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4196</member>
+		</object>
+		<object name="ObjId4196" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4197</member>
+			<member name="index1" type="CObject_ptr">ObjId4198</member>
+			<member name="index2" type="CObject_ptr">ObjId4199</member>
+			<member name="index3" type="CObject_ptr">ObjId4200</member>
+		</object>
+		<object name="ObjId4197" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">9.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x8B8B</member>
+		</object>
+		<object name="ObjId4198" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">9.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x8B8B</member>
+		</object>
+		<object name="ObjId4199" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">9.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x8B8B</member>
+		</object>
+		<object name="ObjId4200" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">9.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x8B8B</member>
+		</object>
+		<object name="ObjId4201" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4202</member>
+		</object>
+		<object name="ObjId4202" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4203</member>
+			<member name="index1" type="CObject_ptr">ObjId4204</member>
+			<member name="index2" type="CObject_ptr">ObjId4205</member>
+			<member name="index3" type="CObject_ptr">ObjId4206</member>
+		</object>
+		<object name="ObjId4203" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4204" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4205" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4206" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4207" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4208</member>
+		</object>
+		<object name="ObjId4208" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4209</member>
+			<member name="index1" type="CObject_ptr">ObjId4210</member>
+			<member name="index2" type="CObject_ptr">ObjId4211</member>
+			<member name="index3" type="CObject_ptr">ObjId4212</member>
+		</object>
+		<object name="ObjId4209" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4210" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4211" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4212" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4213" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4214</member>
+		</object>
+		<object name="ObjId4214" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4215</member>
+			<member name="index1" type="CObject_ptr">ObjId4216</member>
+			<member name="index2" type="CObject_ptr">ObjId4217</member>
+			<member name="index3" type="CObject_ptr">ObjId4218</member>
+		</object>
+		<object name="ObjId4215" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4216" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4217" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4218" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4219" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4220</member>
+		</object>
+		<object name="ObjId4220" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4221</member>
+			<member name="index1" type="CObject_ptr">ObjId4222</member>
+			<member name="index2" type="CObject_ptr">ObjId4223</member>
+			<member name="index3" type="CObject_ptr">ObjId4224</member>
+		</object>
+		<object name="ObjId4221" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4222" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4223" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4224" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4225" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4226</member>
+		</object>
+		<object name="ObjId4226" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4227</member>
+			<member name="index1" type="CObject_ptr">ObjId4228</member>
+			<member name="index2" type="CObject_ptr">ObjId4229</member>
+			<member name="index3" type="CObject_ptr">ObjId4230</member>
+		</object>
+		<object name="ObjId4227" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4228" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4229" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4230" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4231" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4232</member>
+		</object>
+		<object name="ObjId4232" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4233</member>
+			<member name="index1" type="CObject_ptr">ObjId4234</member>
+			<member name="index2" type="CObject_ptr">ObjId4235</member>
+			<member name="index3" type="CObject_ptr">ObjId4236</member>
+		</object>
+		<object name="ObjId4233" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4234" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4235" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4236" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4237" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4238</member>
+		</object>
+		<object name="ObjId4238" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4239</member>
+			<member name="index1" type="CObject_ptr">ObjId4240</member>
+			<member name="index2" type="CObject_ptr">ObjId4241</member>
+			<member name="index3" type="CObject_ptr">ObjId4242</member>
+		</object>
+		<object name="ObjId4239" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4240" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4241" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4242" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4243" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4244</member>
+		</object>
+		<object name="ObjId4244" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4245</member>
+			<member name="index1" type="CObject_ptr">ObjId4246</member>
+			<member name="index2" type="CObject_ptr">ObjId4247</member>
+			<member name="index3" type="CObject_ptr">ObjId4248</member>
+		</object>
+		<object name="ObjId4245" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4246" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4247" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4248" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4249" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4250</member>
+		</object>
+		<object name="ObjId4250" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4251</member>
+			<member name="index1" type="CObject_ptr">ObjId4252</member>
+			<member name="index2" type="CObject_ptr">ObjId4253</member>
+			<member name="index3" type="CObject_ptr">ObjId4254</member>
+		</object>
+		<object name="ObjId4251" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4252" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4253" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4254" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4255" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4256</member>
+		</object>
+		<object name="ObjId4256" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4257</member>
+			<member name="index1" type="CObject_ptr">ObjId4258</member>
+			<member name="index2" type="CObject_ptr">ObjId4259</member>
+			<member name="index3" type="CObject_ptr">ObjId4260</member>
+		</object>
+		<object name="ObjId4257" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4258" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4259" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4260" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4261" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4262</member>
+		</object>
+		<object name="ObjId4262" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4263</member>
+			<member name="index1" type="CObject_ptr">ObjId4264</member>
+			<member name="index2" type="CObject_ptr">ObjId4265</member>
+			<member name="index3" type="CObject_ptr">ObjId4266</member>
+		</object>
+		<object name="ObjId4263" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4264" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4265" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4266" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4267" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4268</member>
+		</object>
+		<object name="ObjId4268" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4269</member>
+			<member name="index1" type="CObject_ptr">ObjId4270</member>
+			<member name="index2" type="CObject_ptr">ObjId4271</member>
+			<member name="index3" type="CObject_ptr">ObjId4272</member>
+		</object>
+		<object name="ObjId4269" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4270" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4271" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4272" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xFFFFFF</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4273" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4274</member>
+		</object>
+		<object name="ObjId4274" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4275</member>
+			<member name="index1" type="CObject_ptr">ObjId4276</member>
+			<member name="index2" type="CObject_ptr">ObjId4277</member>
+			<member name="index3" type="CObject_ptr">ObjId4278</member>
+		</object>
+		<object name="ObjId4275" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4276" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4277" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4278" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4279" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4280</member>
+		</object>
+		<object name="ObjId4280" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4281</member>
+			<member name="index1" type="CObject_ptr">ObjId4282</member>
+			<member name="index2" type="CObject_ptr">ObjId4283</member>
+			<member name="index3" type="CObject_ptr">ObjId4284</member>
+		</object>
+		<object name="ObjId4281" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4282" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4283" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4284" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4285" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4286</member>
+		</object>
+		<object name="ObjId4286" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4287</member>
+			<member name="index1" type="CObject_ptr">ObjId4288</member>
+			<member name="index2" type="CObject_ptr">ObjId4289</member>
+			<member name="index3" type="CObject_ptr">ObjId4290</member>
+		</object>
+		<object name="ObjId4287" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">0</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4288" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">0</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4289" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">0</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4290" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">0</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4291" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4292</member>
+		</object>
+		<object name="ObjId4292" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4293</member>
+			<member name="index1" type="CObject_ptr">ObjId4294</member>
+			<member name="index2" type="CObject_ptr">ObjId4295</member>
+			<member name="index3" type="CObject_ptr">ObjId4296</member>
+		</object>
+		<object name="ObjId4293" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4294" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4295" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4296" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4297" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4298</member>
+		</object>
+		<object name="ObjId4298" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4299</member>
+			<member name="index1" type="CObject_ptr">ObjId4300</member>
+			<member name="index2" type="CObject_ptr">ObjId4301</member>
+			<member name="index3" type="CObject_ptr">ObjId4302</member>
+		</object>
+		<object name="ObjId4299" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x8B8B</member>
+		</object>
+		<object name="ObjId4300" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x8B8B</member>
+		</object>
+		<object name="ObjId4301" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x8B8B</member>
+		</object>
+		<object name="ObjId4302" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x8B8B</member>
+		</object>
+		<object name="ObjId4303" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4304</member>
+		</object>
+		<object name="ObjId4304" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4305</member>
+			<member name="index1" type="CObject_ptr">ObjId4306</member>
+			<member name="index2" type="CObject_ptr">ObjId4307</member>
+			<member name="index3" type="CObject_ptr">ObjId4308</member>
+		</object>
+		<object name="ObjId4305" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4306" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4307" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4308" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4309" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4310</member>
+		</object>
+		<object name="ObjId4310" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4311</member>
+			<member name="index1" type="CObject_ptr">ObjId4312</member>
+			<member name="index2" type="CObject_ptr">ObjId4313</member>
+			<member name="index3" type="CObject_ptr">ObjId4314</member>
+		</object>
+		<object name="ObjId4311" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4312" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4313" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4314" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4315" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4316</member>
+		</object>
+		<object name="ObjId4316" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4317</member>
+			<member name="index1" type="CObject_ptr">ObjId4318</member>
+			<member name="index2" type="CObject_ptr">ObjId4319</member>
+			<member name="index3" type="CObject_ptr">ObjId4320</member>
+		</object>
+		<object name="ObjId4317" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4318" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4319" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4320" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4321" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4322</member>
+		</object>
+		<object name="ObjId4322" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4323</member>
+			<member name="index1" type="CObject_ptr">ObjId4324</member>
+			<member name="index2" type="CObject_ptr">ObjId4325</member>
+			<member name="index3" type="CObject_ptr">ObjId4326</member>
+		</object>
+		<object name="ObjId4323" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4324" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4325" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4326" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4327" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4328</member>
+		</object>
+		<object name="ObjId4328" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4329</member>
+			<member name="index1" type="CObject_ptr">ObjId4330</member>
+			<member name="index2" type="CObject_ptr">ObjId4331</member>
+			<member name="index3" type="CObject_ptr">ObjId4332</member>
+		</object>
+		<object name="ObjId4329" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4330" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4331" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4332" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4333" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4334</member>
+		</object>
+		<object name="ObjId4334" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4335</member>
+			<member name="index1" type="CObject_ptr">ObjId4336</member>
+			<member name="index2" type="CObject_ptr">ObjId4337</member>
+			<member name="index3" type="CObject_ptr">ObjId4338</member>
+		</object>
+		<object name="ObjId4335" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4336" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4337" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4338" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4339" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4340</member>
+		</object>
+		<object name="ObjId4340" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4341</member>
+			<member name="index1" type="CObject_ptr">ObjId4342</member>
+			<member name="index2" type="CObject_ptr">ObjId4343</member>
+			<member name="index3" type="CObject_ptr">ObjId4344</member>
+		</object>
+		<object name="ObjId4341" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4342" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4343" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4344" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4345" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4346</member>
+		</object>
+		<object name="ObjId4346" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4347</member>
+			<member name="index1" type="CObject_ptr">ObjId4348</member>
+			<member name="index2" type="CObject_ptr">ObjId4349</member>
+			<member name="index3" type="CObject_ptr">ObjId4350</member>
+		</object>
+		<object name="ObjId4347" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4348" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4349" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4350" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4351" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">15</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4352</member>
+		</object>
+		<object name="ObjId4352" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4353</member>
+			<member name="index1" type="CObject_ptr">ObjId4354</member>
+			<member name="index2" type="CObject_ptr">ObjId4355</member>
+			<member name="index3" type="CObject_ptr">ObjId4356</member>
+		</object>
+		<object name="ObjId4353" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4354" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4355" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4356" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">8.00000000e+00</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xD7FF</member>
+			<member name="forecolor" type="uint32">0xFF</member>
+		</object>
+		<object name="ObjId4357" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4358</member>
+		</object>
+		<object name="ObjId4358" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4359</member>
+			<member name="index1" type="CObject_ptr">ObjId4360</member>
+			<member name="index2" type="CObject_ptr">ObjId4361</member>
+			<member name="index3" type="CObject_ptr">ObjId4362</member>
+		</object>
+		<object name="ObjId4359" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4360" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4361" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4362" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4363" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4364</member>
+		</object>
+		<object name="ObjId4364" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4365</member>
+			<member name="index1" type="CObject_ptr">ObjId4366</member>
+			<member name="index2" type="CObject_ptr">ObjId4367</member>
+			<member name="index3" type="CObject_ptr">ObjId4368</member>
+		</object>
+		<object name="ObjId4365" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4366" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4367" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4368" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4369" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4370</member>
+		</object>
+		<object name="ObjId4370" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4371</member>
+			<member name="index1" type="CObject_ptr">ObjId4372</member>
+			<member name="index2" type="CObject_ptr">ObjId4373</member>
+			<member name="index3" type="CObject_ptr">ObjId4374</member>
+		</object>
+		<object name="ObjId4371" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4372" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4373" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4374" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0xFF0000</member>
+		</object>
+		<object name="ObjId4375" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4376</member>
+		</object>
+		<object name="ObjId4376" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4377</member>
+			<member name="index1" type="CObject_ptr">ObjId4378</member>
+			<member name="index2" type="CObject_ptr">ObjId4379</member>
+			<member name="index3" type="CObject_ptr">ObjId4380</member>
+		</object>
+		<object name="ObjId4377" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4378" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4379" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4380" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x9300</member>
+		</object>
+		<object name="ObjId4381" type="CPrjItemBlock_VarInfo">
+			<member name="row_height" type="sint32">17</member>
+			<member name="row_cell_formats" type="CObArrayEx">ObjId4382</member>
+		</object>
+		<object name="ObjId4382" type="CObArray" length="4">
+			<member name="index0" type="CObject_ptr">ObjId4383</member>
+			<member name="index1" type="CObject_ptr">ObjId4384</member>
+			<member name="index2" type="CObject_ptr">ObjId4385</member>
+			<member name="index3" type="CObject_ptr">ObjId4386</member>
+		</object>
+		<object name="ObjId4383" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4384" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4385" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
+			<member name="forecolor" type="uint32">0x0</member>
+		</object>
+		<object name="ObjId4386" type="CPrjItemBlock_CellFormat">
+			<member name="font_name" type="string">Tahoma</member>
+			<member name="font_set" type="uint8">0x0</member>
+			<member name="font_size" type="real32">1.00000000e+01</member>
+			<member name="font_bold" type="sint32">1</member>
+			<member name="font_italic" type="sint32">0</member>
+			<member name="font_underline" type="sint32">0</member>
+			<member name="alignment" type="sint32">33</member>
+			<member name="backcolor" type="uint32">0xF0F0F0</member>
 			<member name="forecolor" type="uint32">0x0</member>
 		</object>
 		<object name="ObjId0028" type="CPrjItemBlock_CellFormat">

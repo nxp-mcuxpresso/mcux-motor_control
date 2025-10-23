@@ -65,6 +65,9 @@ extern "C" {
 RAM_FUNC_LIB
 void MCDRV_SincReadPhCurrDcBusVolt(mcdrv_sinc_t *this);
 
+RAM_FUNC_LIB
+void MCDRV_SincReadPhCurrDcBusVolt_3chnl(mcdrv_sinc_t *this);
+
 
 #if defined(__cplusplus)
 }
