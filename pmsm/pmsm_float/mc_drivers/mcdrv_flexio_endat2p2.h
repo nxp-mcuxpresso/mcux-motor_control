@@ -33,9 +33,6 @@
 typedef struct _mcdrv_endat2p2
 {
   
-//    endat2p2_dev_t *dev;
-//    endat2p2_recv_data_t data;
-    
     FLEXIO_ENDAT2_Type endat2Master;
     
     float_t *pfltSpdMeEst;        /* pointer to measured mechanical speed  */

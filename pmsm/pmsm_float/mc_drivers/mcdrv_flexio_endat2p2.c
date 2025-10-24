@@ -61,8 +61,6 @@ RAM_FUNC_LIB
 void MCDRV_Endat2p2SetOffset(mcdrv_endat2p2_t *base)
 {
     /* Copy position data */
-//    base->ui64EndatPosition = base->data.position.position;
-    
     base->ui64EndatPosition = base->endat2Master.st;
 
     
@@ -83,12 +81,9 @@ void MCDRV_Endat2p2SetOffset(mcdrv_endat2p2_t *base)
 RAM_FUNC_LIB
 void MCDRV_Endat2p2DataRead(mcdrv_endat2p2_t *base)
 {
-  /* Receive data from EnDat2.2 sensor */
-//    ENDAT2P2_RecvData(base->dev, ENDAT2P2_CMD_SEND_POSITION_VALUE, &(base->data)); 
-    
+  /* Receive data from EnDat2.2 sensor */    
     FLEXIO_ENDAT2_DataProcess(&base->endat2Master);
-    
-    
+     
 }
 
 /*!
@@ -102,7 +97,6 @@ RAM_FUNC_LIB
 void MCDRV_EnDatGetPositionFoc(mcdrv_endat2p2_t * base)
 {
     /* Copy position data */
-//    base->ui64EndatPosition = base->data.position.position;
     base->ui64EndatPosition = base->endat2Master.st;
     
     /* Set position to middle */
@@ -128,7 +122,6 @@ void MCDRV_EnDatGetPositionFullAndSpeed(mcdrv_endat2p2_t * base)
     float_t fltSpdMech;
     
     /* Copy position data */
-//    base->ui64EndatPosition = base->data.position.position;  
     base->ui64EndatPosition = base->endat2Master.st;
 
     /* Set position to middle */
