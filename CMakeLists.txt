@@ -829,17 +829,31 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1186_pwma_e
                 pmsm/pmsm_float/mc_drivers/mcdrv_adc_imxrt1186.c
                 pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.c
                 pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.h
+				pmsm/pmsm_float/mc_drivers/mcdrv_enc_eqd2.c
+                pmsm/pmsm_float/mc_drivers/mcdrv_enc_eqd2.h
+				pmsm/pmsm_float/mc_drivers/mcdrv_sinc.c
+				pmsm/pmsm_float/mc_drivers/mcdrv_sinc.h
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+    mcux_add_include(
+        INCLUDES pmsm/pmsm_float/mc_drivers
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+endif()
+
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_imxrt1186_pwma_sinc_endat)
+    mcux_component_version(3.1.0)
+    mcux_add_source(
+        SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_imxrt1186.h
+                pmsm/pmsm_float/mc_drivers/mcdrv_adc_imxrt1186.c
+                pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.c
+                pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.h
 				pmsm/pmsm_float/mc_drivers/mcdrv_sinc2.c
-				pmsm/pmsm_float/mc_drivers/mcdrv_sinc2.h
+				pmsm/pmsm_float/mc_drivers/mcdrv_sinc2.h			
 				pmsm/pmsm_float/mc_drivers/fsl_flexio_endat2p2.c
-				pmsm/pmsm_float/mc_drivers/fsl_flexio_endat2p2.h
+				pmsm/pmsm_float/mc_drivers/fsl_flexio_endat2p2.h				
 				pmsm/pmsm_float/mc_drivers/mcdrv_flexio_endat2p2.c
 				pmsm/pmsm_float/mc_drivers/mcdrv_flexio_endat2p2.h
-				
-				# pmsm/pmsm_float/mc_drivers/flexio_endat2.c
-				# pmsm/pmsm_float/mc_drivers/flexio_endat2.h
-				# pmsm/pmsm_float/mc_drivers/mcdrv_endat2p2.c
-				# pmsm/pmsm_float/mc_drivers/mcdrv_endat2p2.h
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_include(
