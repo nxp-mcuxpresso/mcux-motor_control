@@ -8,6 +8,7 @@ FreeMASTER files description
 - pmsm_float.pmpx - use with mc_pmsm_snsless motor control example (floating point)
 - pmsm_float_enc.pmpx - use with mc_pmsm_enc motor control example (floating point)
 - pmsm_float_enc_dual.pmpx - use with mc_pmsm_enc_dual motor control example (floating point)
+- pmsm_float_servo_dual.pmpx - use with mc_pmsm_servo and mc_pmsm_servo_dual motor control example (floating point)
 - pmsm_frac.pmpx - use with mc_pmsm_snsless motor control example (fixed point)
 - pmsm_frac_enc.pmpx - use with mc_pmsm_enc motor control example (fixed point)
 - bldc.pmpx - use with mc_bldc motor control example (floating point)

@@ -460,6 +460,7 @@ static void M2_StateInitFast_Optim(void)
     FAULT_SET(g_sM2Drive.sFaultIdEnable, FAULT_LOAD_OVER);
     FAULT_SET(g_sM2Drive.sFaultIdEnable, FAULT_SPEED_OVER);
     FAULT_SET(g_sM2Drive.sFaultIdEnable, FAULT_ROTOR_BLOCKED);
+    FAULT_SET(g_sM2Drive.sFaultIdEnable, FAULT_ENDAT_ISR);
     
 #if ENABLE_FLASH_PARAM_UPDATE
       M2_MCDRV_FLASH_CFG_INIT();
@@ -786,6 +787,7 @@ static void M2_StateInitFast(void)
     FAULT_SET(g_sM2Drive.sFaultIdEnable, FAULT_LOAD_OVER);
     FAULT_SET(g_sM2Drive.sFaultIdEnable, FAULT_SPEED_OVER);
     FAULT_SET(g_sM2Drive.sFaultIdEnable, FAULT_ROTOR_BLOCKED);
+    FAULT_SET(g_sM2Drive.sFaultIdEnable, FAULT_ENDAT_ISR);
     
 #if ENABLE_FLASH_PARAM_UPDATE
       M2_MCDRV_FLASH_CFG_INIT();
