@@ -39,6 +39,60 @@ extern "C" {
 /*******************************************************************************
 * Macros
 *******************************************************************************/
+/*******************************************************************************
+* Macros
+*******************************************************************************/
+#define MCAA_ESTIMRL_FSN (10000u) /* maximal sampling frequency [Hz] */
+#define MCAA_ESTIMRL_FSN_FLT (10000.0) /* maximal sampling frequency [Hz] in floating-point type */
+#define MCAA_ESTIMRL_ACF (500.0f) /* Frequency of the injected AC current [Hz] */
+#define MCAA_ESTIMRL_TIMEOUT (2u) /* Convergence detector timeout [s] */
+#define MCAA_ESTIMRL_DCB_THR (10u) /* DC bus limit counter threshold */
+#define MCAA_ESTIMRL_IDC (0u) /* Row of pLdqTable containing the DC current */
+#define MCAA_ESTIMRL_LD (1u) /* Row of pLdqTable containing the d-axis inductance */
+#define MCAA_ESTIMRL_LQ (2u) /* Row of pLdqTable containing the q-axis inductance */
+#define MCAA_ESTIMRL_ROWS (3u) /* Number of rows in pLdqTable */
+#define MCAA_FLOAT_1_OVER_PI (0.3183098861837907f) /* 1/pi */
+#define MCAA_ESTIMRL_CD_LIML (-1000.0f) /* Convergence detector lower limit */
+#define MCAA_ESTIMRL_CD_LIMH (-100.0f) /* Convergence detector coarse/fine tracking threshold */
+#define MCAA_ESTIMRL_CD_COARSE_THR (0.1f) /* Convergence detector coarse threshold */
+#define MCAA_ESTIMRL_CD_FINE_THR (3.90625e-03f) /* Convergence detector fine threshold */
+#define MCAA_ESTIMRL_AC_IAMP (0.1f) /* AC current amplitude fraction of the maximal current */
+#define MCAA_ESTIMRL_PLL_LAMBDA_DQ (0.05f) /* PLL d/q axis MA filter coefficient */
+#define MCAA_ESTIMRL_PLL_LAMBDA_DC (0.05f) /* PLL DC current MA filter coefficient */
+#define MCAA_ESTIMRL_PLL_LAMBDA_STD (0.01f) /* PLL current noise standard deviation MA filter coefficient */
+#define MCAA_ESTIMRL_PLL_KP (50.0f) /* PLL phase controller proportional gain */
+#define MCAA_ESTIMRL_DC_IRAMP (0.002f) /* DC current ramp factor */
+#define MCAA_ESTIMRL_ACDC_KI (0.0001f) /* AC/DC voltage controller integral gain (for Idcmax = IDCMAX_NOMINAL) */
+#define IDCMAX_NOMINAL (100.0f) /* Nominal value of the max. DC current for scaling of controller time constants */
+#define UDCBUS_NOMINAL (12.0f) /* Nominal value of the DC bus voltage for scaling of controller time constants */
+#define MCAA_ESTIMRL_DCB_ELIM_IDX (0.866025403784439f) /* DC bus eliminator inverse modulation index */
+#define MCAA_ESTIMRL_AVG_MUL (300.0f) /* Averaging window length multiplier */
+#define MCAA_ESTIMRL_AVG_MIN (0.4f) /* Averaging window minimum length [seconds] */
+#define MCAA_ESTIMRL_AVG_MAX (1.0f) /* Maximum length of the noise averaging window [seconds]. Must be <= 1 for the fixed-point implementation. */
+
+/* Default values for the advanced tuning parameters structure. */
+#define ESTIMRL_ADV_TUNE_DEFAULT {\
+  MCAA_ESTIMRL_ACF,\
+  MCAA_ESTIMRL_TIMEOUT,\
+  MCAA_ESTIMRL_DCB_THR,\
+  MCAA_ESTIMRL_CD_LIML,\
+  MCAA_ESTIMRL_CD_LIMH,\
+  MCAA_ESTIMRL_CD_COARSE_THR,\
+  MCAA_ESTIMRL_CD_FINE_THR,\
+  MCAA_ESTIMRL_AC_IAMP,\
+  MCAA_ESTIMRL_PLL_LAMBDA_DQ,\
+  MCAA_ESTIMRL_PLL_LAMBDA_DC,\
+  MCAA_ESTIMRL_PLL_LAMBDA_STD,\
+  MCAA_ESTIMRL_PLL_KP,\
+  MCAA_ESTIMRL_DC_IRAMP,\
+  MCAA_ESTIMRL_ACDC_KI,\
+  IDCMAX_NOMINAL,\
+  UDCBUS_NOMINAL,\
+  MCAA_ESTIMRL_DCB_ELIM_IDX,\
+  MCAA_ESTIMRL_AVG_MUL,\
+  MCAA_ESTIMRL_AVG_MIN,\
+  MCAA_ESTIMRL_AVG_MAX}
+  
 #define MCAA_EstimRLInit_FLT_C(u32SamplingFreq, psParam, psCtrl, psAdvTune)    \
         MCAA_EstimRLInit_FLT_FC(u32SamplingFreq, psParam, psCtrl, psAdvTune)
 #define MCAA_EstimRL_FLT_C(fltUDcBus, psIAlBeFbck, psCtrl, sParam, psAdvTune, psUAlBeReq) \
@@ -219,8 +273,6 @@ float_t  fltAvgMul;     // MCAA_ESTIMRL_AVG_MUL (300.0f) /* Averaging window len
 float_t  fltAvgMin;     // MCAA_ESTIMRL_AVG_MIN (0.4f) /* Averaging window minimum length [seconds] */
 float_t  fltAvgMax;     // MCAA_ESTIMRL_AVG_MAX (1.0f) /* Maximum length of the noise averaging window [seconds]. Must be <= 1 for the fixed-point implementation. */
 } MCAA_ESTIMRL_ADV_TUNE_T;
-
-extern const MCAA_ESTIMRL_ADV_TUNE_T ESTIMRL_ADV_TUNE_DEFAULT;
 
 /****************************************************************************
 * Exported function prototypes

@@ -103,7 +103,7 @@ MCAA_ESTIMRL_RET_T_FLT 	  eEstimRetVal;         /* Return value of the MCAA_Esti
 MCAA_ESTIMRL_INIT_T_FLT g_sEstimRLInitCfg;      /* RL estimation initialization structure */
 MCAA_ESTIMRL_T_FLT 	  g_sEstimRLStruct;         /* RL estimation configuration structure */
 MCAA_ESTIMRL_RUN_T_FLT  g_sEstimRLCtrlRun;      /* Control manual mode and measured values in modes 1, 2 */
-MCAA_ESTIMRL_ADV_TUNE_T g_sEstimRLAdvTune;      /* Advanced tuning parameters EstimRL algorithm */
+MCAA_ESTIMRL_ADV_TUNE_T g_sEstimRLAdvTune = ESTIMRL_ADV_TUNE_DEFAULT;      /* Advanced tuning parameters EstimRL algorithm */
 uint8_t u8ModeEstimRL;                          /* Selected identification mode */
 uint8_t u8PlotCnt;                              /* Plot counter. */
 float_t	fltIDcPlot;                             /* DC current [A]. */ 
@@ -830,10 +830,6 @@ void MID_Init_AR(void)
 
     /* Clear rest of variables  */
     MID_ClearFOCVariables();
-    
-    /* Copy default parameters for advanced tuning EstimRL algorithm. */
-    /* Update the specific parameter after this assigmnet. */
-    g_sEstimRLAdvTune = ESTIMRL_ADV_TUNE_DEFAULT;
 
     /* Init sensors/actuators pointers */
     /* For PWM driver */
