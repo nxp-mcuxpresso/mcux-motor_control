@@ -787,7 +787,7 @@ static void M1_StateInitFast(void)
     FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_LOAD_OVER);
     FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_SPEED_OVER);
     FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_ROTOR_BLOCKED);
-    FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_ENDAT_ISR);
+    FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_ENC_TIMEOUT);
     
 #if ENABLE_FLASH_PARAM_UPDATE
       M1_MCDRV_FLASH_CFG_INIT();

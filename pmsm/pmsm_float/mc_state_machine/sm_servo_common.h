@@ -128,7 +128,7 @@ typedef struct _ctrl_m1_mid_t
 #define FAULT_LOAD_OVER 3       /* Overload fault flag */
 #define FAULT_SPEED_OVER 4      /* Over speed fault flag */
 #define FAULT_ROTOR_BLOCKED 5   /* Blocked rotor fault flag */
-#define FAULT_ENDAT_ISR 6       /* Endat ISR error */
+#define FAULT_ENC_TIMEOUT 6     /* Encoder ISR timeout */
 
 #define FAULT_APP_SPIN 1        /* Spin on fault flag */
 #define FAULT_APP_MID  2        /* MID run fault flag */
