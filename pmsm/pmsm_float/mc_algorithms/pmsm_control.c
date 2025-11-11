@@ -218,8 +218,12 @@ void MCS_PMSMFocCtrlSpeed(mcs_speed_t *psSpeed)
 
     if(psSpeed->bSpeedZCOn)
     {
-        /* Speed zero cancellation filter */
-        psSpeed->fltSpeedCmdFilt  = GDFLIB_FilterIIR1_FLT(psSpeed->fltSpeedCmd, &psSpeed->sSpeedCmdZCFilter);        
+        /* Speed zero cancellation filter - required speed is fltSpeedRamp */
+        psSpeed->fltSpeedCmdFilt  = GDFLIB_FilterIIR1_FLT(psSpeed->fltSpeedRamp, &psSpeed->sSpeedCmdZCFilter); 
+        
+        /* Speed zero cancellation filter - required speed is fltSpeedCmd, can be used during step response tuning */
+        //psSpeed->fltSpeedCmdFilt  = GDFLIB_FilterIIR1_FLT(psSpeed->fltSpeedCmd, &psSpeed->sSpeedCmdZCFilter);
+        
         /* Speed error calculation */
         psSpeed->fltSpeedError = MLIB_Sub_FLT(psSpeed->fltSpeedCmdFilt, psSpeed->fltSpeedFilt); 
     }
