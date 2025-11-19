@@ -39,9 +39,6 @@ extern "C" {
 /*******************************************************************************
 * Macros
 *******************************************************************************/
-/*******************************************************************************
-* Macros
-*******************************************************************************/
 #define MCAA_ESTIMRL_FSN (10000u) /* maximal sampling frequency [Hz] */
 #define MCAA_ESTIMRL_FSN_FLT (10000.0) /* maximal sampling frequency [Hz] in floating-point type */
 #define MCAA_ESTIMRL_ACF (500.0f) /* Frequency of the injected AC current [Hz] */
