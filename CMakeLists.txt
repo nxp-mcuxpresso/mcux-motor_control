@@ -181,17 +181,9 @@ if(CONFIG_MCUX_COMPONENT_middleware.pmsm_mid.float)
         CC  "-DMID_EN"
     )
     mcux_add_source(
-        SOURCES pmsm/pmsm_float/mc_identification/hall_calib.c
-                pmsm/pmsm_float/mc_identification/hall_calib.h
-                pmsm/pmsm_float/mc_identification/ke_measure.c
-                pmsm/pmsm_float/mc_identification/ke_measure.h
-                pmsm/pmsm_float/mc_identification/mech_measure.c
-                pmsm/pmsm_float/mc_identification/mech_measure.h
-                pmsm/pmsm_float/mc_identification/mid_auxiliary.c
+        SOURCES pmsm/pmsm_float/mc_identification/mid_auxiliary.c
                 pmsm/pmsm_float/mc_identification/mid_auxiliary.h
                 pmsm/pmsm_float/mc_identification/mid_def.h
-                pmsm/pmsm_float/mc_identification/mid_mc_api_connector.c
-                pmsm/pmsm_float/mc_identification/mid_mc_api_connector.h
                 pmsm/pmsm_float/mc_identification/mid_sm_states.c
                 pmsm/pmsm_float/mc_identification/mid_sm_states.h
                 pmsm/pmsm_float/mc_identification/pp_measure.c
@@ -901,6 +893,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm33f)
     mcux_component_version(3.1.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_algorithms/mcaa_lib/cm33f_iar/Include/MCAA_EstimRL_FLT.h
+				pmsm/pmsm_float/mc_algorithms/mcaa_lib/cm33f_iar/Include/MCAA_EstimBJ_FLT.h
         TOOLCHAINS iar
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
