@@ -119,7 +119,7 @@ drv_flash_ctrl_t g_sM1FlashCtrl = {1U, TRUE, FALSE, kFlashCfg_NoOperation, kFlas
  */
 bool_t Drv_Flash_Init(void)
 {
-  uint32_t i, destAdrss, firstConfig;
+  uint32_t i, destAdrss, firstConfig = 0U;
 
   g_sFlashDrv.ui32FlashErr = FLASH_ERR_NO;
 
