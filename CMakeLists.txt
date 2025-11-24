@@ -1,6 +1,6 @@
 
 if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_snsless.float)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_configuration(
         CC  "-DPMSM_SNSLESS"
     )
@@ -26,7 +26,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_snsless.float)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_enc.float)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_configuration(
         CC  "-DPMSM_SNSLESS -DPMSM_SNSLESS_ENC"
     )
@@ -53,7 +53,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_enc.float)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_enc_dual.float)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_configuration(
         CC  "-DPMSM_SNSLESS -DPMSM_SNSLESS_ENC -DDUAL_MOTOR"
     )
@@ -82,7 +82,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_enc_dual.float)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_servo.float)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_configuration(
         CC  "-DPMSM_SNSLESS -DPMSM_SNSLESS_ENC -DPMSM_SERVO"
     )
@@ -94,7 +94,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_servo.float)
                 pmsm/pmsm_float/mc_state_machine/m1_sm_servo.c
                 pmsm/pmsm_float/mc_state_machine/m1_sm_servo.h
                 pmsm/pmsm_float/mc_state_machine/sm_servo_common.h
-                # freemaster/pmsm_float_servo_dual.pmpx  # consider if we create new one, like pmsm_float_servo.pmpx
+                freemaster/pmsm_float_servo_dual.pmpx
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_include(
@@ -109,7 +109,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_servo.float)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_servo_dual.float)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_configuration(
         CC  "-DPMSM_SNSLESS -DPMSM_SNSLESS_ENC -DDUAL_MOTOR -DPMSM_SERVO"
     )
@@ -138,7 +138,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_servo_dual.float)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.mc_bldc.frac)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_configuration(
         CC  "-DBLDC_SNSLESS"
     )
@@ -164,7 +164,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.mc_bldc.frac)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control_bldc_frac.tsa)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES bldc/fm_tsa_bldc.c
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
@@ -176,7 +176,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control_bldc_frac.tsa)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.pmsm_mid.float)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_configuration(
         CC  "-DMID_EN"
     )
@@ -204,7 +204,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.pmsm_mid.float)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_snsless.frac)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_configuration(
         CC  "-DPMSM_SNSLESS"
     )
@@ -230,7 +230,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_snsless.frac)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_enc.frac)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_configuration(
         CC  "-DPMSM_SNSLESS -DPMSM_SNSLESS_ENC"
     )
@@ -256,7 +256,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.mc_pmsm_enc.frac)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.pmsm_mid.frac)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_configuration(
         CC  "-DMID_EN"
     )
@@ -284,7 +284,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.pmsm_mid.frac)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.pmsm_mid.frac_enc)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_configuration(
         CC  "-DMID_EN"
     )
@@ -312,7 +312,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.pmsm_mid.frac_enc)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_float.template)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
 
     mcux_add_include(
         INCLUDES pmsm/pmsm_float/mc_cfg_template
@@ -330,7 +330,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_float.template)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control_bldc_frac.template)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
 
     mcux_add_include(
         INCLUDES bldc/mc_cfg_template
@@ -347,7 +347,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control_bldc_frac.template)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_frac.template)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
 
     mcux_add_include(
         INCLUDES pmsm/pmsm_frac/mc_cfg_template
@@ -364,7 +364,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_frac.template)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_float.tsa)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/fm_tsa_pmsm.c
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
@@ -376,7 +376,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_float.tsa)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_servo_float.tsa)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/fm_tsa_pmsm_servo.c
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
@@ -388,7 +388,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_servo_float.tsa)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_frac.tsa)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/fm_tsa_pmsm.c
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
@@ -400,7 +400,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_frac.tsa)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_frac_enc.tsa)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/fm_tsa_pmsm.c
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
@@ -412,7 +412,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_frac_enc.tsa)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcx_epwm_frac)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_drivers/mcdrv_adc_mcxa.c
                 pmsm/pmsm_frac/mc_drivers/mcdrv_adc_mcxa.h
@@ -429,7 +429,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcx_epwm_frac)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcxa_epwm_float)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxa.c
                 pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxa.h
@@ -446,7 +446,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcxa_epwm_float
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcxa20_epwm_float)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxa20.c
                 pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxa20.h
@@ -463,7 +463,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcxa20_epwm_flo
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adclpc_ftm_frac)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_drivers/mcdrv_adc_lpc860.c
                 pmsm/pmsm_frac/mc_drivers/mcdrv_adc_lpc860.h
@@ -478,7 +478,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adclpc_ftm_frac)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcxe_ftm_float)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxe.c
                 pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxe.h
@@ -493,7 +493,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcxe_ftm_float)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_frac)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_drivers/mcdrv_adc_adc12.c
                 pmsm/pmsm_frac/mc_drivers/mcdrv_adc_adc12.h
@@ -508,7 +508,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_frac)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qdc_frac)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_drivers/mcdrv_adc_adc12.c
                 pmsm/pmsm_frac/mc_drivers/mcdrv_adc_adc12.h
@@ -525,7 +525,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qdc_frac
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qspi_frac)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_drivers/mcdrv_adc_adc12.c
                 pmsm/pmsm_frac/mc_drivers/mcdrv_adc_adc12.h
@@ -542,7 +542,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qspi_fra
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qspi_frac_enc)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_drivers/mcdrv_adc_adc12.c
                 pmsm/pmsm_frac/mc_drivers/mcdrv_adc_adc12.h
@@ -561,7 +561,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qspi_fra
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_frac_enc)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_drivers/mcdrv_adc_adc12.c
                 pmsm/pmsm_frac/mc_drivers/mcdrv_adc_adc12.h
@@ -578,7 +578,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_frac_enc
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_lpcadc_sctimer)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_lpc.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adc_lpc.c
@@ -593,7 +593,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_lpcadc_sctimer)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_lpcadc_pwma_enc)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
 	mcux_add_configuration(
 		CC  "-DMCDRV_FLASH_LPC55S36"
     )
@@ -615,7 +615,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_lpcadc_pwma_enc)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_lpcadc_pwma_bldc)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES bldc/mc_drivers/mcdrv_adc_lpc55s36.h
                 bldc/mc_drivers/mcdrv_adc_lpc55s36.c
@@ -632,7 +632,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_lpcadc_pwma_bldc)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcncxn_pwma_enc)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxn.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxn.c
@@ -649,7 +649,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcncxn_pwma_enc)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcncxn_pwma_qdc)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxn.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxn.c
@@ -666,7 +666,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcncxn_pwma_qdc)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_mcxe3xx)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_sar_adc_mcxe.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_sar_adc_mcxe.c
@@ -685,7 +685,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_mcxe3xx)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1010_pwma)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adcetc1010_imxrt.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adcetc1010_imxrt.c
@@ -700,7 +700,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1010_pwma)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1010_pwma_enc)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adcetc1010_imxrt.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adcetc1010_imxrt.c
@@ -717,7 +717,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1010_pwma_e
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt_pwma)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt.c
@@ -732,7 +732,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt_pwma)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt_pwma_enc)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt.c
@@ -749,7 +749,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt_pwma_enc)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt11xx.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt11xx.c
@@ -764,7 +764,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma_enc)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt11xx.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt11xx.c
@@ -781,7 +781,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma_e
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma_bldc)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES bldc/mc_drivers/mcdrv_pwm3ph_pwma.c
                 bldc/mc_drivers/mcdrv_pwm3ph_pwma.h
@@ -798,7 +798,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma_b
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1180_pwma_enc)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_imxrt118x.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adc_imxrt118x.c
@@ -815,7 +815,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1180_pwma_e
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1186_pwma_enc)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_imxrt1186.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adc_imxrt1186.c
@@ -834,7 +834,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1186_pwma_e
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_imxrt1186_pwma_sinc_endat)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_imxrt1186.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adc_imxrt1186.c
@@ -855,7 +855,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_imxrt1186_pwma_sinc
 endif()
 
 if (CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_imx943evk)
-	mcux_component_version(3.1.0)
+	mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES
             pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.c
@@ -878,19 +878,19 @@ if (CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_imx943evk)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_float_imcat)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_frac_imcat)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control_bldc_frac_imcat)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm33f)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_algorithms/mcaa_lib/cm33f_iar/Include/MCAA_EstimRL_FLT.h
 				pmsm/pmsm_float/mc_algorithms/mcaa_lib/cm33f_iar/Include/MCAA_EstimBJ_FLT.h
@@ -957,7 +957,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm33f)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm33nodsp)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_iar/Include/MCAA_EstimRL.h
         TOOLCHAINS iar
@@ -1021,7 +1021,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm33nodsp)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm7f)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_algorithms/mcaa_lib/cm7f_iar/Include/MCAA_EstimRL_FLT.h
 				pmsm/pmsm_float/mc_algorithms/mcaa_lib/cm7f_iar/Include/MCAA_EstimBJ_FLT.h
@@ -1088,7 +1088,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm7f)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm4f)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_algorithms/mcaa_lib/cm4f_iar/Include/MCAA_EstimRL_FLT.h
 				pmsm/pmsm_float/mc_algorithms/mcaa_lib/cm4f_iar/Include/MCAA_EstimBJ_FLT.h
@@ -1155,7 +1155,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm4f)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm0)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm0_iar/Include/MCAA_EstimRL.h
         TOOLCHAINS iar
@@ -1219,7 +1219,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm0)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ex)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/DSP56800EX/Include/mcaa_lib.h
         TOOLCHAINS codewarrior
@@ -1249,7 +1249,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ex)
 endif()
 
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ef)
-    mcux_component_version(3.1.0)
+    mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_algorithms/mcaa_lib/dsp56800ef/Include/mcaa_lib.h
         TOOLCHAINS codewarrior
