@@ -2,13 +2,13 @@
   "SPDXID": "SPDXRef-DOCUMENT",
   "spdxVersion": "SPDX-2.3",
   "creationInfo": {
-    "created": "2025-09-01T12:56:58Z",
+    "created": "2025-12-03T03:22:14Z",
     "creators": [
       "Organization: NXP"
     ],
-    "licenseListVersion": "3.20"
+    "licenseListVersion": "3.26"
   },
-  "name": "mcux-motor_control-v25.09.00",
+  "name": "mcux-motor_control-v25.12.00",
   "dataLicense": "CC0-1.0",
   "hasExtractedLicensingInfos": [
     {
@@ -17,93 +17,8 @@
       "name": "LA_OPT_Online Code Hosting NXP_Software_License - v1.4 May 2025"
     }
   ],
-  "documentNamespace": "https://nxp.com/spdx/e8136fe5-622a-453f-a2a9-088d39572d91",
+  "documentNamespace": "https://nxp.com/spdx/fa7668ba-7c22-442a-a3ab-94d0fda5b5d2",
   "packages": [
-    {
-      "SPDXID": "SPDXRef-package-e8136fe5-622a-453f-a2a9-088d39572d91",
-      "name": "mcux-motor_control",
-      "versionInfo": "v25.09.00",
-      "licenseConcluded": "(LicenseRef-babf777f-042b-42df-a5bf-638993427038)",
-      "licenseDeclared": "(LicenseRef-babf777f-042b-42df-a5bf-638993427038)",
-      "downloadLocation": "https://github.com/nxp-mcuxpresso/mcux-motor_control",
-      "originator": "Organization: NXP",
-      "supplier": "NOASSERTION",
-      "externalRefs": [],
-      "filesAnalyzed": false
-    },
-    {
-      "SPDXID": "SPDXRef-package-3fb96267-1f88-4765-bf35-e4b6a2cbda8b",
-      "name": "Bootstrap (Twitter)",
-      "versionInfo": "5.1.3",
-      "licenseConcluded": "MIT",
-      "licenseDeclared": "MIT",
-      "homepage": "http://getbootstrap.com/",
-      "downloadLocation": "https://github.com/twbs/bootstrap/releases/tag/v5.1.3",
-      "originator": "Organization: twbs",
-      "supplier": "NOASSERTION",
-      "externalRefs": [
-        {
-          "referenceCategory": "SECURITY",
-          "referenceLocator": "cpe:2.3:a:getbootstrap:bootstrap:5.1.3:*:*:*:*:*:*:*",
-          "referenceType": "cpe23Type"
-        },
-        {
-          "referenceCategory": "SECURITY",
-          "referenceLocator": "cpe:2.3:a:maven_package:org.webjars\\:bootstrap:5.1.3:*:*:*:*:*:*:*",
-          "referenceType": "cpe23Type"
-        },
-        {
-          "referenceCategory": "SECURITY",
-          "referenceLocator": "cpe:2.3:a:maven_package:org.webjars.npm\\:bootstrap:5.1.3:*:*:*:*:*:*:*",
-          "referenceType": "cpe23Type"
-        },
-        {
-          "referenceCategory": "SECURITY",
-          "referenceLocator": "cpe:2.3:a:nodejs_package:bootstrap:5.1.3:*:*:*:*:*:*:*",
-          "referenceType": "cpe23Type"
-        },
-        {
-          "referenceCategory": "SECURITY",
-          "referenceLocator": "cpe:2.3:a:github_package:twbs\\/bootstrap:5.1.3:*:*:*:*:*:*:*",
-          "referenceType": "cpe23Type"
-        },
-        {
-          "referenceCategory": "PACKAGE-MANAGER",
-          "referenceLocator": "pkg:github/twbs/bootstrap@v5.1.3",
-          "referenceType": "purl"
-        },
-        {
-          "referenceCategory": "OTHER",
-          "referenceLocator": "ce6971a9-31b1-461c-a605-063a6eba5d74",
-          "referenceType": "BlackDuck-ComponentOrigin"
-        }
-      ],
-      "filesAnalyzed": false
-    },
-    {
-      "SPDXID": "SPDXRef-package-fc386b1a-21ce-45c3-a7d9-1a68e3233c3d",
-      "name": "Font-Awesome",
-      "versionInfo": "5.7.0",
-      "licenseConcluded": "CC-BY-4.0",
-      "licenseDeclared": "(CC-BY-4.0 AND MIT AND OFL-1.1)",
-      "homepage": "https://fontawesome.com?from=io",
-      "downloadLocation": "https://github.com/FortAwesome/Font-Awesome/releases/tag/5.7.0",
-      "originator": "Organization: fortawesome",
-      "supplier": "NOASSERTION",
-      "externalRefs": [
-        {
-          "referenceCategory": "OTHER",
-          "referenceLocator": "5fe7362e-6e48-43b5-b232-9ba2f9868347",
-          "referenceType": "BlackDuck-ComponentOrigin"
-        },
-        {
-          "referenceCategory": "PACKAGE-MANAGER",
-          "referenceLocator": "pkg:github/FortAwesome/Font-Awesome@5.7.0",
-          "referenceType": "purl"
-        }
-      ],
-      "filesAnalyzed": false
-    },
     {
       "SPDXID": "SPDXRef-package-a1c5dff3-adc1-40c4-8b39-83c9be7c873e",
       "name": "simple-jsonrpc-js",
@@ -115,28 +30,30 @@
       "supplier": "NOASSERTION",
       "externalRefs": [],
       "filesAnalyzed": false
+    },
+    {
+      "SPDXID": "SPDXRef-package-fa7668ba-7c22-442a-a3ab-94d0fda5b5d2",
+      "name": "mcux-motor_control",
+      "versionInfo": "v25.12.00",
+      "licenseConcluded": "(LicenseRef-babf777f-042b-42df-a5bf-638993427038)",
+      "licenseDeclared": "(LicenseRef-babf777f-042b-42df-a5bf-638993427038)",
+      "downloadLocation": "https://github.com/nxp-mcuxpresso/mcux-motor_control",
+      "originator": "Organization: NXP",
+      "supplier": "NOASSERTION",
+      "externalRefs": [],
+      "filesAnalyzed": false
     }
   ],
   "relationships": [
     {
-      "spdxElementId": "SPDXRef-DOCUMENT",
-      "relationshipType": "DESCRIBES",
-      "relatedSpdxElement": "SPDXRef-package-e8136fe5-622a-453f-a2a9-088d39572d91"
-    },
-    {
-      "spdxElementId": "SPDXRef-package-e8136fe5-622a-453f-a2a9-088d39572d91",
-      "relationshipType": "DYNAMIC_LINK",
-      "relatedSpdxElement": "SPDXRef-package-3fb96267-1f88-4765-bf35-e4b6a2cbda8b"
-    },
-    {
-      "spdxElementId": "SPDXRef-package-e8136fe5-622a-453f-a2a9-088d39572d91",
-      "relationshipType": "DYNAMIC_LINK",
+      "spdxElementId": "SPDXRef-package-fa7668ba-7c22-442a-a3ab-94d0fda5b5d2",
+      "relationshipType": "CONTAINS",
       "relatedSpdxElement": "SPDXRef-package-a1c5dff3-adc1-40c4-8b39-83c9be7c873e"
     },
     {
-      "spdxElementId": "SPDXRef-package-e8136fe5-622a-453f-a2a9-088d39572d91",
-      "relationshipType": "DYNAMIC_LINK",
-      "relatedSpdxElement": "SPDXRef-package-fc386b1a-21ce-45c3-a7d9-1a68e3233c3d"
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-package-fa7668ba-7c22-442a-a3ab-94d0fda5b5d2"
     }
   ]
 }
