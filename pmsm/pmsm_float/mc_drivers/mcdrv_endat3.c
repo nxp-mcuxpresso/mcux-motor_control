@@ -1,5 +1,5 @@
 /*
-* Copyright 2025 NXP
+* Copyright 2025-2026 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -113,54 +113,62 @@ void MCDRV_EnDat3GetPositionFoc(mcdrv_endat3_t * base)
 RAM_FUNC_LIB
 void MCDRV_EnDat3GetPositionFullAndSpeed(mcdrv_endat3_t * base)
 {
-    float_t fltSpdMech;
-    
-    /* Position difference (delta) */
-    base->i64EndatDiff = base->i64EndatPosition - base->i64EndatPositionOld;
-    
-    /* Find out direction */
-    if((base->i64EndatDiff) >= 0)
-      base->bEndatDir = TRUE;
-    else
-      base->bEndatDir = FALSE;
-    
-    /* Find out revolution counter (multi-turn) */
-    if(base->bEndatDir == FALSE)
-    {      
-      if(base->i64EndatDiff < -16777216 ) // Half of range  (2^(25))/2
-      {
-         base->i64RevCounter++;
-         
-         /* Diff calculation when counter overflow */
-         base->i64EndatDiff = base->i64EndatPosition - base->i64EndatPositionOld + 33554432;
-      }    
-    }
-    else /* bEndatDir == FALSE */
+  float_t fltSpdMech;
+  uint64_t ui64EndatPosition;
+  int64_t i64EndatPosition, i64EndatDiff;
+  
+  /* Copy position data */
+  ui64EndatPosition = base->ui64EndatPosition;
+  
+  /* Set position to middle */
+  i64EndatPosition = (int64_t)(ui64EndatPosition) - 16777216;
+  
+  /* Position difference (delta) */
+  i64EndatDiff = i64EndatPosition - base->i64EndatPositionOld;
+  
+  /* Find out direction */
+  if((i64EndatDiff) >= 0)
+    base->bEndatDir = TRUE;
+  else
+    base->bEndatDir = FALSE;
+  
+  /* Find out revolution counter (multi-turn) */
+  if(base->bEndatDir == FALSE)
+  {      
+    if(i64EndatDiff < -16777216 ) // Half of range  (2^(25))/2
     {
-      if(base->i64EndatDiff > 16777216 )
-      {
-         base->i64RevCounter--;
-         
-         /* Diff calculation when counter underflow */
-         base->i64EndatDiff = base->i64EndatPosition - base->i64EndatPositionOld - 33554432;
-      }
+      base->i64RevCounter++;
+      
+      /* Diff calculation when counter overflow */
+      i64EndatDiff = i64EndatPosition - base->i64EndatPositionOld + 33554432;
+    }    
+  }
+  else /* bEndatDir == FALSE */
+  {
+    if(i64EndatDiff > 16777216 )
+    {
+      base->i64RevCounter--;
+      
+      /* Diff calculation when counter underflow */
+      i64EndatDiff = i64EndatPosition - base->i64EndatPositionOld - 33554432;
     }
-    
-    /* Multiturn position */
-    
-    /* Speed [Hz ~ rps (revolutions per second)] = PositionDelta / (SampleTime * MaxPositionNumber) = (PositionDelta * SampleFrequency) / MaxPositionNumber [Hz] */
-    /* Speed [rpm] = 60 * Speed[Hz] */
-    fltSpdMech = ((float_t)base->i64EndatDiff) * (4000.0F) * 60.0F / (33554432.0F);     /* Mechanical angular speed [rpm] */
-    
-    base->fltSpdMeEst = fltSpdMech * ((2.0F * FLOAT_PI)/60.0F);         /* Mechanical angular speed [rad/s]  */
-         
-    /* Store actual position */
-    base->i64EndatPositionOld = base->i64EndatPosition;
-    
-    /* Store results to user-defined variables */
-    /* Multiturn position in ACC32 */
-    *base->pa32PosMeReal = (acc32_t)(( (((int32_t)base->i64RevCounter)) << 15 ) + (uint16_t)(base->ui64EndatPosition >> 10U) );
-    
-    /* Mechanical angular speed [rad/s]  */
-    *base->pfltSpdMeEst = base->fltSpdMeEst;
+  }
+  
+  /* Multiturn position */
+  
+  /* Speed [Hz ~ rps (revolutions per second)] = PositionDelta / (SampleTime * MaxPositionNumber) = (PositionDelta * SampleFrequency) / MaxPositionNumber [Hz] */
+  /* Speed [rpm] = 60 * Speed[Hz] */
+  fltSpdMech = ((float_t)i64EndatDiff) * (4000.0F) * 60.0F / (33554432.0F);     /* Mechanical angular speed [rpm] */
+  
+  base->fltSpdMeEst = fltSpdMech * ((2.0F * FLOAT_PI)/60.0F);         /* Mechanical angular speed [rad/s]  */
+  
+  /* Store actual position */
+  base->i64EndatPositionOld = i64EndatPosition;
+  
+  /* Store results to user-defined variables */
+  /* Multiturn position in ACC32 */
+  *base->pa32PosMeReal = (acc32_t)(( (((int32_t)base->i64RevCounter)) << 15 ) + (uint16_t)(base->ui64EndatPosition >> 10U) );
+  
+  /* Mechanical angular speed [rad/s]  */
+  *base->pfltSpdMeEst = base->fltSpdMeEst;
 }

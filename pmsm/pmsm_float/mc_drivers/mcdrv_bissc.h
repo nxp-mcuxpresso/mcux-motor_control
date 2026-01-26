@@ -1,5 +1,5 @@
 /*
-* Copyright 2025 NXP
+* Copyright 2025-2026 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -42,7 +42,6 @@ typedef struct _bissc_type
     uint32_t mt_offset;
     uint32_t st_offset;
     frac16_t f16PosOffset;
-    int32_t i32Diff;
      
     acc32_t a32PosMeReal;         /* real position (revolution counter + mechanical position) */
     float_t fltSpdMeEst;          /* estimated speed calculated using tracking observer */

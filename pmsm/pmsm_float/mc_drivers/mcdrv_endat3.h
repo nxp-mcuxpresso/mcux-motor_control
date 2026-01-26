@@ -1,5 +1,5 @@
 /*
-* Copyright 2025 NXP
+* Copyright 2025-2026 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -47,7 +47,6 @@ typedef struct _mcdrv_endat3
   int64_t i64EndatPosition;     /* position at step k (signed) */
   int64_t i64EndatPositionOld;  /* position at step k-1 (signed) */
   int64_t i64RevCounter;        /* multiturn revolution counter */
-  int64_t i64EndatDiff;         /* position difference between steps k and k-1 */
   bool_t bEndatDir;             /* direction of the encoder rotation */
 
 } mcdrv_endat3_t;

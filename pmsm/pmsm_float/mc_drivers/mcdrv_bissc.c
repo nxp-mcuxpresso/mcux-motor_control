@@ -1,5 +1,5 @@
 /*
-* Copyright 2025 NXP
+* Copyright 2025-2026 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -122,34 +122,34 @@ void MCDRV_BissCGetPositionFoc(BISSC_Type *base)
 RAM_FUNC_LIB
 void MCDRV_BissCGetPositionFullAndSpeed(BISSC_Type *base)
 {
-  int32_t i32ST;
+  int32_t i32ST, i32Diff;
+  uint32_t u32st, u32mt;
   float_t fltSpdMech;
 
+  u32st = base->st;
+  u32mt = base->mt;
+  
   /* Set position to middle */
-  i32ST = (int32_t)base->st - (int32_t)((1 << base->ui8DevSTLen) / 2 );
+  i32ST = (int32_t)u32st - (int32_t)((1 << base->ui8DevSTLen) / 2 );
   
   /* Position difference (delta) */
-  base->i32Diff = i32ST - base->i32ST_k_1;    /* TODO: check whether offset has impact */
+  i32Diff = i32ST - base->i32ST_k_1;    /* TODO: check whether offset has impact */
          
-  if(base->i32Diff< -((1 << base->ui8DevSTLen) / 2 ))
-  {
-//     base->i64RevCounter++;
-    
+  if(i32Diff< -((1 << base->ui8DevSTLen) / 2 ))
+  {    
      /* Diff calculation when counter overflow */
-     base->i32Diff = i32ST - base->i32ST_k_1 + (1 << base->ui8DevSTLen);
+     i32Diff = i32ST - base->i32ST_k_1 + (1 << base->ui8DevSTLen);
   }    
 
-  if(base->i32Diff > ((1 << base->ui8DevSTLen) / 2) )
-  {
-//     base->i64RevCounter--;
-     
+  if(i32Diff > ((1 << base->ui8DevSTLen) / 2) )
+  {     
      /* Diff calculation when counter underflow */
-     base->i32Diff = i32ST - base->i32ST_k_1 - (1 << base->ui8DevSTLen);
+     i32Diff = i32ST - base->i32ST_k_1 - (1 << base->ui8DevSTLen);
   }
   
   /* Speed [Hz ~ rps (revolutions per second)] = PositionDelta / (SampleTime * MaxPositionNumber) = (PositionDelta * SampleFrequency) / MaxPositionNumber [Hz] */
   /* Speed [rpm] = 60 * Speed[Hz] */
-  fltSpdMech = ((float_t)base->i32Diff) * (4000.0F) * 60.0F / ((float_t)(1 << base->ui8DevSTLen));
+  fltSpdMech = ((float_t)i32Diff) * (4000.0F) * 60.0F / ((float_t)(1 << base->ui8DevSTLen));
   
   /* Mechanical angular speed [rad/s]  */
   base->fltSpdMeEst = fltSpdMech * ((2.0F * FLOAT_PI)/60.0F);
@@ -161,6 +161,6 @@ void MCDRV_BissCGetPositionFullAndSpeed(BISSC_Type *base)
    *base->pfltSpdMeEst = base->fltSpdMeEst;
    
    /* Position in accumulator type for motor control purposes */
-   base->a32PosMeReal = (acc32_t)(( (((int32_t)base->mt) - 2048) << 15    ) + (((uint16_t)(base->st)) >> 1) );
+   base->a32PosMeReal = (acc32_t)(( (((int32_t)u32mt) - 2048) << 15    ) + (((uint16_t)(u32st)) >> 1) );
    *base->pa32PosMeReal = base->a32PosMeReal;
 }

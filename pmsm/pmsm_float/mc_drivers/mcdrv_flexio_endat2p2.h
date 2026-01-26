@@ -53,9 +53,7 @@ typedef struct _mcdrv_endat2p2
 
     int64_t i64EndatPosition;
     int64_t i64EndatPositionOld;
-    int64_t i64EndatPositionMT;
     int64_t i64RevCounter;
-    int64_t i64EndatDiff;
     bool_t bEndatDir;
 
 } mcdrv_endat2p2_t;
