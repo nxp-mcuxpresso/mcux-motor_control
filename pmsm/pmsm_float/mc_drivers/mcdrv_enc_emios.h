@@ -28,7 +28,6 @@
 typedef struct _mcdrv_qd_enc_t
 {
     AMCLIB_TRACK_OBSRV_T_FLT sTo; /* tracking observer structure */
-//    QDC_Type *pui32QdBase;        /* pointer to QD module base address*/
     float_t *pfltSpdMeEst;        /* pointer to measured mechanical speed  */
     frac16_t *pf16PosElEst;       /* pointer to measured electrical position */
     acc32_t *pa32PosMeReal;       /* pointer to real position (revolution counter + mechanical position) */
@@ -38,14 +37,11 @@ typedef struct _mcdrv_qd_enc_t
     frac16_t f16PosMe;            /* mechanical position calculated using encoder edges */
     frac16_t f16PosMeEst;         /* estimated position calculated using tracking observer */
     uint16_t ui16Pp;              /* number of motor pole pairs */
-    bool_t bDirection;            /* encoder direction */
-    float_t fltSpdEncMin;         /* encoder minimal speed resolution */
     frac16_t f16PosErr;           /* poisition error to tracking observer  */
-    frac16_t f16PosMeGain;        /* encoder pulses to mechanical position scale gain */
-    int16_t i16PosMeGainSh;       /* encoder pulses to mechanical position scale shift */
-    acc32_t a32PosMeReal;         /* real position (revolution counter + mechanical position) */
-    frac16_t f16RevCounter;       /* revolution counter measured by periphery */
-    uint16_t ui16PulseNumber;     /* quadrature pulses per one revolution */
+    
+    frac16_t f16CounterOffset;
+    acc32_t a32PosMe;
+    
 } mcdrv_qd_enc_t;
 
 /*******************************************************************************
