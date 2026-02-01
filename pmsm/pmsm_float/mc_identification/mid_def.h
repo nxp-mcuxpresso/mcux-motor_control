@@ -55,16 +55,7 @@
 
 /* BJ Estim measurement parameters. */ 
 #define I_BJ_ESTIM        I_NOMINAL                   /* AP MID - Current for mechanical parameters measurement [A] */
-#define N_NOMINAL     M1_N_NOM * M1_N_ANGULAR_MAX /* AP MID - Nominal speed [rpm]. */       
-#define ALIGN_TIME    2U                          /* AP MID - Rotor aligment time 2 seconds. */
-#define I_REQ_OL      I_NOMINAL  / 2.0F           /* AP MID - D-axis open loop startup current. */
-#define W_STEP_OL     100.0F                      /* AP MID - Speed step for ramp per second. */
-#define DC_N_REQ_1    N_NOMINAL * 0.20F           /* AP MID - Required speed for point 1. - 20 % of nominal */
-#define DC_N_REQ_2    N_NOMINAL * 0.30F           /* AP MID - Required speed for point 2. - 30 % of nominal */
-#define DC_PI_P_GAIN  0.001F                      /* AP MID - Proportional gain of the speed loops DC controller [-]. */
-#define DC_PI_I_GAIN  0.00001F                    /* AP MID - Integral gain of the speed loops DC controller [-]. */
-#define AC_PI_P_GAIN  0.01F                       /* AP MID - Proportional gain of the speed loops AC controller [-]. */
-#define AC_PI_I_GAIN  0.00001F                    /* AP MID - Integral gain of the speed loops AC controller [-]. */
+#define N_NOMINAL     M1_N_NOM * M1_N_ANGULAR_MAX     /* AP MID - Nominal speed [rpm]. */       
 
 /* MID measurements faults flags. */
 #define MID_START_SUCCESSFUL  (0UL)
