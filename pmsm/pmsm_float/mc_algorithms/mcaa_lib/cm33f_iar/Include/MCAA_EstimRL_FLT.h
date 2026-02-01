@@ -90,8 +90,8 @@ extern "C" {
   MCAA_ESTIMRL_AVG_MIN,\
   MCAA_ESTIMRL_AVG_MAX}
   
-#define MCAA_EstimRLInit_FLT_C(u32SamplingFreq, psParam, psCtrl, psAdvTune)    \
-        MCAA_EstimRLInit_FLT_FC(u32SamplingFreq, psParam, psCtrl, psAdvTune)
+#define MCAA_EstimRLInit_FLT_C(psParam, psCtrl, psAdvTune)    \
+        MCAA_EstimRLInit_FLT_FC(psParam, psCtrl, psAdvTune)
 #define MCAA_EstimRL_FLT_C(fltUDcBus, psIAlBeFbck, psCtrl, sParam, psAdvTune, psUAlBeReq) \
         MCAA_EstimRL_FLT_FC(fltUDcBus, psIAlBeFbck, psCtrl, sParam, psAdvTune, psUAlBeReq)
 
@@ -103,7 +103,7 @@ typedef enum
 {
   ESTIMRL_RET_INIT_OK = 0,              /* Initialization successful. */
   ESTIMRL_RET_INIT_ERROR = 1,           /* Invalid inputs. */
-} MCAA_ESTIMRLINIT_RET_T_FLT;
+} MCAA_ESTIMRL_INIT_RET_T_FLT;
 
 /* MCAA_EstimRL return value enum. */
 typedef enum
@@ -127,25 +127,38 @@ typedef enum
   ESTIMRL_STATE_ERROR,                  /* Failure. */
 } MCAA_ESTIMRL_STATE_T_FLT;
 
-/* DC bus ripple eliminator structure. */
-typedef struct{
-  float_t fltArgDcBusMsr;       /* Measured DC bus voltage. */
-  float_t fltModIndex;          /* Inverse Modulation Index. */
-}GMCLIB_ELIMDCBUSRIP_T_FLT;
+/* RL estimator fault enum, each bit of fault variable represents defined fault. */
+typedef uint16_t estimrldef_fault_t; 
+typedef enum
+{
+  ESTIMRL_FAULT_INIT_MISSING_FS = 0,    /* Missing sampling frequency */
+  ESTIMRL_FAULT_INIT_FS_LIMIT,          /* Sampling frequency below limit */
+  ESTIMRL_FAULT_INIT_I_DC_POS_LIMIT,    /* Invalid positive DC current */
+  ESTIMRL_FAULT_INIT_I_DC_NEG_LIMIT,    /* Invalid negative DC current */
+  ESTIMRL_FAULT_INIT_L_DQ_TABLE,        /* Invalid number of Ld/Lq table measurements */
+  ESTIMRL_FAULT_INIT_I_DC_LD_POS_LIMIT, /* Ld measurement current exceedes maximal positive DC current */
+  ESTIMRL_FAULT_INIT_I_DC_LD_NEG_LIMIT, /* Ld measurement current exceedes maximal negative DC current */
+  ESTIMRL_FAULT_INIT_I_DC_LQ_POS_LIMIT, /* Lq measurement current exceedes maximal positive DC current */
+  ESTIMRL_FAULT_INIT_I_DC_LQ_NEG_LIMIT, /* Lq measurement current exceedes maximal negative DC current */
+  ESTIMRL_FAULT_INIT_FS_FINJ_RATIO,     /* Low sampling frequency (ratio to Hf current frequency) */
+  ESTIMRL_FAULT_RUN_UNINITIALIZED,      /* Invalid usage, must call init first */
+  ESTIMRL_FAULT_RUN_FS_FINJ_RATIO,      /* Low ratio between sampling frequency and Hf current frequency */
+  ESTIMRL_FAULT_RUN_I_AC_FREQ,          /* Invalid AC current frequency */
+} MCAA_ESTIMRL_FAULT_T_FLT;
 
 /* Internal state of the RL estimator structure. */
 typedef struct
 {
-  MCAA_ESTIMRL_STATE_T_FLT pState;        /* RL estimator state */
+  MCAA_ESTIMRL_STATE_T_FLT pState;      /* Status of electrical estimation internal state machine */
+  estimrldef_fault_t pFault;            /* Faults of electrical estimation internal state machine */
   GMCLIB_2COOR_ALBE_T_FLT pIAlBeAc;     /* Alpha/beta components of the estimated AC current */
   GMCLIB_2COOR_SINCOS_T_FLT pSinCosEst; /* Sine/Cosine of the estimated current phase */
   GMCLIB_2COOR_DQ_T_FLT pIDQAcRaw;      /* d/q components of the estimated AC current */
   GMCLIB_2COOR_DQ_T_FLT pIDQAcFilt;     /* Filtered d/q components of the estimated AC current */
   GDFLIB_FILTER_MA_T_FLT pDAxisFilter;  /* Parameters structure of the MA filter in the d axis in the PLL */
-  GDFLIB_FILTER_MA_T_FLT pQAxisFilter;  /* Parameters structure of pDcFilter in the PLL */
+  GDFLIB_FILTER_MA_T_FLT pQAxisFilter;  /* Parameters structure of the MA filter in the q axis in the PLL */
   GDFLIB_FILTER_MA_T_FLT pDcFilter;     /* Parameters structure of the MA filter filtering the DC current in PLL */
   GDFLIB_FILTER_MA_T_FLT pStdFilter;    /* Parameters structure of the MA filter filtering the standard deviation of current noise */
-  GMCLIB_ELIMDCBUSRIP_T_FLT pElimDcPar;  /* Parameters structure of the DC bus ripple eliminator */
   float_t fltIDcMax;                    /* Maximum DC of current */
   float_t fltIDcNegMax;                 /* Maximum allowed negative DC current */
   float_t fltIDcMaxInv;                 /* Inverse of the maximum DC current */
@@ -228,6 +241,7 @@ typedef struct
 /* Initialization parameters of the RL estimator structure. */
 typedef struct
 {
+  uint32_t u32SamplingFreq;     /* Sampling frequency [1/s]. */
   float_t fltIDcMax;            /* Maximum DC current [A]. */
   float_t fltIDcLd;             /* DC current used for Ld measurement [A]. */
   float_t fltIDcLq;             /* DC current used for Lq measurement [A]. */
@@ -249,35 +263,35 @@ typedef struct
 /* Parameters for advanced tuning algorithm. */
 typedef struct
 {
-float_t  fltACf;        // MCAA_ESTIMRL_ACF (500.0f) /* Frequency of the injected AC current [Hz] */
-uint16_t u16Timeout;    // MCAA_ESTIMRL_TIMEOUT (2u) /* Convergence detector timeout [s] */
-uint16_t  u16DCBusThr;  // MCAA_ESTIMRL_DCB_THR (10u) /* DC bus limit counter threshold */
-float_t  fltCdLimL;     // MCAA_ESTIMRL_CD_LIML (-1000.0f) /* Convergence detector lower limit */
-float_t  fltCdLimH;     // MCAA_ESTIMRL_CD_LIMH (-100.0f) /* Convergence detector coarse/fine tracking threshold */
-float_t  fltCdCoarseThr;        // MCAA_ESTIMRL_CD_COARSE_THR (0.1f) /* Convergence detector coarse threshold */ 
-float_t  fltCdFineThr;          // MCAA_ESTIMRL_CD_FINE_THR (3.90625e-03f) /* Convergence detector fine threshold */
-float_t  fltACIamp;     // MCAA_ESTIMRL_AC_IAMP (0.1f) /* AC current amplitude fraction of the maximal current */
-float_t  fltPllLambdaDQ;        // MCAA_ESTIMRL_PLL_LAMBDA_DQ (0.05f) /* PLL d/q axis MA filter coefficient */
-float_t  fltPllLambdaDC;        // MCAA_ESTIMRL_PLL_LAMBDA_DC (0.05f) /* PLL DC current MA filter coefficient */
-float_t  fltPllLambdaStd;       // MCAA_ESTIMRL_PLL_LAMBDA_STD (0.01f) /* PLL current noise standard deviation MA filter coefficient */
-float_t  fltPllKp;              // MCAA_ESTIMRL_PLL_KP (50.0f) /* PLL phase controller proportional gain */
-float_t  flt_DCIRamp;   // MCAA_ESTIMRL_DC_IRAMP (0.002f) /* DC current ramp factor */
-float_t  fltACDCKi;     // MCAA_ESTIMRL_ACDC_KI (0.0001f) /* AC/DC voltage controller integral gain (for Idcmax = IDCMAX_NOMINAL) */
-float_t  fltIDCMaxNom;  // IDCMAX_NOMINAL (100.0f) /* Nominal value of the max. DC current for scaling of controller time constants */
-float_t  fltUDCBusNom;  // UDCBUS_NOMINAL (12.0f) /* Nominal value of the DC bus voltage for scaling of controller time constants */
-float_t  fltDCBusElimIdx;       // MCAA_ESTIMRL_DCB_ELIM_IDX (0.866025403784439f) /* DC bus eliminator inverse modulation index */
-float_t  fltAvgMul;     // MCAA_ESTIMRL_AVG_MUL (300.0f) /* Averaging window length multiplier */
-float_t  fltAvgMin;     // MCAA_ESTIMRL_AVG_MIN (0.4f) /* Averaging window minimum length [seconds] */
-float_t  fltAvgMax;     // MCAA_ESTIMRL_AVG_MAX (1.0f) /* Maximum length of the noise averaging window [seconds]. Must be <= 1 for the fixed-point implementation. */
+  float_t  fltACf;        // MCAA_ESTIMRL_ACF (500.0f) /* Frequency of the injected AC current [Hz] */
+  uint16_t u16Timeout;    // MCAA_ESTIMRL_TIMEOUT (2u) /* Convergence detector timeout [s] */
+  uint16_t  u16DCBusThr;  // MCAA_ESTIMRL_DCB_THR (10u) /* DC bus limit counter threshold */
+  float_t  fltCdLimL;     // MCAA_ESTIMRL_CD_LIML (-1000.0f) /* Convergence detector lower limit */
+  float_t  fltCdLimH;     // MCAA_ESTIMRL_CD_LIMH (-100.0f) /* Convergence detector coarse/fine tracking threshold */
+  float_t  fltCdCoarseThr;        // MCAA_ESTIMRL_CD_COARSE_THR (0.1f) /* Convergence detector coarse threshold */ 
+  float_t  fltCdFineThr;          // MCAA_ESTIMRL_CD_FINE_THR (3.90625e-03f) /* Convergence detector fine threshold */
+  float_t  fltACIamp;     // MCAA_ESTIMRL_AC_IAMP (0.1f) /* AC current amplitude fraction of the maximal current */
+  float_t  fltPllLambdaDQ;        // MCAA_ESTIMRL_PLL_LAMBDA_DQ (0.05f) /* PLL d/q axis MA filter coefficient */
+  float_t  fltPllLambdaDC;        // MCAA_ESTIMRL_PLL_LAMBDA_DC (0.05f) /* PLL DC current MA filter coefficient */
+  float_t  fltPllLambdaStd;       // MCAA_ESTIMRL_PLL_LAMBDA_STD (0.01f) /* PLL current noise standard deviation MA filter coefficient */
+  float_t  fltPllKp;              // MCAA_ESTIMRL_PLL_KP (50.0f) /* PLL phase controller proportional gain */
+  float_t  flt_DCIRamp;   // MCAA_ESTIMRL_DC_IRAMP (0.002f) /* DC current ramp factor */
+  float_t  fltACDCKi;     // MCAA_ESTIMRL_ACDC_KI (0.0001f) /* AC/DC voltage controller integral gain (for Idcmax = IDCMAX_NOMINAL) */
+  float_t  fltIDCMaxNom;  // IDCMAX_NOMINAL (100.0f) /* Nominal value of the max. DC current for scaling of controller time constants */
+  float_t  fltUDCBusNom;  // UDCBUS_NOMINAL (12.0f) /* Nominal value of the DC bus voltage for scaling of controller time constants */
+  float_t  fltDCBusElimIdx;       // MCAA_ESTIMRL_DCB_ELIM_IDX (0.866025403784439f) /* DC bus eliminator inverse modulation index */
+  float_t  fltAvgMul;     // MCAA_ESTIMRL_AVG_MUL (300.0f) /* Averaging window length multiplier */
+  float_t  fltAvgMin;     // MCAA_ESTIMRL_AVG_MIN (0.4f) /* Averaging window minimum length [seconds] */
+  float_t  fltAvgMax;     // MCAA_ESTIMRL_AVG_MAX (1.0f) /* Maximum length of the noise averaging window [seconds]. Must be <= 1 for the fixed-point implementation. */
 } MCAA_ESTIMRL_ADV_TUNE_T;
 
 /****************************************************************************
 * Exported function prototypes
 ****************************************************************************/
-extern MCAA_ESTIMRLINIT_RET_T_FLT MCAA_EstimRLInit_FLT_FC(uint32_t u32SamplingFreq,
-                                                          MCAA_ESTIMRL_INIT_T_FLT *psParam,
-                                                          MCAA_ESTIMRL_T_FLT *const psCtrl,
-                                                          MCAA_ESTIMRL_ADV_TUNE_T *psAdvTune);
+extern MCAA_ESTIMRL_INIT_RET_T_FLT MCAA_EstimRLInit_FLT_FC(MCAA_ESTIMRL_INIT_T_FLT *psParam,
+                                                           MCAA_ESTIMRL_T_FLT *const psCtrl,
+                                                           MCAA_ESTIMRL_ADV_TUNE_T *psAdvTune);
+
 extern MCAA_ESTIMRL_RET_T_FLT MCAA_EstimRL_FLT_FC(float_t fltUDcBus,
                                                   const GMCLIB_2COOR_ALBE_T_FLT *const pIAlBeFbck,
                                                   MCAA_ESTIMRL_T_FLT *const psCtrl,

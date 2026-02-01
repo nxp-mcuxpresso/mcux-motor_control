@@ -677,10 +677,6 @@ FMSTR_TSA_TABLE_BEGIN(gsMid_table)
 /* Measurement control from application */
 FMSTR_TSA_RW_VAR(eUserMIDMeasType,       FMSTR_TSA_UINT16)
 
-/* The measurement configuration setup. */
-FMSTR_TSA_RW_VAR(sUserMIDMeasConfig.fltPpIdReqOpenLoop, FMSTR_TSA_FLOAT)
-FMSTR_TSA_RW_VAR(sUserMIDMeasConfig.fltPpFreqElReq, FMSTR_TSA_FLOAT)
-
 /* MID Status */
 FMSTR_TSA_RW_VAR(sUserMIDStatus.eMIDState, FMSTR_TSA_UINT16)
 FMSTR_TSA_RW_VAR(sUserMIDStatus.ui32AllFinishedMeas, FMSTR_TSA_UINT32)
@@ -706,13 +702,6 @@ FMSTR_TSA_RW_VAR(sUserMIDMotorParamsMeas.fltJ, FMSTR_TSA_FLOAT)
 FMSTR_TSA_RW_VAR(sUserMIDMotorParamsMeas.fltA, FMSTR_TSA_FLOAT)
 FMSTR_TSA_RW_VAR(sUserMIDMotorParamsMeas.fltB, FMSTR_TSA_FLOAT)
 
-/* MID external position */
-FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.f16PosElExt, FMSTR_TSA_FRAC16)
-
-/* FOC signals */
-FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.sIDQ.fltD, FMSTR_TSA_FLOAT)
-FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.sIDQ.fltQ, FMSTR_TSA_FLOAT)
-
 /* global freemaster float variables */
 FMSTR_TSA_RW_VAR(g_fltMIDcurrentScale, FMSTR_TSA_FLOAT)         /* FMSTR_MID_currentScale */
 FMSTR_TSA_RW_VAR(g_fltMIDDCBvoltageScale, FMSTR_TSA_FLOAT)      /* FMSTR_MID_DCBvoltageScale */
@@ -722,19 +711,36 @@ FMSTR_TSA_RW_VAR(g_fltMIDspeedAngularScale, FMSTR_TSA_FLOAT)    /* FMSTR_MID_spe
 
 FMSTR_TSA_RW_VAR(g_sMidDrive.ui16TimeCalibration, FMSTR_TSA_UINT16)              /* MID Calibration time count number */
 
-/* sFocPMSM.sIdPiParams definitions */
-FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.sIdPiParams.fltIGain, FMSTR_TSA_FLOAT) /* MID Id Ki Gain */
-FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.sIdPiParams.fltPGain, FMSTR_TSA_FLOAT) /* MID Id Kp Gain */
-
-/* sFocPMSM.sIqPiParams definitions */
-FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.sIqPiParams.fltIGain, FMSTR_TSA_FLOAT) /* MID Iq Ki Gain */
-FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.sIqPiParams.fltPGain, FMSTR_TSA_FLOAT) /* MID Iq Kp Gain */
-
-FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.fltDutyCycleLimit, FMSTR_TSA_FLOAT) /* MID Current Loop Limit */
-
 FMSTR_TSA_TABLE_END()
 
-/* Motor identification variables */
+
+/* AP identification variables */
+/*!
+* @brief AP MID Pp table structure
+*
+* @param None
+*
+* @return None
+*/
+/* MID_AP_PP TSA table */
+FMSTR_TSA_TABLE_BEGIN(ppAssist_table)
+
+    FMSTR_TSA_RW_VAR(g_sPpAssistInitFMSTR.fltIdReqOpenLoop, FMSTR_TSA_FLOAT)	  /* MID AP - Openloop current */
+    FMSTR_TSA_RW_VAR(g_sPpAssistInitFMSTR.fltFreqElReq, FMSTR_TSA_FLOAT)		    /* MID AP - Required Electrical Speed */
+    FMSTR_TSA_RW_VAR(g_sPpAssistInitFMSTR.fltRampTime, FMSTR_TSA_FLOAT)		      /* MID AP - Frequency ramp time */
+    FMSTR_TSA_RW_VAR(g_sPpAssistInitFMSTR.fltZeroPosTime, FMSTR_TSA_FLOAT)		  /* MID AP - Steady position time */
+    FMSTR_TSA_RW_VAR(g_sPpAssistInitFMSTR.fltUMax, FMSTR_TSA_FLOAT)				      /* MID AP - Maximal motor voltage */
+    FMSTR_TSA_RW_VAR(g_sPpAssistInitFMSTR.fltDutyCycleLimit, FMSTR_TSA_FLOAT)   /* MID AP - Maximum allowable duty cycle in frac */
+    FMSTR_TSA_RW_VAR(g_sPpAssistInitFMSTR.fltDPiPropGain, FMSTR_TSA_FLOAT)		  /* MID AP - Proportional gain of the D-axis current loop controller */
+    FMSTR_TSA_RW_VAR(g_sPpAssistInitFMSTR.fltDPiIntegGain, FMSTR_TSA_FLOAT)		  /* MID AP - Integral gain of the D-axis current loop controller */
+    FMSTR_TSA_RW_VAR(g_sPpAssistInitFMSTR.fltQPiPropGain, FMSTR_TSA_FLOAT)		  /* MID AP - Proportional gain of the Q-axis current loop controller */
+    FMSTR_TSA_RW_VAR(g_sPpAssistInitFMSTR.fltQPiIntegGain, FMSTR_TSA_FLOAT)		  /* MID AP - Integral gain of the Q-axis current loop controller */
+        
+    FMSTR_TSA_RW_VAR(g_sPpAssistStruct.pState, FMSTR_TSA_UINT16)                /* MID AP - Status of pole-pair assistant internal state machine */       
+    FMSTR_TSA_RW_VAR(g_sPpAssistStruct.pFault, FMSTR_TSA_UINT8)                 /* MID AP - Fault of pole-pair assistant internal state machine */       
+            
+FMSTR_TSA_TABLE_END()
+
 /*!
 * @brief MID table structure
 *
@@ -769,11 +775,15 @@ FMSTR_TSA_TABLE_BEGIN(estimRL_table)
    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.fltLd, FMSTR_TSA_FLOAT)                           /* MID - estimated d-axis inductance */
    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.fltLq, FMSTR_TSA_FLOAT)                           /* MID - estimated q-axis inductance  */
 
-   FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcNom, FMSTR_TSA_FLOAT)                    /* MID - Nominal DC current */
+    FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcMeas, FMSTR_TSA_FLOAT)                   /* MID AP - Measurement DC current */
    FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcPosMax, FMSTR_TSA_FLOAT)                 /* MID - Maximum positive DC current */
    FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcNegMax, FMSTR_TSA_FLOAT)                 /* MID - Maximum negative DC current */
    FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcLd, FMSTR_TSA_FLOAT)                     /* MID - Current used for Ld measurement */
    FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcLq, FMSTR_TSA_FLOAT)                     /* MID - Current used for Lq measurement */
+
+    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.pState, FMSTR_TSA_UINT16)             /* MID AP - Status of electrical estimation internal state machine */       
+    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.pFault, FMSTR_TSA_UINT8)              /* MID AP - Fault of electrical estimation internal state machine */       
+
 FMSTR_TSA_TABLE_END()
 
 /*!
@@ -808,8 +818,20 @@ FMSTR_TSA_TABLE_BEGIN(estimBJ_table)
     FMSTR_TSA_RW_VAR(g_sEstimBJStruct.pInnerState.fltFInj, FMSTR_TSA_FLOAT)            /* MID - Injected frequency */       
         
     FMSTR_TSA_RW_VAR(g_sEstimBJStruct.pInnerState.pState, FMSTR_TSA_UINT16)            /* MID - Status of mechanical estimation internal state machine */       
+    FMSTR_TSA_RW_VAR(g_sEstimBJStruct.pInnerState.pFault, FMSTR_TSA_UINT16)            /* MID AP - Fault of mechanical estimation internal state machine */       
 
-    FMSTR_TSA_RW_VAR(g_sEstimBJInitFMSTR.fltIN, FMSTR_TSA_FLOAT)                       /* MID - Nominal current */
+    FMSTR_TSA_RW_VAR(g_sEstimBJStruct.pInnerState.u32AlignTimer, FMSTR_TSA_UINT32)     /* MID AP - Rotor alignment timer */       
+    FMSTR_TSA_RW_VAR(g_sEstimBJStruct.pInnerState.u32TimerPreset, FMSTR_TSA_UINT32)    /* MID AP - Rotor alignment timer */       
+    FMSTR_TSA_RW_VAR(g_sEstimBJStruct.pInnerState.u32SSTime, FMSTR_TSA_UINT32)         /* MID AP - Steady state set time */       
+    FMSTR_TSA_RW_VAR(g_sEstimBJStruct.pInnerState.u32SSBandCnt, FMSTR_TSA_UINT32)      /* MID AP - Steady state in band counter */       
+    FMSTR_TSA_RW_VAR(g_sEstimBJStruct.pInnerState.fltSSNormRatio, FMSTR_TSA_FLOAT)     /* MID AP - Normalization ratio for FreeMASTER */       
+    FMSTR_TSA_RW_VAR(g_sEstimBJStruct.pInnerState.fltSSBandHalfMax, FMSTR_TSA_FLOAT)   /* MID AP - Half of maximal deviation from mean steady value */       
+    FMSTR_TSA_RW_VAR(g_sEstimBJStruct.pInnerState.fltSSBandHalf, FMSTR_TSA_FLOAT)      /* MID AP - Half of allowed deviation from mean steady value */       
+    FMSTR_TSA_RW_VAR(g_sEstimBJStruct.pInnerState.fltSSInParam, FMSTR_TSA_FLOAT)       /* MID AP - Observed variable in steady state */       
+    FMSTR_TSA_RW_VAR(g_sEstimBJStruct.pInnerState.u32SSTimeoutTime, FMSTR_TSA_UINT32)  /* MID AP - Steady state timeout */       
+    FMSTR_TSA_RW_VAR(g_sEstimBJStruct.pInnerState.u32SSTimeoutCnt, FMSTR_TSA_UINT32)   /* MID AP - Steady state timeout counter */       
+
+    FMSTR_TSA_RW_VAR(g_sEstimBJInitFMSTR.fltIMeas, FMSTR_TSA_FLOAT)                    /* MID AP - Measurement current */
     FMSTR_TSA_RW_VAR(g_sEstimBJInitFMSTR.fltNN, FMSTR_TSA_FLOAT)                       /* MID - Nominal speed */
     FMSTR_TSA_RW_VAR(g_sEstimBJInitFMSTR.bEstimFriction, FMSTR_TSA_UINT16)             /* MID - Enable "Advanced" mode (friction estimation) */    
     FMSTR_TSA_RW_VAR(g_sEstimBJInitFMSTR.fltAlignTime, FMSTR_TSA_FLOAT)                /* MID - Time needed for rotor alignmentRequired d-axis current for open loop startup */
@@ -941,6 +963,7 @@ FMSTR_TSA_TABLE(gsM2Enc_table)
 
 #ifdef MID_EN
 FMSTR_TSA_TABLE(gsMid_table)
+FMSTR_TSA_TABLE(ppAssist_table)
 FMSTR_TSA_TABLE(estimRL_table)
 FMSTR_TSA_TABLE(estimBJ_table)
 FMSTR_TSA_TABLE(gsMidDrive_table)

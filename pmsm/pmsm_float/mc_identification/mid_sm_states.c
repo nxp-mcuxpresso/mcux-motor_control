@@ -13,8 +13,6 @@
 
 
 #include "mid_sm_states.h"
-#include "mid_auxiliary.h"
-#include "pp_measure.h"
 #include "mlib.h"
 #include "amclib_FP.h"
 #include "mcaa_lib_fp.h"
@@ -75,13 +73,10 @@ mid_meas_type_t eUserMIDMeasType;
 /* MID measurement status. */
 mid_status_t   sUserMIDStatus;
 
-/* MID measurement parameters */
-mid_config_t   sUserMIDMeasConfig = MID_DEFAULT_MEAS_CONFIG;
-
 /* User params for setting motor params */
-mid_motor_params_user_t sUserMIDMotorParamsKnown = {1UL,  0.0F, 0.0F, 0.0F, 0.0F,
+mid_motor_params_user_t sUserMIDMotorParamsKnown = {M1_MOTOR_PP,  0.0F, 0.0F, 0.0F, 0.0F,
                                                     0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
-mid_motor_params_user_t sUserMIDMotorParamsMeas  = {1UL,  0.0F, 0.0F, 0.0F, 0.0F,
+mid_motor_params_user_t sUserMIDMotorParamsMeas  = {M1_MOTOR_PP,  0.0F, 0.0F, 0.0F, 0.0F,
                                                     0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
 
 /* Global structure for all measurements */
@@ -97,29 +92,39 @@ volatile float g_fltMIDspeedScale;
 volatile float g_fltMIDspeedAngularScale;
 volatile float g_fltMIDspeedMechanicalScale;
 
+/* Variables for Pp Assist */
+MCAA_PPASSIST_INIT_RET_T_FLT ePpAssistInitRetVal;     /* Return value of the MCAA_PpAssistInit_FLT() */
+MCAA_PPASSIST_RET_T_FLT      ePpAssistRetVal;         /* Return value of the MCAA_PpAssist_FLT() */ 
+MCAA_PPASSIST_INIT_T_FLT     g_sPpAssistInitCfg;      /* Pp Assistant initialization structure */
+MCAA_PPASSIST_T_FLT          g_sPpAssistStruct;       /* Pp Assistant configuration structure */
+pp_assist_cfg_params_t       g_sPpAssistInitFMSTR = { /* Control structure used in FreeMASTER */
+    I_PP_ASSIST, F_EL_REQ,
+    0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
+
 /* Variables for RL Estim */
-MCAA_ESTIMRLINIT_RET_T_FLT  eEstimRetValInit;   /* Return value of the MCAA_EstimRLInit() */
-MCAA_ESTIMRL_RET_T_FLT 	  eEstimRetVal;         /* Return value of the MCAA_EstimRL() */
-MCAA_ESTIMRL_INIT_T_FLT g_sEstimRLInitCfg;      /* RL estimation initialization structure */
-MCAA_ESTIMRL_T_FLT 	  g_sEstimRLStruct;         /* RL estimation configuration structure */
-MCAA_ESTIMRL_RUN_T_FLT  g_sEstimRLCtrlRun;      /* Control manual mode and measured values in modes 1, 2 */
-MCAA_ESTIMRL_ADV_TUNE_T g_sEstimRLAdvTune = ESTIMRL_ADV_TUNE_DEFAULT;      /* Advanced tuning parameters EstimRL algorithm */
-uint8_t u8ModeEstimRL;                          /* Selected identification mode */
-uint8_t u8PlotCnt;                              /* Plot counter. */
-float_t	fltIDcPlot;                             /* DC current [A]. */ 
-float_t	fltLdPlot;                              /* Estimated d-axis inductance [H]. */        
-float_t	fltLqPlot;                              /* Estimated q-axis inductance [H]. */
-float_t fltLdqTable[3*NUM_MEAS];                /* Array for measuring DC current and estimated inductances. */    
+MCAA_ESTIMRL_INIT_RET_T_FLT  eEstimRLInitRetVal;      /* Return value of the MCAA_EstimRLInit() */
+MCAA_ESTIMRL_RET_T_FLT 	     eEstimRLRetVal;          /* Return value of the MCAA_EstimRL() */
+MCAA_ESTIMRL_INIT_T_FLT      g_sEstimRLInitCfg;       /* RL estimation initialization structure */
+MCAA_ESTIMRL_T_FLT 	         g_sEstimRLStruct;        /* RL estimation configuration structure */
+MCAA_ESTIMRL_RUN_T_FLT       g_sEstimRLCtrlRun;       /* Control manual mode and measured values in modes 1, 2 */
+MCAA_ESTIMRL_ADV_TUNE_T      g_sEstimRLAdvTune = ESTIMRL_ADV_TUNE_DEFAULT;      /* Advanced tuning parameters EstimRL algorithm */
+uint8_t u8ModeEstimRL;                                /* Selected identification mode */
+uint8_t u8PlotCnt;                                    /* Plot counter. */
+float_t	fltIDcPlot;                                   /* DC current [A]. */ 
+float_t	fltLdPlot;                                    /* Estimated d-axis inductance [H]. */        
+float_t	fltLqPlot;                                    /* Estimated q-axis inductance [H]. */
+float_t fltLdqTable[3*NUM_MEAS];                      /* Array for measuring DC current and estimated inductances. */    
+uint32_t u32EstimRLTimeoutCnt;                        /* Estimation timeout counter [-]. */
 rl_estim_cfg_params_t g_sEstimRLInitFMSTR = {
-    I_NOMINAL * 0.5, I_POSMAX, I_NEGMAX, I_LD, I_LQ}; /* Control structure used in FreeMASTER */
+    I_RL_ESTIM, I_POSMAX, I_NEGMAX, I_LD, I_LQ};      /* Control structure used in FreeMASTER */
 
 /* Variables for BJ Estim */
-MCAA_ESTIMBJ_INIT_RET_T_FLT eEstimBJRetValInit;     /* Return value of the MCAA_EstimRLInit() */
-MCAA_ESTIMBJ_RET_T_FLT      eEstimBJRetVal;         /* Return value of the MCAA_EstimBJ() */
-MCAA_ESTIMBJ_INIT_T_FLT     g_sEstimBJInitCfg;      /* BJ estimation initialization structure */
-MCAA_ESTIMBJ_T_FLT 	        g_sEstimBJStruct;       /* BJ estimation configuration structure */
-bj_estim_cfg_params_t       g_sEstimBJInitFMSTR = { /* Control structure used in FreeMASTER */
-    I_NOMINAL, N_NOMINAL, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
+MCAA_ESTIMBJ_INIT_RET_T_FLT  eEstimBJInitRetVal;      /* Return value of the MCAA_EstimBJInit() */
+MCAA_ESTIMBJ_RET_T_FLT       eEstimBJRetVal;          /* Return value of the MCAA_EstimBJ() */
+MCAA_ESTIMBJ_INIT_T_FLT      g_sEstimBJInitCfg;       /* BJ estimation initialization structure */
+MCAA_ESTIMBJ_T_FLT 	         g_sEstimBJStruct;        /* BJ estimation configuration structure */
+bj_estim_cfg_params_t        g_sEstimBJInitFMSTR = {  /* Control structure used in FreeMASTER */
+    I_BJ_ESTIM, N_NOMINAL, TRUE, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F,
     0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F};
 
 /*******************************************************************************
@@ -146,36 +151,29 @@ static void MID_StateStart(void)
 {
     /* Type the code to do when in the START state */
 
-    /* MID alignment */
-    MID_alignment(&g_sMID.sMIDAlignment, &g_sMidDrive.sFocPMSM);
-
-    /* When MID_alignment is done and Motor Control SM proceeded to SPIN */
-    if (g_sMID.sMIDAlignment.bActive == FALSE)
+    /* Transition to required state */
+    switch(g_sMID.eMeasurementType)
     {
-        /* if kMID_PolePairs go to PP state */
-        if(g_sMID.eMeasurementType == kMID_PolePairs)
-        {
+        case kMID_PolePairs:
+            /* if kMID_PolePairs go to PP state */
             MID_TransStart2Pp();
-        }
-
-        /* if kMID_ElectricalParams go to RL state */
-        else if(g_sMID.eMeasurementType == kMID_ElectricalParams)
-        {
+            break;
+            
+        case kMID_ElectricalParams:
+            /* if kMID_ElectricalParams go to RL state */
             MID_TransStart2RL();
-        }
-        
-        /* if kMID_MechanicalParams go to MECH state */
-        else if(g_sMID.eMeasurementType == kMID_MechanicalParams)
-        {
+            break;
+            
+        case kMID_MechanicalParams:
+            /* if kMID_MechanicalParams go to BJ state */
             MID_TransStart2BJ();
-        }
-
-        /* if none of above eMeasurementType applies, go to STOP */
-        else
-        {
+            break;
+            
+        default:
+            /* if none of above eMeasurementType applies, go to STOP */
             MID_TransAll2Stop();
-        }
-    }   
+            break;
+    }
 }
 
 /*!
@@ -188,16 +186,30 @@ static void MID_StateStart(void)
 RAM_FUNC_LIB
 static void MID_StatePp(void)
 {
-    /* Type the code to do when in the PP state */
+    /* Type the code to do when in the Pp state */
 
     /* Call Pp measurement routine */
-    MID_getPp(&g_sMID.sMIDPp, &g_sMidDrive.sFocPMSM);
-
-    /* Escape MID_StatePp when measurement ends */
-    if(g_sMID.sMIDPp.bActive == FALSE)
+    ePpAssistRetVal = MCAA_PpAssist_FLT(g_sMidDrive.sFocPMSM.fltUDcBusFilt,
+                                       &g_sMidDrive.sFocPMSM.sIAlBe,
+                                       &g_sPpAssistStruct, 
+                                       &g_sMidDrive.sFocPMSM.sUAlBeReq);
+    switch(ePpAssistRetVal)
     {
-        /* Go to STOP state */
-        MID_TransAll2Stop();
+        case PPASSIST_RET_IN_PROGRESS:
+            break;
+            
+        case PPASSIST_RET_DONE:
+            /* Indicate finished measurement. */
+            g_sMID.sMIDMeasStatus.ui32ActFinishedMeas |= MID_PP_FINISH;
+            
+            /* Go to STOP state */
+            MID_TransAll2Stop();
+            break;
+            
+        default:
+            /* Error during parameters estimation */
+            g_sMID.sMIDMeasStatus.ui32FaultMID = MID_PP_MEAS_FAIL; 
+            MID_TransAll2Fault();
     }
 }
 
@@ -212,18 +224,29 @@ RAM_FUNC_LIB
 static void MID_StateRL(void)
 {
     /* Type the code to do when in the RL state */
+    if(u32EstimRLTimeoutCnt > 0U)
+    {
+        if(--u32EstimRLTimeoutCnt <= 0U)
+        {
+            /* Electrical estimator timeout fault */
+            g_sMID.sMIDMeasStatus.ui32FaultMID = MID_RL_ESTIM_FAIL; 
+            MID_TransAll2Fault();
+        }
+    }
+        
+    /* Call RL measurement routine */
+    eEstimRLRetVal = MCAA_EstimRL_FLT(g_sMidDrive.sFocPMSM.fltUDcBus,
+                                     &g_sMidDrive.sFocPMSM.sIAlBe,
+                                     &g_sEstimRLStruct,
+                                     &g_sEstimRLCtrlRun,
+                                     &g_sEstimRLAdvTune,
+                                     &g_sMidDrive.sFocPMSM.sUAlBeReq);
     
-    eEstimRetVal = MCAA_EstimRL_FLT(g_sMidDrive.sFocPMSM.fltUDcBus,
-                                   &g_sMidDrive.sFocPMSM.sIAlBe,
-                                   &g_sEstimRLStruct,
-                                   &g_sEstimRLCtrlRun,
-                                   &g_sEstimRLAdvTune,
-                                   &g_sMidDrive.sFocPMSM.sUAlBeReq);
-    
-    switch(eEstimRetVal)
+    switch(eEstimRLRetVal)
     {
         case ESTIMRL_RET_IN_PROGRESS:
-        break;
+            break;
+          
         case ESTIMRL_RET_DONE: 
               /* Store estimated parameters */
               g_sMID.sMotorParams.fltRs  = g_sEstimRLStruct.fltR;
@@ -237,6 +260,7 @@ static void MID_StateRL(void)
               /* Go to STOP state */
               MID_TransAll2Stop();  
             break;
+            
         default:
               /* Error during parameters estimation */
               g_sMID.sMIDMeasStatus.ui32FaultMID = MID_RL_ESTIM_FAIL; 
@@ -257,6 +281,7 @@ static void MID_StateBJ(void)
 {    
     /* Type the code to do when in the MECH state */
 
+    /* Call BJ measurement routine */
     eEstimBJRetVal = MCAA_EstimBJ_FLT(g_sMidDrive.sFocPMSM.fltUDcBus,
                                      &g_sMidDrive.sFocPMSM.sIAlBe,
                                      &g_sEstimBJStruct,
@@ -375,40 +400,48 @@ static void MID_StateCalib(void)
 RAM_FUNC_LIB
 static void MID_TransStart2Pp(void)
 {
-    /* Type the code to do when going from the Start to the Pp state */
-    g_sMID.sMIDPp.bActive = FALSE;
-    g_sMID.sMIDPp.ui16PpDetermined = FALSE;
+    /* Type the code to do when going from the Start to the Pp state */  
 
-    /* Enable FOC current loop */
-    g_sMidDrive.sFocPMSM.bCurrentLoopOn = TRUE;
+    /* Parameters with invalid values are reset to default values */
+    if((g_sPpAssistInitFMSTR.fltIdReqOpenLoop <= 0.0F) || (I_NOMINAL < g_sPpAssistInitFMSTR.fltIdReqOpenLoop))
+        g_sPpAssistInitFMSTR.fltIdReqOpenLoop  = I_PP_ASSIST;
+    
+    if((g_sPpAssistInitFMSTR.fltFreqElReq <= 0.0F) || (((float_t)F_SAMPLING / 10.0F) < g_sPpAssistInitFMSTR.fltFreqElReq))
+        g_sPpAssistInitFMSTR.fltFreqElReq  = F_EL_REQ;
+      
+    /* Pass parmeters to initialization structure */  
+    g_sPpAssistInitCfg.u32SamplingFreq   = F_SAMPLING;
+    g_sPpAssistInitCfg.fltIdReqOpenLoop  = g_sPpAssistInitFMSTR.fltIdReqOpenLoop;   /* Openloop current [A]. */
+    g_sPpAssistInitCfg.fltFreqElReq      = g_sPpAssistInitFMSTR.fltFreqElReq;       /* Required Electrical Speed [Hz]. */
+    /* Optional (advanced) parameters */
+    g_sPpAssistInitCfg.fltRampTime       = g_sPpAssistInitFMSTR.fltRampTime;        /* Frequency ramp time [s]. */
+    g_sPpAssistInitCfg.fltZeroPosTime    = g_sPpAssistInitFMSTR.fltZeroPosTime;     /* Steady position time [s]. */
+    g_sPpAssistInitCfg.fltUMax           = g_sPpAssistInitFMSTR.fltUMax;            /* Maximal motor voltage [V]. */
+    g_sPpAssistInitCfg.fltDutyCycleLimit = g_sPpAssistInitFMSTR.fltDutyCycleLimit;  /* Maximum allowable duty cycle in frac [-]. */
+    g_sPpAssistInitCfg.fltDPiPropGain    = g_sPpAssistInitFMSTR.fltDPiPropGain;     /* Proportional gain of the D-axis current loop controller [-]. */
+    g_sPpAssistInitCfg.fltDPiIntegGain   = g_sPpAssistInitFMSTR.fltDPiIntegGain;    /* Integral gain of the D-axis current loop controller [-]. */
+    g_sPpAssistInitCfg.fltQPiPropGain    = g_sPpAssistInitFMSTR.fltQPiPropGain;     /* Proportional gain of the Q-axis current loop controller [-]. */
+    g_sPpAssistInitCfg.fltQPiIntegGain   = g_sPpAssistInitFMSTR.fltQPiIntegGain;    /* Integral gain of the Q-axis current loop controller [-]. */
 
-    /* Use OL position for Park transformation. */
-    g_sMidDrive.sFocPMSM.bOpenLoop = TRUE;
-    g_sMidDrive.sFocPMSM.bPosExtOn = TRUE;
+    /* Initialize the state variables and set algorithm parameters */
+    ePpAssistInitRetVal = MCAA_PpAssistInit_FLT(&g_sPpAssistInitCfg,
+                                                &g_sPpAssistStruct);
     
-    /* Indicate new measurement. */
-    g_sMID.sMIDMeasStatus.ui32AllFinishedMeas &= ~MID_PP_FINISH;    
-    
-    /* Check range of the measurement configuration. 
-       Frequency decided to be FAST_LOOP_FREQ / 10 */
-    if((sUserMIDMeasConfig.fltPpIdReqOpenLoop <= I_NOMINAL) &&
-       (sUserMIDMeasConfig.fltPpIdReqOpenLoop >  0.0F)           &&
-       (sUserMIDMeasConfig.fltPpFreqElReq <= ((float_t)M1_PWM_FREQ / 10.0F))  &&
-       (sUserMIDMeasConfig.fltPpFreqElReq >  0.0F))
+    switch(ePpAssistInitRetVal)
     {
-        /* Set the Pp measurement configuration. */
-        g_sMID.sMIDPp.fltIdReqOpenLoop = sUserMIDMeasConfig.fltPpIdReqOpenLoop;
-        g_sMID.sMIDPp.fltFreqElReq     = sUserMIDMeasConfig.fltPpFreqElReq;
-        
-        /* Next is PP state */
-        g_sMID.sMIDMeasStatus.eMIDState = kMID_Pp;
-    }
-    else
-    {
-        /* Report Pp parameter measurement configuration out of range. */
-        g_sMID.sMIDMeasStatus.ui32FaultMID |= MID_PP_MEAS_OUT_OF_RANGE;
-        MID_TransAll2Fault();
-    }
+      case PPASSIST_RET_INIT_OK:
+          /* Next is PP state */
+          g_sMID.sMIDMeasStatus.ui32AllFinishedMeas &= ~MID_PP_FINISH; 
+          M1_MCDRV_PWM3PH_EN(&g_sM1Pwm3ph);
+          g_sMID.sMIDMeasStatus.eMIDState = kMID_Pp;
+          break;
+      
+      default:
+          /* Next is FAULT state - initialization failed */
+          g_sMID.sMIDMeasStatus.ui32FaultMID |= MID_PP_INIT_FAIL;
+          MID_TransAll2Fault(); 
+          break;
+    }  
 }
 
 /*!
@@ -423,26 +456,18 @@ static void MID_TransStart2RL(void)
 {
     /* Type the code to do when going from the Start to the RL state */  
     
-    /* Disable FOC current loop */
-    g_sMidDrive.sFocPMSM.bCurrentLoopOn = FALSE;
-    
-    /* Check selected current range */
-    if(g_sEstimRLInitFMSTR.fltIDcPosMax > I_NOMINAL)
-    {
-      g_sEstimRLInitFMSTR.fltIDcPosMax = I_NOMINAL;
-    }
+    /* Parameters with invalid values are reset to default values */
+    if((g_sEstimRLInitFMSTR.fltIDcPosMax <= 0.0F) || (I_POSMAX < g_sEstimRLInitFMSTR.fltIDcPosMax))
+        g_sEstimRLInitFMSTR.fltIDcPosMax  = I_POSMAX;
 
-    if(g_sEstimRLInitFMSTR.fltIDcNom > I_NOMINAL)
-    {
-      g_sEstimRLInitFMSTR.fltIDcNom = I_NOMINAL;
-    }    
+    if((g_sEstimRLInitFMSTR.fltIDcMeas <= 0.0F) || (I_NOMINAL < g_sEstimRLInitFMSTR.fltIDcMeas))
+        g_sEstimRLInitFMSTR.fltIDcMeas  = I_RL_ESTIM;
 
-    if(g_sEstimRLInitFMSTR.fltIDcNegMax < (-I_NOMINAL))
-    {
-      g_sEstimRLInitFMSTR.fltIDcNegMax = -I_NOMINAL;
-    }     
+    if((g_sEstimRLInitFMSTR.fltIDcNegMax < (-I_NEGMAX)) || (0.0f <= g_sEstimRLInitFMSTR.fltIDcNegMax))
+        g_sEstimRLInitFMSTR.fltIDcNegMax =  -I_NEGMAX;
     
-    /* Identification init */    
+    /* Identification init */ 
+    g_sEstimRLInitCfg.u32SamplingFreq = F_SAMPLING;
     switch(u8ModeEstimRL)
     {
       case 1:
@@ -458,8 +483,11 @@ static void MID_TransStart2RL(void)
           g_sEstimRLCtrlRun.fltIDcQReq = 0.0F;
           g_sEstimRLCtrlRun.fltIAcReq = 0.0F;
           g_sEstimRLCtrlRun.u16FAc = 0U;               
-          g_sEstimRLCtrlRun.u8LdqSwitch = 0U;      
+          g_sEstimRLCtrlRun.u8LdqSwitch = 0U;  
+          
+          u32EstimRLTimeoutCnt = 0U;
           break;
+          
       case 2:
           /* Mode 2 */
           g_sEstimRLInitCfg.fltIDcMax = g_sEstimRLInitFMSTR.fltIDcPosMax;
@@ -474,7 +502,10 @@ static void MID_TransStart2RL(void)
           g_sEstimRLCtrlRun.fltIAcReq = 0.0F;
           g_sEstimRLCtrlRun.u16FAc = 0U;               
           g_sEstimRLCtrlRun.u8LdqSwitch = 0U;
+          
+          u32EstimRLTimeoutCnt = 0U;
           break;
+          
       case 3:
           /* Mode 3 */
           g_sEstimRLInitCfg.fltIDcMax = 0.0F;
@@ -488,10 +519,13 @@ static void MID_TransStart2RL(void)
           g_sEstimRLCtrlRun.fltIAcReq = 0.0F;
           g_sEstimRLCtrlRun.u16FAc = 1U;                /* Set frequency greater than zero to avoid returning error from MCAA_EstimRL_FLT. */
           g_sEstimRLCtrlRun.u8LdqSwitch = 0U;
+          
+          u32EstimRLTimeoutCnt = 0U;
           break;
+          
       default:
           /* Mode 0 */
-          g_sEstimRLInitCfg.fltIDcMax = g_sEstimRLInitFMSTR.fltIDcNom;
+          g_sEstimRLInitCfg.fltIDcMax = g_sEstimRLInitFMSTR.fltIDcMeas;
           g_sEstimRLInitCfg.fltIDcLd = 0.0F;
           g_sEstimRLInitCfg.fltIDcLq = 0.0F;
           g_sEstimRLInitCfg.fltIDcNegMax = 0.0F;
@@ -502,12 +536,15 @@ static void MID_TransStart2RL(void)
           g_sEstimRLCtrlRun.fltIAcReq = 0.0F;
           g_sEstimRLCtrlRun.u16FAc = 0U;               
           g_sEstimRLCtrlRun.u8LdqSwitch = 0U;                
+          
+          u32EstimRLTimeoutCnt = (uint32_t)MLIB_Mul_FLT((float_t)ESTIMRL_TIMEOUT, (float_t)F_SAMPLING);
           break;
     }
         
-    eEstimRetValInit = MCAA_EstimRLInit_FLT(F_SAMPLING, &g_sEstimRLInitCfg ,&g_sEstimRLStruct, &g_sEstimRLAdvTune);
-    
-    switch(eEstimRetValInit)
+    eEstimRLInitRetVal = MCAA_EstimRLInit_FLT(&g_sEstimRLInitCfg,
+                                              &g_sEstimRLStruct,
+                                              &g_sEstimRLAdvTune);
+    switch(eEstimRLInitRetVal)
     {
       case ESTIMRL_RET_INIT_OK:
           /* Next is RL state */
@@ -515,7 +552,9 @@ static void MID_TransStart2RL(void)
           M1_MCDRV_PWM3PH_EN(&g_sM1Pwm3ph);
           g_sMID.sMIDMeasStatus.eMIDState = kMID_RL;
           break;
+          
       default:
+          /* Next is FAULT state - initialization failed */
           g_sMID.sMIDMeasStatus.ui32FaultMID |= MID_RL_INIT_FAIL; 
           MID_TransAll2Fault();            
           break;
@@ -534,88 +573,59 @@ static void MID_TransStart2BJ(void)
 {
     /* Type the code to do when going from the Start to the BJ state */
 
-    /* Check range of the pole-pair parameter */
-    if((g_sMID.sMotorParams.ui32Pp > 20UL) ||
-       (g_sMID.sMotorParams.ui32Pp < 1UL))
-    {
-        /* Report pole-pair parameter out of range. */
-        g_sMID.sMIDMeasStatus.ui32FaultMID |= MID_BJ_PP_PARAM_OUT_OF_RANGE;
-    }
+    /* Parameters with invalid values are reset to default values */
+    if((g_sEstimBJInitFMSTR.fltIMeas <= 0) || (I_NOMINAL < g_sEstimBJInitFMSTR.fltIMeas))
+        g_sEstimBJInitFMSTR.fltIMeas = I_BJ_ESTIM;
+
+    if((g_sEstimBJInitFMSTR.fltNN <= 0) || (N_NOMINAL < g_sEstimBJInitFMSTR.fltNN))
+        g_sEstimBJInitFMSTR.fltNN = N_NOMINAL;
     
-    /* Check if necessary electrical parameters were available */    
-    if(!((g_sMID.sMotorParams.fltLd ) ||
-         (g_sMID.sMotorParams.fltLq ) ||
-         (g_sMID.sMotorParams.fltRs ) ||
-         (g_sMID.sMotorParams.fltUdt) ))
-    {
-        /* Report missing electrical input parameters */
-        g_sMID.sMIDMeasStatus.ui32FaultMID |= MID_BJ_MISSING_RL_PARAMS;
-    }
+    /* Pass parmeters to initialization structure */        
+    g_sEstimBJInitCfg.u32SamplingFreq  = F_SAMPLING;                            /* Sampling frequency [1/s]. */
+    g_sEstimBJInitCfg.fltIMeas         = g_sEstimBJInitFMSTR.fltIMeas;          /* Measurement current [A]. */
+    g_sEstimBJInitCfg.fltNN            = g_sEstimBJInitFMSTR.fltNN;             /* Nominal speed [rpm]. */
+    g_sEstimBJInitCfg.ui32Pp           = g_sMID.sMotorParams.ui32Pp;            /* Number of pole-pairs [-]. */
+    g_sEstimBJInitCfg.fltRs            = g_sMID.sMotorParams.fltRs;             /* Stator resistance [Ohm]. */
+    g_sEstimBJInitCfg.fltLd            = g_sMID.sMotorParams.fltLd;             /* D-axis inductance [H]. */
+    g_sEstimBJInitCfg.fltLq            = g_sMID.sMotorParams.fltLq;             /* Q-axis inductance [H]. */
+    g_sEstimBJInitCfg.fltUdt           = g_sMID.sMotorParams.fltUdt;            /* Dead time voltage drop of the power stage [V]. */
+    g_sEstimBJInitCfg.bEstimFriction   = g_sEstimBJInitFMSTR.bEstimFriction;    /* Enable "Advanced" mode (friction estimation) [-]. */
+    /* Optional (advanced) parameters */
+    g_sEstimBJInitCfg.fltAlignTime     = g_sEstimBJInitFMSTR.fltAlignTime;      /* Time needed for rotor alignment [s]. */
+    g_sEstimBJInitCfg.fltIReqOl        = g_sEstimBJInitFMSTR.fltIReqOl;         /* Required d-axis current for open loop startup [A]. */
+    g_sEstimBJInitCfg.fltNStepDc       = g_sEstimBJInitFMSTR.fltNStepDc;        /* Required DC speed step for ramp [delta rpm/s]. */
+    g_sEstimBJInitCfg.fltNStepAc       = g_sEstimBJInitFMSTR.fltNStepAc;        /* Required AC speed step for ramp [delta rpm/s]. */
+    g_sEstimBJInitCfg.fltNDcReq1       = g_sEstimBJInitFMSTR.fltNDcReq1;        /* Required speed for measurement point 1 [rpm]. */
+    g_sEstimBJInitCfg.fltNDcReq2       = g_sEstimBJInitFMSTR.fltNDcReq2;        /* Required speed for measurement point 2 ("Advanced mode") [rpm]. */
+    g_sEstimBJInitCfg.fltNAcReq        = g_sEstimBJInitFMSTR.fltNAcReq;         /* Required amplitude of the injected AC speed [rpm]. */
+    g_sEstimBJInitCfg.fltFInjMax       = g_sEstimBJInitFMSTR.fltFInjMax;        /* Maximum possible injection frequency [Hz]. */    
+    g_sEstimBJInitCfg.fltFInjMin       = g_sEstimBJInitFMSTR.fltFInjMin;        /* Minimum possible injection frequency [Hz]. */
+    g_sEstimBJInitCfg.fltFInjStep      = g_sEstimBJInitFMSTR.fltFInjStep;       /* Injection frequency calculation step [Hz]. */
+    g_sEstimBJInitCfg.fltSSTimeoutTime = g_sEstimBJInitFMSTR.fltSSTimeoutTime;  /* Time to reach steady state before timeout [s]. */
+    g_sEstimBJInitCfg.fltSSTimeMin     = g_sEstimBJInitFMSTR.fltSSTimeMin;      /* Minimum time needed for stable behavior [s]. */
+    g_sEstimBJInitCfg.fltSSTimeTrans   = g_sEstimBJInitFMSTR.fltSSTimeTrans;    /* Transition time during selection of injected frequency [s]. */
+    g_sEstimBJInitCfg.fltDcPiPropGain  = g_sEstimBJInitFMSTR.fltDcPiPropGain;   /* Proportional gain of the speed loops DC controller [-]. */
+    g_sEstimBJInitCfg.fltDcPiIntegGain = g_sEstimBJInitFMSTR.fltDcPiIntegGain;  /* Integral gain of the speed loops DC controller [-]. */
+    g_sEstimBJInitCfg.fltAcPiPropGain  = g_sEstimBJInitFMSTR.fltAcPiPropGain;   /* Proportional gain of the speed loops AC controller [-]. */
+    g_sEstimBJInitCfg.fltAcPiIntegGain = g_sEstimBJInitFMSTR.fltAcPiIntegGain;  /* Integral gain of the speed loops AC controller [-]. */
 
-    if(g_sMID.sMIDMeasStatus.ui32FaultMID != MID_START_SUCCESSFUL)
+    /* Initialize the state variables and set algorithm parameters */
+    eEstimBJInitRetVal = MCAA_EstimBJInit_FLT(&g_sEstimBJInitCfg, &g_sEstimBJStruct);
+    switch(eEstimBJInitRetVal)
     {
-        /* Next is FAULT state - invalid input parameters */
-        MID_TransAll2Fault(); 
-    }
-    else
-    {
-        /* Disable FOC current loop */
-        g_sMidDrive.sFocPMSM.bCurrentLoopOn = FALSE;    
-        
-        /* Parameters with invalid values are reset to default values */
-        if(g_sEstimBJInitFMSTR.fltIN <= 0)
-           g_sEstimBJInitFMSTR.fltIN = I_NOMINAL;
-
-        if(g_sEstimBJInitFMSTR.fltNN <= 0)
-           g_sEstimBJInitFMSTR.fltNN = N_NOMINAL;
-        
-        /* Pass parmeters to initialization structure */        
-        g_sEstimBJInitCfg.u32SamplingFreq  = F_SAMPLING;                           /* Sampling frequency [1/s]. */
-        g_sEstimBJInitCfg.fltIN            = g_sEstimBJInitFMSTR.fltIN;            /* Nominal current [A]. */
-        g_sEstimBJInitCfg.fltNN            = g_sEstimBJInitFMSTR.fltNN;            /* Nominal speed [rpm]. */
-        g_sEstimBJInitCfg.ui32Pp           = g_sMID.sMotorParams.ui32Pp;           /* Number of pole pairs [-]. */
-        g_sEstimBJInitCfg.fltRs            = g_sMID.sMotorParams.fltRs;            /* Stator resistance [Ohm]. */
-        g_sEstimBJInitCfg.fltLd            = g_sMID.sMotorParams.fltLd;            /* D-axis inductance [H]. */
-        g_sEstimBJInitCfg.fltLq            = g_sMID.sMotorParams.fltLq;            /* Q-axis inductance [H]. */
-        g_sEstimBJInitCfg.fltUdt           = g_sMID.sMotorParams.fltUdt;           /* Dead time voltage drop of the power stage [V]. */
-        /* Advanced parameters */
-        g_sEstimBJInitCfg.bEstimFriction   = g_sEstimBJInitFMSTR.bEstimFriction;   /* Enable "Advanced" mode (friction estimation) [-]. */
-        g_sEstimBJInitCfg.fltAlignTime     = g_sEstimBJInitFMSTR.fltAlignTime;     /* Time needed for rotor alignment [s]. */
-        g_sEstimBJInitCfg.fltIReqOl        = g_sEstimBJInitFMSTR.fltIReqOl;        /* Required d-axis current for open loop startup [A]. */
-        g_sEstimBJInitCfg.fltNStepDc       = g_sEstimBJInitFMSTR.fltNStepDc;       /* Required DC speed step for ramp [delta rpm/s]. */
-        g_sEstimBJInitCfg.fltNStepAc       = g_sEstimBJInitFMSTR.fltNStepAc;       /* Required AC speed step for ramp [delta rpm/s]. */
-        g_sEstimBJInitCfg.fltNDcReq1       = g_sEstimBJInitFMSTR.fltNDcReq1;       /* Required speed for measurement point 1 [rpm]. */
-        g_sEstimBJInitCfg.fltNDcReq2       = g_sEstimBJInitFMSTR.fltNDcReq2;       /* Required speed for measurement point 2 ("Advanced mode") [rpm]. */
-        g_sEstimBJInitCfg.fltNAcReq        = g_sEstimBJInitFMSTR.fltNAcReq;        /* Required amplitude of the injected AC speed [rpm]. */
-        g_sEstimBJInitCfg.fltFInjMax       = g_sEstimBJInitFMSTR.fltFInjMax;       /* Maximum possible injection frequency [Hz]. */    
-        g_sEstimBJInitCfg.fltFInjMin       = g_sEstimBJInitFMSTR.fltFInjMin;       /* Minimum possible injection frequency [Hz]. */
-        g_sEstimBJInitCfg.fltFInjStep      = g_sEstimBJInitFMSTR.fltFInjStep;      /* Injection frequency calculation step [Hz]. */
-        g_sEstimBJInitCfg.fltSSTimeoutTime = g_sEstimBJInitFMSTR.fltSSTimeoutTime; /* Time to reach steady state before timeout [s]. */
-        g_sEstimBJInitCfg.fltSSTimeMin     = g_sEstimBJInitFMSTR.fltSSTimeMin;     /* Minimum time needed for stable behavior [s]. */
-        g_sEstimBJInitCfg.fltSSTimeTrans   = g_sEstimBJInitFMSTR.fltSSTimeTrans;   /* Transition time during selection of injected frequency [s]. */
-        g_sEstimBJInitCfg.fltDcPiPropGain  = g_sEstimBJInitFMSTR.fltDcPiPropGain;  /* Proportional gain of the speed loops DC controller [-]. */
-        g_sEstimBJInitCfg.fltDcPiIntegGain = g_sEstimBJInitFMSTR.fltDcPiIntegGain; /* Integral gain of the speed loops DC controller [-]. */
-        g_sEstimBJInitCfg.fltAcPiPropGain  = g_sEstimBJInitFMSTR.fltAcPiPropGain;  /* Proportional gain of the speed loops AC controller [-]. */
-        g_sEstimBJInitCfg.fltAcPiIntegGain = g_sEstimBJInitFMSTR.fltAcPiIntegGain; /* Integral gain of the speed loops AC controller [-]. */
-
-        /* Initialize the state variables and set algorithm parameters */
-        eEstimBJRetValInit = MCAA_EstimBJInit_FLT(&g_sEstimBJInitCfg, &g_sEstimBJStruct);
-        switch(eEstimBJRetValInit)
-        {
-          case ESTIMBJ_RET_INIT_OK:
-              /* Next is BJ state */
-              g_sMID.sMIDMeasStatus.ui32AllFinishedMeas &= ~MID_BJ_FINISH;
-              M1_MCDRV_PWM3PH_EN(&g_sM1Pwm3ph);
-              g_sMID.sMIDMeasStatus.eMIDState = kMID_BJ;
-              break;
-          
-          default:
-              /* Next is FAULT state - initialization failed */
-              g_sMID.sMIDMeasStatus.ui32FaultMID |= MID_BJ_INIT_FAIL;
-              MID_TransAll2Fault(); 
-              break;
-        }  
-    }
+      case ESTIMBJ_RET_INIT_OK:
+          /* Next is BJ state */
+          g_sMID.sMIDMeasStatus.ui32AllFinishedMeas &= ~MID_BJ_FINISH;
+          M1_MCDRV_PWM3PH_EN(&g_sM1Pwm3ph);
+          g_sMID.sMIDMeasStatus.eMIDState = kMID_BJ;
+          break;
+      
+      default:
+          /* Next is FAULT state - initialization failed */
+          g_sMID.sMIDMeasStatus.ui32FaultMID |= MID_BJ_INIT_FAIL;
+          MID_TransAll2Fault(); 
+          break;
+    }  
 }
 
 /*!
@@ -629,16 +639,9 @@ RAM_FUNC_LIB
 static void MID_TransAll2Stop(void)
 {
     /* Type the code to do when going to the STOP state */  
-                
-    /* Disable FOC current loop */
-    g_sMidDrive.sFocPMSM.bCurrentLoopOn = FALSE;
     
     /* Disable PWM output */
     M1_MCDRV_PWM3PH_DIS(&g_sM1Pwm3ph);
-    
-    /* Reset active flags */
-    g_sMID.sMIDAlignment.bActive  = FALSE;
-    g_sMID.sMIDPp.bActive         = FALSE;
 
     /* Clear the measurement trigger if measurement has been finished. */
     if((g_sMID.eMeasurementType == kMID_ElectricalParams) ||
@@ -712,29 +715,6 @@ static void MID_TransCalib2Start(void)
 {
     /* Type the code to do when going to the START state */
     
-    /* Enable FOC current loop */
-    g_sMidDrive.sFocPMSM.bCurrentLoopOn = TRUE;
-
-    /* Use OL position for Park transformation. */
-    g_sMidDrive.sFocPMSM.bOpenLoop = TRUE;
-    g_sMidDrive.sFocPMSM.bPosExtOn = TRUE;
-
-    /* Check range of the measurement configuration. */
-    if((sUserMIDMeasConfig.fltAlignId > I_NOMINAL) ||
-       (sUserMIDMeasConfig.fltAlignId < 0.0F))
-    {
-        /* Report Alignment configuration out of range. */
-        g_sMID.sMIDMeasStatus.ui32FaultMID |= MID_ALIGN_I_OUT_OF_RANGE;
-    }
-    else
-    {
-        /* Set the Align measurement configuration. */
-        g_sMID.sMIDAlignment.fltCurrentAlign = sUserMIDMeasConfig.fltAlignId;
-        
-        /* Set time of alignment */
-        g_sMID.sMIDAlignment.ui16AlignDuration = 10000U;
-    }
-    
     /* Next is START state */
     M1_MCDRV_PWM3PH_EN(&g_sM1Pwm3ph);
     g_sMID.sMIDMeasStatus.eMIDState = kMID_Start;
@@ -750,7 +730,7 @@ RAM_FUNC_LIB
 void MID_Init_AR(void)
 {
     /* Clean the internal parameters. */
-    g_sMID.sMotorParams.ui32Pp = 1UL;
+    g_sMID.sMotorParams.ui32Pp = M1_MOTOR_PP;
     g_sMID.sMotorParams.fltRs  = 0.0F;
     g_sMID.sMotorParams.fltLd  = 0.0F;
     g_sMID.sMotorParams.fltLq  = 0.0F;
@@ -771,28 +751,7 @@ void MID_Init_AR(void)
     g_sMID.sMIDMeasStatus.eMIDState = kMID_Stop;
       
     /**** Init FOC structure and pointer to drivers *****/
-    /* Type the code to do when in the INIT state */
-    g_sMidDrive.sFocPMSM.sIdPiParams.fltInErrK_1 = 0.0F;
-    g_sMidDrive.sFocPMSM.sIdPiParams.bLimFlag    = FALSE;
-
-    g_sMidDrive.sFocPMSM.sIqPiParams.fltInErrK_1 = 0.0F;
-    g_sMidDrive.sFocPMSM.sIqPiParams.bLimFlag    = FALSE;
-
-    /* PMSM FOC params */
-    g_sMidDrive.sFocPMSM.sIdPiParams.fltPGain    = M1_D_KP_GAIN;
-    g_sMidDrive.sFocPMSM.sIdPiParams.fltIGain    = M1_D_KI_GAIN;
-    g_sMidDrive.sFocPMSM.sIdPiParams.fltUpperLim = M1_U_MAX;
-    g_sMidDrive.sFocPMSM.sIdPiParams.fltLowerLim = -M1_U_MAX;
-
-    g_sMidDrive.sFocPMSM.sIqPiParams.fltPGain    = M1_Q_KP_GAIN;
-    g_sMidDrive.sFocPMSM.sIqPiParams.fltIGain    = M1_Q_KI_GAIN;
-    g_sMidDrive.sFocPMSM.sIqPiParams.fltUpperLim = M1_U_MAX;
-    g_sMidDrive.sFocPMSM.sIqPiParams.fltLowerLim = -M1_U_MAX;
-
-    g_sMidDrive.sFocPMSM.ui16SectorSVM     = M1_SVM_SECTOR_DEFAULT;
-    g_sMidDrive.sFocPMSM.fltDutyCycleLimit = M1_CLOOP_LIMIT;
-
-
+    g_sMidDrive.sFocPMSM.ui16SectorSVM                 = M1_SVM_SECTOR_DEFAULT;
     g_sMidDrive.sFocPMSM.fltUDcBus                     = 0.0F;
     g_sMidDrive.sFocPMSM.fltUDcBusFilt                 = 0.0F;
     g_sMidDrive.sFocPMSM.sUDcBusFilter.sFltCoeff.fltB0 = M1_UDCB_IIR_B0;
@@ -892,21 +851,17 @@ void MID_Start_BL(mid_meas_type_t eMeasurementType)
 RAM_FUNC_LIB
 void MID_Stop_BL(void)
 {
-    /* Clear the start trigger to avoid MID restart. */
-    g_sMID.bMIDStart = FALSE;
-
     /* Check whether the pole-pair measurement is ongoing. */
-    if(TRUE == g_sMID.sMIDPp.bActive)
+    if(g_sPpAssistStruct.pState == PPASSIST_STATE_ROTATE)
     {
         /* Stop the Pp assistant */
-        g_sMID.sMIDPp.ui16PpDetermined = TRUE;
-        
-        /* Indicate finished measurement. */
-        g_sMID.sMIDMeasStatus.ui32ActFinishedMeas |= MID_PP_FINISH;
+        g_sPpAssistStruct.ui16PpDetermined = TRUE;
     }
-
-    /* Go to STOP state immediately */
-    MID_TransAll2Stop();
+    else
+    {
+        /* Go to STOP state immediately */
+        MID_TransAll2Stop();
+    }
 }
 
 /*!
@@ -1099,27 +1054,11 @@ static void MID_ClearFOCVariables(void)
     g_sMidDrive.sFocPMSM.sIABC.fltC             = 0.0F;
     g_sMidDrive.sFocPMSM.sIAlBe.fltAlpha        = 0.0F;
     g_sMidDrive.sFocPMSM.sIAlBe.fltBeta         = 0.0F;
-    g_sMidDrive.sFocPMSM.sIDQ.fltD              = 0.0F;
-    g_sMidDrive.sFocPMSM.sIDQ.fltQ              = 0.0F;
-    g_sMidDrive.sFocPMSM.sIDQReq.fltD           = 0.0F;
-    g_sMidDrive.sFocPMSM.sIDQReq.fltQ           = 0.0F;
-    g_sMidDrive.sFocPMSM.sIDQError.fltD         = 0.0F;
-    g_sMidDrive.sFocPMSM.sIDQError.fltQ         = 0.0F;
     g_sMidDrive.sFocPMSM.sDutyABC.f16A          = FRAC16(0.5);
     g_sMidDrive.sFocPMSM.sDutyABC.f16B          = FRAC16(0.5);
     g_sMidDrive.sFocPMSM.sDutyABC.f16C          = FRAC16(0.5);
     g_sMidDrive.sFocPMSM.sUAlBeReq.fltAlpha     = 0.0F;
     g_sMidDrive.sFocPMSM.sUAlBeReq.fltBeta      = 0.0F;
-    g_sMidDrive.sFocPMSM.sUDQReq.fltD           = 0.0F;
-    g_sMidDrive.sFocPMSM.sUDQReq.fltQ           = 0.0F;
-    g_sMidDrive.sFocPMSM.sAnglePosEl.fltSin     = 0.0F;
-    g_sMidDrive.sFocPMSM.sAnglePosEl.fltCos     = 0.0F;
-    g_sMidDrive.sFocPMSM.sIdPiParams.bLimFlag   = FALSE;
-    g_sMidDrive.sFocPMSM.sIqPiParams.bLimFlag   = FALSE;
-    g_sMidDrive.sFocPMSM.sIdPiParams.fltIAccK_1 = 0.0F;
-    g_sMidDrive.sFocPMSM.sIqPiParams.fltIAccK_1 = 0.0F;
-    g_sMidDrive.sFocPMSM.bIdPiStopInteg         = FALSE;
-    g_sMidDrive.sFocPMSM.bIqPiStopInteg         = FALSE;
 }
 
 /*!
@@ -1167,8 +1106,6 @@ static void MID_FaultDetection(void)
 RAM_FUNC_LIB
 static void MID_ReadSignals(void)
 {
-    frac16_t f16PosElPark;
-
     /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
     M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus); 
     
@@ -1184,33 +1121,6 @@ static void MID_ReadSignals(void)
     g_sMidDrive.sFocPMSM.fltUDcBus = MLIB_ConvSc_FLTsf(g_sMidDrive.sFocPMSM.f16UDcBus, g_fltMIDDCBvoltageScale);                    
     /* Sampled DC-Bus voltage filter */
     g_sMidDrive.sFocPMSM.fltUDcBusFilt = GDFLIB_FilterIIR1_FLT(g_sMidDrive.sFocPMSM.fltUDcBus, &g_sMidDrive.sFocPMSM.sUDcBusFilter);
-    
-    /* Decide which position will be used for Park transformation. */
-    if(g_sMidDrive.sFocPMSM.bPosExtOn)  
-    {
-        f16PosElPark = g_sMidDrive.sFocPMSM.f16PosElExt; 
-    }
-    else
-    {
-        f16PosElPark = g_sMidDrive.sFocPMSM.f16PosElEst;     
-    }
-     
-    /* Position angle of the last PWM update */
-    g_sMidDrive.sFocPMSM.sAnglePosEl.fltSin = GFLIB_Sin_FLTa((acc32_t)f16PosElPark);      
-    g_sMidDrive.sFocPMSM.sAnglePosEl.fltCos = GFLIB_Cos_FLTa((acc32_t)f16PosElPark);
-    
-    /* 2-phase to 2-phase transformation to rotary ref. frame */
-    GMCLIB_Park_FLT(&g_sMidDrive.sFocPMSM.sIAlBe,    &g_sMidDrive.sFocPMSM.sAnglePosEl, &g_sMidDrive.sFocPMSM.sIDQ);
-    GMCLIB_Park_FLT(&g_sMidDrive.sFocPMSM.sUAlBeReq, &g_sMidDrive.sFocPMSM.sAnglePosEl, &g_sMidDrive.sFocPMSM.sUDQReq);
-
-    /* For open loop control enabled parallel running of observer and FOC
-     * Open loop electrical position passed to rest of FOC */
-    if (g_sMidDrive.sFocPMSM.bOpenLoop || g_sMidDrive.sFocPMSM.bPosExtOn)
-    {
-        g_sMidDrive.sFocPMSM.sAnglePosEl.fltSin = GFLIB_Sin_FLTa((acc32_t)g_sMidDrive.sFocPMSM.f16PosElExt);
-        g_sMidDrive.sFocPMSM.sAnglePosEl.fltCos = GFLIB_Cos_FLTa((acc32_t)g_sMidDrive.sFocPMSM.f16PosElExt);
-        GMCLIB_Park_FLT(&g_sMidDrive.sFocPMSM.sIAlBe, &g_sMidDrive.sFocPMSM.sAnglePosEl, &g_sMidDrive.sFocPMSM.sIDQ);
-    }
 }
 
 /*!
@@ -1222,42 +1132,6 @@ static void MID_ApplySignals(void)
 {  
     if(g_sMID.sMIDMeasStatus.eMIDState != kMID_Calib)
     {
-        /* Current loop if enabled */
-        if (g_sMidDrive.sFocPMSM.bCurrentLoopOn)
-        {       
-            /* Open loop electrical position */
-            g_sMidDrive.sFocPMSM.sAnglePosEl.fltSin = GFLIB_Sin_FLTa((acc32_t)g_sMidDrive.sFocPMSM.f16PosElExt);
-            g_sMidDrive.sFocPMSM.sAnglePosEl.fltCos = GFLIB_Cos_FLTa((acc32_t)g_sMidDrive.sFocPMSM.f16PosElExt);
-            GMCLIB_Park_FLT(&g_sMidDrive.sFocPMSM.sIAlBe, &g_sMidDrive.sFocPMSM.sAnglePosEl, &g_sMidDrive.sFocPMSM.sIDQ);
-            
-            /* D current error calculation */
-            g_sMidDrive.sFocPMSM.sIDQError.fltD = MLIB_Sub_FLT(g_sMidDrive.sFocPMSM.sIDQReq.fltD, g_sMidDrive.sFocPMSM.sIDQ.fltD);
-
-            /* Q current error calculation */
-            g_sMidDrive.sFocPMSM.sIDQError.fltQ = MLIB_Sub_FLT(g_sMidDrive.sFocPMSM.sIDQReq.fltQ, g_sMidDrive.sFocPMSM.sIDQ.fltQ);
-
-            /*** D - controller limitation calculation ***/
-            g_sMidDrive.sFocPMSM.sIdPiParams.fltLowerLim = MLIB_MulNeg_FLT(g_sMidDrive.sFocPMSM.fltDutyCycleLimit, g_sMidDrive.sFocPMSM.fltUDcBusFilt);
-            g_sMidDrive.sFocPMSM.sIdPiParams.fltUpperLim = MLIB_Mul_FLT(g_sMidDrive.sFocPMSM.fltDutyCycleLimit, g_sMidDrive.sFocPMSM.fltUDcBusFilt);
-
-            /* D current PI controller */
-            g_sMidDrive.sFocPMSM.sUDQReq.fltD =
-                GFLIB_CtrlPIpAW_FLT(g_sMidDrive.sFocPMSM.sIDQError.fltD, &g_sMidDrive.sFocPMSM.bIdPiStopInteg, &g_sMidDrive.sFocPMSM.sIdPiParams);
-
-            /*** Q - controller limitation calculation ***/
-            g_sMidDrive.sFocPMSM.sIqPiParams.fltUpperLim =
-                GFLIB_Sqrt_FLT(g_sMidDrive.sFocPMSM.sIdPiParams.fltUpperLim * g_sMidDrive.sFocPMSM.sIdPiParams.fltUpperLim -
-                               g_sMidDrive.sFocPMSM.sUDQReq.fltD * g_sMidDrive.sFocPMSM.sUDQReq.fltD);
-            g_sMidDrive.sFocPMSM.sIqPiParams.fltLowerLim = MLIB_Neg_FLT(g_sMidDrive.sFocPMSM.sIqPiParams.fltUpperLim);
-
-            /* Q current PI controller */
-            g_sMidDrive.sFocPMSM.sUDQReq.fltQ =
-                GFLIB_CtrlPIpAW_FLT(g_sMidDrive.sFocPMSM.sIDQError.fltQ, &g_sMidDrive.sFocPMSM.bIqPiStopInteg, &g_sMidDrive.sFocPMSM.sIqPiParams);
-        
-            /* 2-phase to 2-phase transformation to stationary ref. frame */
-            GMCLIB_ParkInv_FLT(&g_sMidDrive.sFocPMSM.sUDQReq, &g_sMidDrive.sFocPMSM.sAnglePosEl, &g_sMidDrive.sFocPMSM.sUAlBeReq);
-        }        
-        
         /* DCBus ripple elimination */
         GMCLIB_ElimDcBusRipFOC_F16ff(g_sMidDrive.sFocPMSM.fltUDcBusFilt, &g_sMidDrive.sFocPMSM.sUAlBeReq, &g_sMidDrive.sFocPMSM.sUAlBeCompFrac);
 

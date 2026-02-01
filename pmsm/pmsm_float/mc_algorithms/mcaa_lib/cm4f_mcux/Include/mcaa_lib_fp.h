@@ -27,14 +27,19 @@ extern "C" {
 /*******************************************************************************
 * Includes
 *******************************************************************************/
+#include "MCAA_PpAssist_FLT.h"
 #include "MCAA_EstimRL_FLT.h"
 #include "MCAA_EstimBJ_FLT.h"
 
 /*******************************************************************************
 * Macros
 *******************************************************************************/
-#define MCAA_EstimRLInit_FLT(u32SamplingFreq, psParam, psCtrl, psAdvTune)      \
-        MCAA_EstimRLInit_FLT_C(u32SamplingFreq, psParam, psCtrl, psAdvTune)
+#define MCAA_PpAssistInit_FLT(psParam, psCtrl)               \
+        MCAA_PpAssistInit_FLT_C(psParam, psCtrl)
+#define MCAA_PpAssist_FLT(fltUDcBus, psIAlBeFbck, psCtrl, psUAlBeReq) \
+        MCAA_PpAssist_FLT_C(fltUDcBus, psIAlBeFbck, psCtrl, psUAlBeReq)
+#define MCAA_EstimRLInit_FLT(psParam, psCtrl, psAdvTune)      \
+        MCAA_EstimRLInit_FLT_C(psParam, psCtrl, psAdvTune)
 #define MCAA_EstimRL_FLT(fltUDcBus, psIAlBeFbck, psCtrl, psParam, psAdvTune, psUAlBeReq)  \
         MCAA_EstimRL_FLT_C(fltUDcBus, psIAlBeFbck, psCtrl, psParam, psAdvTune, psUAlBeReq)
 #define MCAA_EstimBJInit_FLT(psParam, psCtrl)               \

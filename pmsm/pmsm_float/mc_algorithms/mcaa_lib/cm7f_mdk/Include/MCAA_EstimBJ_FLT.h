@@ -57,7 +57,7 @@ typedef enum
 /* MCAA_EstimBJ return value enum. */
 typedef enum
 {
-  ESTIMBJ_RET_IN_PROGRESS = 0,                /* Parameter estimation is in progress. The MCAA_EstimRL must be called again in the next sampling period. */
+  ESTIMBJ_RET_IN_PROGRESS = 0,                /* Parameter estimation is in progress. The MCAA_EstimBJ must be called again in the next sampling period. */
   ESTIMBJ_RET_DONE = 1,                       /* Parameter estimation has finished. */
   ESTIMBJ_RET_ERROR = 2,                      /* Parameter estimation has failed. */
 } MCAA_ESTIMBJ_RET_T_FLT;
@@ -75,17 +75,35 @@ typedef enum
   ESTIMBJ_STATE_ERROR,                        /* Failure. */
 } MCAA_ESTIMBJ_STATE_T_FLT;
 
+/* BJ estimator fault enum, each bit of fault variable represents defined fault. */
+typedef uint16_t estimbjdef_fault_t; 
+typedef enum
+{
+  ESTIMBJ_FAULT_INIT_MISSING_PP = 0,          /* Pole-pairs are not in valid range. */
+  ESTIMBJ_FAULT_INIT_MISSING_RL_PARAMS,       /* Missing electrical parameters. */
+  ESTIMBJ_FAULT_INIT_MISSING_I_MEAS,          /* Missing measurement current. */
+  ESTIMBJ_FAULT_INIT_MISSING_N_NOM,           /* Missing nominal speed. */
+  ESTIMBJ_FAULT_INIT_MISSING_FS,              /* Missing sampling frequency. */
+  ESTIMBJ_FAULT_INIT_I_OL_LIMIT,              /* Open-loop current exceeds measurement current. */
+  ESTIMBJ_FAULT_INIT_N_LIMIT,                 /* Nominal speed out of limits. */
+  ESTIMBJ_FAULT_INIT_N_REQ_1_LIMIT,           /* Required speed for point 1 exceeds nominal speed. */
+  ESTIMBJ_FAULT_INIT_N_REQ_2_LIMIT,           /* Required speed for point 2 exceeds nominal speed. */
+  ESTIMBJ_FAULT_RUN_UNINITIALIZED,            /* Invalid usage, must call init first. */
+  ESTIMBJ_FAULT_RUN_SS_TIMEOUT,               /* Could not reach steady state. */
+  ESTIMBJ_FAULT_RUN_F_INJ,                    /* Could not found correct injected frequency. */
+} MCAA_ESTIMBJ_FAULT_T_FLT;
+
 /* Exponentially weighted moving average filter (EWMA) structure */
 typedef struct{
-    float_t  fltAcc;                          /* Float filter accumulator. */
-    float_t  fltLambda;                       /* Float value of averaging, defines smoothing to changes. In range (0;1) .*/
+  float_t  fltAcc;                          /* Float filter accumulator. */
+  float_t  fltLambda;                       /* Float value of averaging, defines smoothing to changes. In range (0;1) .*/
 }ESTIMBJ_FILTER_EWMA_T_FLT;
 
 /* CurrentLoop configuration structure. */
 typedef struct
 {
-  GFLIB_CTRL_PI_P_AW_T_FLT pPIpAWD;           /* D-axis ControllerPIpAW paremeters structure. */
-  GFLIB_CTRL_PI_P_AW_T_FLT pPIpAWQ;           /* Q-axis ControllerPIpAW paremeters structure. */
+  GFLIB_CTRL_PI_P_AW_T_FLT pPIpAWD;           /* D-axis ControllerPIpAW parameters structure. */
+  GFLIB_CTRL_PI_P_AW_T_FLT pPIpAWQ;           /* Q-axis ControllerPIpAW parameters structure. */
   GMCLIB_2COOR_DQ_T_FLT *pIDQReq;             /* Pointer to the structure with the required current. */
   GMCLIB_2COOR_DQ_T_FLT *pIDQFbck;            /* Pointer to the structure with the feedback current. */
 } MCAA_CURRENT_LOOP_T_FLT;
@@ -94,6 +112,7 @@ typedef struct
 typedef struct
 {
   MCAA_ESTIMBJ_STATE_T_FLT pState;            /* Mechanical parameters estimator state */
+  estimbjdef_fault_t pFault;                  /* Faults of mechanical estimation internal state machine */
   bool_t bTwoPointMeas;                       /* Indicator of the advanced mode measurement */
   uint32_t u32AlignTimer;                     /* Rotor alignment timer */
   uint32_t u32TimerPreset;                    /* Rotor alignment timer */
@@ -104,7 +123,7 @@ typedef struct
   float_t fltNAcReq;                          /* Required amplitude of the injected AC speed */
   float_t fltNMax;                            /* Maximal speed */
   float_t fltPP;                              /* Number of pole pairs */
-  float_t fltTs;                              /* Sampling frequency */
+  float_t fltTs;                              /* Sampling period */
   float_t fltFInj;                            /* Injected frequency */
   float_t fltFInjMax;                         /* Maximum possible injection frequency */                          
   float_t fltFInjMin;                         /* Minimum possible injection frequency */
@@ -173,14 +192,14 @@ typedef struct
   /* Steady state */                          
   uint32_t u32SSTimeoutCnt;                   /* Steady state timeout counter */
   uint32_t u32SSBandCnt;                      /* Steady state in band counter */
-  uint32_t u32SSTimeoutTime;                  /* Steady state timeout */
+  uint32_t u32SSTimeoutTime;                  /* Time to reach steady state before timeout */
   uint32_t u32SSTime;                         /* Steady state set time */
   uint32_t u32SSTimeMin;                      /* Minimal time needed for stable behavior */
   uint32_t u32SSTimeTrans;                    /* Transition time during selection of injected frequency */
+  float_t fltSSNormRatio;                     /* Normalization ratio for FreeMASTER */
   float_t fltSSBandHalfMax;                   /* Half of maximal deviation from mean steady value */
   float_t fltSSBandHalf;                      /* Half of allowed deviation from mean steady value */
-  float_t fltInFilt;                          /* Filtered observed variable in steady state */
-  ESTIMBJ_FILTER_EWMA_T_FLT pSSMAFilter;      /* Steady state MA filter */
+  float_t fltSSInParam;                       /* Observed variable in steady state */
   /* Measured data */                         
   float_t fltInertia;                         /* Actual value of moment of inertia */
   float_t fltMeDcArr[2];                      /* Array to store measured values of Me */
@@ -196,15 +215,15 @@ typedef struct
 typedef struct
 {
   uint32_t u32SamplingFreq;                   /* Sampling frequency [1/s]. */
-  uint32_t ui32Pp;                            /* Number of pole pairs [-]. */
-  float_t fltIN;                              /* Nominal current [A]. */
+  uint32_t ui32Pp;                            /* Number of pole-pairs [-]. */
+  float_t fltIMeas;                           /* Measurement current [A]. */
   float_t fltNN;                              /* Nominal speed [rpm]. */
   float_t fltLd;                              /* D-axis inductance [H]. */
   float_t fltLq;                              /* Q-axis inductance [H]. */
   float_t fltRs;                              /* Stator resistance [Ohm]. */
   float_t fltUdt;                             /* Dead time voltage drop of the power stage [V]. */
-  /* Advanced parameters */
   bool_t  bEstimFriction;                     /* Enable "Advanced" mode (friction estimation) [-]. */
+  /* Optional (advanced) parameters */
   float_t fltAlignTime;                       /* Time needed for rotor alignment [s]. */
   float_t fltIReqOl;                          /* Required d-axis current for open loop startup [A]. */
   float_t fltNStepDc;                         /* Required DC speed step for ramp [delta rpm/s]. */
@@ -239,12 +258,12 @@ typedef struct
 * Exported function prototypes
 *******************************************************************************/
 MCAA_ESTIMBJ_RET_T_FLT MCAA_EstimBJ_FLT_FC(float_t fltUDcBus,
-                                        const GMCLIB_2COOR_ALBE_T_FLT *const pIAlBeFbck,
-                                        MCAA_ESTIMBJ_T_FLT *const psCtrl,
-                                        GMCLIB_2COOR_ALBE_T_FLT *const pUAlBeReq);
+                                           const GMCLIB_2COOR_ALBE_T_FLT *const pIAlBeFbck,
+                                           MCAA_ESTIMBJ_T_FLT *const psCtrl,
+                                           GMCLIB_2COOR_ALBE_T_FLT *const pUAlBeReq);
 
 MCAA_ESTIMBJ_INIT_RET_T_FLT MCAA_EstimBJInit_FLT_FC(MCAA_ESTIMBJ_INIT_T_FLT *psParam,
-                                                 MCAA_ESTIMBJ_T_FLT *const psCtrl);
+                                                    MCAA_ESTIMBJ_T_FLT *const psCtrl);
 
 /*******************************************************************************
 * Inline functions

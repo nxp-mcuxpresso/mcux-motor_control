@@ -19,17 +19,26 @@
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
-/* The default measurement configuration used to initialize the
-   sUserMIDMeasConfig variable. */
-#define MID_DEFAULT_MEAS_CONFIG {    \
-    .fltAlignId            = 0.5F,   \
-    .fltPpIdReqOpenLoop    = 0.5F,   \
-    .fltPpFreqElReq        = 10.0F,  }
+/* Pp Assist config params structure. */
+typedef struct _pp_assist_cfg_params_t
+{
+    float_t   fltIdReqOpenLoop;  /* Openloop current [A]. */
+    float_t   fltFreqElReq;      /* Required Electrical Speed [Hz]. */
+    /* Advanced parameters */
+    float_t   fltRampTime;       /* Frequency ramp time [s]. */
+    float_t   fltZeroPosTime;    /* Steady position time [s]. */
+    float_t   fltUMax;           /* Maximal motor voltage [V]. */
+    float_t   fltDutyCycleLimit; /* Maximum allowable duty cycle in frac [-]. */
+    float_t   fltDPiPropGain;    /* Proportional gain of the D-axis current loop controller [-]. */
+    float_t   fltDPiIntegGain;   /* Integral gain of the D-axis current loop controller [-]. */
+    float_t   fltQPiPropGain;    /* Proportional gain of the Q-axis current loop controller [-]. */
+    float_t   fltQPiIntegGain;   /* Integral gain of the Q-axis current loop controller [-]. */
+}pp_assist_cfg_params_t;
 
 /* RL Estim config params structure. */
 typedef struct _rl_estim_cfg_params_t
 {
-    float_t fltIDcNom;           /* Nominal DC current [A]. */
+    float_t fltIDcMeas;          /* Measurement DC current [A]. */
     float_t fltIDcPosMax;        /* Maximum DC current [A]. */
     float_t fltIDcNegMax;        /* Maximum allowed negative d-axis DC current [A]. The value of fltIDcNegMax must be negative or zero. */
     float_t fltIDcLd;            /* DC current used for Ld measurement [A]. */
@@ -39,8 +48,7 @@ typedef struct _rl_estim_cfg_params_t
 /* BJ Estim config params structure. */
 typedef struct _bj_estim_cfg_params_t
 {
-    /* Pass parmeters to initialization structure */
-    float_t fltIN;               /* Nominal current [A]. */
+    float_t fltIMeas;            /* Measurement current [A]. */
     float_t fltNN;               /* Nominal speed [rpm]. */
     /* Advanced parameters */
     bool_t  bEstimFriction;      /* Enable "Advanced" mode (friction estimation) [-]. */
@@ -71,9 +79,6 @@ typedef struct _bj_estim_cfg_params_t
 /* MID measurement type selection user variable. */
 extern mid_meas_type_t         eUserMIDMeasType;
 
-/* Global structure for all measurements */
-extern mid_config_t            sUserMIDMeasConfig;
-
 /* MID known motor parameters set by user structure. */
 extern mid_motor_params_user_t sUserMIDMotorParamsKnown;
 /* MID measured motor parameters structure. */
@@ -91,6 +96,10 @@ extern volatile float g_fltMIDcurrentScale;
 extern volatile float g_fltMIDspeedScale;
 extern volatile float g_fltMIDspeedAngularScale;
 extern volatile float g_fltMIDspeedMechanicalScale;
+
+/* Pp Assist variables */
+extern MCAA_PPASSIST_T_FLT    g_sPpAssistStruct;
+extern pp_assist_cfg_params_t g_sPpAssistInitFMSTR;
 
 /* EstimRL variables */
 extern MCAA_ESTIMRL_T_FLT     g_sEstimRLStruct;
