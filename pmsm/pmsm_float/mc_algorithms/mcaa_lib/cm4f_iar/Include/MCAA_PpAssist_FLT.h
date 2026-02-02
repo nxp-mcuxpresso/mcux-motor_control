@@ -1,6 +1,5 @@
 /*
-* Copyright 2016, Freescale Semiconductor, Inc.
-* Copyright 2016-2021, 2024 NXP
+* Copyright 2026 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -18,7 +17,7 @@
 *
 * @version    1.0.0.0
 *
-* @date       6-October-2025
+* @date       26-January-2026
 *
 * @brief      Header file for mcaa_ppassist functions
 *
