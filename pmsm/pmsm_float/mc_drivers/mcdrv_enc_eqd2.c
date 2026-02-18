@@ -36,10 +36,12 @@ void MCDRV_QdEncGetPosition(mcdrv_eqd_enc_t *this)
     frac32_t f32Pos;
 
     /* read number of pulses and get mechanical position */
-    this->ui32CurrentCount = ((uint32_t)(this->pui32QdBase->UPOSH)<<16)|(this->pui32QdBase->LPOSH);
+    this->ui32CurrentCount = ((uint32_t)(this->pui32QdBase->UPOSH)<<16)|(this->pui32QdBase->LPOSH); //Upper and Lower Position Hold Register 
 
-    f32Pos = ((uint64_t)this->i32Q10Cnt2PosGain * this->ui32CurrentCount)>>10; /* Q22.10 * Q32 = Q54.10, get rid of the last 10 fractional bits, keeping the last 32bits of Q54
-                                                                           think of this result as a Q1.31 format, which represents -pi ~ pi */
+    /* Q22.10 * Q32 = Q54.10, get rid of the last 10 fractional bits, keeping the last 32bits of Q54
+       think of this result as a Q1.31 format, which represents -pi ~ pi */
+    f32Pos = ((uint64_t)this->i32Q10Cnt2PosGain * this->ui32CurrentCount)>>10; 
+    
     this->f32PosMech = f32Pos - this->f32PosMechInit + this->f32PosMechOffset;
     this->f16PosMe = MLIB_Conv_F16l(this->f32PosMech);
 
@@ -57,6 +59,7 @@ void MCDRV_QdEncGetPosition(mcdrv_eqd_enc_t *this)
 
 /*!
  * @brief Calculate rotor speed by QDC enhanced M/T speed measurement feature.
+ *        For more information check reference manual (eQDC)
  *
  * @param this   Pointer to the current object
  *
@@ -70,17 +73,19 @@ void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this)
 
     /* Read POSDH, POSDPERH and LASTEDGEH */
     ui16Dummy = this->pui32QdBase->POSD;
-    this->i16POSDH = (int16_t)(this->pui32QdBase->POSDH);
-    this->ui16POSDPERH = this->pui32QdBase->POSDPERH;
-    this->ui16LASTEDGEH = this->pui32QdBase->LASTEDGEH;
+    this->i16POSDH = (int16_t)(this->pui32QdBase->POSDH); // Position difference period counter
+    this->ui16POSDPERH = this->pui32QdBase->POSDPERH; //Position Difference Period Hold Register
+    this->ui16LASTEDGEH = this->pui32QdBase->LASTEDGEH; //Last Edge Time Hold Register
     
     /* warning suppression  */
     NOT_USED(ui16Dummy);
 
-    /* POSDH == 0? */
+    /* Position difference period != 0? */
     if(this->i16POSDH != 0)
+    /* Shaft is moving during speed measurement interval */
+    /* High speed region */
     {
-        /* Shaft is moving during speed measurement interval */
+        
         this->i16PosDiff = this->i16POSDH;
         this->ui16Period = this->ui16POSDPERH;
         this->ui16Period_1 = this->ui16Period;
@@ -97,23 +102,28 @@ void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this)
         if(this->i8SpeedSign == this->i8SpeedSign_1)
         {
             /* Calculate speed */
+            /* Speed = E*C/M */
             i64Numerator = ((int64_t)(this->i16PosDiff) * this->f32SpeedCalConst); /* Q16.0 * Q5.27 = Q21.27 */
             this->f32Speed = (i64Numerator / (uint32_t)(this->ui16Period))<<4; /* Q5.27 -> Q1.31 */
         }
         else
         {
+            /* Speed = 0 */
             this->f32Speed = FRAC32(0.0);
         }
         this->i8SpeedSign_1 = this->i8SpeedSign;
     }
     else
+    /* Shaft is NOT moving during speed measurement interval */
+    /* Slow speed region */
     {
-        /* Shaft is NOT moving during speed measurement interval */
+        
         this->ui16Period = this->ui16LASTEDGEH;
 
         if((uint32_t)(this->ui16Period) > 0xF000UL)
         {
             /* Shaft hasn't been moving for a long time */
+            /* Speed = 0 */
             this->f32Speed = FRAC32(0.0);
             this->i8SpeedSign_1 = this->i8SpeedSign;
         }
@@ -124,22 +134,26 @@ void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this)
             {
                 if(this->i8SpeedSign > 0)
                 {
+                    /* Speed = C/M */
                     i64Numerator = ((int64_t)(1) * this->f32SpeedCalConst);
                     this->f32Speed = (i64Numerator / (uint32_t)(this->ui16Period))<<4;
                 }
                 else
                 {
+                    /* Speed = -C/M */
                     i64Numerator = ((int64_t)(-1) * this->f32SpeedCalConst);
                     this->f32Speed = (i64Numerator / (uint32_t)(this->ui16Period))<<4;
                 }
+            }
+            else
+            {
+                /* Speed stays the same */
             }
         }
     }
     
     this->fltSpdMech = MLIB_ConvSc_FLTlf(this->f32Speed, this->fltSpeedFracToAngularCoeff);
-    
     this->fltSpdMeEst = this->fltSpdMech; 
-
     *this->pfltSpdMeEst = (this->fltSpdMeEst);
         
 }
