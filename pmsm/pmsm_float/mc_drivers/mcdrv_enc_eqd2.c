@@ -32,7 +32,6 @@
 RAM_FUNC_LIB
 void MCDRV_QdEncGetPosition(mcdrv_eqd_enc_t *this)
 {
-
     frac32_t f32Pos;
 
     /* read number of pulses and get mechanical position */
@@ -48,11 +47,24 @@ void MCDRV_QdEncGetPosition(mcdrv_eqd_enc_t *this)
     /* read revolution counter */
     this->f16RevCounter = (frac16_t)(this->pui32QdBase->REV);
 
-    /* calculating position for position control */
-    *this->pa32PosMeReal = (acc32_t)( ( ( ((int32_t)(this->f16RevCounter)) << 15) + (((uint16_t)(this->f16PosMe)) >> 1) ) );
-
     /* store results to user-defined variables */
     *this->pf16PosElEst = (frac16_t)(this->f16PosMe * this->ui16Pp);
+
+}
+
+
+/*!
+ * @brief Function returns actual position needed for servo
+ *
+ * @param this   Pointer to the current object
+ *
+ * @return none
+ */
+RAM_FUNC_LIB
+void MCDRV_QdEncGetPositionFull(mcdrv_eqd_enc_t *this)
+{
+    /* calculating position for position control */
+    *this->pa32PosMeReal = (acc32_t)( ( ( ((int32_t)(this->f16RevCounter)) << 15) + (((uint16_t)(this->f16PosMe)) >> 1) ) );
 
 }
 
@@ -72,8 +84,8 @@ void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this)
     uint16_t ui16Dummy;
 
     /* Read POSDH, POSDPERH and LASTEDGEH */
-    ui16Dummy = this->pui32QdBase->POSD;
-    this->i16POSDH = (int16_t)(this->pui32QdBase->POSDH); // Position difference period counter
+    ui16Dummy = this->pui32QdBase->POSD; //Position Difference Counter Register
+    this->i16POSDH = (int16_t)(this->pui32QdBase->POSDH); // Position difference Hold register
     this->ui16POSDPERH = this->pui32QdBase->POSDPERH; //Position Difference Period Hold Register
     this->ui16LASTEDGEH = this->pui32QdBase->LASTEDGEH; //Last Edge Time Hold Register
     
@@ -87,7 +99,8 @@ void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this)
     {
         
         this->i16PosDiff = this->i16POSDH;
-        this->ui16Period = this->ui16POSDPERH;
+//        this->ui16Period = this->pui32QdBase->POSDPERH; //Position Difference Period Hold Register
+        this->ui16Period = this->ui16POSDPERH; //Position Difference Period Hold Register
         this->ui16Period_1 = this->ui16Period;
 
         if(this->i16PosDiff > 0)
@@ -115,10 +128,11 @@ void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this)
     }
     else
     /* Shaft is NOT moving during speed measurement interval */
-    /* Slow speed region */
+    /* Low speed region */
     {
         
-        this->ui16Period = this->ui16LASTEDGEH;
+//        this->ui16Period = this->pui32QdBase->LASTEDGEH; //Last Edge Time Hold Register
+        this->ui16Period = this->ui16LASTEDGEH; //Last Edge Time Hold Register
 
         if((uint32_t)(this->ui16Period) > 0xF000UL)
         {
@@ -169,7 +183,6 @@ void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this)
 RAM_FUNC_LIB
 void MCDRV_QdEncClear(mcdrv_eqd_enc_t *this)
 {
-
     this->f16PosMe    = FRAC16(0.0);
     this->f32PosMech  = FRAC32(0.0);
     this->fltSpdMeEst = 0.0F;
@@ -202,7 +215,6 @@ void MCDRV_QdEncClear(mcdrv_eqd_enc_t *this)
 RAM_FUNC_LIB
 void MCDRV_QdEncSetDirection(mcdrv_eqd_enc_t *this)
 {
-
     /* forward/reverse */
     if (this->bDirection)
         this->pui32QdBase->CTRL |= EQDC_CTRL_REV_MASK;

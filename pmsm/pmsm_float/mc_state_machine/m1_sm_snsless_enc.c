@@ -465,6 +465,7 @@ static void M1_StateStopFast(void)
 
     /* get position and speed from quadrature encoder sensor */
     M1_MCDRV_ENC_GET(&g_sM1Enc);
+    M1_MCDRV_ENC_GET_DATA_FAST(&g_sM1Enc);
 
     /* convert voltages from fractional measured values to float */
     g_sM1Drive.sFocPMSM.fltUDcBus = MLIB_ConvSc_FLTsf(g_sM1Drive.sFocPMSM.f16UDcBus, g_fltM1DCBvoltageScale);
@@ -472,35 +473,6 @@ static void M1_StateStopFast(void)
     /* Sampled DC-Bus voltage filter */
     g_sM1Drive.sFocPMSM.fltUDcBusFilt =
         GDFLIB_FilterIIR1_FLT(g_sM1Drive.sFocPMSM.fltUDcBus, &g_sM1Drive.sFocPMSM.sUDcBusFilter);
-
-    /* If the user switches on or set non-zero speed*/
-    if ((g_bM1SwitchAppOnOff != FALSE) || (g_sM1Drive.sSpeed.fltSpeedCmd != 0.0F))
-    {
-        /* Set the switch on */
-        g_bM1SwitchAppOnOff = TRUE;
-
-        /* Start command */
-        g_sM1Ctrl.uiCtrl |= SM_CTRL_START;
-    }
-
-    /* Braking resistor control with hysteresis */
-    if (g_sM1Drive.sFocPMSM.fltUDcBusFilt > g_sM1Drive.sFaultThresholds.fltUDcBusTrip * (1.0F + M1_U_DCB_HYSTERESIS))
-    {
-    	M1_BRAKE_SET();
-    }
-    else if (g_sM1Drive.sFocPMSM.fltUDcBusFilt < g_sM1Drive.sFaultThresholds.fltUDcBusTrip * (1.0F - M1_U_DCB_HYSTERESIS))
-    {
-    	M1_BRAKE_CLEAR();
-    }
-
-    M1_FaultDetection();
-
-    /* If a fault occurred */
-    if ((bool_t)g_sM1Drive.sFaultIdPending)
-    {
-        /* Switches to the FAULT state */
-        g_sM1Ctrl.uiCtrl |= SM_CTRL_FAULT;
-    }
 
     /* PWM peripheral update */
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
@@ -521,6 +493,7 @@ static void M1_StateRunFast(void)
 
     /* get position and speed from quadrature encoder sensor */
     M1_MCDRV_ENC_GET(&g_sM1Enc);
+    M1_MCDRV_ENC_GET_DATA_FAST(&g_sM1Enc);
 
     /* If the user switches off */
     if (!g_bM1SwitchAppOnOff)
@@ -530,16 +503,6 @@ static void M1_StateRunFast(void)
 
         g_sM1Drive.sPosition.a32PositionCmd = 0;
         g_sM1Drive.sPosition.a32Position    = 0;
-    }
-
-    /* detect fault */
-    M1_FaultDetection();
-
-    /* If a fault occurred */
-    if (g_sM1Drive.sFaultIdPending != 0U)
-    {
-        /* Switches to the FAULT state */
-        g_sM1Ctrl.uiCtrl |= SM_CTRL_FAULT;
     }
 
     /* Convert phase currents from fractional measured values to float */
@@ -553,16 +516,6 @@ static void M1_StateRunFast(void)
     /* Sampled DC-Bus voltage filter */
     g_sM1Drive.sFocPMSM.fltUDcBusFilt =
         GDFLIB_FilterIIR1_FLT(g_sM1Drive.sFocPMSM.fltUDcBus, &g_sM1Drive.sFocPMSM.sUDcBusFilter);
-
-    /* Braking resistor control with hysteresis */
-    if (g_sM1Drive.sFocPMSM.fltUDcBusFilt > g_sM1Drive.sFaultThresholds.fltUDcBusTrip * (1.0F + M1_U_DCB_HYSTERESIS))
-    {
-    	M1_BRAKE_SET();
-    }
-    else if (g_sM1Drive.sFocPMSM.fltUDcBusFilt < g_sM1Drive.sFaultThresholds.fltUDcBusTrip * (1.0F - M1_U_DCB_HYSTERESIS))
-    {
-    	M1_BRAKE_CLEAR();
-    }
 
     /* Run sub-state function */
     s_M1_STATE_RUN_TABLE_FAST[g_eM1StateRun]();
@@ -625,6 +578,39 @@ static void M1_StateInitSlow(void)
 RAM_FUNC_LIB
 static void M1_StateStopSlow(void)
 {
+    
+    /* Get encoder sensor data required in slow-loop calculations */
+    M1_MCDRV_ENC_GET_DATA_SLOW(&g_sM1Enc);
+  
+    /* If the user switches on or set non-zero speed*/
+    if ((g_bM1SwitchAppOnOff != FALSE) || (g_sM1Drive.sSpeed.fltSpeedCmd != 0.0F))
+    {
+        /* Set the switch on */
+        g_bM1SwitchAppOnOff = TRUE;
+
+        /* Start command */
+        g_sM1Ctrl.uiCtrl |= SM_CTRL_START;
+    }
+
+    /* Braking resistor control with hysteresis */
+    if (g_sM1Drive.sFocPMSM.fltUDcBusFilt > g_sM1Drive.sFaultThresholds.fltUDcBusTrip * (1.0F + M1_U_DCB_HYSTERESIS))
+    {
+    	M1_BRAKE_SET();
+    }
+    else if (g_sM1Drive.sFocPMSM.fltUDcBusFilt < g_sM1Drive.sFaultThresholds.fltUDcBusTrip * (1.0F - M1_U_DCB_HYSTERESIS))
+    {
+    	M1_BRAKE_CLEAR();
+    }
+
+    M1_FaultDetection();
+
+    /* If a fault occurred */
+    if ((bool_t)g_sM1Drive.sFaultIdPending)
+    {
+        /* Switches to the FAULT state */
+        g_sM1Ctrl.uiCtrl |= SM_CTRL_FAULT;
+    }
+  
 #if ENABLE_FLASH_PARAM_UPDATE
   M1_MCDRV_FLASH_CFG_BACKGROUND();
 #endif
@@ -640,6 +626,30 @@ static void M1_StateStopSlow(void)
 RAM_FUNC_LIB
 static void M1_StateRunSlow(void)
 {
+  
+    /* Get encoder sensor data required in slow-loop calculations */
+    M1_MCDRV_ENC_GET_DATA_SLOW(&g_sM1Enc);
+  
+    /* Braking resistor control with hysteresis */
+    if (g_sM1Drive.sFocPMSM.fltUDcBusFilt > g_sM1Drive.sFaultThresholds.fltUDcBusTrip * (1.0F + M1_U_DCB_HYSTERESIS))
+    {
+    	M1_BRAKE_SET();
+    }
+    else if (g_sM1Drive.sFocPMSM.fltUDcBusFilt < g_sM1Drive.sFaultThresholds.fltUDcBusTrip * (1.0F - M1_U_DCB_HYSTERESIS))
+    {
+    	M1_BRAKE_CLEAR();
+    }
+    
+    /* detect fault */
+    M1_FaultDetection();
+
+    /* If a fault occurred */
+    if (g_sM1Drive.sFaultIdPending != 0U)
+    {
+        /* Switches to the FAULT state */
+        g_sM1Ctrl.uiCtrl |= SM_CTRL_FAULT;
+    }
+
     /* Run sub-state function */
     s_M1_STATE_RUN_TABLE_SLOW[g_eM1StateRun]();
 }

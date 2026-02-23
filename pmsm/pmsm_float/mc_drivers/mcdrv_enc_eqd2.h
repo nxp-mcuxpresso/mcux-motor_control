@@ -89,6 +89,16 @@ RAM_FUNC_LIB
 void MCDRV_QdEncGetPosition(mcdrv_eqd_enc_t *this);
 
 /*!
+ * @brief Function returns actual position needed for servo
+ *
+ * @param this   Pointer to the current object
+ *
+ * @return none
+ */
+RAM_FUNC_LIB
+void MCDRV_QdEncGetPositionFull(mcdrv_eqd_enc_t *this);
+
+/*!
  * @brief Function returns actual speed
  *
  * @param this   Pointer to the current object
