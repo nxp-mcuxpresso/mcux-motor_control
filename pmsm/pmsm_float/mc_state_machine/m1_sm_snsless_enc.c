@@ -463,8 +463,7 @@ static void M1_StateStopFast(void)
     /* Set encoder direction */
     M1_MCDRV_ENC_SET_DIRECTION(&g_sM1Enc);
 
-    /* get position and speed from quadrature encoder sensor */
-    M1_MCDRV_ENC_GET(&g_sM1Enc);
+    /* get position from quadrature encoder sensor */
     M1_MCDRV_ENC_GET_DATA_FAST(&g_sM1Enc);
 
     /* convert voltages from fractional measured values to float */
@@ -491,8 +490,7 @@ static void M1_StateRunFast(void)
     /* get all measured samples - DC-bus voltage, current, bemf and aux sample */
     M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
-    /* get position and speed from quadrature encoder sensor */
-    M1_MCDRV_ENC_GET(&g_sM1Enc);
+    /* get position quadrature encoder sensor */
     M1_MCDRV_ENC_GET_DATA_FAST(&g_sM1Enc);
 
     /* If the user switches off */

@@ -407,7 +407,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control_pmsm_frac_enc.tsa)
     )
 endif()
 
-if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcx_epwm_frac)
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcx_epwm_frac) #mcxa153
     mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_drivers/mcdrv_adc_mcxa.c
@@ -424,7 +424,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcx_epwm_frac)
     )
 endif()
 
-if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcxa_epwm_float)
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcxa_epwm_float) #mcxa156
     mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxa.c
@@ -441,15 +441,17 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcxa_epwm_float
     )
 endif()
 
-if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcxa20_epwm_float)
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcxa20_epwm_float) #mcxa366, mcxa346, mcxa344, mcxa266, mcxa174
     mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxa20.c
                 pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxa20.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_epwm.c
                 pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_epwm.h
-                pmsm/pmsm_float/mc_drivers/mcdrv_enc_eqd.c
-                pmsm/pmsm_float/mc_drivers/mcdrv_enc_eqd.h
+                pmsm/pmsm_float/mc_drivers/mcdrv_enc_eqd2.c
+                pmsm/pmsm_float/mc_drivers/mcdrv_enc_eqd2.h
+				# pmsm/pmsm_float/mc_drivers/mcdrv_enc_eqd.c
+                # pmsm/pmsm_float/mc_drivers/mcdrv_enc_eqd.h
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_include(
@@ -503,7 +505,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_frac)
     )
 endif()
 
-if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qdc_frac)
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qdc_frac) #mc56f81000
     mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_drivers/mcdrv_adc_adc12.c
