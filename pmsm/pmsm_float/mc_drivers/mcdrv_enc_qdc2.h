@@ -11,8 +11,8 @@
 * license terms, then you may not retain, install, activate or otherwise
 * use the software.
  */
-#ifndef _MCDRV_ENC_EQD2_H_
-#define _MCDRV_ENC_EQD2_H_
+#ifndef _MCDRV_ENC_QDC2_H_
+#define _MCDRV_ENC_QDC2_H_
 
 #include "mlib.h"
 #include "mlib_types.h"
@@ -27,7 +27,7 @@
 #define NOT_USED(x) ((void)(x))
 #define MCDRV_QD (1)
 
-typedef struct _mcdrv_eqd_enc_t
+typedef struct _mcdrv_qd_enc_t
 {
     QDC_Type *pui32QdBase;       /* pointer to QD module base address*/
     float_t *pfltSpdMeEst;        /* pointer to measured mechanical speed  */
@@ -65,7 +65,7 @@ typedef struct _mcdrv_eqd_enc_t
     float_t  fltSpeedFracToAngularCoeff;
     
     uint32_t ui32QDTimerFrequency;
-} mcdrv_eqd_enc_t;
+} mcdrv_qd_enc_t;
 
 extern volatile float g_fltM1speedScale;
 
@@ -86,7 +86,7 @@ extern "C" {
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_QdEncGetPosition(mcdrv_eqd_enc_t *this);
+void MCDRV_QdEncGetPosition(mcdrv_qd_enc_t *this);
 
 /*!
  * @brief Function returns actual position needed for servo
@@ -96,7 +96,7 @@ void MCDRV_QdEncGetPosition(mcdrv_eqd_enc_t *this);
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_QdEncGetPositionFull(mcdrv_eqd_enc_t *this);
+void MCDRV_QdEncGetPositionFull(mcdrv_qd_enc_t *this);
 
 /*!
  * @brief Function returns actual speed
@@ -106,7 +106,7 @@ void MCDRV_QdEncGetPositionFull(mcdrv_eqd_enc_t *this);
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this);
+void MCDRV_QdEncGetSpeed(mcdrv_qd_enc_t *this);
 
 /*!
  * @brief Function clears internal variables and decoder counter
@@ -116,7 +116,7 @@ void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this);
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_QdEncClear(mcdrv_eqd_enc_t *this);
+void MCDRV_QdEncClear(mcdrv_qd_enc_t *this);
 
 /*!
  * @brief Function set direction of quadrature encoder
@@ -127,7 +127,7 @@ void MCDRV_QdEncClear(mcdrv_eqd_enc_t *this);
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_QdEncSetDirection(mcdrv_eqd_enc_t *this);
+void MCDRV_QdEncSetDirection(mcdrv_qd_enc_t *this);
 
 /*!
  * @brief Function set quadrature encoder pulses per one revolution
@@ -138,7 +138,7 @@ void MCDRV_QdEncSetDirection(mcdrv_eqd_enc_t *this);
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_QdEncSetPulses(mcdrv_eqd_enc_t *this);
+void MCDRV_QdEncSetPulses(mcdrv_qd_enc_t *this);
 
 /*!
  * @brief Function update QDC structure parameters
@@ -148,10 +148,10 @@ void MCDRV_QdEncSetPulses(mcdrv_eqd_enc_t *this);
  * @return none
  */
 RAM_FUNC_LIB
-void MCDRV_QdEncUpdateParameters(mcdrv_eqd_enc_t *this);
+void MCDRV_QdEncUpdateParameters(mcdrv_qd_enc_t *this);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* _MCDRV_ENC_EQD2_H_ */
+#endif /* _MCDRV_ENC_QDC2_H_ */
