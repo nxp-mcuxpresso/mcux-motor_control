@@ -117,7 +117,7 @@ void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this)
             /* Calculate speed */
             /* Speed = E*C/M */
             i64Numerator = ((int64_t)(this->i16PosDiff) * this->f32SpeedCalConst); /* Q16.0 * Q5.27 = Q21.27 */
-            this->f32Speed = (i64Numerator / (uint32_t)(this->ui16Period))<<4; /* Q5.27 -> Q1.31 */
+            this->f32Speed = (i64Numerator / (uint32_t)(this->ui16Period)) << 4; /* Q5.27 -> Q1.31 */
         }
         else
         {
@@ -149,14 +149,14 @@ void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this)
                 if(this->i8SpeedSign > 0)
                 {
                     /* Speed = C/M */
-                    i64Numerator = ((int64_t)(1) * this->f32SpeedCalConst);
-                    this->f32Speed = (i64Numerator / (uint32_t)(this->ui16Period))<<4;
+                    i64Numerator = ((int64_t)(1) * this->f32SpeedCalConst); /* Q16.0 * Q5.27 = Q21.27 */
+                    this->f32Speed = (i64Numerator / (uint32_t)(this->ui16Period)) << 4; /* Q5.27 -> Q1.31 */
                 }
                 else
                 {
                     /* Speed = -C/M */
-                    i64Numerator = ((int64_t)(-1) * this->f32SpeedCalConst);
-                    this->f32Speed = (i64Numerator / (uint32_t)(this->ui16Period))<<4;
+                    i64Numerator = ((int64_t)(-1) * this->f32SpeedCalConst); /* Q16.0 * Q5.27 = Q21.27 */
+                    this->f32Speed = (i64Numerator / (uint32_t)(this->ui16Period)) << 4; /* Q5.27 -> Q1.31 */
                 }
             }
             else
@@ -238,6 +238,7 @@ void MCDRV_QdEncSetPulses(mcdrv_eqd_enc_t *this)
      /* Set modulo counter to encoder number of pulses * 4 - 1 */
     this->pui32QdBase->LMOD = (this->ui16PulseNumber * 4U) - 1U;
     this->pui32QdBase->CTRL |= EQDC_CTRL_LDOK(1U);
+    
 }
 
 
@@ -251,7 +252,8 @@ void MCDRV_QdEncSetPulses(mcdrv_eqd_enc_t *this)
 RAM_FUNC_LIB
 void MCDRV_QdEncUpdateParameters(mcdrv_eqd_enc_t *this)
 {
-    this->i32Q10Cnt2PosGain = ((0xffffffffU/(4*(1*this->ui16PulseNumber)))*1024); // #define M1_QDC_LINE_RECIPROCAL_4_POS_GEN
-    this->f32SpeedCalConst = (frac32_t)((60.0*this->ui32QDTimerFrequency/(this->ui16Pp*(4*this->ui16PulseNumber)*g_fltM1speedScale)) * 134217728); // #define M1_SPEED_CAL_CONST
-    this->fltSpeedFracToAngularCoeff = (float_t)(2*FLOAT_PI*g_fltM1speedScale*this->ui16Pp/60.0); // #define M1_SPEED_FRAC_TO_ANGULAR_COEFF
+    this->i32Q10Cnt2PosGain = ((0xffffffffU/(4*this->ui16PulseNumber))*1024); // #define M1_QDC_LINE_RECIPROCAL_4_POS_GEN    
+    this->f32SpeedCalConst = (frac32_t)((2*FLOAT_PI*this->ui32QDTimerFrequency/(4*this->ui16PulseNumber*g_fltM1speedScale)) * 134217728);
+    this->fltSpeedFracToAngularCoeff = (float_t)(g_fltM1speedScale);
+    
 }
