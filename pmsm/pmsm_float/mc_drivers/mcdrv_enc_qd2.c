@@ -12,7 +12,7 @@
 * use the software.
  */
 
-#include "mcdrv_enc_qdc2.h"
+#include "mcdrv_enc_qd2.h"
 
 /*******************************************************************************
  * Variables
@@ -217,9 +217,9 @@ void MCDRV_QdEncSetDirection(mcdrv_qd_enc_t *this)
 {
     /* forward/reverse */
     if (this->bDirection)
-        this->pui32QdBase->CTRL |= QDC_CTRL_REV_MASK;
+        this->pui32QdBase->CTRL |= ENC_CTRL_REV_MASK;
     else
-        this->pui32QdBase->CTRL &= ~QDC_CTRL_REV_MASK;
+        this->pui32QdBase->CTRL &= ~ENC_CTRL_REV_MASK;
 
 }
 

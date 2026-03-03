@@ -539,7 +539,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qspi_fra
     )
 endif()
 
-if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qspi_frac_enc)
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc12_pwma_qspi_frac_enc) #56f8400
     mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_drivers/mcdrv_adc_adc12.c
@@ -629,7 +629,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_lpcadc_pwma_bldc)
     )
 endif()
 
-if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcncxn_pwma_enc)
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcncxn_pwma_enc) #not used
     mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adc_mcxn.h
@@ -729,7 +729,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt_pwma)
     )
 endif()
 
-if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt_pwma_enc)
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt_pwma_enc) #not used
     mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt.h
@@ -761,15 +761,15 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma)
     )
 endif()
 
-if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma_enc)
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma_enc) #1170
     mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt11xx.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt11xx.c
                 pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.c
                 pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.h
-                pmsm/pmsm_float/mc_drivers/mcdrv_enc_qd.c
-                pmsm/pmsm_float/mc_drivers/mcdrv_enc_qd.h
+                pmsm/pmsm_float/mc_drivers/mcdrv_enc_qd2.c
+                pmsm/pmsm_float/mc_drivers/mcdrv_enc_qd2.h
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_include(
