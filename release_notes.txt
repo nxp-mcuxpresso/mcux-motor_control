@@ -4,6 +4,22 @@ Release notes
 Release notes for the motor-control middleware group of applications released together with the
 MCUXpresso SDK. The latest documentation for the motor control SDK examples is available on [MCUXpresso SDK for Motor Control](https://www.nxp.com/sdkmotorcontrol) web.
 
+MCUXpresso SDK 26.03.00, Motor control middleware v3.2.0
+========================================================
+
+	Tested platforms:
+	- mc_pmsm_enc: MIMXRT1186-EVK, FRDM-MCXA174, FRDM-MCXA344, FRDM-MCXA346, FRDM-MCXA366, FRDM-MCXN947, FRDM-MCXE31B
+	- mc_pmsm_servo: i.MX943-EVK, MIMXRT1186-EVK
+	- mc_pmsm_servo_dual: i.MX943-EVK, MIMXRT1186-EVK
+
+	What is new:
+	- FRDM-MCXE31B - Added position control.
+	- i.MX943-EVK - Servo examples have been updated to use the cm7_0 core instead of the cm7_1 core. 
+	  SCMI API used to access BLK_CTRL_WAKEUP registers.
+	- MAU fixed to be working on more platforms.
+
+	Known issues:
+
 MCUXpresso SDK 25.12.00, Motor control middleware v3.2.0
 ========================================================
 
