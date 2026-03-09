@@ -84,7 +84,6 @@ void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this)
     {
         
         this->i16PosDiff = this->i16POSDH;
-//        this->ui16Period = this->pui32QdBase->POSDPERH; //Position Difference Period Hold Register
         this->ui16Period = this->ui16POSDPERH; //Position Difference Period Hold Register
         this->ui16Period_1 = this->ui16Period;
 
@@ -116,7 +115,6 @@ void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this)
     /* Low speed region */
     {
         
-//        this->ui16Period = this->pui32QdBase->LASTEDGEH; //Last Edge Time Hold Register
         this->ui16Period = this->ui16LASTEDGEH; //Last Edge Time Hold Register
 
         if((uint32_t)(this->ui16Period) > 0xF000UL)
