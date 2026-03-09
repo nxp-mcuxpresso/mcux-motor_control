@@ -414,8 +414,8 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adc_mcx_epwm_frac) 
                 pmsm/pmsm_frac/mc_drivers/mcdrv_adc_mcxa.h
                 pmsm/pmsm_frac/mc_drivers/mcdrv_pwm3ph_epwm.c
                 pmsm/pmsm_frac/mc_drivers/mcdrv_pwm3ph_epwm.h
-                pmsm/pmsm_frac/mc_drivers/mcdrv_enc_eqd.c
-                pmsm/pmsm_frac/mc_drivers/mcdrv_enc_eqd.h
+                pmsm/pmsm_frac/mc_drivers/mcdrv_enc_eqd2.c
+                pmsm/pmsm_frac/mc_drivers/mcdrv_enc_eqd2.h
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_include(
