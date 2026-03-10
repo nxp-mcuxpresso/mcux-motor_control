@@ -1568,6 +1568,9 @@ static void M1_TransRunStartupSpin(void)
 
     g_sM1Drive.sSpeed.sSpeedPiParams.fltIAccK_1 = g_sM1Drive.sFocPMSM.sIDQReq.fltQ;
     g_sM1Drive.sSpeed.sSpeedRampParams.fltState = g_sM1Drive.sStartUp.fltSpeedRampOpenLoop;
+    
+    /* Pass actual speed to accumulator of ZC filter */
+    g_sM1Drive.sSpeed.sSpeedCmdZCFilter.fltFltBfrY[0] = g_sM1Drive.sSpeed.fltSpeedRamp;
 
     /* To switch to the RUN kRunState_Spin sub-state */
     g_eM1StateRun = kRunState_Spin;
