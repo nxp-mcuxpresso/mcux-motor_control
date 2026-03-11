@@ -69,8 +69,7 @@ void MCS_PMSMFocCtrl(mcs_pmsm_foc_t *psFocPMSM)
     }
 
     /* Position angle of the last PWM update */
-    psFocPMSM->sAnglePosEl.fltSin = GFLIB_Sin_FLTa((acc32_t)psFocPMSM->f16PosElEst);
-    psFocPMSM->sAnglePosEl.fltCos = GFLIB_Cos_FLTa((acc32_t)psFocPMSM->f16PosElEst);
+    GFLIB_SinCos_FLTa((acc32_t)psFocPMSM->f16PosElEst, &psFocPMSM->sAnglePosEl);
 
     /* 3-phase to 2-phase transformation to stationary ref. frame */
     GMCLIB_Clark_FLT(&psFocPMSM->sIABC, &psFocPMSM->sIAlBe);
@@ -92,9 +91,10 @@ void MCS_PMSMFocCtrl(mcs_pmsm_foc_t *psFocPMSM)
      * open loop electrical position passed to rest of FOC */
     if (psFocPMSM->bOpenLoop || psFocPMSM->bPosExtOn)
     {
-        psFocPMSM->sAnglePosEl.fltSin = GFLIB_Sin_FLTa((acc32_t)psFocPMSM->f16PosEl);
-        psFocPMSM->sAnglePosEl.fltCos = GFLIB_Cos_FLTa((acc32_t)psFocPMSM->f16PosEl);
+        
+        GFLIB_SinCos_FLTa((acc32_t)psFocPMSM->f16PosEl, &psFocPMSM->sAnglePosEl);
         GMCLIB_Park_FLT(&psFocPMSM->sIAlBe, &psFocPMSM->sAnglePosEl, &psFocPMSM->sIDQ);
+        
     }
 
     /* perform current control loop if enabled */
