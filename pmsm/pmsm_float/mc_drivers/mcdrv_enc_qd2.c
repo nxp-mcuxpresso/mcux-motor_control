@@ -249,8 +249,8 @@ void MCDRV_QdEncSetPulses(mcdrv_qd_enc_t *this)
 RAM_FUNC_LIB
 void MCDRV_QdEncUpdateParameters(mcdrv_qd_enc_t *this)
 {
-    this->i32Q10Cnt2PosGain = ((0xffffffffU/(4*this->ui16PulseNumber))*1024); // #define M1_QDC_LINE_RECIPROCAL_4_POS_GEN    
-    this->f32SpeedCalConst = (frac32_t)((2*FLOAT_PI*this->ui32QDTimerFrequency/(4*this->ui16PulseNumber*g_fltM1speedScale)) * 0x8000000U);
+    this->i32Q10Cnt2PosGain = ((0xffffffffU/(4*this->ui16PulseNumber))*0x400U); // #define M1_QDC_LINE_RECIPROCAL_4_POS_GEN    
+    this->f32SpeedCalConst = (frac32_t)((2*FLOAT_PI*this->ui32QDTimerFrequency/(4*this->ui16PulseNumber*g_fltM1speedScale))*0x8000000U);
     this->fltSpeedFracToAngularCoeff = (float_t)(g_fltM1speedScale);
     
 }
