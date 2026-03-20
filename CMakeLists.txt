@@ -948,7 +948,8 @@ endif()
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm33nodsp)
     mcux_component_version(3.2.0)
     mcux_add_source(
-        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_iar/Include/MCAA_EstimRL.h
+        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_iar/Include/MCAA_PpAssist.h
+				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_iar/Include/MCAA_EstimRL.h
 				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_iar/Include/mcaa_lib.h
         TOOLCHAINS iar
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
