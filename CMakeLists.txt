@@ -288,12 +288,8 @@ if(CONFIG_MCUX_COMPONENT_middleware.pmsm_mid.frac_enc)
         SOURCES pmsm/pmsm_frac/mc_identification/mid_def.h
                 pmsm/pmsm_frac/mc_identification/mid_sm_states.c
                 pmsm/pmsm_frac/mc_identification/mid_sm_states.h
-                pmsm/pmsm_frac/mc_identification/pp_measure.c
-                pmsm/pmsm_frac/mc_identification/pp_measure.h
                 pmsm/pmsm_frac/mc_identification/m1_mid_switch.c
                 pmsm/pmsm_frac/mc_identification/m1_mid_switch.h
-                pmsm/pmsm_frac/mc_algorithms/pmsm_control.c
-                pmsm/pmsm_frac/mc_algorithms/pmsm_control.h
                 freemaster/pmsm_frac_enc.pmpx
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
