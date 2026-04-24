@@ -329,8 +329,8 @@ static void M1_StateInitFast(void)
     M1_SET_PTR_SECTOR(g_sM1Drive.sFocPMSM.ui16SectorSVM);
     M1_SET_PTR_AUX_CHAN(g_sM1Drive.f16AdcAuxSample);
 
-    /* INIT_DONE command */
-    g_sM1Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
+    /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
+    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* Enable all MC faults */
     FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_I_DCBUS_OVER);
@@ -339,6 +339,9 @@ static void M1_StateInitFast(void)
     FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_LOAD_OVER);
     FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_SPEED_OVER);
     FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_ROTOR_BLOCKED);
+    
+    /* INIT_DONE command */
+    g_sM1Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
 }
 
 /*!
