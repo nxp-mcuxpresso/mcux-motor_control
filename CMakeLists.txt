@@ -260,12 +260,8 @@ if(CONFIG_MCUX_COMPONENT_middleware.pmsm_mid.frac)
         SOURCES pmsm/pmsm_frac/mc_identification/mid_def.h
                 pmsm/pmsm_frac/mc_identification/mid_sm_states.c
                 pmsm/pmsm_frac/mc_identification/mid_sm_states.h
-                pmsm/pmsm_frac/mc_identification/pp_measure.c
-                pmsm/pmsm_frac/mc_identification/pp_measure.h
                 pmsm/pmsm_frac/mc_identification/m1_mid_switch.c
                 pmsm/pmsm_frac/mc_identification/m1_mid_switch.h
-                pmsm/pmsm_frac/mc_algorithms/pmsm_control.c
-                pmsm/pmsm_frac/mc_algorithms/pmsm_control.h
                 freemaster/pmsm_frac.pmpx
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
@@ -1171,6 +1167,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ex)
     mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/DSP56800EX/Include/mcaa_lib.h
+				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/DSP56800EX/Include/MCAA_PpAssist.h
 				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/DSP56800EX/Include/MCAA_EstimRL.h
         TOOLCHAINS codewarrior
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
@@ -1200,6 +1197,9 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ef)
 				pmsm/pmsm_float/mc_algorithms/mcaa_lib/dsp56800ef/Include/mcaa_lib_fp.h
 				pmsm/pmsm_float/mc_algorithms/mcaa_lib/dsp56800ef/Include/MCAA_EstimRL.h
 				pmsm/pmsm_float/mc_algorithms/mcaa_lib/dsp56800ef/Include/MCAA_EstimRL_FLT.h
+				pmsm/pmsm_float/mc_algorithms/mcaa_lib/dsp56800ef/Include/MCAA_EstimBJ_FLT.h
+				pmsm/pmsm_float/mc_algorithms/mcaa_lib/dsp56800ef/Include/MCAA_PpAssist.h
+				pmsm/pmsm_float/mc_algorithms/mcaa_lib/dsp56800ef/Include/MCAA_PpAssist_FLT.h
         TOOLCHAINS codewarrior
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )

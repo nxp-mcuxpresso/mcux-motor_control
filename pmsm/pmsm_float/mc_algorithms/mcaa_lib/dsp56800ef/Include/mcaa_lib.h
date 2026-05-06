@@ -1,6 +1,6 @@
 /*
 * Copyright (c) 2013 - 2016, Freescale Semiconductor, Inc.
-* Copyright 2016-2022, 2024 NXP
+* Copyright 2016-2022, 2024, 2026 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -28,14 +28,19 @@ extern "C" {
 * Includes
 *******************************************************************************/
 #include "MCAA_EstimRL.h"
+#include "MCAA_PpAssist.h"
 
 /*******************************************************************************
 * Macros
 *******************************************************************************/
-#define MCAA_EstimRLInit_F16(u16SamplingFreq, psParam, psCtrl)                 \
-        MCAA_EstimRLInit_F16_C(u16SamplingFreq, psParam, psCtrl)
-#define MCAA_EstimRL_F16(f16UDcBus, psIAlBeFbck, psCtrl, psParam, psUAlBeReq)  \
-        MCAA_EstimRL_F16_C(f16UDcBus, psIAlBeFbck, psCtrl, psParam, psUAlBeReq)
+#define MCAA_PpAssistInit_F16(psParam, psCtrl)               \
+        MCAA_PpAssistInit_F16_C(psParam, psCtrl)
+#define MCAA_PpAssist_F16(f16UDcBus, psIAlBeFbck, psCtrl, psUAlBeReq) \
+        MCAA_PpAssist_F16_C(f16UDcBus, psIAlBeFbck, psCtrl, psUAlBeReq)
+#define MCAA_EstimRLInit_F16(psParam, psCtrl, psAdvTune)                 \
+        MCAA_EstimRLInit_F16_C(psParam, psCtrl, psAdvTune)
+#define MCAA_EstimRL_F16(f16UDcBus, psIAlBeFbck, psCtrl, psParam, psAdvTune, psUAlBeReq)  \
+        MCAA_EstimRL_F16_C(f16UDcBus, psIAlBeFbck, psCtrl, psParam, psAdvTune, psUAlBeReq)
 
 #if defined(__cplusplus)
 }

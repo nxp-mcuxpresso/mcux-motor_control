@@ -116,7 +116,6 @@ void MID_ProcessFast_FL(void);
  *
  * @return  none
  */
-RAM_FUNC_LIB
 void MID_Start_BL(mid_meas_type_t eMeasurementType);
 
 /*!
@@ -126,7 +125,6 @@ void MID_Start_BL(mid_meas_type_t eMeasurementType);
  *
  * @return none
  */
-RAM_FUNC_LIB
 void MID_Stop_BL(void);
 
 /*!
@@ -138,8 +136,16 @@ void MID_Stop_BL(void);
  * @retval TRUE  - Measurement is ongoing.
  * @retval FALSE - MID is idle.
  */
-RAM_FUNC_LIB
 bool_t MID_GetStatus_BL(mid_status_t *psMIDStatus);
+
+/*!
+ * @brief   MID Update finish status flags of all measurements.
+ *
+ * @param   void
+ *
+ * @return  none
+ */
+void MID_UpdateMeasFlags(void);
 
 /*!
  * @brief   Function sets known machine parameters.
@@ -156,7 +162,6 @@ bool_t MID_GetStatus_BL(mid_status_t *psMIDStatus);
  *
  * @return  None
  */
-RAM_FUNC_LIB
 void MID_SetKnownMotorParams_BL(mid_motor_params_user_t *psMotorParams);
 
 /*!
@@ -166,7 +171,6 @@ void MID_SetKnownMotorParams_BL(mid_motor_params_user_t *psMotorParams);
  *
  * @return  None
  */
-RAM_FUNC_LIB
 void MID_GetMotorParams_BL(mid_motor_params_user_t *psMotorParams);
 
 /*!
@@ -176,7 +180,6 @@ void MID_GetMotorParams_BL(mid_motor_params_user_t *psMotorParams);
  *
  * @return  None
  */
-RAM_FUNC_LIB
 void MID_Process_BL(mid_app_cmd_t *pMidCmd);
 
 /*!

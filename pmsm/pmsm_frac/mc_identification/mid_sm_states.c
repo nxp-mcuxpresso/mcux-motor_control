@@ -274,7 +274,6 @@ static void MID_StateFault(void)
  *
  * @return None
  */
-RAM_FUNC_LIB
 static void MID_StateCalib(void)
 {
     if (--g_sMidDrive.ui16CounterState == 0U)
@@ -546,7 +545,6 @@ static void MID_TransStop2Calib(void)
  *
  * @return None
  */
-RAM_FUNC_LIB
 static void MID_TransCalib2Start(void)
 {
     /* Type the code to do when going to the START state */
@@ -655,7 +653,6 @@ void MID_ProcessFast_FL(void)
 /*!
  * MID start function.
  */
-RAM_FUNC_LIB
 void MID_Start_BL(mid_meas_type_t eMeasurementType)
 {
     /* Pass the measurement type */
@@ -671,7 +668,6 @@ void MID_Start_BL(mid_meas_type_t eMeasurementType)
 /*!
  * MID stop function
  */
-RAM_FUNC_LIB
 void MID_Stop_BL(void)
 {
     /* Check whether the pole-pair measurement is ongoing. */
@@ -690,7 +686,6 @@ void MID_Stop_BL(void)
 /*!
  * Return the MID status.
  */
-RAM_FUNC_LIB
 bool_t MID_GetStatus_BL(mid_status_t *psMIDStatus)
 {
     /* Copy the statuses. */
@@ -706,7 +701,6 @@ bool_t MID_GetStatus_BL(mid_status_t *psMIDStatus)
 /*!
  * Update finish status flags of all measurements.
  */
-RAM_FUNC_LIB
 void MID_UpdateMeasFlags(void)
 {
     /* Set finished measurement status flag */
@@ -717,7 +711,6 @@ void MID_UpdateMeasFlags(void)
 /*!
  * Function sets known motor parameters before the measurement.
  */
-RAM_FUNC_LIB
 void MID_SetKnownMotorParams_BL(mid_motor_params_user_t *psMotorParams)
 {
     /* Copy the parameters into the internal structure. */
@@ -751,7 +744,6 @@ void MID_SetKnownMotorParams_BL(mid_motor_params_user_t *psMotorParams)
 /*!
  * Function gets motor parameters (both measured and known).
  */
-RAM_FUNC_LIB
 void MID_GetMotorParams_BL(mid_motor_params_user_t *psMotorParams)
 {
     /* Copy the parameters into the internal structure. */
@@ -765,7 +757,6 @@ void MID_GetMotorParams_BL(mid_motor_params_user_t *psMotorParams)
 /*!
  * Function starts or stops MID.
  */
-RAM_FUNC_LIB
 void MID_Process_BL(mid_app_cmd_t *pMidCmd)
 {
     /* Get the MID status and check whether the measurement is currently active. */
@@ -835,7 +826,6 @@ uint16_t MID_GetActualState(void)
  *
  * @return None
  */
-RAM_FUNC_LIB
 static void MID_ClearFOCVariables(void)
 {
     /* Clear FOC variables */
@@ -898,7 +888,6 @@ static void MID_FaultDetection(void)
  * Function reads voltages, currents, etc. for MID. Called before MID state
  * machine. User defined.
  */
-RAM_FUNC_LIB
 static void MID_ReadSignals(void)
 {
     /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
@@ -916,7 +905,6 @@ static void MID_ReadSignals(void)
  * Function applying results/output from MID. Called after MID state
  * machine. User defined.
  */
-RAM_FUNC_LIB
 static void MID_ApplySignals(void)
 {  
     if(g_sMID.sMIDMeasStatus.eMIDState != kMID_Calib)
