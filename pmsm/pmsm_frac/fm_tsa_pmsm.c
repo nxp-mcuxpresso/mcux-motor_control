@@ -429,18 +429,9 @@ FMSTR_TSA_TABLE_BEGIN(gsM1Enc_table)
 FMSTR_TSA_RW_VAR(g_sM1Enc.f16SpdMeEst, FMSTR_TSA_FRAC16)      /* M1 Measured Mechanical Speed */
 FMSTR_TSA_RW_VAR(g_sM1Enc.f16PosMe, FMSTR_TSA_FRAC16)         /* M1 Meassured Mechanical Position */
 FMSTR_TSA_RW_VAR(g_sM1Enc.f16PosMeEst, FMSTR_TSA_FRAC16)      /* M1 Position Encoder Mechanical */
-FMSTR_TSA_RW_VAR(g_sM1Enc.sTo.f16ThGain, FMSTR_TSA_FRAC16)    /* M1 POSPE Integ Gain */
-FMSTR_TSA_RW_VAR(g_sM1Enc.sTo.i16ThGainSh, FMSTR_TSA_FRAC16)  /* M1 POSPE Integ Gain Shift */
-FMSTR_TSA_RW_VAR(g_sM1Enc.sTo.f16IGain, FMSTR_TSA_FRAC16)     /* M1 POSPE Ki Gain */
-FMSTR_TSA_RW_VAR(g_sM1Enc.sTo.i16IGainSh, FMSTR_TSA_SINT16)   /* M1 POSPE Ki Gain Shift */
-FMSTR_TSA_RW_VAR(g_sM1Enc.sTo.f16PGain, FMSTR_TSA_FRAC16)     /* M1 POSPE Kp Gain */
-FMSTR_TSA_RW_VAR(g_sM1Enc.sTo.i16PGainSh, FMSTR_TSA_SINT16)   /* M1 POSPE Kp Gain Shift */
+
 FMSTR_TSA_RW_VAR(g_sM1Enc.bDirection, FMSTR_TSA_UINT16)       /* M1 Encoder direction */
-FMSTR_TSA_RW_VAR(g_sM1Enc.f16SpdEncMin, FMSTR_TSA_FRAC16)     /* M1 Encoder minimal speed */
 FMSTR_TSA_RW_VAR(g_sM1Enc.ui16Pp, FMSTR_TSA_UINT16)           /* M1 Pole pairs */
-FMSTR_TSA_RW_VAR(g_sM1Enc.ui16PulseNumber, FMSTR_TSA_UINT16)  /* M1 Encoder pulses */
-FMSTR_TSA_RW_VAR(g_sM1Enc.a32PosMeGain, FMSTR_TSA_FRAC32)     /* M1 Position Mechanical Gain */
-FMSTR_TSA_RW_VAR(g_sM1Enc.i16PosMeGainSh, FMSTR_TSA_SINT16)   /* M1 Position Mechanical Gain Shift */
 
 FMSTR_TSA_TABLE_END()
 #endif
