@@ -260,12 +260,8 @@ if(CONFIG_MCUX_COMPONENT_middleware.pmsm_mid.frac)
         SOURCES pmsm/pmsm_frac/mc_identification/mid_def.h
                 pmsm/pmsm_frac/mc_identification/mid_sm_states.c
                 pmsm/pmsm_frac/mc_identification/mid_sm_states.h
-                pmsm/pmsm_frac/mc_identification/pp_measure.c
-                pmsm/pmsm_frac/mc_identification/pp_measure.h
                 pmsm/pmsm_frac/mc_identification/m1_mid_switch.c
                 pmsm/pmsm_frac/mc_identification/m1_mid_switch.h
-                pmsm/pmsm_frac/mc_algorithms/pmsm_control.c
-                pmsm/pmsm_frac/mc_algorithms/pmsm_control.h
                 freemaster/pmsm_frac.pmpx
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
@@ -288,12 +284,8 @@ if(CONFIG_MCUX_COMPONENT_middleware.pmsm_mid.frac_enc)
         SOURCES pmsm/pmsm_frac/mc_identification/mid_def.h
                 pmsm/pmsm_frac/mc_identification/mid_sm_states.c
                 pmsm/pmsm_frac/mc_identification/mid_sm_states.h
-                pmsm/pmsm_frac/mc_identification/pp_measure.c
-                pmsm/pmsm_frac/mc_identification/pp_measure.h
                 pmsm/pmsm_frac/mc_identification/m1_mid_switch.c
                 pmsm/pmsm_frac/mc_identification/m1_mid_switch.h
-                pmsm/pmsm_frac/mc_algorithms/pmsm_control.c
-                pmsm/pmsm_frac/mc_algorithms/pmsm_control.h
                 freemaster/pmsm_frac_enc.pmpx
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
@@ -776,7 +768,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma)
     )
 endif()
 
-if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma_enc) #1170
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma_enc) #1170 1152
     mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt11xx.h
@@ -963,20 +955,23 @@ endif()
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm33nodsp)
     mcux_component_version(3.2.0)
     mcux_add_source(
-        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_iar/Include/MCAA_EstimRL.h
+        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_iar/Include/MCAA_PpAssist.h
+				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_iar/Include/MCAA_EstimRL.h
 				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_iar/Include/mcaa_lib.h
         TOOLCHAINS iar
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_source(
-        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_mdk/Include/MCAA_EstimRL.h
+        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_mdk/Include/MCAA_PpAssist.h
+				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_mdk/Include/MCAA_EstimRL.h
 				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_mdk/Include/mcaa_lib.h
         TOOLCHAINS mdk
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_source(
-        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_mcux/Include/mcaa_lib.h
+        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_mcux/Include/MCAA_PpAssist.h
 				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_mcux/Include/MCAA_EstimRL.h
+				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm33nodsp_mcux/Include/mcaa_lib.h
         TOOLCHAINS mcux armgcc
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
@@ -1183,19 +1178,22 @@ endif()
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm0)
     mcux_component_version(3.2.0)
     mcux_add_source(
-        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm0_iar/Include/MCAA_EstimRL.h
+        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm0_iar/Include/MCAA_PpAssist.h
+				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm0_iar/Include/MCAA_EstimRL.h
 				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm0_iar/Include/mcaa_lib.h
         TOOLCHAINS iar
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_source(
-        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm0_mdk/Include/MCAA_EstimRL.h
+        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm0_mdk/Include/MCAA_PpAssist.h
+				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm0_mdk/Include/MCAA_EstimRL.h
 				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm0_mdk/Include/mcaa_lib.h
         TOOLCHAINS mdk
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_source(
-        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm0_mcux/Include/MCAA_EstimRL.h
+        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm0_mcux/Include/MCAA_PpAssist.h
+				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm0_mcux/Include/MCAA_EstimRL.h
 				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm0_mcux/Include/mcaa_lib.h
         TOOLCHAINS mcux armgcc
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
@@ -1236,6 +1234,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ex)
     mcux_component_version(3.2.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/DSP56800EX/Include/mcaa_lib.h
+				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/DSP56800EX/Include/MCAA_PpAssist.h
 				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/DSP56800EX/Include/MCAA_EstimRL.h
         TOOLCHAINS codewarrior
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
@@ -1265,6 +1264,9 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_dsp56800ef)
 				pmsm/pmsm_float/mc_algorithms/mcaa_lib/dsp56800ef/Include/mcaa_lib_fp.h
 				pmsm/pmsm_float/mc_algorithms/mcaa_lib/dsp56800ef/Include/MCAA_EstimRL.h
 				pmsm/pmsm_float/mc_algorithms/mcaa_lib/dsp56800ef/Include/MCAA_EstimRL_FLT.h
+				pmsm/pmsm_float/mc_algorithms/mcaa_lib/dsp56800ef/Include/MCAA_EstimBJ_FLT.h
+				pmsm/pmsm_float/mc_algorithms/mcaa_lib/dsp56800ef/Include/MCAA_PpAssist.h
+				pmsm/pmsm_float/mc_algorithms/mcaa_lib/dsp56800ef/Include/MCAA_PpAssist_FLT.h
         TOOLCHAINS codewarrior
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )

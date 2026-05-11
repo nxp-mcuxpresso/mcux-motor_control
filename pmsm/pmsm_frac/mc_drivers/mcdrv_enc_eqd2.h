@@ -63,13 +63,10 @@ typedef struct _mcdrv_eqd_enc_t
     frac32_t f32SpeedCalConst;
     
     uint32_t ui32QDTimerFrequency;
-	
-    AMCLIB_TRACK_OBSRV_T_F32 sTo; /* tracking observer structure */
+    
     frac16_t f16PosMeEst;         /* estimated position calculated using tracking observer */
     frac16_t f16SpdEncMin;        /* encoder minimal speed resolution */
     frac16_t f16PosMeGain;        /* encoder pulses to mechanical position scale gain */
-    int16_t i16PosMeGainSh;       /* encoder pulses to mechanical position scale shift */
-    acc32_t a32PosMeGain;         /* encoder pulses to mechanical position scale gain */
 	
 } mcdrv_eqd_enc_t;
 

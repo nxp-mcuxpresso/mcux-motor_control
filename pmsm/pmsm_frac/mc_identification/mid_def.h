@@ -17,68 +17,52 @@
 
 #include "m1_pmsm_appconfig.h"
 #include "mc_periph_init.h"
-#include "pmsm_control.h"
 
 /* RTCESL fix libraries. */
 #include "mlib.h"
 #include "gflib.h"
 #include "amclib.h"
 
-//Motor Identification Module           
-//----------------------------------------------------------------------
-#define M1_CHAR_NUMBER_OF_POINTS_BASE      (6)
-#define M1_CHAR_CURRENT_POINT_NUMBERS      (65)
-#define M1_CHAR_NUMBER_OF_POINTS_HALF      (32)
-#define M1_TIME_50MS                       (500)
-#define M1_TIME_100MS                      (1000)
-#define M1_TIME_300MS                      (3000)
-#define M1_TIME_600MS                      (6000)
-#define M1_TIME_1200MS                     (12000)
-#define M1_TIME_2400MS                     (24000)
-#define M1_K_RESCALE_DCB_TO_PHASE_HALF     FRAC16(0.866096866096866)
-#define M1_K_ANGLE_INCREMENT               FRAC16(0.2)
-#define M1_INV_MOD_INDEX                   FRAC16(0.4999587446189769)
-#define M1_K_I_50MA                        FRAC16(0.006060606060606061)
+#include "mcaa_lib.h"
 
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
-/* MID Fault numbers */
-#define MID_ESTIMRL_INIT_ERROR (1U)
-#define MID_ESTIMRL_RUN_ERROR  (2U)
-
-/* Current controllers' coefficients ensuring slow response for variable parameters */
-#define MID_KP_GAIN ACC32(0.01935102757040625)
-#define MID_KI_GAIN ACC32(0.0036080115416992)
-
-/* Speed minimal ramp */
-#define MID_SPEED_RAMP_UP FRAC16(0.000060606061)
-#define MID_SPEED_RAMP_DOWN FRAC16(0.000060606061)
-
-/* Pp assistant variables */
-#define MID_PP_ID_REQ FRAC16(0.1)
-#define MID_PP_SPEED_EL FRAC16(0.1)
-
-/* Time quantities in units of fast loop ticks. */
-#define MID_TIME_2400MS (uint32_t)(2.4F * (float)(M1_PWM_FREQ / M1_FOC_FREQ_VS_PWM_FREQ))
+/* MID common parameters. */
+#define I_NOMINAL 		    M1_I_MAX            /* AP MID - Nominal current [A]. */
+#define N_NOMINAL         M1_N_MAX            /* AP MID - Nominal speed [rpm]. */
+#define F_SAMPLING 		    M1_FAST_LOOP_FREQ   /* AP MID - Sampling frequency [Hz]. */
 
 /* Maximal measuring signal levels. */
-#define MID_I_MEAS_MAX  M1_I_MAX                                /* Current sensing HW scale [A]. */
-#define SCALE(x)        (FRAC32(x / MID_I_MEAS_MAX))
+#define MID_I_MEAS_MAX    M1_I_MAX                      /* AP MID - Current sensing HW scale [A]. */
+#define SCALE_I_F16(x)    (FRAC16(x / MID_I_MEAS_MAX))  /* AP MID - Fixed point current scale (frac16) */
+#define SCALE_I_F32(x)    (FRAC32(x / MID_I_MEAS_MAX))  /* AP MID - Fixed point current scale (frac32) */
+#define MID_N_MAX         M1_N_MAX                      /* AP MID - Speed scale [rpm] */
+#define SCALE_N_F16(x)    (FRAC16(x / MID_N_MAX))       /* AP MID - Fixed point speed scale (frac16_t) */
 
-/* MID parameters measurement options. */
-#define MID_EL_PP (1UL <<  0U)
-#define MID_EL_RL (1UL <<  1U)
-#define MID_EL_ME (1UL <<  2U)
+/* Pp Assist measurement parameters. */
+#define I_PP_ASSIST       I_NOMINAL  * 0.1F   /* PpAssist - Current for pole-pair assistant measurement [A] */
+#define N_PP_ASSIST       N_NOMINAL  * 0.1F   /* PpAssist - Electrical Speed [rpm] */
 
 /* EstimRL measurement parameters. */ 
-#define F_SAMPLING 		M1_PWM_FREQ             /* EstimRL - Sampling frequency [Hz]. Maximum is 10 kHz. */
-#define NUM_MEAS 		20U                     /* EstimRL - Number of measurement. */
-#define I_NOMINAL 		5.0F                    /* EstimRL - Nominal current [A]. */
-#define I_POSMAX 		6.0F                    /* EstimRL - Maximum positive current [A]. */
-#define I_NEGMAX 		-6.0F                   /* EstimRL - Minimum positive current [A]. */
-#define I_LD			0.0F                    /* EstimRL - Current to determine inductance in d-axis [A]. */
-#define I_LQ			I_NOMINAL               /* EstimRL - Current to determine inductance in q-axis [A]. */
+#define NUM_MEAS 		      20U                 /* EstimRL - Number of measurement. */
+#define I_RL_ESTIM        I_NOMINAL  * 0.5F   /* EstimRL - Current for electrical parameters measurement [A] */
+#define I_POSMAX 		      I_NOMINAL  * 0.9F   /* EstimRL - Maximum positive current [A]. */
+#define I_NEGMAX 		      -I_NOMINAL * 0.9F   /* EstimRL - Minimum positive current [A]. */
+#define I_LD			        0.0F                /* EstimRL - Current to determine inductance in d-axis [A]. */
+#define I_LQ			        I_NOMINAL  * 0.5F   /* EstimRL - Current to determine inductance in q-axis [A]. */
+#define ESTIMRL_TIMEOUT   30.0F               /* EstimRL - Estimation timeout time [s]. */
+
+/* MID measurements faults flags. */
+#define MID_START_SUCCESSFUL  (0UL)
+#define MID_PP_INIT_FAIL      (1UL << 0U)     /* Fault during PpAssist init */
+#define MID_PP_MEAS_FAIL      (1UL << 1U)     /* Fault during PpAssist runtime */
+#define MID_RL_INIT_FAIL      (1UL << 2U)     /* Fault during EstimRL init */
+#define MID_RL_ESTIM_FAIL     (1UL << 3U)     /* Fault during EstimRL runtime */
+
+/* MID measurements finished flags. */
+#define MID_PP_FINISH   (1UL << 0U)           /* PpAssit finished (stopped by user) */
+#define MID_RL_FINISH   (1UL << 1U)           /* EstimRL finished estimation */
 
 /* Sets the fault bit defined by faultid in the faults variable */
 #define MID_FAULT_SET(faults, faultid) ((faults) |= (((middef_fault_t)1U) << (faultid)))
@@ -89,9 +73,22 @@
 /* Check if a fault bit is set in the faults variable, 0 = no fault */
 #define MID_FAULT_ANY(faults) ((faults) > 0U)
 
-#define MID_FAULT_I_DCBUS_OVER (0U)  /* OverCurrent fault flag */
+#define MID_FAULT_I_DCBUS_OVER  (0U) /* OverCurrent fault flag */
 #define MID_FAULT_U_DCBUS_UNDER (1U) /* Undervoltage fault flag */
-#define MID_FAULT_U_DCBUS_OVER (2U)  /* Overvoltage fault flag */
+#define MID_FAULT_U_DCBUS_OVER  (2U) /* Overvoltage fault flag */
+
+/* States of machine enumeration. */
+typedef enum _mid_sm_app_state_t{
+    kMID_Start  = 0U,
+    kMID_Pp     = 1U,
+    kMID_RL     = 2U,
+    kMID_Stop   = 3U,
+    kMID_Fault  = 4U,
+    kMID_Calib  = 5U,
+} mid_sm_app_state_t;
+
+/* Pointer to function with a pointer to state machine control structure. */
+typedef void (*mid_pfcn_void_pms)(void);
 
 /* Device fault typedef */
 typedef uint16_t middef_fault_t;
@@ -103,81 +100,92 @@ typedef struct _middef_fault_thresholds_t
     frac16_t f16UDcBusUnder;    /* DC bus under voltage level */
 } middef_fault_thresholds_t;
 
-/* Pointer to function with a pointer to state machine control structure. */
-typedef void (*mid_pfcn_void_pms)(void);
-
-typedef struct
-{
-    uint16_t bActive;           /* Indicates whether Ke is being measured (true) or not (false) */
-    uint16_t ui16PpDetermined;  /* Indicates whether the user already set pp in MCAT (true) or not yet (false) */
-    uint16_t ui16WaitingSteady; /* Indicates that motor is waiting in steady state (when electrical position is zero) */
-    uint16_t ui16LoopCounter;   /* Serves for timing to determine e.g. 300ms */
-    frac16_t *pf16PosEl;        /* Pointer to electrical position for Park transformations */
-    frac16_t *pf16IdReq;        /* Pointer to required current Id (PI current controller's input) */
-    frac16_t f16PosElCurrent;   /* Current value of electrical position */
-    frac16_t f16PosElLast;      /* Last value of electrical position */
-    frac16_t f16IdReqOpenLoop;  /* Openloop current */
-    frac16_t f16SpeedElReq;     /* Required Electrical Speed */
-    frac16_t f16SpeedElRamp;    /* Ramped f16SpeedElReq, this speed is integrated to get position */
-    GFLIB_RAMP_T_F16 sSpeedElRampParam;      /* Ramp Up + Down coefficients for f16Speed */
-    GFLIB_INTEGRATOR_T_A32 sSpeedIntegrator; /* Speed integrator coefficients */
-} mid_get_pp_a1_t;
-
 /* Measurement type enumeration. */
 typedef enum _mid_meas_type_t
 {
     kMID_PolePairs        = 0U,
     kMID_ElectricalParams = 1U,
-    kMID_MechanicalParams = 2U,
 } mid_meas_type_t;
 
-/* States of machine enumeration. */
-typedef enum _mid_sm_app_state_t{
-    kMID_Pp            = 0U,
-    kMID_RL            = 1U,
-    kMID_MechParam     = 2U,
-    kMID_Start         = 3U,
-    kMID_Stop          = 4U,
-    kMID_Fault         = 5U,
-} mid_sm_app_state_t;
+/* Float Motor parameters for internal MID structures and calculations. */
+typedef struct _mid_motor_params
+{
+    uint32_t  ui32Pp; /* Number of pole-pairs. [-] */
+    frac32_t  f32Rs;  /* Stator resistance. [Ohm] */
+    frac32_t  f32Ld;  /* Direct-axis inductance. [H] */
+    frac32_t  f32Lq;  /* Quadrature axis inductance. [H] */
+    frac32_t  f32Udt; /* Dead time voltage drop of the power stage [V]. */
+} mid_motor_params_t;
+
+/* Motor parameters for user setting. */
+typedef struct _mid_motor_params_user
+{
+    uint32_t  ui32Pp; /* Number of pole-pairs. [-] */
+    frac32_t  f32Rs;  /* Stator resistance. [Ohm] */
+    frac32_t  f32Ld;  /* Direct-axis inductance. [H] */
+    frac32_t  f32Lq;  /* Quadrature-axis inductance. [H] */
+    frac32_t  f32Udt; /* Dead time voltage drop of the power stage [V]. */
+} mid_motor_params_user_t;
+
+/* MID FOC structure */
+typedef struct _mid_pmsm_foc
+{
+    GDFLIB_FILTER_IIR1_T_F32 sUDcBusFilter;   /* Dc bus voltage filter */
+    GMCLIB_3COOR_T_F16 sIABC;                 /* Measured 3-phase current */
+    GMCLIB_2COOR_ALBE_T_F16 sIAlBe;           /* Alpha/Beta current */
+    GMCLIB_3COOR_T_F16 sDutyABC;              /* Applied duty cycles ABC */
+    GMCLIB_2COOR_ALBE_T_F16 sUAlBeReq;        /* Required Alpha/Beta voltage */
+    GMCLIB_2COOR_ALBE_T_F16 sUAlBeComp;       /* Compensated to DC bus Alpha/Beta voltage */
+    uint16_t ui16SectorSVM;                   /* SVM sector */
+    frac16_t f16UDcBus;                       /* DC bus voltage */
+    frac16_t f16UDcBusFilt;                   /* Filtered DC bus voltage */
+} mid_pmsm_foc_t;
+
+/* Measurement status. */
+typedef struct _mid_status_t
+{
+    mid_sm_app_state_t eMIDState;            /* Actual MID state-machine state. */
+    uint32_t           ui32AllFinishedMeas;  /* All finished measurements. */
+    uint32_t           ui32ActFinishedMeas;  /* Actual finished measurement. */
+    uint32_t           ui32FaultMID;         /* MID fault flags. */
+} mid_status_t;
+
 
 /* Measurement global structure. */
 typedef struct _mid_struct_t
 {
-    mid_get_pp_a1_t     sMIDPp;             /* Input structure for MID_getPp() */
     mid_meas_type_t     eMeasurementType;   /* Measurement type. */
-    mid_sm_app_state_t  eMIDState;          /* MID state machine actual state. */
-    frac32_t            f32Rs;              /* Estimated resistance. */
-    frac32_t            f32Ld;              /* Estimated d-axis inductance. */
-    frac32_t            f32Lq;              /* Estimated q-axis inductance. */
-    uint32_t            ui32FinishedMeas;   /* Array for finished eletrical measurements. */
-    uint16_t            ui16FaultMID;       /* MID fault code. */
-    uint16_t            ui16WarnMID;        /* MID warning code. */
-    bool_t              bMIDRun;            /* 1 - MID is running, 0 - MID is in STOP/FAULT state */
-    bool_t              bMIDOnOff;          /* Measurement On/Off */
+    mid_motor_params_t  sMotorParams;       /* Motor Parameters. */
+    mid_status_t        sMIDMeasStatus;     /* Measurement status. */
+    bool_t              bMIDStart;          /* MID trigger variable. */
 } mid_struct_t;
 
-/* EstimRL config params structure. */
-typedef struct _rl_estim_cfg_params_t
+/* MID and FOC global structure. */
+typedef struct _mid_pmsm_t
 {
-  frac32_t f32IDcNom;            /* Scaled nominal DC current [A]. */
-  frac32_t f32IDcPosMax;         /* Scaled maximum DC current [A]. */
-  frac32_t f32IDcNegMax;         /* Scaled maximum allowed negative d-axis DC current [A]. The value of f32IDcNegMax must be negative or zero. */
-  frac32_t f32IDcLd;             /* Scaled DC current used for Ld measurement [A]. */
-  frac32_t f32IDcLq;             /* Scaled DC current used for Lq measurement [A]. */
-  uint8_t  u8ModeEstimRL;        /* Selected EstimRL mode: 0, 1, 2, 3. */
-}rl_estim_cfg_params_t;
+    mid_pmsm_foc_t            sFocPMSM;             /* Field Oriented Control structure */
+    middef_fault_t            sFaultIdCaptured;     /* Captured faults (must be cleared manually) */
+    middef_fault_t            sFaultIdPending;      /* Fault pending structure */
+    middef_fault_thresholds_t sFaultThresholds;     /* Fault thresholds */
+    bool_t                    bFaultClearMan;       /* Manual fault clear detection */
+    uint16_t                  ui16CounterState;     /* Main state counter */
+    uint16_t                  ui16TimeCalibration;  /* Calibration time count number */
+    frac16_t                  f16AdcAuxSample;      /* Auxiliary ADC sample  */
+} mid_pmsm_t;
 
-/* FOC global structure */
-typedef struct _middef_pmsm_t
+/* MID application command enum. */
+typedef enum _foc_mid_cmd
 {
-    mcs_pmsm_foc_t sFocPMSM;                   /* Field Oriented Control structure */
-    middef_fault_t sFaultIdCaptured;            /* Captured faults (must be cleared manually) */
-    middef_fault_t sFaultIdPending;             /* Fault pending structure */
-    middef_fault_thresholds_t sFaultThresholds; /* Fault thresholds */
-    frac16_t f16AdcAuxSample;                      /* Auxiliary ADC sample  */
-    uint16_t ui16CounterState;                     /* Main state counter */
-    bool_t bFaultClearMan;                         /* Manual fault clear detection */
-} middef_pmsm_t;
+    kMID_Cmd_Stop      = 0U,  /* STOP command. */
+    kMID_Cmd_Start     = 1U,  /* START command. */
+    kMID_Cmd_Executing = 2U   /* EXECUTING command. */
+} mid_app_cmd_t;
+
+
+/*******************************************************************************
+ * Variables
+ ******************************************************************************/
+/* The MID control ctructure. */
+extern mid_struct_t g_sMID;
 
 #endif /* _MID_DEF_H_ */

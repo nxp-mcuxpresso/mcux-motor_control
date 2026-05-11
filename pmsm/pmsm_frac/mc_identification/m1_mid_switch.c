@@ -25,7 +25,8 @@
 /*******************************************************************************
  * Variables
  ******************************************************************************/
-m1_mid_struct_t g_sM1toMID;
+m1_mid_struct_t g_sM1toMID;                 
+mid_app_cmd_t   g_eMidCmd;                  /* Start/Stop MID command */
 
 /*******************************************************************************
  * Code
@@ -49,9 +50,10 @@ void M1_MID_Switch_BL(void)
     {
       if(M1_GetAppState() == kSM_AppStop)
       {
-        MID_Init();                             /* Call MID init routine. */
+        MID_Init_AR();                          /* Call MID init routine. */
         g_sM1toMID.eFaultSwicth = kNoFault;     /* Clear fault flag. */
         g_sM1toMID.eAppState = kStateMID;       /* Switch application state to MID */
+        g_eMidCmd = kMID_Cmd_Stop;              /* Reset MID control command */
       }
       else
       {
@@ -65,7 +67,7 @@ void M1_MID_Switch_BL(void)
     /* MID state machine is running. */
     if(g_sM1toMID.eRequest == kMIDtoM1)
     {
-      if(MID_GetActualState() == kMID_Stop)
+      if((g_eMidCmd == kMID_Cmd_Stop) && (MID_GetActualState() == kMID_Stop))
       {
         g_sM1Ctrl.eState = kSM_AppInit;         /* Set Init state for M1 state machine */
         g_sM1toMID.eFaultSwicth = kNoFault;     /* Clear fault flag. */
@@ -77,6 +79,7 @@ void M1_MID_Switch_BL(void)
       }  
     } 
     g_sM1toMID.eRequest = kNoRequest;            /* Always clear request. */
+    MID_Process_BL(&g_eMidCmd);
     break;
     
   default:
