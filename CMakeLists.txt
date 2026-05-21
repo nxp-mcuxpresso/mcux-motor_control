@@ -1010,19 +1010,22 @@ endif()
 if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mcaa_cm23)
     mcux_component_version(3.2.0)
     mcux_add_source(
-        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm23_iar/Include/MCAA_EstimRL.h
+        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm23_iar/Include/MCAA_PpAssist.h
+				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm23_iar/Include/MCAA_EstimRL.h
 				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm23_iar/Include/mcaa_lib.h
         TOOLCHAINS iar
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_source(
-        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm23_mdk/Include/MCAA_EstimRL.h
+        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm23_mdk/Include/MCAA_PpAssist.h
+				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm23_mdk/Include/MCAA_EstimRL.h
 				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm23_mdk/Include/mcaa_lib.h
         TOOLCHAINS mdk
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
     )
     mcux_add_source(
-        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm23_mcux/Include/mcaa_lib.h
+        SOURCES pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm23_mcux/Include/MCAA_PpAssist.h
+				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm23_mcux/Include/mcaa_lib.h
 				pmsm/pmsm_frac/mc_algorithms/mcaa_lib/cm23_mcux/Include/MCAA_EstimRL.h
         TOOLCHAINS mcux armgcc
         BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
