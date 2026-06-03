@@ -4,6 +4,18 @@ Release notes
 Release notes for the motor-control middleware group of applications released together with the
 MCUXpresso SDK. The latest documentation for the motor control SDK examples is available on [MCUXpresso SDK for Motor Control](https://www.nxp.com/sdkmotorcontrol) web.
 
+MCUXpresso SDK 26.06.00, Motor control middleware v3.3.0
+========================================================
+
+	Tested platforms:
+	- mc_pmsm_snsless: FRDM-MCXA162
+	- mc_pmsm_enc: FRDM-MCXA153
+
+	What is new:
+	- MID support for fraction devices
+
+	Known issues:
+
 MCUXpresso SDK 26.03.00, Motor control middleware v3.2.0
 ========================================================
 
