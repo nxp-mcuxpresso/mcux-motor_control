@@ -768,11 +768,28 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma)
     )
 endif()
 
-if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma_enc) #1170 1152
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt11xx_pwma_enc) #1170
     mcux_component_version(3.3.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt11xx.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt11xx.c
+                pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.c
+                pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.h
+                pmsm/pmsm_float/mc_drivers/mcdrv_enc_qd2.c
+                pmsm/pmsm_float/mc_drivers/mcdrv_enc_qd2.h
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+    mcux_add_include(
+        INCLUDES pmsm/pmsm_float/mc_drivers
+        BASE_PATH ${SdkRootDirPath}/middleware/motor_control/
+    )
+endif()
+
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt1150_pwma_enc) # 1152
+    mcux_component_version(3.3.0)
+    mcux_add_source(
+        SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt1150.h
+                pmsm/pmsm_float/mc_drivers/mcdrv_adcetc_imxrt1150.c
                 pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.c
                 pmsm/pmsm_float/mc_drivers/mcdrv_pwm3ph_pwma.h
                 pmsm/pmsm_float/mc_drivers/mcdrv_enc_qd2.c

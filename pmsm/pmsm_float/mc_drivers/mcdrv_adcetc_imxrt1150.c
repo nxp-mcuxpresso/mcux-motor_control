@@ -12,7 +12,7 @@
 * use the software.
  */
 
-#include "mcdrv_adcetc_imxrt11xx.h"
+#include "mcdrv_adcetc_imxrt1150.h"
 
 /*******************************************************************************
  * Definitions
