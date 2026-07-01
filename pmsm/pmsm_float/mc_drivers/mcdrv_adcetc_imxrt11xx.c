@@ -45,8 +45,8 @@ void MCDRV_Curr3Ph2ShGet(mcdrv_adcetc_t *this)
         case 2:
         case 3:
             /* direct sensing of phase A and C, calculation of B */
-            sIABCtemp.f16C = MLIB_ShLSat_F16(((frac16_t)((int16_t)((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[0U].TRIGn_RESULT_1_0))*64/55) << 3U) - this->sCurrSec23.ui16OffsetPhaC), 1);
-            sIABCtemp.f16A = MLIB_ShLSat_F16(((frac16_t)((int16_t)((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[4U].TRIGn_RESULT_1_0))*64/55) << 3U) - this->sCurrSec23.ui16OffsetPhaA), 1);     
+            sIABCtemp.f16A = MLIB_ShLSat_F16(((frac16_t)((int16_t)((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[0U].TRIGn_RESULT_1_0))*64/55) << 3U) - this->sCurrSec23.ui16OffsetPhaA), 1);
+            sIABCtemp.f16C = MLIB_ShLSat_F16(((frac16_t)((int16_t)((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[4U].TRIGn_RESULT_1_0))*64/55) << 3U) - this->sCurrSec23.ui16OffsetPhaC), 1);
             sIABCtemp.f16B = MLIB_Neg_F16(MLIB_AddSat_F16(sIABCtemp.f16A, sIABCtemp.f16C));
             break;
         case 4:
@@ -60,8 +60,8 @@ void MCDRV_Curr3Ph2ShGet(mcdrv_adcetc_t *this)
         case 6:
         default:
             /* direct sensing of phase B and C, calculation of A */
-            sIABCtemp.f16C = MLIB_ShLSat_F16(((frac16_t)((int16_t)((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[0U].TRIGn_RESULT_1_0))*64/55) << 3) - this->sCurrSec16.ui16OffsetPhaC), 1);
-            sIABCtemp.f16B = MLIB_ShLSat_F16(((frac16_t)((int16_t)((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[4U].TRIGn_RESULT_1_0))*64/55) << 3) - this->sCurrSec16.ui16OffsetPhaB), 1);
+            sIABCtemp.f16B = MLIB_ShLSat_F16(((frac16_t)((int16_t)((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[0U].TRIGn_RESULT_1_0))*64/55) << 3) - this->sCurrSec16.ui16OffsetPhaB), 1);
+            sIABCtemp.f16C = MLIB_ShLSat_F16(((frac16_t)((int16_t)((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[4U].TRIGn_RESULT_1_0))*64/55) << 3) - this->sCurrSec16.ui16OffsetPhaC), 1);
             sIABCtemp.f16A = MLIB_Neg_F16(MLIB_AddSat_F16(sIABCtemp.f16B, sIABCtemp.f16C));
             break;
     }
@@ -92,13 +92,13 @@ void MCDRV_Curr3Ph2ShChanAssign(mcdrv_adcetc_t *this)
         case 3:
           
             /* HCx update with ADC channel - phase current A */
-            lpadcCommandConfig1.channelNumber = this->sCurrSec23.ui16ChanNumPhaC;
-            lpadcCommandConfig1.sampleChannelMode = this->sCurrSec23.ui16ChanSidePhaC;
+            lpadcCommandConfig1.channelNumber = this->sCurrSec23.ui16ChanNumPhaA;
+            lpadcCommandConfig1.sampleChannelMode = this->sCurrSec23.ui16ChanSidePhaA;
             LPADC_SetConvCommandConfig(LPADC1, 1U, &lpadcCommandConfig1); // CMDL[number]   
             
             /* HCx update with ADC channel - phase current C */
-            lpadcCommandConfig1.channelNumber = this->sCurrSec23.ui16ChanNumPhaA;
-            lpadcCommandConfig1.sampleChannelMode = this->sCurrSec23.ui16ChanSidePhaA;  
+            lpadcCommandConfig1.channelNumber = this->sCurrSec23.ui16ChanNumPhaC;
+            lpadcCommandConfig1.sampleChannelMode = this->sCurrSec23.ui16ChanSidePhaC;  
             LPADC_SetConvCommandConfig(LPADC2, 1U, &lpadcCommandConfig1); // CMDL[number]   
             break;
 
@@ -123,13 +123,13 @@ void MCDRV_Curr3Ph2ShChanAssign(mcdrv_adcetc_t *this)
         default:
 
             /* HCx update with ADC channel - phase current B */
-            lpadcCommandConfig1.channelNumber = this->sCurrSec16.ui16ChanNumPhaC;
-            lpadcCommandConfig1.sampleChannelMode = this->sCurrSec16.ui16ChanSidePhaC;  
+            lpadcCommandConfig1.channelNumber = this->sCurrSec16.ui16ChanNumPhaB;
+            lpadcCommandConfig1.sampleChannelMode = this->sCurrSec16.ui16ChanSidePhaB;  
             LPADC_SetConvCommandConfig(LPADC1, 1U, &lpadcCommandConfig1); // CMDL[number]   
             
             /* HCx update with ADC channel - phase current C */
-            lpadcCommandConfig1.channelNumber = this->sCurrSec16.ui16ChanNumPhaB;
-            lpadcCommandConfig1.sampleChannelMode = this->sCurrSec16.ui16ChanSidePhaB;  
+            lpadcCommandConfig1.channelNumber = this->sCurrSec16.ui16ChanNumPhaC;
+            lpadcCommandConfig1.sampleChannelMode = this->sCurrSec16.ui16ChanSidePhaC;  
             LPADC_SetConvCommandConfig(LPADC2, 1U, &lpadcCommandConfig1); // CMDL[number]   
             break;
     }
@@ -195,8 +195,8 @@ void MCDRV_Curr3Ph2ShCalib(mcdrv_adcetc_t *this)
         case 2:
         case 3:
             /* sensing of offset IA -> ADCA and IC -> ADCC */
-            this->sCurrSec23.ui16CalibPhaC = GDFLIB_FilterMA_F16((frac16_t)(((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[0U].TRIGn_RESULT_1_0))*64/55) << 3), &this->sCurrSec23.ui16FiltPhaC);
-            this->sCurrSec23.ui16CalibPhaA = GDFLIB_FilterMA_F16((frac16_t)(((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[4U].TRIGn_RESULT_1_0))*64/55) << 3), &this->sCurrSec23.ui16FiltPhaA);
+            this->sCurrSec23.ui16CalibPhaA = GDFLIB_FilterMA_F16((frac16_t)(((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[0U].TRIGn_RESULT_1_0))*64/55) << 3), &this->sCurrSec23.ui16FiltPhaA);
+            this->sCurrSec23.ui16CalibPhaC = GDFLIB_FilterMA_F16((frac16_t)(((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[4U].TRIGn_RESULT_1_0))*64/55) << 3), &this->sCurrSec23.ui16FiltPhaC);
             break;
         case 4:
         case 5:
@@ -208,8 +208,8 @@ void MCDRV_Curr3Ph2ShCalib(mcdrv_adcetc_t *this)
         case 6:
         default:
             /* sensing of offset IB -> ADCA and IC -> ADCC */
-            this->sCurrSec16.ui16CalibPhaC = GDFLIB_FilterMA_F16((frac16_t)(((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[0U].TRIGn_RESULT_1_0))*64/55) << 3), &this->sCurrSec16.ui16FiltPhaC);
-            this->sCurrSec16.ui16CalibPhaB = GDFLIB_FilterMA_F16((frac16_t)(((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[4U].TRIGn_RESULT_1_0))*64/55) << 3), &this->sCurrSec16.ui16FiltPhaB);
+            this->sCurrSec16.ui16CalibPhaB = GDFLIB_FilterMA_F16((frac16_t)(((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[0U].TRIGn_RESULT_1_0))*64/55) << 3), &this->sCurrSec16.ui16FiltPhaB);
+            this->sCurrSec16.ui16CalibPhaC = GDFLIB_FilterMA_F16((frac16_t)(((ADC_ETC_TRIGn_RESULT_1_0_DATA0_MASK & (ADC_ETC->TRIG[4U].TRIGn_RESULT_1_0))*64/55) << 3), &this->sCurrSec16.ui16FiltPhaC);
             break;
     }
 
