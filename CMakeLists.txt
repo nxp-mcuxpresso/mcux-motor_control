@@ -670,7 +670,7 @@ if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcncxn_pwma_qdc) #
     )
 endif()
 
-if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_mcxe3xx)
+if(CONFIG_MCUX_COMPONENT_middleware.motor_control.mc_drivers_mcxe3xx) #31B, 32B
     mcux_component_version(3.3.0)
     mcux_add_source(
         SOURCES pmsm/pmsm_float/mc_drivers/mcdrv_sar_adc_mcxe.h
