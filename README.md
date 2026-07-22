@@ -30,7 +30,7 @@ Some motor control examples are available just for selected platforms. The follo
   
 - **mc_bldc** - Sensorless 6-step speed control example utilizing fractional and/or floating-point arithmetics. The example with MCAT allows for rapid application development.
   
-All examples support the FreeMASTER interface for quick and simple application debugging, tuning, control,and monitoring. See [www.nxp.com/freemaster](www.nxp.com/freemaster) and the application user's guide for more information.
+All examples support the FreeMASTER interface for quick and simple application debugging, tuning, control,and monitoring. See [www.nxp.com/freemaster](https://www.nxp.com/freemaster) and the application user's guide for more information.
   
 ## Feedback
 Your feedback is very important to us. Please feel free to leave a comment [Feedback](https://forms.office.com/Pages/ResponsePage.aspx?id=06FuaCu8b0ypLNmcXDAWNRtX7GIvW5NIhyLFq8A5Qw9UMUJNTVdPVFJVWVRZT1gzWVdLS0lUVTRVVSQlQCN0PWcu).
