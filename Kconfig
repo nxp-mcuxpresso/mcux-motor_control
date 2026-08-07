@@ -5,66 +5,72 @@ menu "Motor control"
         config MCUX_COMPONENT_middleware.mc_pmsm_snsless.float
             bool "pmsm_snsless.float"
             select MCUX_COMPONENT_middleware.motor_control_pmsm_float.template
-            depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+            depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7 || MCUX_HW_CORE_CM85
 
             # Select RTCESL library with regard to used core
             select MCUX_COMPONENT_middleware.rtcesl.cm4f if MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM4
             select MCUX_COMPONENT_middleware.rtcesl.cm7f if MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM7
             select MCUX_COMPONENT_middleware.rtcesl.cm33f if MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM33
 			select MCUX_COMPONENT_middleware.rtcesl.cm23 if MCUX_HW_CORE_CM23
+            select MCUX_COMPONENT_middleware.rtcesl.cm85f if MCUX_HW_CORE_CM85
 
         config MCUX_COMPONENT_middleware.mc_pmsm_enc.float
             bool "pmsm_enc.float"
             select MCUX_COMPONENT_middleware.motor_control_pmsm_float.template
-            depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+            depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7 || MCUX_HW_CORE_CM85
 
             # Select RTCESL library with regard to used core
             select MCUX_COMPONENT_middleware.rtcesl.cm4f if MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM4
             select MCUX_COMPONENT_middleware.rtcesl.cm7f if MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM7
             select MCUX_COMPONENT_middleware.rtcesl.cm33f if MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM33
 			select MCUX_COMPONENT_middleware.rtcesl.cm23 if MCUX_HW_CORE_CM23
+            select MCUX_COMPONENT_middleware.rtcesl.cm85f if MCUX_HW_CORE_CM85
 
         config MCUX_COMPONENT_middleware.mc_pmsm_enc_dual.float
             bool "pmsm_enc_dual.float"
             select MCUX_COMPONENT_middleware.motor_control_pmsm_float.template
-            depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+            depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7 || MCUX_HW_CORE_CM85
 
             # Select RTCESL library with regard to used core
             select MCUX_COMPONENT_middleware.rtcesl.cm4f if MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM4
             select MCUX_COMPONENT_middleware.rtcesl.cm7f if MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM7
             select MCUX_COMPONENT_middleware.rtcesl.cm33f if MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM33
 			select MCUX_COMPONENT_middleware.rtcesl.cm23 if MCUX_HW_CORE_CM23
+            select MCUX_COMPONENT_middleware.rtcesl.cm85f if MCUX_HW_CORE_CM85
 
 		config MCUX_COMPONENT_middleware.mc_pmsm_servo.float
 			bool "pmsm_servo.float"
 			select MCUX_COMPONENT_middleware.motor_control_pmsm_float.template
-			depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+			depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7 || MCUX_HW_CORE_CM85
 
 			# Select RTCESL library with regard to used core
 			select MCUX_COMPONENT_middleware.rtcesl.cm4f if MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM4
 			select MCUX_COMPONENT_middleware.rtcesl.cm7f if MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM7
 			select MCUX_COMPONENT_middleware.rtcesl.cm33f if MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM33
 			select MCUX_COMPONENT_middleware.rtcesl.cm23 if MCUX_HW_CORE_CM23
+			select MCUX_COMPONENT_middleware.rtcesl.cm85f if MCUX_HW_CORE_CM85
 			
 		config MCUX_COMPONENT_middleware.mc_pmsm_servo_dual.float
 			bool "pmsm_servo_dual.float"
 			select MCUX_COMPONENT_middleware.motor_control_pmsm_float.template
-			depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+			depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7 || MCUX_HW_CORE_CM85
 
 			# Select RTCESL library with regard to used core
 			select MCUX_COMPONENT_middleware.rtcesl.cm4f if MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM4
 			select MCUX_COMPONENT_middleware.rtcesl.cm7f if MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM7
 			select MCUX_COMPONENT_middleware.rtcesl.cm33f if MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM33
 			select MCUX_COMPONENT_middleware.rtcesl.cm23 if MCUX_HW_CORE_CM23
+			select MCUX_COMPONENT_middleware.rtcesl.cm85f if MCUX_HW_CORE_CM85
 
         config MCUX_COMPONENT_middleware.pmsm_mid.float
             bool "pmsm_mid.float"
             select MCUX_COMPONENT_middleware.motor_control_pmsm_float.template
-            depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+            depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7 || MCUX_HW_CORE_CM85
     
             # Select MCAA library with regard to used core
             select MCUX_COMPONENT_middleware.motor_control.mcaa_cm4f if MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM4
             select MCUX_COMPONENT_middleware.motor_control.mcaa_cm7f if MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM7
+            select MCUX_COMPONENT_middleware.motor_control.mcaa_cm85f if MCUX_HW_CORE_CM85
             select MCUX_COMPONENT_middleware.motor_control.mcaa_cm33f if MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM33
 			select MCUX_COMPONENT_middleware.rtcesl.cm23 if MCUX_HW_CORE_CM23
     
@@ -116,13 +122,14 @@ menu "Motor control"
     
         config MCUX_COMPONENT_middleware.motor_control_pmsm_float.template
             bool "pmsm_float.template"
-            depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+            depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7 || MCUX_HW_CORE_CM85
     
             # Select RTCESL library with regard to used core
             select MCUX_COMPONENT_middleware.rtcesl.cm4f if MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM4
             select MCUX_COMPONENT_middleware.rtcesl.cm7f if MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM7
             select MCUX_COMPONENT_middleware.rtcesl.cm33f if MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM33
 			select MCUX_COMPONENT_middleware.rtcesl.cm23 if MCUX_HW_CORE_CM23
+            select MCUX_COMPONENT_middleware.rtcesl.cm85f if MCUX_HW_CORE_CM85
         
         config MCUX_COMPONENT_middleware.motor_control_pmsm_frac.template
             bool "pmsm_frac.template"
@@ -138,7 +145,7 @@ menu "Motor control"
         config MCUX_COMPONENT_middleware.motor_control_pmsm_float.tsa
             bool "pmsm_float.tsa"
             select MCUX_COMPONENT_middleware.fmstr
-            depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7
+            depends on MCUX_HW_CORE_CM33F || MCUX_HW_CORE_CM4F || MCUX_HW_CORE_CM7F || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_CM4 || MCUX_HW_CORE_CM7 || MCUX_HW_CORE_CM85
 
 	   config MCUX_COMPONENT_middleware.motor_control_pmsm_servo_float.tsa
 			bool "pmsm_servo_float.tsa"
@@ -155,9 +162,13 @@ menu "Motor control"
             select MCUX_COMPONENT_middleware.fmstr
             depends on MCUX_HW_CORE_CM0P || MCUX_HW_CORE_CM33 || MCUX_HW_CORE_CM23 || MCUX_HW_CORE_DSP56800EX
 
+        config MCUX_COMPONENT_middleware.motor_control.mc_drivers_adcimxrt2660_pwma_enc
+            bool "driver_adcimxrt2660_pwma_enc"
+            depends on MCUX_HW_DEVICE_MIMXRT2661 || MCUX_HW_DEVICE_MIMXRT2662 || MCUX_HW_DEVICE_MIMXRT2663
+
         config MCUX_COMPONENT_middleware.motor_control_pmsm_float_imcat
             bool "pmsm_float_imcat"
-            depends on MCUX_HW_DEVICE_MIMXRT1011 || MCUX_HW_DEVICE_MKE18F16 || MCUX_HW_DEVICE_LPC55S36 || MCUX_HW_DEVICE_LPC55S66 || MCUX_HW_DEVICE_LPC55S69 || MCUX_HW_DEVICE_MCXN947 || MCUX_HW_DEVICE_MCXN947T || MCUX_HW_DEVICE_MCXN547 || MCUX_HW_DEVICE_MCXN236 || MCUX_HW_DEVICE_MIMXRT1021 || MCUX_HW_DEVICE_MIMXRT1024 || MCUX_HW_DEVICE_MIMXRT1042 || MCUX_HW_DEVICE_MIMXRT1052 || MCUX_HW_DEVICE_MIMXRT1152 || MCUX_HW_DEVICE_MIMXRT1062 || MCUX_HW_DEVICE_MIMXRT1064 || MCUX_HW_DEVICE_MIMXRT1166 || MCUX_HW_DEVICE_MIMXRT1176 || MCUX_HW_DEVICE_MIMXRT1186 || MCUX_HW_DEVICE_MIMXRT1187 || MCUX_HW_DEVICE_MIMXRT1189 || MCUX_HW_DEVICE_MCXA156 || MCUX_HW_DEVICE_MCXA174 || MCUX_HW_DEVICE_MCXA346 || MCUX_HW_DEVICE_MCXE247 || MCUX_HW_DEVICE_MCXA266 || MCUX_HW_DEVICE_MCXA366 || MCUX_HW_DEVICE_MCXA344 || MCUX_HW_DEVICE_MCXE31B || MCUX_HW_DEVICE_MCXE32B || MCUX_HW_DEVICE_MIMX94398
+            depends on MCUX_HW_DEVICE_MIMXRT1011 || MCUX_HW_DEVICE_MKE18F16 || MCUX_HW_DEVICE_LPC55S36 || MCUX_HW_DEVICE_LPC55S66 || MCUX_HW_DEVICE_LPC55S69 || MCUX_HW_DEVICE_MCXN947 || MCUX_HW_DEVICE_MCXN947T || MCUX_HW_DEVICE_MCXN547 || MCUX_HW_DEVICE_MCXN236 || MCUX_HW_DEVICE_MIMXRT1021 || MCUX_HW_DEVICE_MIMXRT1024 || MCUX_HW_DEVICE_MIMXRT1042 || MCUX_HW_DEVICE_MIMXRT1052 || MCUX_HW_DEVICE_MIMXRT1152 || MCUX_HW_DEVICE_MIMXRT1062 || MCUX_HW_DEVICE_MIMXRT1064 || MCUX_HW_DEVICE_MIMXRT1166 || MCUX_HW_DEVICE_MIMXRT1176 || MCUX_HW_DEVICE_MIMXRT1186 || MCUX_HW_DEVICE_MIMXRT1187 || MCUX_HW_DEVICE_MIMXRT1189 || MCUX_HW_DEVICE_MCXA156 || MCUX_HW_DEVICE_MCXA174 || MCUX_HW_DEVICE_MCXA346 || MCUX_HW_DEVICE_MCXE247 || MCUX_HW_DEVICE_MCXA266 || MCUX_HW_DEVICE_MCXA366 || MCUX_HW_DEVICE_MCXA344 || MCUX_HW_DEVICE_MCXE31B || MCUX_HW_DEVICE_MCXE32B || MCUX_HW_DEVICE_MIMX94398 || MCUX_HW_DEVICE_MIMXRT2661 || MCUX_HW_DEVICE_MIMXRT2662 || MCUX_HW_DEVICE_MIMXRT2663
     
         config MCUX_COMPONENT_middleware.motor_control_pmsm_frac_imcat
             bool "pmsm_frac_imcat"
@@ -182,6 +193,11 @@ menu "Motor control"
             bool "mcaa_cm7f library"
             select MCUX_COMPONENT_middleware.rtcesl.cm7f
             depends on MCUX_HW_CORE_CM7 || MCUX_HW_CORE_CM7F
+
+        config MCUX_COMPONENT_middleware.motor_control.mcaa_cm85f
+            bool "mcaa_cm85f library"
+            select MCUX_COMPONENT_middleware.rtcesl.cm85f
+            depends on MCUX_HW_CORE_CM85
 
         config MCUX_COMPONENT_middleware.motor_control.mcaa_cm4f
             bool "mcaa_cm4f library"
