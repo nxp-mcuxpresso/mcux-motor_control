@@ -130,11 +130,11 @@ typedef struct _mid_motor_params
     float_t   fltLd;  /* Direct-axis inductance. [H] */
     float_t   fltLq;  /* Quadrature axis inductance. [H] */
     float_t   fltUdt; /* Dead time voltage drop of the power stage [V]. */
-    float_t   fltKe;  /* Electrical constant. [V穝/rad]  */
-    float_t   fltKt;  /* Torque constant. [N穖/A]  */
-    float_t   fltJ;   /* Moment of inertia. [kg穖^2] */
-    float_t   fltA;   /* Static friction torque. [N穖] */
-    float_t   fltB;   /* Friction coefficient. [N穖穝/rad] */
+    float_t   fltKe;  /* Electrical constant. [V路s/rad]  */
+    float_t   fltKt;  /* Torque constant. [N路m/A]  */
+    float_t   fltJ;   /* Moment of inertia. [kg路m^2] */
+    float_t   fltA;   /* Static friction torque. [N路m] */
+    float_t   fltB;   /* Friction coefficient. [N路m路s/rad] */
 } mid_motor_params_t;
 
 /* Motor parameters for user setting. */
@@ -145,11 +145,11 @@ typedef struct _mid_motor_params_user
     float_t   fltLd;  /* Direct-axis inductance. [H] */
     float_t   fltLq;  /* Quadrature axis inductance. [H] */
     float_t   fltUdt; /* Dead time voltage drop of the power stage [V]. */
-    float_t   fltKe;  /* Electrical constant. [V穝/rad]  */
-    float_t   fltKt;  /* Torque constant. [N穖/A]  */
-    float_t   fltJ;   /* Moment of inertia. [kg穖^2] */
-    float_t   fltA;   /* Static friction torque. [N穖] */
-    float_t   fltB;   /* Friction coefficient. [N穖穝/rad] */
+    float_t   fltKe;  /* Electrical constant. [V路s/rad]  */
+    float_t   fltKt;  /* Torque constant. [N路m/A]  */
+    float_t   fltJ;   /* Moment of inertia. [kg路m^2] */
+    float_t   fltA;   /* Static friction torque. [N路m] */
+    float_t   fltB;   /* Friction coefficient. [N路m路s/rad] */
 } mid_motor_params_user_t;
 
 /* MID FOC structure */
