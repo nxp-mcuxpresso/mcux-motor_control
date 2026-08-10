@@ -48,7 +48,7 @@
 #define NUM_MEAS 		      20U                         /* AP MID - Number of measurement. */
 #define I_RL_ESTIM        I_NOMINAL  * 0.5F           /* AP MID - Current for electrical parameters measurement [A] */
 #define I_POSMAX 		      I_NOMINAL  * 1.1F           /* AP MID - Maximum positive current [A]. */
-#define I_NEGMAX 		      -I_NOMINAL * 1.1F           /* AP MID - Minimum positive current [A]. */
+#define I_NEGMAX 		      (-I_NOMINAL * 1.1F)         /* AP MID - Minimum negative current [A]. */
 #define I_LD			        0.0F                        /* AP MID - Current to determine inductance in d-axis [A]. */
 #define I_LQ			        I_NOMINAL                   /* AP MID - Current to determine inductance in q-axis [A]. */
 #define ESTIMRL_TIMEOUT   30.0F                       /* AP MID - Estimation timeout time [s]. */
