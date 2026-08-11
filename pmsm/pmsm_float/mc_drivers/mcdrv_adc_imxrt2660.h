@@ -1,6 +1,6 @@
 /*
  * Copyright 2013 - 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2021, 2024-2025 NXP
+ * Copyright 2016-2021, 2024-2026 NXP
  *
  * NXP Proprietary. This software is owned or controlled by NXP and may
  * only be used strictly in accordance with the applicable license terms.
@@ -26,8 +26,6 @@
  * Definitions
  ******************************************************************************/
 
-#define MCDRV_ADC (3)
-#define NOT_USED(x) ((void)(x))
 
 typedef struct _pha_ab
 {

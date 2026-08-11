@@ -1,6 +1,6 @@
 /*
  * Copyright 2013 - 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2021, 2024-2025 NXP
+ * Copyright 2016-2021, 2024-2026 NXP
  *
  * NXP Proprietary. This software is owned or controlled by NXP and may
  * only be used strictly in accordance with the applicable license terms.
@@ -58,28 +58,23 @@
  */
 void MCDRV_CurrAndVoltDcBusGet(mcdrv_adc_t *this)
 {
-    uint16_t ui16Dummy;
     GMCLIB_3COOR_T_F16 sIABCtemp;
-
+    
     /* HSP__ADC_0 */
     /* FIFO_0 - conversion 1 - I_A */
     this->ui16AdcCurrA = ((int16_t)(((uint16_t)(HSP__ADC_0->RESFIFO[0] & ADC_RESFIFO_D_MASK)) * 12 / 11));
+    
+    
+    /* HSP__ADC_1 */  
     /* FIFO_1 - conversion 1 - I_B */
-    this->ui16AdcCurrB = ((int16_t)(((uint16_t)(HSP__ADC_0->RESFIFO[1] & ADC_RESFIFO_D_MASK)) * 12 / 11));
-    /* FIFO_0 - conversion 2 */
-    ui16Dummy = (HSP__ADC_0->RESFIFO[0] & ADC_RESFIFO_D_MASK);
-    /* FIFO_1 - conversion 2 - UDCBus */
-    this->ui16AdcDCBVolt = ((int16_t)(((uint16_t)(HSP__ADC_0->RESFIFO[1] & ADC_RESFIFO_D_MASK)) * 12 / 11));
-    *this->pf16UDcBus    = (frac16_t)(this->ui16AdcDCBVolt);
+    this->ui16AdcCurrB = ((int16_t)(((uint16_t)(HSP__ADC_1->RESFIFO[1] & ADC_RESFIFO_D_MASK)) * 12 / 11));
 
-    /* HSP__ADC_1 */
-    /* FIFO_0 - conversion 1 - I_C */
+    /* FIFO_0 - conversion 2 - I_C */
     this->ui16AdcCurrC = ((int16_t)(((uint16_t)(HSP__ADC_1->RESFIFO[0] & ADC_RESFIFO_D_MASK)) * 12 / 11));
-    /* FIFO_1 - conversion 2 */
-    ui16Dummy = (HSP__ADC_1->RESFIFO[1] & ADC_RESFIFO_D_MASK);
 
-    /* warning suppression */
-    NOT_USED(ui16Dummy);
+    /* FIFO_1 - conversion 3 - UDCBus */
+    this->ui16AdcDCBVolt = ((int16_t)(((uint16_t)(HSP__ADC_1->RESFIFO[1] & ADC_RESFIFO_D_MASK)) * 12 / 11));
+    *this->pf16UDcBus    = (frac16_t)(this->ui16AdcDCBVolt);
 
     switch (*this->pui16SVMSector)
     {
