@@ -463,8 +463,8 @@ static void MID_TransStart2RL(void)
     if((g_sEstimRLInitFMSTR.fltIDcMeas <= 0.0F) || (I_NOMINAL < g_sEstimRLInitFMSTR.fltIDcMeas))
         g_sEstimRLInitFMSTR.fltIDcMeas  = I_RL_ESTIM;
 
-    if((g_sEstimRLInitFMSTR.fltIDcNegMax < (-I_NEGMAX)) || (0.0f <= g_sEstimRLInitFMSTR.fltIDcNegMax))
-        g_sEstimRLInitFMSTR.fltIDcNegMax =  -I_NEGMAX;
+    if((g_sEstimRLInitFMSTR.fltIDcNegMax < I_NEGMAX) || (0.0f <= g_sEstimRLInitFMSTR.fltIDcNegMax))
+        g_sEstimRLInitFMSTR.fltIDcNegMax = I_NEGMAX;
     
     /* Identification init */ 
     g_sEstimRLInitCfg.u32SamplingFreq = F_SAMPLING;

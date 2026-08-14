@@ -751,35 +751,35 @@ FMSTR_TSA_TABLE_END()
 /* MID RL TSA table */
 FMSTR_TSA_TABLE_BEGIN(estimRL_table)
 
-   FMSTR_TSA_RW_VAR(g_sEstimRLCtrlRun.fltIDcDReq, FMSTR_TSA_FLOAT)                     /* MID manual - Required DC current in d-axis */
-   FMSTR_TSA_RW_VAR(g_sEstimRLCtrlRun.fltIDcQReq, FMSTR_TSA_FLOAT)                     /* MID manual - Required DC current in q-axis */
-   FMSTR_TSA_RW_VAR(g_sEstimRLCtrlRun.fltIAcReq, FMSTR_TSA_FLOAT)                      /* MID manual - Required AC current */
-   FMSTR_TSA_RW_VAR(g_sEstimRLCtrlRun.u16FAc, FMSTR_TSA_UINT16)                        /* MID manual - Required frequency of AC current */
-   FMSTR_TSA_RW_VAR(g_sEstimRLCtrlRun.u8LdqSwitch, FMSTR_TSA_UINT8)                    /* MID manual - Swicth between Ld/Lq */
-   FMSTR_TSA_RW_VAR(u8ModeEstimRL, FMSTR_TSA_UINT8)                                    /* MID - Selected mode */
+    FMSTR_TSA_RW_VAR(g_sEstimRLCtrlRun.fltIDcDReq, FMSTR_TSA_FLOAT)                     /* MID manual - Required DC current in d-axis */
+    FMSTR_TSA_RW_VAR(g_sEstimRLCtrlRun.fltIDcQReq, FMSTR_TSA_FLOAT)                     /* MID manual - Required DC current in q-axis */
+    FMSTR_TSA_RW_VAR(g_sEstimRLCtrlRun.fltIAcReq, FMSTR_TSA_FLOAT)                      /* MID manual - Required AC current */
+    FMSTR_TSA_RW_VAR(g_sEstimRLCtrlRun.u16FAc, FMSTR_TSA_UINT16)                        /* MID manual - Required frequency of AC current */
+    FMSTR_TSA_RW_VAR(g_sEstimRLCtrlRun.u8LdqSwitch, FMSTR_TSA_UINT8)                    /* MID manual - Swicth between Ld/Lq */
+    FMSTR_TSA_RW_VAR(u8ModeEstimRL, FMSTR_TSA_UINT8)                                    /* MID - Selected mode */
 
-   FMSTR_TSA_RW_VAR(fltIDcPlot , FMSTR_TSA_FLOAT)                                      /* MID identification  - plot DC current */
-   FMSTR_TSA_RW_VAR(fltLdPlot, FMSTR_TSA_FLOAT)                                        /* MID identification  - plot inductance in d-axis */
-   FMSTR_TSA_RW_VAR(fltLqPlot, FMSTR_TSA_FLOAT)                                        /* MID identification  - plot inductance in q-axis */
+    FMSTR_TSA_RW_VAR(fltIDcPlot, FMSTR_TSA_FLOAT)                                      /* MID identification  - plot DC current */
+    FMSTR_TSA_RW_VAR(fltLdPlot, FMSTR_TSA_FLOAT)                                        /* MID identification  - plot inductance in d-axis */
+    FMSTR_TSA_RW_VAR(fltLqPlot, FMSTR_TSA_FLOAT)                                        /* MID identification  - plot inductance in q-axis */
 
-   FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.fltIDcDReq, FMSTR_TSA_FLOAT)          /* MID - Required DC current in d-axis */
-   FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.fltIDcD, FMSTR_TSA_FLOAT)             /* MID - DC current in d-axis */
-   FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.fltIDcQReq, FMSTR_TSA_FLOAT)          /* MID - Required DC current in q-axis */
-   FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.fltIDcQ, FMSTR_TSA_FLOAT)             /* MID - DC current in q-axis */
+    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.fltIDcDReq, FMSTR_TSA_FLOAT)          /* MID - Required DC current in d-axis */
+    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.fltIDcD, FMSTR_TSA_FLOAT)             /* MID - DC current in d-axis */
+    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.fltIDcQReq, FMSTR_TSA_FLOAT)          /* MID - Required DC current in q-axis */
+    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.fltIDcQ, FMSTR_TSA_FLOAT)             /* MID - DC current in q-axis */
 
-   FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.fltIAcReq, FMSTR_TSA_FLOAT)           /* MID - Required AC current */
-   FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.pIDQAcFilt.fltD, FMSTR_TSA_FLOAT)     /* MID - Filtered d-part of the estimated AC current */
-   FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.pIDQAcFilt.fltQ, FMSTR_TSA_FLOAT)     /* MID - Filtered q-part of the estimated AC current */
-   FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.fltUDcDAcc, FMSTR_TSA_FLOAT)          /* MID - DC voltage integrator in d-axis */
-   FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.fltUDcQAcc, FMSTR_TSA_FLOAT)          /* MID - DC voltage integrator in q-axis */
-   FMSTR_TSA_RW_VAR(g_sEstimRLStruct.fltLd, FMSTR_TSA_FLOAT)                           /* MID - estimated d-axis inductance */
-   FMSTR_TSA_RW_VAR(g_sEstimRLStruct.fltLq, FMSTR_TSA_FLOAT)                           /* MID - estimated q-axis inductance  */
+    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.fltIAcReq, FMSTR_TSA_FLOAT)           /* MID - Required AC current */
+    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.pIDQAcFilt.fltD, FMSTR_TSA_FLOAT)     /* MID - Filtered d-part of the estimated AC current */
+    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.pIDQAcFilt.fltQ, FMSTR_TSA_FLOAT)     /* MID - Filtered q-part of the estimated AC current */
+    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.fltUDcDAcc, FMSTR_TSA_FLOAT)          /* MID - DC voltage integrator in d-axis */
+    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.fltUDcQAcc, FMSTR_TSA_FLOAT)          /* MID - DC voltage integrator in q-axis */
+    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.fltLd, FMSTR_TSA_FLOAT)                           /* MID - estimated d-axis inductance */
+    FMSTR_TSA_RW_VAR(g_sEstimRLStruct.fltLq, FMSTR_TSA_FLOAT)                           /* MID - estimated q-axis inductance  */
 
     FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcMeas, FMSTR_TSA_FLOAT)                   /* MID AP - Measurement DC current */
-   FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcPosMax, FMSTR_TSA_FLOAT)                 /* MID - Maximum positive DC current */
-   FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcNegMax, FMSTR_TSA_FLOAT)                 /* MID - Maximum negative DC current */
-   FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcLd, FMSTR_TSA_FLOAT)                     /* MID - Current used for Ld measurement */
-   FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcLq, FMSTR_TSA_FLOAT)                     /* MID - Current used for Lq measurement */
+    FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcPosMax, FMSTR_TSA_FLOAT)                 /* MID - Maximum positive DC current */
+    FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcNegMax, FMSTR_TSA_FLOAT)                 /* MID - Maximum negative DC current */
+    FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcLd, FMSTR_TSA_FLOAT)                     /* MID - Current used for Ld measurement */
+    FMSTR_TSA_RW_VAR(g_sEstimRLInitFMSTR.fltIDcLq, FMSTR_TSA_FLOAT)                     /* MID - Current used for Lq measurement */
 
     FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.pState, FMSTR_TSA_UINT16)             /* MID AP - Status of electrical estimation internal state machine */       
     FMSTR_TSA_RW_VAR(g_sEstimRLStruct.pInnerState.pFault, FMSTR_TSA_UINT8)              /* MID AP - Fault of electrical estimation internal state machine */       
@@ -863,26 +863,26 @@ FMSTR_TSA_TABLE_END()
  */
 FMSTR_TSA_TABLE_BEGIN(gsMidDrive_table)
 
-  /* gsM1Drive structure definition */
-  FMSTR_TSA_RW_VAR(g_sMidDrive.bFaultClearMan, FMSTR_TSA_UINT16)       /* MC MID Fault Clear */
-  FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultIdCaptured, FMSTR_TSA_UINT16)     /* MC MID Captured Fault */
-  FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultIdPending, FMSTR_TSA_UINT16)      /* MC MID Pending Fault */
+    /* gsM1Drive structure definition */
+    FMSTR_TSA_RW_VAR(g_sMidDrive.bFaultClearMan, FMSTR_TSA_UINT16)       /* MC MID Fault Clear */
+    FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultIdCaptured, FMSTR_TSA_UINT16)     /* MC MID Captured Fault */
+    FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultIdPending, FMSTR_TSA_UINT16)      /* MC MID Pending Fault */
 
-  /* sFaultThresholds definitions */
-  FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultThresholds.fltUqBemf, FMSTR_TSA_FLOAT)      /* MC MID Fault Threshold BemfBlocked */
-  FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultThresholds.fltUDcBusOver, FMSTR_TSA_FLOAT)  /* MC MID Fault Threshold DcBusOver */
-  FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultThresholds.fltUDcBusTrip, FMSTR_TSA_FLOAT)  /* MC MID Fault Threshold DcBusTrip */
-  FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultThresholds.fltUDcBusUnder, FMSTR_TSA_FLOAT) /* MC MID Fault Threshold DcBusUnder */
-  FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultThresholds.fltSpeedMin, FMSTR_TSA_FLOAT)    /* MC MID Fault Threshold SpeedMin */
-  FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultThresholds.fltSpeedNom, FMSTR_TSA_FLOAT)    /* MC MID Fault Threshold SpeedNom */
-  FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultThresholds.fltSpeedOver, FMSTR_TSA_FLOAT)   /* MC MID Fault Threshold SpeedOver */
+    /* sFaultThresholds definitions */
+    FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultThresholds.fltUqBemf, FMSTR_TSA_FLOAT)      /* MC MID Fault Threshold BemfBlocked */
+    FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultThresholds.fltUDcBusOver, FMSTR_TSA_FLOAT)  /* MC MID Fault Threshold DcBusOver */
+    FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultThresholds.fltUDcBusTrip, FMSTR_TSA_FLOAT)  /* MC MID Fault Threshold DcBusTrip */
+    FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultThresholds.fltUDcBusUnder, FMSTR_TSA_FLOAT) /* MC MID Fault Threshold DcBusUnder */
+    FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultThresholds.fltSpeedMin, FMSTR_TSA_FLOAT)    /* MC MID Fault Threshold SpeedMin */
+    FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultThresholds.fltSpeedNom, FMSTR_TSA_FLOAT)    /* MC MID Fault Threshold SpeedNom */
+    FMSTR_TSA_RW_VAR(g_sMidDrive.sFaultThresholds.fltSpeedOver, FMSTR_TSA_FLOAT)   /* MC MID Fault Threshold SpeedOver */
 
-  FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.fltUDcBusFilt, FMSTR_TSA_FLOAT)           /* MC MID DCB Voltage Filtered */
+    FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.fltUDcBusFilt, FMSTR_TSA_FLOAT)           /* MC MID DCB Voltage Filtered */
 
-  /* sFocPMSM.sIABC definitions */
-  FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.sIABC.fltA, FMSTR_TSA_FLOAT)              /* MC MID Phase Current A */
-  FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.sIABC.fltB, FMSTR_TSA_FLOAT)              /* MC MID Phase Current B */
-  FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.sIABC.fltC, FMSTR_TSA_FLOAT)              /* MC MID Phase Current C */
+    /* sFocPMSM.sIABC definitions */
+    FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.sIABC.fltA, FMSTR_TSA_FLOAT)              /* MC MID Phase Current A */
+    FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.sIABC.fltB, FMSTR_TSA_FLOAT)              /* MC MID Phase Current B */
+    FMSTR_TSA_RW_VAR(g_sMidDrive.sFocPMSM.sIABC.fltC, FMSTR_TSA_FLOAT)              /* MC MID Phase Current C */
 
 FMSTR_TSA_TABLE_END()
 

@@ -160,18 +160,28 @@ bool_t MCDRV_eFlexPwm3PhFltGet(mcdrv_pwm3ph_pwma_t *this)
     uint16_t ui16StatusFlags;
     uint16_t ui16StatusPins;
     
-    /* read fault flags */    
+    /* read fault flags */
+#if defined(MIMXRT2661_SERIES) || defined(MIMXRT2662_SERIES) || defined(MIMXRT2663_SERIES)
+    ui16StatusFlags = (((this->pui32PwmBaseAddress->FAULT[0].FSTS & PWM_FSTS_FFLAG_MASK) >> PWM_FSTS_FFLAG_SHIFT) & ((uint16_t)(1) << this->ui16FaultFixNum | (uint16_t)(1) << this->ui16FaultAdjNum));
+    /* read fault pins status */
+    /* Reading pin status because fault flag is only triggered by signal edge, there can be situations where fault signals are
+     * asserted the moment system is powered on, and eFlexPWM module hasn't been initialized yet. In thiscase, fault flags won't
+     * be set even though fault signals are valid.
+     *  */
+    ui16StatusPins = (((this->pui32PwmBaseAddress->FAULT[0].FSTS & PWM_FSTS_FFPIN_MASK) >> PWM_FSTS_FFPIN_SHIFT) & ((uint16_t)(1) << this->ui16FaultFixNum | (uint16_t)(1) << this->ui16FaultAdjNum));
+    /* clear faults flag */
+    this->pui32PwmBaseAddress->FAULT[0].FSTS = ((this->pui32PwmBaseAddress->FAULT[0].FSTS & ~(PWM_FSTS_FFLAG_MASK)) | ((uint16_t)(1) << this->ui16FaultFixNum | (uint16_t)(1) << this->ui16FaultAdjNum));
+#else
     ui16StatusFlags = (((this->pui32PwmBaseAddress->FSTS & PWM_FSTS_FFLAG_MASK) >> PWM_FSTS_FFLAG_SHIFT) & ((uint16_t)(1) << this->ui16FaultFixNum | (uint16_t)(1) << this->ui16FaultAdjNum));
-    
-    /* read fault pins status */   
-    /* Reading pin status because fault flag is only triggered by signal edge, there can be situations where fault signals are     
-     * asserted the moment system is powered on, and eFlexPWM module hasn't been initialized yet. In thiscase, fault flags won't     
-     * be set even though fault signals are valid.     
-     *  */    
+    /* read fault pins status */
+    /* Reading pin status because fault flag is only triggered by signal edge, there can be situations where fault signals are
+     * asserted the moment system is powered on, and eFlexPWM module hasn't been initialized yet. In thiscase, fault flags won't
+     * be set even though fault signals are valid.
+     *  */
     ui16StatusPins = (((this->pui32PwmBaseAddress->FSTS & PWM_FSTS_FFPIN_MASK) >> PWM_FSTS_FFPIN_SHIFT) & ((uint16_t)(1) << this->ui16FaultFixNum | (uint16_t)(1) << this->ui16FaultAdjNum));
-    
-    /* clear faults flag */    
+    /* clear faults flag */
     this->pui32PwmBaseAddress->FSTS = ((this->pui32PwmBaseAddress->FSTS & ~(PWM_FSTS_FFLAG_MASK)) | ((uint16_t)(1) << this->ui16FaultFixNum | (uint16_t)(1) << this->ui16FaultAdjNum));
+#endif
     
     if((ui16StatusFlags > 0)||(ui16StatusPins > 0))    
     {    	
@@ -198,18 +208,28 @@ bool_t MCDRV_eFlexPwm3PhFlt2Get(mcdrv_pwm3ph_pwma_t *this)
     uint16_t ui16StatusFlags;
     uint16_t ui16StatusPins;
     
-    /* read fault flags */    
+    /* read fault flags */
+#if defined(MIMXRT2661_SERIES) || defined(MIMXRT2662_SERIES) || defined(MIMXRT2663_SERIES)
+    ui16StatusFlags = (((this->pui32PwmBaseAddress->FAULT[0].FSTS & PWM_FSTS_FFLAG_MASK) >> PWM_FSTS_FFLAG_SHIFT) & ((uint16_t)(1) << this->ui16Fault2FixNum));
+    /* read fault pins status */
+    /* Reading pin status because fault flag is only triggered by signal edge, there can be situations where fault signals are
+     * asserted the moment system is powered on, and eFlexPWM module hasn't been initialized yet. In thiscase, fault flags won't
+     * be set even though fault signals are valid.
+     *  */
+    ui16StatusPins = (((this->pui32PwmBaseAddress->FAULT[0].FSTS & PWM_FSTS_FFPIN_MASK) >> PWM_FSTS_FFPIN_SHIFT) & ((uint16_t)(1) << this->ui16Fault2FixNum));
+    /* clear faults flag */
+    this->pui32PwmBaseAddress->FAULT[0].FSTS = ((this->pui32PwmBaseAddress->FAULT[0].FSTS & ~(PWM_FSTS_FFLAG_MASK)) | ((uint16_t)(1) << this->ui16Fault2FixNum));
+#else
     ui16StatusFlags = (((this->pui32PwmBaseAddress->FSTS & PWM_FSTS_FFLAG_MASK) >> PWM_FSTS_FFLAG_SHIFT) & ((uint16_t)(1) << this->ui16Fault2FixNum));
-    
-    /* read fault pins status */   
-    /* Reading pin status because fault flag is only triggered by signal edge, there can be situations where fault signals are     
-     * asserted the moment system is powered on, and eFlexPWM module hasn't been initialized yet. In thiscase, fault flags won't     
-     * be set even though fault signals are valid.     
-     *  */    
+    /* read fault pins status */
+    /* Reading pin status because fault flag is only triggered by signal edge, there can be situations where fault signals are
+     * asserted the moment system is powered on, and eFlexPWM module hasn't been initialized yet. In thiscase, fault flags won't
+     * be set even though fault signals are valid.
+     *  */
     ui16StatusPins = (((this->pui32PwmBaseAddress->FSTS & PWM_FSTS_FFPIN_MASK) >> PWM_FSTS_FFPIN_SHIFT) & ((uint16_t)(1) << this->ui16Fault2FixNum));
-    
-    /* clear faults flag */    
+    /* clear faults flag */
     this->pui32PwmBaseAddress->FSTS = ((this->pui32PwmBaseAddress->FSTS & ~(PWM_FSTS_FFLAG_MASK)) | ((uint16_t)(1) << this->ui16Fault2FixNum));
+#endif
     
     if((ui16StatusFlags > 0)||(ui16StatusPins > 0))    
     {    	
