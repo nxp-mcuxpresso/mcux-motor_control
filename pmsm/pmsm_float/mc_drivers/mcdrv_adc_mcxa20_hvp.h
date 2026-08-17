@@ -5,8 +5,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#ifndef _MCDRV_ADC_MCXA20_H_
-#define _MCDRV_ADC_MCXA20_H_
+#ifndef _MCDRV_ADC_MCXA20_HVP_H_
+#define _MCDRV_ADC_MCXA20_HVP_H_
 
 #include "fsl_lpadc.h"
 
@@ -41,24 +41,23 @@ typedef struct _pha_ab
 typedef struct _pha_bc
 {
     GDFLIB_FILTER_MA_T_A32 ui16FiltPhaB; /* phase B offset filter */
-    GDFLIB_FILTER_MA_T_A32 ui16FiltPhaC; /* phase B offset filter */
+    GDFLIB_FILTER_MA_T_A32 ui16FiltPhaC; /* phase C offset filter */
     uint16_t ui16CalibPhaB;              /* phase B offset calibration */
-    uint16_t ui16CalibPhaC;              /* phase B offset calibration */
+    uint16_t ui16CalibPhaC;              /* phase C offset calibration */
     uint16_t ui16OffsetPhaB;             /* phase B offset result */
-    uint16_t ui16OffsetPhaC;             /* phase B offset result */
+    uint16_t ui16OffsetPhaC;             /* phase C offset result */
 
 } pha_bc_t;
 
 typedef struct _pha_ac
 {
-    GDFLIB_FILTER_MA_T_A32 ui16FiltPhaA; /* phase A offset filter */
-    GDFLIB_FILTER_MA_T_A32 ui16FiltPhaC; /* phase B offset filter */
-
-    uint16_t ui16CalibPhaA;  /* phase A offset calibration */
-    uint16_t ui16CalibPhaC;  /* phase B offset calibration */
-    uint16_t ui16OffsetPhaA; /* phase A offset result */
-    uint16_t ui16OffsetPhaC; /* phase B offset result */
-
+    GDFLIB_FILTER_MA_T_A32 ui16FiltPhaA; /* phase B offset filter */
+    GDFLIB_FILTER_MA_T_A32 ui16FiltPhaC; /* phase C offset filter */
+    uint16_t ui16CalibPhaA;              /* phase B offset calibration */
+    uint16_t ui16CalibPhaC;              /* phase C offset calibration */
+    uint16_t ui16OffsetPhaA;             /* phase B offset result */
+    uint16_t ui16OffsetPhaC;             /* phase C offset result */
+    
 } pha_ac_t;
 
 typedef struct _mcdrv_adc
@@ -168,4 +167,4 @@ void MCDRV_AuxValGet(mcdrv_adc_t *this);
 }
 #endif
 
-#endif /* _MCDRV_ADC_MCXA20_H_ */
+#endif /* _MCDRV_ADC_MCXA20_HVP_H_ */

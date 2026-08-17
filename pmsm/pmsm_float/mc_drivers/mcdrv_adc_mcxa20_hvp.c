@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-#include "mcdrv_adc_mcxa20.h"
+#include "mcdrv_adc_mcxa20_hvp.h"
 #include "fsl_gpio.h"
 #include "mc_periph_init.h"
 
