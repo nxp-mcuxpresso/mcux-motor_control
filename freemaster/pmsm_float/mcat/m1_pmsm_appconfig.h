@@ -190,9 +190,6 @@
 #define M1_TO_SPEED_IIR_B1 (0.0728205F)
 #define M1_TO_SPEED_IIR_A1 (0.854359F)
 /* USER INPUT START */
-
-
-
 #define AA 1
 #define BB 3
 #define CC 4

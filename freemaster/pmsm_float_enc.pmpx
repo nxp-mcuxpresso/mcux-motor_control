@@ -5,7 +5,7 @@
 	</main>
 	<objects>
 		<object name="ObjId0000" type="CPrjDoc">
-			<member name="version" type="string">3.2.5.3</member>
+			<member name="version" type="string">3.2.7.4</member>
 			<member name="enum_db_man" type="CEnumList">ObjId0001</member>
 			<member name="variables" type="CObListEx">ObjId0003</member>
 			<member name="stimulators" type="CObListEx">ObjId0004</member>
@@ -14,16 +14,16 @@
 			<member name="mapfile_types" type="CObListEx">ObjId0007</member>
 			<member name="mapfile_list" type="CObListEx">ObjId0023</member>
 			<member name="mapfile_current" type="sint32">-1</member>
-			<member name="mapfile_listerr_ena" type="sint32">0</member>
+			<member name="mapfile_listerr_ena" type="sint32">1</member>
 			<member name="mapfile_listerr_mode" type="sint32">1</member>
 			<member name="mapfile_pre_select" type="sint32">0</member>
 			<member name="comm_params_saved" type="sint32">1</member>
 			<member name="comm_state_saved" type="sint32">0</member>
-			<member name="comm_state_enabled" type="sint32">1</member>
-			<member name="comm_port" type="sint32">35</member>
+			<member name="comm_state_enabled" type="sint32">0</member>
+			<member name="comm_port" type="sint32">-1</member>
 			<member name="comm_port_hint" type="string">COM_ALL</member>
 			<member name="comm_speed" type="sint32">115200</member>
-			<member name="comm_rs232_conn" type="string">RS232; port=COM36;speed=115200;</member>
+			<member name="comm_rs232_conn" type="string">RS232; port=COM0;speed=115200;</member>
 			<member name="comm_plugin_use" type="sint32">0</member>
 			<member name="comm_plugin_id" type="string"/>
 			<member name="comm_plugin_conn" type="string"/>
@@ -3272,10 +3272,10 @@
 			<member name="modif_set_mode" type="sint32">0</member>
 			<member name="modif_auto_fin" type="sint32">1</member>
 			<member name="modif_auto_hide" type="sint32">1</member>
-			<member name="modif_predefs_modes" type="uint32">0x1</member>
+			<member name="modif_predefs_modes" type="uint32">0x3</member>
 			<member name="modif_predefs_other" type="string"/>
-			<member name="modif_set_min" type="string">0</member>
-			<member name="modif_set_max" type="string">1</member>
+			<member name="modif_set_min" type="string"/>
+			<member name="modif_set_max" type="string"/>
 			<member name="modif_set_step" type="string">1</member>
 			<member name="modif_address" type="string"/>
 			<member name="modif_last_addr" type="uint32">0x0</member>
@@ -17107,7 +17107,6 @@
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId0025" type="CObList"/>
 		<object name="ObjId0026" type="CObList"/>
@@ -17137,7 +17136,6 @@
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId0636" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0367</member>
@@ -17219,7 +17217,6 @@
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId0640" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0367</member>
@@ -19384,7 +19381,6 @@
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId0847" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0367</member>
@@ -21289,7 +21285,6 @@
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId1024" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0367</member>
@@ -23594,7 +23589,6 @@
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId1223" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0367</member>
@@ -25206,7 +25200,6 @@
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId1378" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0367</member>
@@ -26887,7 +26880,6 @@
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId1525" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0496</member>
@@ -34141,7 +34133,6 @@
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId1953" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0367</member>
@@ -35961,7 +35952,6 @@
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId2177" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0574</member>
@@ -36287,7 +36277,6 @@
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId2546" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId2671</member>

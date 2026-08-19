@@ -8,9 +8,14 @@ MCUXpresso SDK 26.09.00, Motor control middleware v3.3.0
 ========================================================
 
 	Tested platforms:
-	- mc_pmsm_enc: FRDM-IMXRT1152
+	- mc_pmsm_enc: FRDM-IMXRT1152, FRDM-MCXE32B, FRDM-MCXN947T, HVP-MCXA346, MIMXRT2660-EVK (only build test, not tested on the target HW)
+	- mc_pmsm_snsless: FRDM-MCXA162
+	- mc_pmsm_servo: i.MX943-EVK
+	- mc_pmsm_servo_dual: i.MX943-EVK
 
 	What is new:
+	- mcdrv_sinc.c/h - Phase currents offset calibration functions added. This change integrated in the i.MX943-EVK examples.
+	- MCAT updated - User section in the mX_pmsm_appconfig.h is correctly copied when "Save data" is used (MCAT for floating-point applications).
 
 	Known issues:
 

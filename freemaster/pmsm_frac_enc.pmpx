@@ -5,7 +5,7 @@
 	</main>
 	<objects>
 		<object name="ObjId0000" type="CPrjDoc">
-			<member name="version" type="string">3.2.6.3</member>
+			<member name="version" type="string">3.2.7.4</member>
 			<member name="enum_db_man" type="CEnumList">ObjId0001</member>
 			<member name="variables" type="CObListEx">ObjId0003</member>
 			<member name="stimulators" type="CObListEx">ObjId0004</member>
@@ -14,7 +14,7 @@
 			<member name="mapfile_types" type="CObListEx">ObjId0007</member>
 			<member name="mapfile_list" type="CObListEx">ObjId0023</member>
 			<member name="mapfile_current" type="sint32">-1</member>
-			<member name="mapfile_listerr_ena" type="sint32">0</member>
+			<member name="mapfile_listerr_ena" type="sint32">1</member>
 			<member name="mapfile_listerr_mode" type="sint32">1</member>
 			<member name="mapfile_pre_select" type="sint32">0</member>
 			<member name="comm_params_saved" type="sint32">0</member>
@@ -57,6 +57,7 @@
 			<member name="item13" type="CObject_ptr">ObjId1882</member>
 			<member name="item14" type="CObject_ptr">ObjId2802</member>
 			<member name="item15" type="CObject_ptr">ObjId2938</member>
+			<member name="item16" type="CObject_ptr">ObjId3143</member>
 		</object>
 		<object name="ObjId0283" type="CEnum">
 			<member name="name" type="string">Application State_enumeration</member>
@@ -566,6 +567,28 @@
 		<object name="ObjId2943" type="CEnumItem">
 			<member name="name" type="string">Mode 3</member>
 			<member name="value_min" type="string">3</member>
+			<member name="value_max" type="string"/>
+			<member name="inclusive_min" type="sint32">1</member>
+			<member name="inclusive_max" type="sint32">1</member>
+		</object>
+		<object name="ObjId3143" type="CEnum">
+			<member name="name" type="string">M1 MCAT POSPE Sensor_enumeration</member>
+			<member name="items" type="CObListEx">ObjId3144</member>
+		</object>
+		<object name="ObjId3144" type="CObList">
+			<member name="item0" type="CObject_ptr">ObjId3145</member>
+			<member name="item1" type="CObject_ptr">ObjId3146</member>
+		</object>
+		<object name="ObjId3145" type="CEnumItem">
+			<member name="name" type="string">Sensorless</member>
+			<member name="value_min" type="string">0</member>
+			<member name="value_max" type="string"/>
+			<member name="inclusive_min" type="sint32">1</member>
+			<member name="inclusive_max" type="sint32">1</member>
+		</object>
+		<object name="ObjId3146" type="CEnumItem">
+			<member name="name" type="string">Encoder</member>
+			<member name="value_min" type="string">1</member>
 			<member name="value_max" type="string"/>
 			<member name="inclusive_min" type="sint32">1</member>
 			<member name="inclusive_max" type="sint32">1</member>
@@ -3211,11 +3234,11 @@
 			<member name="bit_shift" type="sint32">0</member>
 			<member name="bit_mask" type="string">no mask (-1)</member>
 			<member name="value_trf" type="CObject_ptr">NULL</member>
-			<member name="enum_enabled" type="sint32">0</member>
+			<member name="enum_enabled" type="sint32">1</member>
 			<member name="enum_num_always" type="sint32">0</member>
 			<member name="enum_default_val" type="string">unknown</member>
 			<member name="enum_num_with_default" type="sint32">1</member>
-			<member name="enum" type="string"/>
+			<member name="enum" type="string">M1 MCAT POSPE Sensor_enumeration</member>
 			<member name="show_as" type="sint32">0</member>
 			<member name="show_val" type="sint32">1</member>
 			<member name="show_max" type="sint32">0</member>
@@ -3236,7 +3259,7 @@
 			<member name="modif_set_mode" type="sint32">0</member>
 			<member name="modif_auto_fin" type="sint32">1</member>
 			<member name="modif_auto_hide" type="sint32">1</member>
-			<member name="modif_predefs_modes" type="uint32">0x1</member>
+			<member name="modif_predefs_modes" type="uint32">0x3</member>
 			<member name="modif_predefs_other" type="string"/>
 			<member name="modif_set_min" type="string"/>
 			<member name="modif_set_max" type="string"/>
@@ -19338,7 +19361,7 @@
 		</object>
 		<object name="ObjId2541" type="CPrjItemBlock_ColInfo">
 			<member name="column_visible" type="sint32">1</member>
-			<member name="column_width" type="sint32">135</member>
+			<member name="column_width" type="sint32">188</member>
 			<member name="column_ix" type="sint32">1</member>
 		</object>
 		<object name="ObjId2542" type="CPrjItemBlock_ColInfo">

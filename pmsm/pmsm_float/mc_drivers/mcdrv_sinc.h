@@ -1,5 +1,5 @@
 /*
-* Copyright 2025 NXP
+* Copyright 2025-2026 NXP
 *
 * NXP Proprietary. This software is owned or controlled by NXP and may
 * only be used strictly in accordance with the applicable license terms. 
@@ -18,6 +18,7 @@
 #include "mlib_types.h"
 #include "mlib_FP.h"
 #include "gmclib_FP.h"
+#include "gdflib.h"
 
 /*!
  * @addtogroup bissc
@@ -33,6 +34,17 @@ typedef struct _mcdrv_sinc
   GMCLIB_3COOR_T_FLT *psIABC;           /* Pointer to 3-phase currents. */
   float_t *pfltUDcBus;                  /* Pointer to DC Bus voltage variable */
   uint16_t *pui16SVMSector; /* pointer to the SVM sector */
+  
+  frac16_t f16PhCurr[4];
+  frac16_t f16CalibPhaA;
+  frac16_t f16CalibPhaB;
+  frac16_t f16CalibPhaC;
+  
+  GDFLIB_FILTER_MA_T_A32 sFiltPhaA; /* phase A offset filter */
+  GDFLIB_FILTER_MA_T_A32 sFiltPhaB; /* phase B offset filter */
+  GDFLIB_FILTER_MA_T_A32 sFiltPhaC; /* phase C offset filter */
+  
+  uint16_t ui16OffsetFiltWindow; /* Offset filter window */
   
   const float_t fltDCBvoltageScale;
   const float_t fltCurrentScale;
@@ -59,6 +71,33 @@ extern "C" {
 RAM_FUNC_LIB
 void MCDRV_SincReadPhCurrDcBusVolt(mcdrv_sinc_t *this);
 
+/*!
+ * @brief Initializes phase current channel offset measurement
+ *
+ * @param this   Pointer to the current object
+ *
+ * @return none
+ */
+void MCDRV_SincCurr3PhCalibInit(mcdrv_sinc_t *this);
+
+
+/*!
+ * @brief Function reads current samples and filter them
+ *
+ * @param this   Pointer to the current object
+ *
+ * @return none
+ */
+void MCDRV_SincCurr3PhCalib(mcdrv_sinc_t *this);
+
+/*!
+ * @brief Function passes measured offset values to main structure
+ *
+ * @param this   Pointer to the current object
+ *
+ * @return none
+ */
+void MCDRV_SincCurr3PhCalibSet(mcdrv_sinc_t *this);
 
 #if defined(__cplusplus)
 }

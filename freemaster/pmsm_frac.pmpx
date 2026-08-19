@@ -5,7 +5,7 @@
 	</main>
 	<objects>
 		<object name="ObjId0000" type="CPrjDoc">
-			<member name="version" type="string">3.2.6.3</member>
+			<member name="version" type="string">3.2.7.4</member>
 			<member name="enum_db_man" type="CEnumList">ObjId0001</member>
 			<member name="variables" type="CObListEx">ObjId0003</member>
 			<member name="stimulators" type="CObListEx">ObjId0004</member>
@@ -14,7 +14,7 @@
 			<member name="mapfile_types" type="CObListEx">ObjId0007</member>
 			<member name="mapfile_list" type="CObListEx">ObjId0023</member>
 			<member name="mapfile_current" type="sint32">-1</member>
-			<member name="mapfile_listerr_ena" type="sint32">0</member>
+			<member name="mapfile_listerr_ena" type="sint32">1</member>
 			<member name="mapfile_listerr_mode" type="sint32">1</member>
 			<member name="mapfile_pre_select" type="sint32">0</member>
 			<member name="comm_params_saved" type="sint32">0</member>

@@ -5,7 +5,7 @@
 	</main>
 	<objects>
 		<object name="ObjId0000" type="CPrjDoc">
-			<member name="version" type="string">3.2.4.5</member>
+			<member name="version" type="string">3.2.7.4</member>
 			<member name="enum_db_man" type="CEnumList">ObjId0001</member>
 			<member name="variables" type="CObListEx">ObjId0003</member>
 			<member name="stimulators" type="CObListEx">ObjId0004</member>
@@ -14,7 +14,7 @@
 			<member name="mapfile_types" type="CObListEx">ObjId0007</member>
 			<member name="mapfile_list" type="CObListEx">ObjId0023</member>
 			<member name="mapfile_current" type="sint32">-1</member>
-			<member name="mapfile_listerr_ena" type="sint32">0</member>
+			<member name="mapfile_listerr_ena" type="sint32">1</member>
 			<member name="mapfile_listerr_mode" type="sint32">1</member>
 			<member name="mapfile_pre_select" type="sint32">0</member>
 			<member name="comm_params_saved" type="sint32">0</member>
@@ -3248,10 +3248,10 @@
 			<member name="modif_set_mode" type="sint32">0</member>
 			<member name="modif_auto_fin" type="sint32">1</member>
 			<member name="modif_auto_hide" type="sint32">1</member>
-			<member name="modif_predefs_modes" type="uint32">0x1</member>
+			<member name="modif_predefs_modes" type="uint32">0x3</member>
 			<member name="modif_predefs_other" type="string"/>
-			<member name="modif_set_min" type="string">0</member>
-			<member name="modif_set_max" type="string">1</member>
+			<member name="modif_set_min" type="string"/>
+			<member name="modif_set_max" type="string"/>
 			<member name="modif_set_step" type="string">1</member>
 			<member name="modif_address" type="string"/>
 			<member name="modif_last_addr" type="uint32">0x0</member>
@@ -21163,7 +21163,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId0025" type="CObList"/>
 		<object name="ObjId0026" type="CObList"/>
@@ -21195,7 +21194,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId0769" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0367</member>
@@ -21274,7 +21272,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId0773" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0367</member>
@@ -23454,7 +23451,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId0980" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0367</member>
@@ -25359,7 +25355,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId1157" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0367</member>
@@ -27642,7 +27637,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId1357" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0367</member>
@@ -29472,7 +29466,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId1512" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0494</member>
@@ -33877,7 +33870,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId1940" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0367</member>
@@ -35736,7 +35728,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId2162" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0574</member>
@@ -38442,7 +38433,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId2468" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0605</member>
@@ -38513,7 +38503,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId2472" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0605</member>
@@ -40458,7 +40447,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId2657" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0605</member>
@@ -42135,7 +42123,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId2810" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0605</member>
@@ -44239,7 +44226,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId2990" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0605</member>
@@ -45638,7 +45624,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId3121" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0605</member>
@@ -49367,7 +49352,6 @@ b#10 0000 - Missing Pp value</member>
 			<member name="ena_col_swapping" type="sint32">1</member>
 			<member name="ena_inplace_params" type="sint32">1</member>
 			<member name="ena_inplace_values" type="sint32">1</member>
-			<sub name="watch_views" length="0"/>
 		</object>
 		<object name="ObjId4115" type="CObList">
 			<member name="item0" type="CObject_ptr">ObjId0367</member>
