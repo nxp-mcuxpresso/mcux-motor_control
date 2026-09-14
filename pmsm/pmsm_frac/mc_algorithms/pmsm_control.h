@@ -24,6 +24,8 @@
  * Definitions
  ******************************************************************************/
 
+#define Q_CURRENT_ZC_FILTER
+
 /*! @brief mcs alignment structure */
 typedef struct _mcs_alignment_a1
 {
@@ -42,6 +44,7 @@ typedef struct _mcs_pmsm_foc_a1
     GMCLIB_2COOR_ALBE_T_F16 sIAlBe;           /* Alpha/Beta current */
     GMCLIB_2COOR_DQ_T_F16 sIDQ;               /* DQ current */
     GMCLIB_2COOR_DQ_T_F16 sIDQReq;            /* DQ required current */
+    GMCLIB_2COOR_DQ_T_F16 sIDQReqFilt;        /* DQ required current filtered by ZC filter */
     GMCLIB_2COOR_DQ_T_F16 sIDQError;          /* DQ current error */
     GMCLIB_3COOR_T_F16 sDutyABC;              /* Applied duty cycles ABC */
     GMCLIB_2COOR_ALBE_T_F16 sUAlBeReq;        /* Required Alpha/Beta voltage */
@@ -52,6 +55,8 @@ typedef struct _mcs_pmsm_foc_a1
     AMCLIB_BEMF_OBSRV_DQ_T_A32 sBemfObsrv;    /* BEMF observer in DQ */
     AMCLIB_TRACK_OBSRV_T_F32 sTo;             /* Tracking observer */
     GDFLIB_FILTER_IIR1_T_F32 sSpeedElEstFilt; /* Estimated speed filter */
+    GDFLIB_FILTER_IIR1_T_F32 sIdReqZCFilter;  /* Id required filter */
+    GDFLIB_FILTER_IIR1_T_F32 sIqReqZCFilter;  /* Iq required filter */
     frac16_t f16SpeedElEst;                   /* Rotor electrical speed estimated */
     uint16_t ui16SectorSVM;                   /* SVM sector */
     frac16_t f16PosEl;                        /* Electrical position */
@@ -87,14 +92,17 @@ typedef struct _mcs_speed_a1
 {
     GDFLIB_FILTER_IIR1_T_F32 sSpeedFilter;   /* Speed filter */
     GFLIB_CTRL_PI_P_AW_T_A32 sSpeedPiParams; /* Speed PI controller parameters */
+    GDFLIB_FILTER_IIR1_T_F32 sSpeedCmdZCFilter;  /* Speed zero-cancellation filter */
     GFLIB_RAMP_T_F32 sSpeedRampParams;       /* Speed ramp parameters */
     frac16_t f16Speed;                       /* Speed */
     frac16_t f16SpeedFilt;                   /* Speed filtered */
     frac16_t f16SpeedError;                  /* Speed error */
     frac16_t f16SpeedRamp;                   /* Required speed (ramp output) */
     frac16_t f16SpeedCmd;                    /* Speed command (entered by user or master layer) */
+    frac16_t f16SpeedCmdFilt;                /* Speed command filtered by ZC filter */
     bool_t bSpeedPiStopInteg;                /* Speed PI controller saturation flag */
     bool_t bIqPiLimFlag;                     /* Saturation flag of Iq controller */
+    bool_t bSpeedZCOn;                          /* Zero cancellation switch */
 } mcs_speed_t;
 
 /*! @brief mcs openloop structure */
@@ -112,19 +120,51 @@ typedef struct _mcs_openloop_a1
 /*! @brief mcs position structure */
 typedef struct _mcs_position_a1
 {
-    frac16_t f16PositionPGain; /* Position P gain */
-    acc32_t a32Position;       /* Position */
-    acc32_t a32PositionError;  /* Position error */
-    acc32_t a32PositionCmd;    /* Position command (entered by user or master layer) */
-	frac16_t f16SpeedReq;      /* Output from P position controller in fraction */
-    frac16_t f16Theta;
-    frac16_t sUDQReq;
 
-    frac16_t sIDQReq;
+    GFLIB_CTRL_PI_P_AW_T_F32 sPositionPiParams;
+    
+    GFLIB_CTRL_PI_P_AW_T_A32 sSpeedPiParams;   /* Speed PI controller parameters */
+    GDFLIB_FILTER_IIR1_T_F32 sSpeedReqZCFilter;    /* Zero cancellation parameters */
+  
+    acc32_t a32Position;                /* Actual accumulator Position */
+    acc32_t a32PositionError;           /* Acumullator Position error */
+    acc32_t a32PositionCmd;             /* Position command (entered by user or master layer) */
+    frac32_t f32SpeedReq;               /* Output from P position controller in fraction */
+    frac16_t f16SpeedReq;               /* Output from P position controller in fraction */
+  
+    frac16_t f16SpeedFilt;              /* Speed filtered */
+    frac16_t f16SpeedError;             /* Speed error */
+    frac16_t f16SpeedReqFilt;           /* Speed required after ZC filtering (output from position controller) */
+    
+    frac16_t f16IqReq;                  /* Output of ASR */
+    bool_t bSpeedPiStopInteg;           /* Speed PI controller saturation flag */
+    bool_t bPositionPiStopInteg;        /* Position PI controller saturation flag */  
+    bool_t bIqPiLimFlag;                /* Saturation flag of Iq controller */
+    
+    bool_t bFeedFrwdOn;
+    acc32_t a32SpeedFeedFrwdK1; //vymaz
+    acc32_t a32SpeedFeedFrwdK2;
+    
+    frac32_t f32SpeedFeedFrwdK1;
+    frac32_t f32SpeedFeedFrwdK2;
+    
+    frac16_t f16SpeedFeedFrwdK1; //vymaz
+    frac16_t f16SpeedFeedFrwdK2;
+      
+    acc32_t a32FeedFrwdK1;
+    acc32_t a32FeedFrwdK2;
+    
+    acc32_t a32PositionCmdDelta;                /* Difference between fltPositionCmd(n) and fltPositionCmd(n-1) */
+    acc32_t a32FirstDerivationDelta;            /* Difference between fltFirstDerivation(n) and fltFirstDerivation(n-1) */
+    acc32_t a32FirstDerivation;                 /* First derivation */
+    acc32_t a32SecondDerivation;                /* Second derivation */
+    
+    acc32_t a32PositionCmd_stored;      /* a32PositionCmd(n-1) */
+    acc32_t a32FirstDerivation_stored;  /* a32FirstDerivation(n-1) */
+    
+    frac16_t f16SpeedLoopTs;                     /* Slow loop sample time */
+    frac16_t f16SpeedLoopFreq;                     /* Slow loop sample time */
 
-    bool_t bCurrentControl;
-    frac16_t sFreqIntegrator;
-    frac16_t f16FreqReq;
 } mcs_position_t;
 
 /*! @brief mcs mcat control structure */
@@ -245,6 +285,10 @@ void MCS_PMSMOpenLoopStartUp(mcs_pmsm_startup_t *psStartUp);
  * @return None
  */
 void MCS_PMSMScalarCtrl(mcs_pmsm_foc_t *psFocPMSM, mcs_pmsm_scalar_ctrl_t *psScalarPMSM);
+
+extern frac32_t GFLIB_CtrlPIpAW_F32_FC(frac32_t f32InErr,
+                                const bool_t *pbStopIntegFlag, 
+                                GFLIB_CTRL_PI_P_AW_T_F32 *psParam);
 
 #ifdef __cplusplus
 }

@@ -22,9 +22,6 @@
 /*******************************************************************************
  * Definitions
  ******************************************************************************/
-/* Position P controller output saturation (maximal speed in position control) 
-   SpeedSaturation/M1_N_MAX = 3000/M1_N_MAX */
-#define M1_POS_P_CNTRL_SAT FRAC16(0.6818) 
 
 #define MCAT_SENSORLESS_CTRL 0U /* Sensorless control flag */
 #define MCAT_ENC_CTRL 1U        /* Position quadrature encoder control flag */
