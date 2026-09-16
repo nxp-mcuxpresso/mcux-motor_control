@@ -61,10 +61,6 @@ extern bool_t bDemoMode;
 extern uint32_t g_ui32NumberOfCycles;
 extern uint32_t g_ui32MaxNumberOfCycles;
 
-extern uint32_t ui32CounterSlowLoop;
-extern uint32_t ui32CounterFastLoop;
-
-
 /* Application and board ID  */
 extern app_ver_t g_sAppIdFM;
 
@@ -82,9 +78,6 @@ extern app_ver_t g_sAppIdFM;
  * @return None
  */
 FMSTR_TSA_TABLE_BEGIN(gsM1Drive_table)
-
-FMSTR_TSA_RW_VAR(ui32CounterSlowLoop, FMSTR_TSA_UINT32) /* Slow Control Loop Frequency */
-FMSTR_TSA_RW_VAR(ui32CounterFastLoop, FMSTR_TSA_UINT32) /* Fast Control Loop Frequency */
 
 /* gsM1Drive structure definition */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFaultIdEnable, FMSTR_TSA_UINT16)       /* M1 Fault Enable */
@@ -125,11 +118,6 @@ FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedPiParams.a32PGain, FMSTR_TSA_UFRAC_UQ(1
 FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedPiParams.f16UpperLim, FMSTR_TSA_FRAC16)        /* M1 Speed Loop Limit High */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedPiParams.f16LowerLim, FMSTR_TSA_FRAC16)        /* M1 Speed Loop Limit Low */
 
-/* ZC filter switch, g_sM1Drive.sSpeed.sSpeedCmdZCFilter */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.bSpeedZCOn, FMSTR_TSA_UINT16)                                /* M1 Speed ZC Filter Switch */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.f32A1, FMSTR_TSA_FRAC32)          /* M1 Speed ZC Filter A1 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.f32B0, FMSTR_TSA_FRAC32)          /* M1 Speed ZC Filter B0 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.f32B1, FMSTR_TSA_FRAC32)          /* M1 Speed ZC Filter B1 */
 /* sSpeed.sAlignment definitions */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sAlignment.ui16Time, FMSTR_TSA_UINT16) /* M1 Alignment Duration */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sAlignment.f16UdReq, FMSTR_TSA_FRAC16) /* M1 Alignment Voltage */
@@ -165,18 +153,9 @@ FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIDQReq.f16Q, FMSTR_TSA_FRAC16) /* M1 Iq re
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sUDQReq.f16D, FMSTR_TSA_FRAC16) /* M1 Ud req */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sUDQReq.f16Q, FMSTR_TSA_FRAC16) /* M1 Uq req */
 
-/* g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoef */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.f32B0, FMSTR_TSA_FRAC32) /* M1 Iq ZC B0 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.f32B1, FMSTR_TSA_FRAC32) /* M1 Iq ZC B1 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.f32A1, FMSTR_TSA_FRAC32) /* M1 Iq ZC A1 */
 /* sFocPMSM.sIdPiParams definitions */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIdPiParams.a32IGain, FMSTR_TSA_UFRAC_UQ(16, 15)) /* M1 Id Ki Gain */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIdPiParams.a32PGain, FMSTR_TSA_UFRAC_UQ(16, 15)) /* M1 Id Kp Gain */
-
-/* g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.f32B0, FMSTR_TSA_FRAC32) /* M1 Iq ZC B0 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.f32B1, FMSTR_TSA_FRAC32) /* M1 Iq ZC B1 */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.f32A1, FMSTR_TSA_FRAC32) /* M1 Iq ZC A1 */
 
 /* sFocPMSM.sBemfObsrv definitions */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sBemfObsrv.a32EGain, FMSTR_TSA_UFRAC_UQ(16, 15))       /* M1 Obsrv E gain */

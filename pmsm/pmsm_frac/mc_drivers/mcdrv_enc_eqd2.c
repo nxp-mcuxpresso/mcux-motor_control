@@ -47,7 +47,7 @@ void MCDRV_QdEncGet(mcdrv_eqd_enc_t *this)
     this->f16RevCounter = (frac16_t)(this->pui32QdBase->REV);
         
     /* calculating position for position control */
-    *this->pa32PosMeReal = (acc32_t)( ( ( ((int32_t)(this->f16RevCounter)) << 15) + (((uint16_t)(this->f16PosMe)) >> 1) ) );
+    this->a32PosMeReal = (acc32_t)( ( ( ((int32_t)(this->f16RevCounter)) << 15) + (((uint16_t)(this->f16PosMe)) >> 1) ) );
 
     /* store results to user-defined variables */
     *this->pf16PosElEst = (frac16_t)(this->f16PosMe * this->ui16Pp);
@@ -230,6 +230,6 @@ void MCDRV_QdEncUpdateParameters(mcdrv_eqd_enc_t *this)
 	/* Position gain */
     this->i32Q10Cnt2PosGain = ((0xffffffffU/(4*this->ui16PulseNumber))*0x400U);
 	/* Speed conversion constant */     
-    this->f32SpeedCalConst = (frac32_t)((2*FLOAT_PI*this->ui32QDTimerFrequency/(4*this->ui16PulseNumber*g_fltM1speedScale))*0x8000000U);
+    this->f32SpeedCalConst = (frac32_t)((60.0F*this->ui32QDTimerFrequency/(4*this->ui16PulseNumber*g_fltM1speedScale))*0x8000000U);
 	
 }

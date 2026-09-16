@@ -308,7 +308,6 @@ static void M1_StateInitFast(void)
     g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.fltB0 = M1_SPEED_IIR_B0;
     g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.fltB1 = M1_SPEED_IIR_B1;
     g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.fltA1 = M1_SPEED_IIR_A1;
-    GDFLIB_FilterIIR1Init_FLT(&g_sM1Drive.sSpeed.sSpeedFilter);
     
     /* Speed comand zero cancellation filter */
     g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.fltB0 = M1_SPEED_IIR_ZC_B0;
@@ -1700,9 +1699,9 @@ static void M1_ClearFOCVariables(void)
     g_sM1Drive.sFocPMSM.sIdPiParams.bLimFlag   = FALSE;
     g_sM1Drive.sFocPMSM.sIqPiParams.bLimFlag   = FALSE;
     g_sM1Drive.sFocPMSM.sIdPiParams.fltIAccK_1 = 0.0F;
-    g_sM1Drive.sFocPMSM.sIdPiParams.fltInErrK_1 = 0.0F;
+    g_sM1Drive.sFocPMSM.sIdPiParams.fltIAccK_1 = 0.0F;
     g_sM1Drive.sFocPMSM.sIqPiParams.fltIAccK_1 = 0.0F;
-    g_sM1Drive.sFocPMSM.sIqPiParams.fltInErrK_1 = 0.0F;   
+    g_sM1Drive.sFocPMSM.sIqPiParams.fltIAccK_1 = 0.0F;   
     g_sM1Drive.sFocPMSM.bIdPiStopInteg = FALSE;
     g_sM1Drive.sFocPMSM.bIqPiStopInteg = FALSE;   
     g_sM1Drive.sFocPMSM.sIqReqZCFilter.fltFltBfrX[0] = 0.0F;
