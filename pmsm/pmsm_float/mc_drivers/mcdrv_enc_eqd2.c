@@ -45,7 +45,10 @@ void MCDRV_QdEncGetPosition(mcdrv_eqd_enc_t *this)
     this->f16PosMe = MLIB_Conv_F16l(this->f32PosMech);
 
     /* read revolution counter */
-    this->f16RevCounter = (frac16_t)(this->pui32QdBase->REV);
+    this->f16RevCounter = (frac16_t)(this->pui32QdBase->REVH);
+    
+    /* calculating position for position control */
+    *this->pa32PosMeReal = (acc32_t)( ( ( ((int32_t)(this->f16RevCounter)) << 15) + (((uint16_t)(this->f16PosMe)) >> 1) ) );
 
     /* store results to user-defined variables */
     *this->pf16PosElEst = (frac16_t)(this->f16PosMe * this->ui16Pp);
@@ -63,8 +66,6 @@ void MCDRV_QdEncGetPosition(mcdrv_eqd_enc_t *this)
 RAM_FUNC_LIB
 void MCDRV_QdEncGetPositionFull(mcdrv_eqd_enc_t *this)
 {
-    /* calculating position for position control */
-    *this->pa32PosMeReal = (acc32_t)( ( ( ((int32_t)(this->f16RevCounter)) << 15) + (((uint16_t)(this->f16PosMe)) >> 1) ) );
 
 }
 

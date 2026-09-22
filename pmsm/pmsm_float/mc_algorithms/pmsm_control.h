@@ -28,6 +28,7 @@
  ******************************************************************************/
 
 #define Q_CURRENT_ZC_FILTER
+//#define POSITION_FF_LIMITATION
    
 /*! @brief mcs alignment structure */
 typedef struct _mcs_alignment_a1
@@ -148,7 +149,7 @@ typedef struct _mcs_position_a1
     float_t fltPositionCmd_stored;              /* fltPositionCmd(n-1) */
     float_t fltFirstDerivation_stored;          /* fltFirstDerivation(n-1) */
     
-    float_t fltSpeedLoopTs;                     /* Slow loop sample time */
+    float_t fltSpeedLoopFreq;                     /* Slow loop frequency*/
     
     bool_t bPositionPiStopInteg;                /* Position PI controller saturation flag */           
     

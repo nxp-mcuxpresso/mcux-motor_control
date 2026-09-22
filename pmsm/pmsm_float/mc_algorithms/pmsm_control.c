@@ -261,18 +261,22 @@ void MCS_PMSMFocCtrlPosition(mcs_position_t *psPosition)
     if(psPosition->bFeedFrwdOn)
     {  
       psPosition->fltPositionCmdDelta = MLIB_Sub_FLT(psPosition->fltPositionCmd, psPosition->fltPositionCmd_stored);
-                                         
+      
+#if defined(POSITION_FF_LIMITATION)                                         
       /* Limit fltPositionCmdDelta due to very high value after derivation */
-      GFLIB_Limit_FLT(psPosition->fltPositionCmdDelta, -0.5F, 0.5F); 
-               
-      psPosition->fltFirstDerivation = MLIB_Div_FLT((psPosition->fltPositionCmdDelta), (psPosition->fltSpeedLoopTs)); 
+      psPosition->fltPositionCmdDelta = GFLIB_Limit_FLT(psPosition->fltPositionCmdDelta, -65000.0F, 65000.0F); 
+#endif
+      
+      psPosition->fltFirstDerivation = MLIB_Mul_FLT((psPosition->fltPositionCmdDelta), (psPosition->fltSpeedLoopFreq)); 
       
       psPosition->fltFirstDerivationDelta = MLIB_Sub_FLT((psPosition->fltFirstDerivation), (psPosition->fltFirstDerivation_stored));
       
+#if defined(POSITION_FF_LIMITATION)      
       /* Limit fltFirstDerivationDelta due to very high value after derivation */
-      GFLIB_Limit_FLT(psPosition->fltFirstDerivationDelta, -0.8F, 0.8F); 
+      psPosition->fltFirstDerivationDelta = GFLIB_Limit_FLT(psPosition->fltFirstDerivationDelta, -65000.0F, 65000.0F); 
+#endif
       
-      psPosition->fltSecondDerivation = MLIB_Div_FLT(psPosition->fltFirstDerivationDelta, (psPosition->fltSpeedLoopTs));
+      psPosition->fltSecondDerivation = MLIB_Mul_FLT(psPosition->fltFirstDerivationDelta, (psPosition->fltSpeedLoopFreq));
     
       psPosition->fltSpeedFeedFrwdK1 = MLIB_Mul_FLT(psPosition->fltFirstDerivation, psPosition->fltFeedFrwdK1);
       psPosition->fltSpeedFeedFrwdK2 = MLIB_Mul_FLT(psPosition->fltSecondDerivation, psPosition->fltFeedFrwdK2);

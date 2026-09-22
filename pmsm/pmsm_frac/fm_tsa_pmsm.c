@@ -118,6 +118,11 @@ FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedPiParams.a32PGain, FMSTR_TSA_UFRAC_UQ(1
 FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedPiParams.f16UpperLim, FMSTR_TSA_FRAC16)        /* M1 Speed Loop Limit High */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedPiParams.f16LowerLim, FMSTR_TSA_FRAC16)        /* M1 Speed Loop Limit Low */
 
+/* ZC filter switch, g_sM1Drive.sSpeed.sSpeedCmdZCFilter */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.bSpeedZCOn, FMSTR_TSA_UINT16)                                /* M1 Speed ZC Filter Switch */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.f32A1, FMSTR_TSA_FRAC32)          /* M1 Speed ZC Filter A1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.f32B0, FMSTR_TSA_FRAC32)          /* M1 Speed ZC Filter B0 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.f32B1, FMSTR_TSA_FRAC32)          /* M1 Speed ZC Filter B1 */
 /* sSpeed.sAlignment definitions */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sAlignment.ui16Time, FMSTR_TSA_UINT16) /* M1 Alignment Duration */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sAlignment.f16UdReq, FMSTR_TSA_FRAC16) /* M1 Alignment Voltage */
@@ -157,6 +162,11 @@ FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sUDQReq.f16Q, FMSTR_TSA_FRAC16) /* M1 Uq re
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIdPiParams.a32IGain, FMSTR_TSA_UFRAC_UQ(16, 15)) /* M1 Id Ki Gain */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIdPiParams.a32PGain, FMSTR_TSA_UFRAC_UQ(16, 15)) /* M1 Id Kp Gain */
 
+/* g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.f32B0, FMSTR_TSA_FRAC32) /* M1 Iq ZC B0 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.f32B1, FMSTR_TSA_FRAC32) /* M1 Iq ZC B1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.f32A1, FMSTR_TSA_FRAC32) /* M1 Iq ZC A1 */
+
 /* sFocPMSM.sBemfObsrv definitions */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sBemfObsrv.a32EGain, FMSTR_TSA_UFRAC_UQ(16, 15))       /* M1 Obsrv E gain */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sBemfObsrv.a32IGain, FMSTR_TSA_UFRAC_UQ(16, 15))       /* M1 Obsrv I gain */
@@ -167,6 +177,7 @@ FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sBemfObsrv.a32WIGain, FMSTR_TSA_UFRAC_UQ(16
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sSpeedElEstFilt.sFltCoeff.f32B0, FMSTR_TSA_FRAC32) 	/* M1 Obsrv To IIR B0 */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sSpeedElEstFilt.sFltCoeff.f32B1, FMSTR_TSA_FRAC32) 	/* M1 Obsrv To IIR B1 */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sSpeedElEstFilt.sFltCoeff.f32A1, FMSTR_TSA_FRAC32) 	/* M1 Obsrv To IIR A1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.f16SpeedElEst, FMSTR_TSA_FRAC16)                           /* M1 Speed Estimated */
 
 /* sFocPMSM.sTo definitions */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sFocPMSM.sTo.f16IGain, FMSTR_TSA_FRAC16)    /* M1 Obsrv To Ki gain */
@@ -246,10 +257,23 @@ FMSTR_TSA_RW_VAR(g_sM1Drive.sMCATctrl.sUDQReqMCAT.f16Q, FMSTR_TSA_FRAC16) /* M1 
 
 #ifdef PMSM_SNSLESS_ENC
 /* gsM1Drive.sPosition structure definition */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.f16PositionPGain, FMSTR_TSA_FRAC16) /* M1 Position P conroller P Gain */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.a32Position, FMSTR_TSA_FRAC32)      /* M1 Position Actual */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.a32PositionError, FMSTR_TSA_FRAC32) /* M1 Position Error */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.a32PositionCmd, FMSTR_TSA_FRAC32)   /* M1 Position Required */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.bFeedFrwdOn, FMSTR_TSA_UINT16)                            /* M1 Servo Control - Feed Forward Switch */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.a32FeedFrwdK1, FMSTR_TSA_FRAC32)                           /* M1 Servo Control - Feed Forward K1 Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.a32FeedFrwdK2, FMSTR_TSA_FRAC32)                           /* M1 Servo Control - Feed Forward K2 Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.a32PGain, FMSTR_TSA_FRAC32)                 /* M1 Servo Control - Speed PI controller Kp Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.a32IGain, FMSTR_TSA_FRAC32)                 /* M1 Servo Control - Speed PI controller Ki Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.f16UpperLim, FMSTR_TSA_FRAC16)              /* M1 Servo Control - Speed PI controller High Limit */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedPiParams.f16LowerLim, FMSTR_TSA_FRAC16)              /* M1 Servo Control - Speed PI controller Low Limit */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.f32A1, FMSTR_TSA_FRAC32)       /* M1 Servo Control - Speed ZC Filter A1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.f32B0, FMSTR_TSA_FRAC32)       /* M1 Servo Control - Speed ZC Filter B0 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sSpeedReqZCFilter.sFltCoeff.f32B1, FMSTR_TSA_FRAC32)       /* M1 Servo Control - Speed ZC Filter B1 */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sPositionPiParams.a32PGain, FMSTR_TSA_FRAC32)              /* M1 Servo Control - Position P controller Kp Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sPositionPiParams.a32IGain, FMSTR_TSA_FRAC32)              /* M1 Servo Control - Position P controller Ki Gain */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sPositionPiParams.f32UpperLim, FMSTR_TSA_FRAC32)           /* M1 Servo Control - Position P controller High Limit */
+FMSTR_TSA_RW_VAR(g_sM1Drive.sPosition.sPositionPiParams.f32LowerLim, FMSTR_TSA_FRAC32)           /* M1 Servo Control - Position P controller Low Limit */
 #endif
 
 FMSTR_TSA_TABLE_END()
@@ -459,6 +483,8 @@ FMSTR_TSA_RW_VAR(g_fltM1currentScale, FMSTR_TSA_FLOAT)    /* FMSTR_M1_currentSca
 FMSTR_TSA_RW_VAR(g_fltM1DCBvoltageScale, FMSTR_TSA_FLOAT) /* FMSTR_M1_DCBvoltageScale */
 FMSTR_TSA_RW_VAR(g_fltM1frequencyScale, FMSTR_TSA_FLOAT)  /* FMSTR_M1_frequencyScale */
 FMSTR_TSA_RW_VAR(g_fltM1speedScale, FMSTR_TSA_FLOAT)      /* FMSTR_M1_speedScale */
+FMSTR_TSA_RW_VAR(g_fltM1speedAngularScale, FMSTR_TSA_FLOAT)    /* FMSTR_M1_speedAngularScale */
+FMSTR_TSA_RW_VAR(g_fltM1speedMechanicalScale, FMSTR_TSA_FLOAT)    /* FMSTR_M1_speedMechanicalScale */
 FMSTR_TSA_RW_VAR(g_fltM1voltageScale, FMSTR_TSA_FLOAT)    /* FMSTR_M1_voltageScale */
 
 FMSTR_TSA_RW_VAR(g_bM1SwitchAppOnOff, FMSTR_TSA_UINT16)   /* Application Switch */

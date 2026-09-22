@@ -29,25 +29,39 @@
  *
  * @return none
  */
-void MCDRV_QdEncGet(mcdrv_eqd_enc_t *this)
-{  
+void MCDRV_QdEncGetPosition(mcdrv_eqd_enc_t *this)
+{
     frac32_t f32Pos;
+    uint16_t ui16Upos1, ui16Upos2, ui16Lpos;
 
-    /* read number of pulses and get mechanical position */
-    this->ui32CurrentCount = ((uint32_t)(this->pui32QdBase->UPOSH)<<16)|(this->pui32QdBase->LPOSH); //Upper and Lower Position Hold Register 
+    /* Read live position registers (UPOS/LPOS) instead of hold registers (UPOSH/LPOSH).
+       Hold registers are latched by reading POSD in the slow speed ISR (1kHz), which
+       causes a position jump visible in the fast FOC ISR (16kHz) on the next cycle.
+       Carry protection: if UPOS changed between the two reads, a carry just occurred
+       and LPOS is near zero - use the updated UPOS with LPOS = 0 (error < 1 pulse). */
+    ui16Upos1 = (uint16_t)(this->pui32QdBase->UPOS);
+    ui16Lpos  = (uint16_t)(this->pui32QdBase->LPOS);
+    ui16Upos2 = (uint16_t)(this->pui32QdBase->UPOS);
+
+    if (ui16Upos1 != ui16Upos2)
+    {
+        ui16Lpos = 0U;
+    }
+
+    this->ui32CurrentCount = ((uint32_t)ui16Upos2 << 16) | ui16Lpos;
 
     /* Q22.10 * Q32 = Q54.10, get rid of the last 10 fractional bits, keeping the last 32bits of Q54
        think of this result as a Q1.31 format, which represents -pi ~ pi */
-    f32Pos = ((uint64_t)this->i32Q10Cnt2PosGain * this->ui32CurrentCount)>>10; 
-    
+    f32Pos = ((uint64_t)this->i32Q10Cnt2PosGain * this->ui32CurrentCount) >> 10;
+
     this->f32PosMech = f32Pos - this->f32PosMechInit + this->f32PosMechOffset;
     this->f16PosMe = MLIB_Conv_F16l(this->f32PosMech);
 
-    /* read revolution counter */
-    this->f16RevCounter = (frac16_t)(this->pui32QdBase->REV);
+    /* read revolution counter from hold register (latched atomically with UPOSH/LPOSH) */
+    this->f16RevCounter = (frac16_t)(this->pui32QdBase->REVH);
         
     /* calculating position for position control */
-    this->a32PosMeReal = (acc32_t)( ( ( ((int32_t)(this->f16RevCounter)) << 15) + (((uint16_t)(this->f16PosMe)) >> 1) ) );
+    *this->pa32PosMeReal = (acc32_t)( ( ( ((int32_t)(this->f16RevCounter)) << 15) + (((uint16_t)(this->f16PosMe)) >> 1) ) );
 
     /* store results to user-defined variables */
     *this->pf16PosElEst = (frac16_t)(this->f16PosMe * this->ui16Pp);
@@ -96,18 +110,12 @@ void MCDRV_QdEncGetSpeed(mcdrv_eqd_enc_t *this)
             this->i8SpeedSign = -1;
         }
 
-        if(this->i8SpeedSign == this->i8SpeedSign_1)
-        {
-            /* Calculate speed */
-            /* Speed = E*C/M */
-            i64Numerator = ((int64_t)(this->i16PosDiff) * this->f32SpeedCalConst); /* Q16.0 * Q5.27 = Q21.27 */
-            this->f32Speed = (i64Numerator / (uint32_t)(this->ui16Period)) << 4; /* Q5.27 -> Q1.31 */
-        }
-        else
-        {
-            /* Speed = 0 */
-            this->f32Speed = FRAC32(0.0);
-        }
+        /* Calculate speed regardless of sign change.
+           Setting speed to zero on sign change caused a one-cycle spike in speed
+           error that drove the PI integrator during zero crossing. */
+        /* Speed = E*C/M */
+        i64Numerator = ((int64_t)(this->i16PosDiff) * this->f32SpeedCalConst); /* Q16.0 * Q5.27 = Q21.27 */
+        this->f32Speed = (i64Numerator / (uint32_t)(this->ui16Period)) << 4; /* Q5.27 -> Q1.31 */
         this->i8SpeedSign_1 = this->i8SpeedSign;
     }
     else
@@ -166,6 +174,7 @@ void MCDRV_QdEncClear(mcdrv_eqd_enc_t *this)
 {
     this->f16PosMe    = FRAC16(0.0);
     this->f32PosMech  = FRAC32(0.0);
+    this->f16SpdMeEst = FRAC16(0.0);
     
     this->f32Speed      = FRAC32(0.0);
     this->i8SpeedSign   = 0;
@@ -230,6 +239,6 @@ void MCDRV_QdEncUpdateParameters(mcdrv_eqd_enc_t *this)
 	/* Position gain */
     this->i32Q10Cnt2PosGain = ((0xffffffffU/(4*this->ui16PulseNumber))*0x400U);
 	/* Speed conversion constant */     
-    this->f32SpeedCalConst = (frac32_t)((60.0F*this->ui32QDTimerFrequency/(4*this->ui16PulseNumber*g_fltM1speedScale))*0x8000000U);
+    this->f32SpeedCalConst = (frac32_t)((2*FLOAT_PI*this->ui32QDTimerFrequency/(4*this->ui16PulseNumber*g_fltM1speedScale))*0x8000000U);
 	
 }

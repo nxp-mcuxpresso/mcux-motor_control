@@ -73,8 +73,7 @@ void MCS_PMSMFocCtrl(mcs_pmsm_foc_t *psFocPMSM)
     }
 
     /* Position angle of the last PWM update */
-    psFocPMSM->sAnglePosEl.f16Sin = GFLIB_Sin_F16(psFocPMSM->f16PosElEst);
-    psFocPMSM->sAnglePosEl.f16Cos = GFLIB_Cos_F16(psFocPMSM->f16PosElEst);
+    GFLIB_SinCos_F16(psFocPMSM->f16PosElEst, &psFocPMSM->sAnglePosEl);
 
     /* 3-phase to 2-phase transformation to stationary ref. frame */
     GMCLIB_Clark_F16(&psFocPMSM->sIABC, &psFocPMSM->sIAlBe);
@@ -97,8 +96,7 @@ void MCS_PMSMFocCtrl(mcs_pmsm_foc_t *psFocPMSM)
      * open loop electrical position passed to rest of FOC */
     if (psFocPMSM->bOpenLoop || psFocPMSM->bPosExtOn)
     {
-        psFocPMSM->sAnglePosEl.f16Sin = GFLIB_Sin_F16(psFocPMSM->f16PosEl);
-        psFocPMSM->sAnglePosEl.f16Cos = GFLIB_Cos_F16(psFocPMSM->f16PosEl);
+		GFLIB_SinCos_F16(psFocPMSM->f16PosEl, &psFocPMSM->sAnglePosEl);
         GMCLIB_Park_F16(&psFocPMSM->sIAlBe, &psFocPMSM->sAnglePosEl, &psFocPMSM->sIDQ);
     }
 
@@ -108,8 +106,15 @@ void MCS_PMSMFocCtrl(mcs_pmsm_foc_t *psFocPMSM)
         /* D current error calculation */
         psFocPMSM->sIDQError.f16D = MLIB_SubSat_F16(psFocPMSM->sIDQReq.f16D, psFocPMSM->sIDQ.f16D);
 
+#if defined(Q_CURRENT_ZC_FILTER)     
+        /* Zero cancellation filter */
+        psFocPMSM->sIDQReqFilt.f16Q = GDFLIB_FilterIIR1_F16(psFocPMSM->sIDQReq.f16Q, &psFocPMSM->sIqReqZCFilter);
+        
         /* Q current error calculation */
+        psFocPMSM->sIDQError.f16Q = MLIB_SubSat_F16(psFocPMSM->sIDQReqFilt.f16Q, psFocPMSM->sIDQ.f16Q);
+#else
         psFocPMSM->sIDQError.f16Q = MLIB_SubSat_F16(psFocPMSM->sIDQReq.f16Q, psFocPMSM->sIDQ.f16Q);
+#endif
 
         /*** D - controller limitation calculation ***/
         psFocPMSM->sIdPiParams.f16UpperLim = MLIB_Mul_F16(psFocPMSM->f16DutyCycleLimit, psFocPMSM->f16UDcBusFilt);
@@ -157,11 +162,22 @@ void MCS_PMSMFocCtrlSpeed(mcs_pmsm_foc_t *psFocPMSM, mcs_speed_t *psSpeed)
                                  (MLIB_AbsSat_F16(psSpeed->f16SpeedCmd) >= MLIB_AbsSat_F16(psSpeed->f16SpeedFilt));
 
     /* Speed ramp generation */
-    psSpeed->f16SpeedRamp =
-        MLIB_Conv_F16l(GFLIB_Ramp_F32(MLIB_Conv_F32s(psSpeed->f16SpeedCmd), &psSpeed->sSpeedRampParams));
+    psSpeed->f16SpeedRamp = MLIB_Conv_F16l(GFLIB_Ramp_F32(MLIB_Conv_F32s(psSpeed->f16SpeedCmd), &psSpeed->sSpeedRampParams));
 
-    /* Speed error calculation */
-    psSpeed->f16SpeedError = MLIB_SubSat_F16(psSpeed->f16SpeedRamp, psSpeed->f16SpeedFilt);
+    if(psSpeed->bSpeedZCOn)
+    {
+        /* Speed zero cancellation filter - required speed is fltSpeedRamp */
+        //psSpeed->f16SpeedCmdFilt  = GDFLIB_FilterIIR1_F16(psSpeed->f16SpeedRamp, &psSpeed->sSpeedCmdZCFilter); 
+        
+        psSpeed->f16SpeedCmdFilt  = GDFLIB_FilterIIR1_F16(psSpeed->f16SpeedCmd, &psSpeed->sSpeedCmdZCFilter); 
+        /* Speed error calculation */
+        psSpeed->f16SpeedError = MLIB_SubSat_F16(psSpeed->f16SpeedCmdFilt, psSpeed->f16SpeedFilt);
+    }
+    else
+    {
+        /* Speed error calculation */
+        psSpeed->f16SpeedError = MLIB_SubSat_F16(psSpeed->f16SpeedRamp, psSpeed->f16SpeedFilt);
+    }
 
     /* Desired current by the speed PI controller */
     psFocPMSM->sIDQReq.f16Q =
@@ -180,10 +196,135 @@ void MCS_PMSMFocCtrlSpeed(mcs_pmsm_foc_t *psFocPMSM, mcs_speed_t *psSpeed)
 void MCS_PMSMFocCtrlPosition(mcs_position_t *psPosition)
 {
     /* Position error calculation */
-    psPosition->a32PositionError = ((psPosition->a32PositionCmd) - (psPosition->a32Position));
+    psPosition->a32PositionError = MLIB_Sub_F32(psPosition->a32PositionCmd, psPosition->a32Position);
+    
+    /* If Feed-Forward is on */
+    if(psPosition->bFeedFrwdOn)
+    {  
+        psPosition->a32PositionCmdDelta = MLIB_Sub_F32(psPosition->a32PositionCmd, psPosition->a32PositionCmd_stored);
+      
+#if defined(POSITION_FF_LIMITATION)         
+        /* Limit fltPositionCmdDelta due to very high value after derivation */
+        psPosition->a32PositionCmdDelta = GFLIB_Limit_F32(psPosition->a32PositionCmdDelta, ACC32(-60000.0), ACC32(60000.0));
+#endif      
+        psPosition->a32FirstDerivation = MLIB_MulSat_A32(psPosition->a32PositionCmdDelta, (psPosition->a32SpeedLoopFreq));
+
+        psPosition->a32FirstDerivationDelta = MLIB_Sub_F32((psPosition->a32FirstDerivation), (psPosition->a32FirstDerivation_stored));
+#if defined(POSITION_FF_LIMITATION)   
+        /* Limit fltFirstDerivationDelta due to very high value after derivation */
+        psPosition->a32FirstDerivationDelta = GFLIB_Limit_F32(psPosition->a32FirstDerivationDelta, ACC32(-60000.0), ACC32(60000.0)); 
+#endif         
+        psPosition->a32SecondDerivation = MLIB_MulSat_A32(psPosition->a32FirstDerivationDelta, (psPosition->a32SpeedLoopFreq));
+
+        psPosition->a32SpeedFeedFrwdK1 = MLIB_Mul_A32(psPosition->a32FirstDerivation, psPosition->a32FeedFrwdK1);
+        psPosition->a32SpeedFeedFrwdK2 = MLIB_Mul_A32(psPosition->a32SecondDerivation, psPosition->a32FeedFrwdK2);
+      
+    }
+    else
+    {
+      psPosition->a32SpeedFeedFrwdK1 = 0;
+      psPosition->a32SpeedFeedFrwdK2 = 0;
+    }
+      
+    psPosition->f32SpeedFeedFrwdK1 = (frac32_t)((psPosition->a32SpeedFeedFrwdK1) << 0);
+    psPosition->f32SpeedFeedFrwdK2 = (frac32_t)((psPosition->a32SpeedFeedFrwdK2) << 0);  
+    
+    psPosition->f16SpeedFeedFrwdK1 = (frac16_t)(psPosition->f32SpeedFeedFrwdK1 >> 16U);
+    psPosition->f16SpeedFeedFrwdK2 = (frac16_t)(psPosition->f32SpeedFeedFrwdK2 >> 16U);
+    
     /* Position P controller output */
-    psPosition->f16SpeedReq = MLIB_MulSat_F16as((psPosition->a32PositionError), (psPosition->f16PositionPGain));
+    psPosition->f32SpeedReq = MLIB_Add4_F32(GFLIB_CtrlPIpAW_F32_FC((frac32_t)psPosition->a32PositionError, &psPosition->bPositionPiStopInteg, &psPosition->sPositionPiParams), psPosition->f32SpeedFeedFrwdK1, psPosition->f32SpeedFeedFrwdK2, 0U);
+    
+    /* Convert f32 to f16 */
+    psPosition->f16SpeedReq = (frac16_t)((psPosition->f32SpeedReq) >> 16U);
+
+    /* Store actual fltPositionCmd needed for next derivation */
+    psPosition->a32PositionCmd_stored = psPosition->a32PositionCmd;
+    /* Store actual fltFirstDerivation needed for next derivation */
+    psPosition->a32FirstDerivation_stored = psPosition->a32FirstDerivation;
+    
+    /* Speed saturation flag given by the Q current controller saturation flag and speed controller saturation flag */
+    psPosition->bSpeedPiStopInteg = (bool_t)((psPosition->sSpeedPiParams.bLimFlag | psPosition->bIqPiLimFlag) &
+    		(bool_t)(MLIB_AbsSat_F16(psPosition->f16SpeedReq) >= MLIB_AbsSat_F16(psPosition->f16SpeedFilt)));
+    
+    /* Speed zero cancellation filter */
+    psPosition->f16SpeedReqFilt  = GDFLIB_FilterIIR1_F16(psPosition->f16SpeedReq, &psPosition->sSpeedReqZCFilter);
+    
+    /* Speed error calculation */
+    psPosition->f16SpeedError = MLIB_SubSat_F16(psPosition->f16SpeedReqFilt, psPosition->f16SpeedFilt);
+    
+    /* Desired current by the speed PI controller */
+    psPosition->f16IqReq =  GFLIB_CtrlPIpAW_F16(psPosition->f16SpeedError, &psPosition->bSpeedPiStopInteg, &psPosition->sSpeedPiParams);    
+   
 }
+
+
+frac32_t GFLIB_CtrlPIpAW_F32_FC(frac32_t f32InErr,
+                                const bool_t *pbStopIntegFlag, 
+                                GFLIB_CTRL_PI_P_AW_T_F32 *psParam)
+{
+    register acc64_t a64Proportional;
+    register acc64_t a64Integral;
+    register acc64_t a64IntegralX2;
+    register acc64_t a64Out;    
+    register acc32_t a32UpperLimit;
+    register acc32_t a32LowerLimit;
+    
+    /* Proportional part calculation */
+    a64Proportional = (acc64_t)((int64_t) f32InErr * (int64_t) psParam->a32PGain)>>15;
+     
+    /* Stop integration if flag is set */
+    if (*pbStopIntegFlag)                                                /* if stop flag is set */
+    {                                                                    
+        f32InErr = 0;                                                    /* integration will be stopped     */
+    }  
+    
+    /* Integral part calculation */
+    a64Out = (acc64_t)f32InErr + (acc64_t)psParam->f32InErrK_1;     /* current + previous input shifted right to avoid overflow */
+    a64IntegralX2 = (acc64_t)(((int64_t) a64Out * (int64_t) psParam->a32IGain)>>17);
+    a64Integral = a64IntegralX2 + ((acc64_t)psParam->f32IAccK_1 >> 1);   /* integral part    */
+
+    a32UpperLimit = (frac32_t)psParam->f32UpperLim ;      /* Calculation of limits in 32-bit */
+    a32LowerLimit = (frac32_t)psParam->f32LowerLim ;                 
+    /* Intergral part limitation */
+    if (a64Integral >= (acc64_t)a32UpperLimit)                 /* limitation of integral part      */
+    {
+        a64Integral = (acc64_t)a32UpperLimit;
+    }
+    else
+    {
+        if(a64Integral <= (acc64_t)a32LowerLimit)
+        {
+            a64Integral = (acc64_t)a32LowerLimit;
+        }
+    }  
+    psParam->f32IAccK_1 = (frac32_t)a64Integral << 1; /* Storing state value of the integral */
+    a64Integral <<=1;
+    a64Out = a64Proportional + a64Integral ;          /* Controller output calculation by adding the P and I terms */
+                                                                         
+    /* Output limitation */
+    psParam->bLimFlag = 0;                            /* Clear flag and set later in case of limitation */                      
+    if (a64Out >= (acc64_t)a32UpperLimit)
+    {                                                 /* Limitation PI output (after addition of P and I terms) */
+        a64Out = (acc64_t)a32UpperLimit;              
+        psParam->bLimFlag = 1;                        /* Storing of output limitation flag */
+    }                                                 
+    else                                              
+    {                                                 
+        if(a64Out <= (acc64_t)a32LowerLimit)          
+        {                                             
+            a64Out = (acc64_t)a32LowerLimit;          
+            psParam->bLimFlag = 1;                    /* Storing of output limitation flag */
+        }                                             
+    }           
+                       
+    psParam->f32InErrK_1 = (frac32_t)f32InErr;        /* Updating controller input state variables */
+	
+    /* return controller output */
+    return((frac32_t)(a64Out));
+}
+
+
 
 /*!
  * @brief PMSM 2-step rotor alignment - 120deg in first step and 0deg in second.
@@ -207,9 +348,6 @@ void MCS_PMSMAlignment(mcs_pmsm_foc_t *psFocPMSM, mcs_alignment_t *psAlignment)
     {
         psFocPMSM->f16PosElExt = FRAC16(0.0);
     }
-
-    /* call voltage FOC to calculate PWM duty cycles */
-    MCS_PMSMFocCtrl(psFocPMSM);
 }
 
 /*!
@@ -286,8 +424,7 @@ void MCS_PMSMScalarCtrl(mcs_pmsm_foc_t *psFocPMSM, mcs_pmsm_scalar_ctrl_t *psSca
     	psScalarPMSM->sUDQReq.f16Q = (frac16_t)(GFLIB_UpperLimit_F16(psScalarPMSM->sUDQReq.f16Q,
     	                                                                     MLIB_Neg_F16(psScalarPMSM->f16UqMin)));
     }
-
-                                                
+                                         
     /* stator voltage angle , used the same integrator as for the open-loop start up*/
     psScalarPMSM->f16PosElScalar = GFLIB_Integrator_F16(psScalarPMSM->f16FreqRamp, &psScalarPMSM->sFreqIntegrator);
 
@@ -295,6 +432,4 @@ void MCS_PMSMScalarCtrl(mcs_pmsm_foc_t *psFocPMSM, mcs_pmsm_scalar_ctrl_t *psSca
     psFocPMSM->sUDQReq     = psScalarPMSM->sUDQReq;
     psFocPMSM->f16PosElExt = psScalarPMSM->f16PosElScalar;
 
-    /* call voltage FOC to calculate PWM duty cycles */
-    MCS_PMSMFocCtrl(psFocPMSM);
 }

@@ -11,6 +11,15 @@
 
 /*
 {
+    "mid": {
+        "midInParamINom": 4,
+        "midInParamNNom": 3000,
+        "midPolePairIAPp": 4,
+        "midElParamMeasRs": 0,
+        "midElParamMeasLd": 0,
+        "midElParamMeasLq": 0,
+        "midElParamMeasUdt": 0
+    },
     "parameters": {
         "parametersNmax": 4400,
         "parametersImax": 8.25,
@@ -59,10 +68,16 @@
         "speedLoopLowerLimit": -3,
         "speedLoopSLKp": 0.0005,
         "speedLoopSLKi": 0.008,
-        "speedLoopManualConstantTunning": true
+        "speedLoopManualConstantTunning": false
     },
     "positionLoop": {
-        "positionLoopPLKp": 0.05
+        "positionLoopSampleTime": 0.001,
+        "positionLoopF0": 20,
+        "positionLoopKsi": 1,
+        "servo_positionLoopUpperLimit": 3000,
+        "servo_positionLoopLowerLimit": -3000,
+        "servo_speedLoopUpperLimit": 3,
+        "servo_speedLoopLowerLimit": -3
     },
     "sensorless": {
         "sensorlessBemfObsrvF0": 300,

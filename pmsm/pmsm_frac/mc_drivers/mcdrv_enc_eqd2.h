@@ -32,7 +32,7 @@ typedef struct _mcdrv_eqd_enc_t
     EQDC_Type *pui32QdBase;       /* pointer to QD module base address*/
     frac16_t *pf16SpdMeEst;        /* pointer to measured mechanical speed  */
     frac16_t *pf16PosElEst;       /* pointer to measured electrical position */
-    acc32_t a32PosMeReal;       /* pointer to real position (revolution counter + mechanical position) */
+    acc32_t *pa32PosMeReal;       /* pointer to real position (revolution counter + mechanical position) */
 
     frac16_t f16SpdMeEst;          /* estimated speed */
     frac16_t f16PosMe;            /* mechanical position calculated using encoder edges */
@@ -63,11 +63,6 @@ typedef struct _mcdrv_eqd_enc_t
     frac32_t f32SpeedCalConst;
     
     uint32_t ui32QDTimerFrequency;
-    
-    frac16_t f16PosMeEst;         /* estimated position calculated using tracking observer */
-    frac16_t f16SpdEncMin;        /* encoder minimal speed resolution */
-    frac16_t f16PosMeGain;        /* encoder pulses to mechanical position scale gain */
-	
 } mcdrv_eqd_enc_t;
 
 extern volatile float g_fltM1speedScale;
@@ -87,7 +82,7 @@ extern "C" {
  *
  * @return none
  */
-void MCDRV_QdEncGet(mcdrv_eqd_enc_t *this);
+void MCDRV_QdEncGetPosition(mcdrv_eqd_enc_t *this);
 
 /*!
  * @brief Function returns actual speed
