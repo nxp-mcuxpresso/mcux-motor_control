@@ -91,6 +91,8 @@ volatile float g_fltM1DCBvoltageScale;
 volatile float g_fltM1currentScale;
 volatile float g_fltM1frequencyScale;
 volatile float g_fltM1speedScale;
+volatile float g_fltM1speedAngularScale;
+volatile float g_fltM1speedMechanicalScale;
 volatile float g_fltM1bemfScale;
 
 /*! @brief Application state machine table - fast */
@@ -312,8 +314,10 @@ static void M1_StateInitFast(void)
     g_fltM1currentScale    = M1_I_MAX;
     g_fltM1DCBvoltageScale = M1_U_DCB_MAX;
     g_fltM1speedScale      = M1_N_MAX;
+    g_fltM1speedAngularScale = M1_N_ANGULAR_MAX;
     g_fltM1frequencyScale  = M1_FREQ_MAX;
     g_fltM1bemfScale       = M1_E_MAX;
+    g_fltM1speedMechanicalScale = (M1_N_ANGULAR_MAX * M1_MOTOR_PP);
 
     /* Application timing */
     g_sM1Drive.ui16FastCtrlLoopFreq = M1_FAST_LOOP_FREQ;

@@ -35,6 +35,8 @@ extern volatile float g_fltM1DCBvoltageScale;
 extern volatile float g_fltM1currentScale;
 extern volatile float g_fltM1frequencyScale;
 extern volatile float g_fltM1speedScale;
+extern volatile float g_fltM1speedAngularScale;
+extern volatile float g_fltM1speedMechanicalScale;
 extern volatile float g_fltM1bemfScale;
 
 #ifdef __cplusplus

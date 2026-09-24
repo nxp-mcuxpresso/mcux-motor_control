@@ -184,6 +184,7 @@ void MCS_PMSMFocCtrlSpeed(mcs_pmsm_foc_t *psFocPMSM, mcs_speed_t *psSpeed)
         GFLIB_CtrlPIpAW_F16(psSpeed->f16SpeedError, &psSpeed->bSpeedPiStopInteg, &psSpeed->sSpeedPiParams);
 }
 
+#ifdef PMSM_SNSLESS_ENC
 /*!
  * @brief PMSM field oriented position control.
  *
@@ -258,7 +259,6 @@ void MCS_PMSMFocCtrlPosition(mcs_position_t *psPosition)
    
 }
 
-
 frac32_t GFLIB_CtrlPIpAW_F32_FC(frac32_t f32InErr,
                                 const bool_t *pbStopIntegFlag, 
                                 GFLIB_CTRL_PI_P_AW_T_F32 *psParam)
@@ -323,7 +323,7 @@ frac32_t GFLIB_CtrlPIpAW_F32_FC(frac32_t f32InErr,
     /* return controller output */
     return((frac32_t)(a64Out));
 }
-
+#endif
 
 
 /*!

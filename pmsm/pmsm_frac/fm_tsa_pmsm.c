@@ -452,7 +452,6 @@ FMSTR_TSA_TABLE_BEGIN(gsM1Enc_table)
 /* gsM1Enc structure definition */
 FMSTR_TSA_RW_VAR(g_sM1Enc.f16SpdMeEst, FMSTR_TSA_FRAC16)      /* M1 Measured Mechanical Speed */
 FMSTR_TSA_RW_VAR(g_sM1Enc.f16PosMe, FMSTR_TSA_FRAC16)         /* M1 Meassured Mechanical Position */
-FMSTR_TSA_RW_VAR(g_sM1Enc.f16PosMeEst, FMSTR_TSA_FRAC16)      /* M1 Position Encoder Mechanical */
 
 FMSTR_TSA_RW_VAR(g_sM1Enc.bDirection, FMSTR_TSA_UINT16)       /* M1 Encoder direction */
 FMSTR_TSA_RW_VAR(g_sM1Enc.ui16Pp, FMSTR_TSA_UINT16)           /* M1 Pole pairs */

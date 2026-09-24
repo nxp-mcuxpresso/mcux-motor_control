@@ -121,8 +121,10 @@ typedef struct _mcs_openloop_a1
 /*! @brief mcs position structure */
 typedef struct _mcs_position_a1
 {
-
+  
+#ifdef PMSM_SNSLESS_ENC
     GFLIB_CTRL_PI_P_AW_T_F32 sPositionPiParams;
+#endif
     
     GFLIB_CTRL_PI_P_AW_T_A32 sSpeedPiParams;   /* Speed PI controller parameters */
     GDFLIB_FILTER_IIR1_T_F32 sSpeedReqZCFilter;    /* Zero cancellation parameters */
@@ -286,9 +288,12 @@ void MCS_PMSMOpenLoopStartUp(mcs_pmsm_startup_t *psStartUp);
  */
 void MCS_PMSMScalarCtrl(mcs_pmsm_foc_t *psFocPMSM, mcs_pmsm_scalar_ctrl_t *psScalarPMSM);
 
+#ifdef PMSM_SNSLESS_ENC
 extern frac32_t GFLIB_CtrlPIpAW_F32_FC(frac32_t f32InErr,
                                 const bool_t *pbStopIntegFlag, 
                                 GFLIB_CTRL_PI_P_AW_T_F32 *psParam);
+#endif
+
 
 #ifdef __cplusplus
 }
