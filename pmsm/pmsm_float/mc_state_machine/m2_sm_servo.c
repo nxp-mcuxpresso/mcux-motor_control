@@ -336,9 +336,9 @@ static void M2_StateInitFast_Optim(void)
     g_sM2Drive.sSpeed.bSpeedZCOn = TRUE;
     
     g_sM2Drive.sSpeed.fltSpeedCmd = 0.0F;
-    
-    /* Slow loop sample time */
-    g_sM2Drive.sPosition.fltSpeedLoopTs = 1.0F/(float_t)(g_sClockSetup.ui16M2SpeedLoopFreq);
+
+    /* Slow loop frequency */
+    g_sM2Drive.sPosition.fltSpeedLoopFreq = (float_t)(g_sClockSetup.ui16M2SpeedLoopFreq);
     
     /* Servo parameters - Position P controller */
     g_sM2Drive.sPosition.sPositionPiParams.fltPGain    = M2_SERVO_POSITION_P_PROP_GAIN; //789.5683520871486; //bandwidth 15Hz // M2_POSITION_P_PROP_GAIN
@@ -664,8 +664,8 @@ static void M2_StateInitFast(void)
     
     g_sM2Drive.sSpeed.fltSpeedCmd = 0.0F;
     
-    /* Slow loop sample time */
-    g_sM2Drive.sPosition.fltSpeedLoopTs = 1.0F/(float_t)(g_sClockSetup.ui16M2SpeedLoopFreq);
+    /* Slow loop frequency */
+    g_sM2Drive.sPosition.fltSpeedLoopFreq = (float_t)(g_sClockSetup.ui16M2SpeedLoopFreq);
     
     /* Servo parameters - Position P controller */
     g_sM2Drive.sPosition.sPositionPiParams.fltPGain    = M2_SERVO_POSITION_P_PROP_GAIN; //789.5683520871486; //bandwidth 15Hz // M2_POSITION_P_PROP_GAIN

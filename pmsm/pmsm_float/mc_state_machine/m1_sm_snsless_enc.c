@@ -319,7 +319,7 @@ static void M1_StateInitFast(void)
     
     g_sM1Drive.sSpeed.fltSpeedCmd = 0.0F;
     
-    /* Slow loop sample time */
+    /* Slow loop frequency */
     g_sM1Drive.sPosition.fltSpeedLoopFreq = (float_t)(g_sClockSetup.ui16M1SpeedLoopFreq);
     
     /* Servo parameters - Position P controller */

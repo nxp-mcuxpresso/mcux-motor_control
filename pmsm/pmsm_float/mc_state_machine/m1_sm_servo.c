@@ -336,9 +336,9 @@ static void M1_StateInitFast_Optim(void)
     g_sM1Drive.sSpeed.bSpeedZCOn = TRUE;
     
     g_sM1Drive.sSpeed.fltSpeedCmd = 0.0F;
-    
-    /* Slow loop sample time */
-    g_sM1Drive.sPosition.fltSpeedLoopTs = 1.0F/(float_t)(g_sClockSetup.ui16M1SpeedLoopFreq);
+
+    /* Slow loop frequency */
+    g_sM1Drive.sPosition.fltSpeedLoopFreq = (float_t)(g_sClockSetup.ui16M1SpeedLoopFreq);  
     
     /* Servo parameters - Position P controller */
     g_sM1Drive.sPosition.sPositionPiParams.fltPGain    = M1_SERVO_POSITION_P_PROP_GAIN; //789.5683520871486; //bandwidth 15Hz // M1_POSITION_P_PROP_GAIN
@@ -664,8 +664,8 @@ static void M1_StateInitFast(void)
     
     g_sM1Drive.sSpeed.fltSpeedCmd = 0.0F;
     
-    /* Slow loop sample time */
-    g_sM1Drive.sPosition.fltSpeedLoopTs = 1.0F/(float_t)(g_sClockSetup.ui16M1SpeedLoopFreq);
+    /* Slow loop frequency */
+    g_sM1Drive.sPosition.fltSpeedLoopFreq = (float_t)(g_sClockSetup.ui16M1SpeedLoopFreq);
     
     /* Servo parameters - Position P controller */
     g_sM1Drive.sPosition.sPositionPiParams.fltPGain    = M1_SERVO_POSITION_P_PROP_GAIN; //789.5683520871486; //bandwidth 15Hz // M1_POSITION_P_PROP_GAIN
