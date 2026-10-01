@@ -92,8 +92,8 @@ volatile float g_fltM1currentScale;
 volatile float g_fltM1frequencyScale;
 volatile float g_fltM1speedScale;
 volatile float g_fltM1speedAngularScale;
-volatile float g_fltM1speedMechanicalScale;
 volatile float g_fltM1bemfScale;
+volatile float g_fltM1speedMechanicalScale;
 
 /*! @brief Application state machine table - fast */
 const sm_app_state_fcn_t s_STATE_FAST = {M1_StateFaultFast, M1_StateInitFast, M1_StateStopFast, M1_StateRunFast};
@@ -155,11 +155,11 @@ static void M1_StateFaultFast(void)
     /* Braking resistor control with hysteresis */
     if (g_sM1Drive.sFocPMSM.f16UDcBusFilt > M1_U_DCB_UPPER_THRESHOLD)
     {
-        M1_BRAKE_SET();
+    	M1_BRAKE_SET();
     }
     else if (g_sM1Drive.sFocPMSM.f16UDcBusFilt < M1_U_DCB_LOWER_THRESHOLD)
     {
-        M1_BRAKE_CLEAR();
+    	M1_BRAKE_CLEAR();
     }
 
     /* Disable user application switch */
@@ -182,6 +182,11 @@ static void M1_StateFaultFast(void)
 static void M1_StateInitFast(void)
 {
     /* Type the code to do when in the INIT state */
+    g_sM1Drive.sFocPMSM.sIdPiParams.f16InErrK_1 = FRAC16(0);
+    g_sM1Drive.sFocPMSM.sIdPiParams.bLimFlag    = FALSE;
+
+    g_sM1Drive.sFocPMSM.sIqPiParams.f16InErrK_1 = FRAC16(0);
+    g_sM1Drive.sFocPMSM.sIqPiParams.bLimFlag    = FALSE;
 
     /* PMSM FOC params */
     g_sM1Drive.sFocPMSM.sIdPiParams.a32PGain    = M1_D_KP_GAIN;
@@ -193,6 +198,13 @@ static void M1_StateInitFast(void)
     g_sM1Drive.sFocPMSM.sIqPiParams.a32IGain    = M1_Q_KI_GAIN;
     g_sM1Drive.sFocPMSM.sIqPiParams.f16UpperLim = FRAC16(1.0);
     g_sM1Drive.sFocPMSM.sIqPiParams.f16LowerLim = FRAC16(-1.0);
+    
+    /* Zero cancellation current filter */    
+    g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.f32B0 = M1_Q_IIR_ZC_B0;
+    g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.f32B1 = M1_Q_IIR_ZC_B1;
+    g_sM1Drive.sFocPMSM.sIqReqZCFilter.sFltCoeff.f32A1 = M1_Q_IIR_ZC_A1;
+    
+    GDFLIB_FilterIIR1Init_F16(&g_sM1Drive.sFocPMSM.sIqReqZCFilter);
 
     g_sM1Drive.sFocPMSM.ui16SectorSVM     = M1_SVM_SECTOR_DEFAULT;
     g_sM1Drive.sFocPMSM.f16DutyCycleLimit = M1_CLOOP_LIMIT;
@@ -211,6 +223,18 @@ static void M1_StateInitFast(void)
     g_sM1Drive.sAlignment.f16UdReq = M1_ALIGN_VOLTAGE;
     g_sM1Drive.sAlignment.ui16Time = M1_ALIGN_DURATION;
 
+    /* Openloop spin mode initialization */
+    g_sM1Drive.sOpenloop.f16Theta = FRAC16(0);
+    g_sM1Drive.sOpenloop.sUDQReq.f16D = FRAC16(0);
+    g_sM1Drive.sOpenloop.sUDQReq.f16Q = FRAC16(0);
+    g_sM1Drive.sOpenloop.sIDQReq.f16D = FRAC16(0);
+    g_sM1Drive.sOpenloop.sIDQReq.f16Q = FRAC16(0);
+
+    g_sM1Drive.sOpenloop.bCurrentControl = FALSE;
+
+    GFLIB_IntegratorInit_F16(FRAC16(0), &g_sM1Drive.sOpenloop.sFreqIntegrator);
+    g_sM1Drive.sOpenloop.sFreqIntegrator.a32Gain = M1_SCALAR_INTEG_GAIN;
+    g_sM1Drive.sOpenloop.f16FreqReq = FRAC16(0);
     /* Position and speed observer */
     g_sM1Drive.sFocPMSM.sTo.f16PGain    = M1_TO_KP_GAIN;
     g_sM1Drive.sFocPMSM.sTo.i16PGainSh  = M1_TO_KP_SHIFT;
@@ -236,6 +260,8 @@ static void M1_StateInitFast(void)
     g_sM1Drive.sSpeed.sSpeedPiParams.a32IGain    = M1_SPEED_PI_INTEG_GAIN;
     g_sM1Drive.sSpeed.sSpeedPiParams.f16UpperLim = M1_SPEED_LOOP_HIGH_LIMIT;
     g_sM1Drive.sSpeed.sSpeedPiParams.f16LowerLim = M1_SPEED_LOOP_LOW_LIMIT;
+    g_sM1Drive.sSpeed.sSpeedPiParams.bLimFlag = FALSE;
+    g_sM1Drive.sSpeed.sSpeedPiParams.f16InErrK_1 = FRAC16(0);		
 
     g_sM1Drive.sSpeed.sSpeedRampParams.f32RampUp   = M1_SPEED_RAMP_UP;
     g_sM1Drive.sSpeed.sSpeedRampParams.f32RampDown = M1_SPEED_RAMP_DOWN;
@@ -243,21 +269,16 @@ static void M1_StateInitFast(void)
     g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.f32B0 = M1_SPEED_IIR_B0;
     g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.f32B1 = M1_SPEED_IIR_B1;
     g_sM1Drive.sSpeed.sSpeedFilter.sFltCoeff.f32A1 = M1_SPEED_IIR_A1;
+    GDFLIB_FilterIIR1Init_F16(&g_sM1Drive.sSpeed.sSpeedFilter);
+    
+    /* Speed comand zero cancellation filter */
+    g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.f32B0 = M1_SPEED_IIR_ZC_B0;
+    g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.f32B1 = M1_SPEED_IIR_ZC_B1;
+    g_sM1Drive.sSpeed.sSpeedCmdZCFilter.sFltCoeff.f32A1 = M1_SPEED_IIR_ZC_A1;
+    GDFLIB_FilterIIR1Init_F16(&g_sM1Drive.sSpeed.sSpeedCmdZCFilter);
+    g_sM1Drive.sSpeed.bSpeedZCOn = TRUE;
 
     g_sM1Drive.sSpeed.f16SpeedCmd = 0;
-
-    /* Openloop control params*/
-    g_sM1Drive.sOpenloop.f16Theta = FRAC16(0);
-    g_sM1Drive.sOpenloop.sUDQReq.f16D = FRAC16(0);
-    g_sM1Drive.sOpenloop.sUDQReq.f16Q = FRAC16(0);
-    g_sM1Drive.sOpenloop.sIDQReq.f16D = FRAC16(0);
-    g_sM1Drive.sOpenloop.sIDQReq.f16Q = FRAC16(0);
-
-    g_sM1Drive.sOpenloop.bCurrentControl = FALSE;
-
-    GFLIB_IntegratorInit_F16(FRAC16(0), &g_sM1Drive.sOpenloop.sFreqIntegrator);
-    g_sM1Drive.sOpenloop.sFreqIntegrator.a32Gain = M1_SCALAR_INTEG_GAIN;
-    g_sM1Drive.sOpenloop.f16FreqReq = FRAC16(0);
 
     /* Scalar control params */
     g_sM1Drive.sScalarCtrl.f16VHzGain                  = M1_SCALAR_VHZ_FACTOR_GAIN;
@@ -266,7 +287,7 @@ static void M1_StateInitFast(void)
     g_sM1Drive.sScalarCtrl.sFreqRampParams.f32RampUp   = M1_SCALAR_RAMP_UP;
     g_sM1Drive.sScalarCtrl.sFreqRampParams.f32RampDown = M1_SCALAR_RAMP_DOWN;
     g_sM1Drive.sScalarCtrl.sFreqIntegrator.a32Gain     = M1_SCALAR_INTEG_GAIN;
-
+    
     /* Open loop start up */
     g_sM1Drive.sStartUp.sSpeedIntegrator.a32Gain             = M1_SCALAR_INTEG_GAIN;
     g_sM1Drive.sStartUp.f16CoeffMerging                      = M1_MERG_COEFF;
@@ -333,8 +354,6 @@ static void M1_StateInitFast(void)
     M1_SET_PTR_SECTOR(g_sM1Drive.sFocPMSM.ui16SectorSVM);
     M1_SET_PTR_AUX_CHAN(g_sM1Drive.f16AdcAuxSample);
 
-    /* get all adc samples - DC-bus voltage, current, bemf and aux sample */
-    M1_MCDRV_CURR_3PH_VOLT_DCB_GET(&g_sM1Curr3phDcBus);
 
     /* Enable all MC faults */
     FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_I_DCBUS_OVER);
@@ -364,35 +383,6 @@ static void M1_StateStopFast(void)
     g_sM1Drive.sFocPMSM.f16UDcBusFilt =
         GDFLIB_FilterIIR1_F16(g_sM1Drive.sFocPMSM.f16UDcBus, &g_sM1Drive.sFocPMSM.sUDcBusFilter);
 
-    /* If the user switches on  or set non-zero speed*/
-    if ((g_bM1SwitchAppOnOff != FALSE) || (g_sM1Drive.sSpeed.f16SpeedCmd != 0))
-    {
-        /* Set the switch on */
-        g_bM1SwitchAppOnOff = TRUE;
-
-        /* Start command */
-        g_sM1Ctrl.uiCtrl |= SM_CTRL_START;
-    }
-
-    /* Braking resistor control with hysteresis */
-    if (g_sM1Drive.sFocPMSM.f16UDcBusFilt > M1_U_DCB_UPPER_THRESHOLD)
-    {
-        M1_BRAKE_SET();
-    }
-    else if (g_sM1Drive.sFocPMSM.f16UDcBusFilt < M1_U_DCB_LOWER_THRESHOLD)
-    {
-        M1_BRAKE_CLEAR();
-    }
-
-    M1_FaultDetection();
-
-    /* If a fault occurred */
-    if (g_sM1Drive.sFaultIdPending != 0U)
-    {
-        /* Switches to the FAULT state */
-        g_sM1Ctrl.uiCtrl |= SM_CTRL_FAULT;
-    }
-
     /* PWM peripheral update */
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
 }
@@ -416,29 +406,9 @@ static void M1_StateRunFast(void)
         g_sM1Ctrl.uiCtrl |= SM_CTRL_STOP;
     }
 
-    /* detect fault */
-    M1_FaultDetection();
-
-    /* If a fault occurred */
-    if (g_sM1Drive.sFaultIdPending != 0U)
-    {
-        /* Switches to the FAULT state */
-        g_sM1Ctrl.uiCtrl |= SM_CTRL_FAULT;
-    }
-
     /* Sampled DC-Bus voltage filter */
     g_sM1Drive.sFocPMSM.f16UDcBusFilt =
         GDFLIB_FilterIIR1_F16(g_sM1Drive.sFocPMSM.f16UDcBus, &g_sM1Drive.sFocPMSM.sUDcBusFilter);
-
-    /* Braking resistor control with hysteresis */
-    if (g_sM1Drive.sFocPMSM.f16UDcBusFilt > M1_U_DCB_UPPER_THRESHOLD)
-    {
-        M1_BRAKE_SET();
-    }
-    else if (g_sM1Drive.sFocPMSM.f16UDcBusFilt < M1_U_DCB_LOWER_THRESHOLD)
-    {
-        M1_BRAKE_CLEAR();
-    }
 
     /* Run sub-state function */
     s_M1_STATE_RUN_TABLE_FAST[g_eM1StateRun]();
@@ -459,7 +429,7 @@ static void M1_StateRunFast(void)
  */
 static void M1_StateFaultSlow(void)
 {
-    /* after fault condition ends wait defined time to clear fault state */
+    /* After fault condition ends wait defined time to clear fault state */
     if (!(FAULT_ANY(g_sM1Drive.sFaultIdPending)))
     {
         if (--g_sM1Drive.ui16CounterState == 0U)
@@ -494,6 +464,35 @@ static void M1_StateInitSlow(void)
  */
 static void M1_StateStopSlow(void)
 {
+  
+    /* If the user switches on  or set non-zero speed*/
+    if ((g_bM1SwitchAppOnOff != FALSE) || (g_sM1Drive.sSpeed.f16SpeedCmd != 0))
+    {
+        /* Set the switch on */
+        g_bM1SwitchAppOnOff = TRUE;
+
+        /* Start command */
+        g_sM1Ctrl.uiCtrl |= SM_CTRL_START;
+    }
+
+    /* Braking resistor control with hysteresis */
+    if (g_sM1Drive.sFocPMSM.f16UDcBusFilt > M1_U_DCB_UPPER_THRESHOLD)
+    {
+        M1_BRAKE_SET();
+    }
+    else if (g_sM1Drive.sFocPMSM.f16UDcBusFilt < M1_U_DCB_LOWER_THRESHOLD)
+    {
+        M1_BRAKE_CLEAR();
+    }
+
+    M1_FaultDetection();
+
+    /* If a fault occurred */
+    if (g_sM1Drive.sFaultIdPending != 0U)
+    {
+        /* Switches to the FAULT state */
+        g_sM1Ctrl.uiCtrl |= SM_CTRL_FAULT;
+    }
 }
 
 /*!
@@ -505,6 +504,27 @@ static void M1_StateStopSlow(void)
  */
 static void M1_StateRunSlow(void)
 {
+
+    /* Braking resistor control with hysteresis */
+    if (g_sM1Drive.sFocPMSM.f16UDcBusFilt > M1_U_DCB_UPPER_THRESHOLD)
+    {
+        M1_BRAKE_SET();
+    }
+    else if (g_sM1Drive.sFocPMSM.f16UDcBusFilt < M1_U_DCB_LOWER_THRESHOLD)
+    {
+        M1_BRAKE_CLEAR();
+    }
+    
+    /* detect fault */
+    M1_FaultDetection();
+
+    /* If a fault occurred */
+    if (g_sM1Drive.sFaultIdPending != 0U)
+    {
+        /* Switches to the FAULT state */
+        g_sM1Ctrl.uiCtrl |= SM_CTRL_FAULT;
+    }
+
     /* Run sub-state function */
     s_M1_STATE_RUN_TABLE_SLOW[g_eM1StateRun]();
 }
@@ -532,8 +552,8 @@ static void M1_TransFaultStop(void)
  */
 static void M1_TransInitFault(void)
 {
-    /* type the code to do when going from the INIT to the FAULT state */
-    /* disable PWM outputs */
+    /* Type the code to do when going from the INIT to the FAULT state */
+    /* Disable PWM outputs */
     M1_MCDRV_PWM3PH_DIS(&g_sM1Pwm3ph);
     g_sM1Drive.ui16CounterState = g_sM1Drive.ui16TimeFaultRelease;
 
@@ -549,8 +569,8 @@ static void M1_TransInitFault(void)
  */
 static void M1_TransInitStop(void)
 {
-    /* type the code to do when going from the INIT to the FAULT state */
-    /* disable PWM outputs */
+    /* Type the code to do when going from the INIT to the STOP state */
+    /* Disable PWM outputs */
     M1_MCDRV_PWM3PH_DIS(&g_sM1Pwm3ph);
 
     /* Enable Open loop start up */
@@ -566,8 +586,8 @@ static void M1_TransInitStop(void)
  */
 static void M1_TransStopFault(void)
 {
-    /* type the code to do when going from the STOP to the FAULT state */
-    /* load the fault release time to counter */
+    /* Type the code to do when going from the STOP to the FAULT state */
+    /* Load the fault release time to counter */
     g_sM1Drive.ui16CounterState = g_sM1Drive.ui16TimeFaultRelease;
 }
 
@@ -580,13 +600,23 @@ static void M1_TransStopFault(void)
  */
 static void M1_TransStopRun(void)
 {
-    /* type the code to do when going from the STOP to the RUN state */
+    /* Type the code to do when going from the STOP to the RUN state */
     /* 50% duty cycle */
     g_sM1Drive.sFocPMSM.sDutyABC.f16A = FRAC16(0.5);
     g_sM1Drive.sFocPMSM.sDutyABC.f16B = FRAC16(0.5);
     g_sM1Drive.sFocPMSM.sDutyABC.f16C = FRAC16(0.5);
+	
+    /* Type the code to do when in the INIT state */
+    g_sM1Drive.sFocPMSM.sIdPiParams.f16InErrK_1 = FRAC16(0);
+    g_sM1Drive.sFocPMSM.sIdPiParams.bLimFlag    = FALSE;
 
-    /* PWM duty cycles calculation and update*/
+    g_sM1Drive.sFocPMSM.sIqPiParams.f16InErrK_1 = FRAC16(0);
+    g_sM1Drive.sFocPMSM.sIqPiParams.bLimFlag    = FALSE;
+    
+    g_sM1Drive.sSpeed.sSpeedPiParams.bLimFlag = FALSE;
+    g_sM1Drive.sSpeed.sSpeedPiParams.f16InErrK_1 = FRAC16(0);
+
+    /* PWM duty cycles calculation and update */
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
 
     /* Clear offset filters */
@@ -614,28 +644,28 @@ static void M1_TransStopRun(void)
  */
 static void M1_TransRunFault(void)
 {
-    /* type the code to do when going from the RUN to the FAULT state */
-    /* disable PWM output */
+    /* Type the code to do when going from the RUN to the FAULT state */
+    /* Disable PWM output */
     M1_MCDRV_PWM3PH_DIS(&g_sM1Pwm3ph);
     g_sM1Drive.ui16CounterState = g_sM1Drive.ui16TimeFaultRelease;
 
-    /* clear over load flag */
+    /* Clear over load flag */
     g_sM1Drive.sSpeed.bSpeedPiStopInteg = FALSE;
 
-    g_sM1Drive.sSpeed.f16SpeedCmd         = 0;
-    g_sM1Drive.sScalarCtrl.f16FreqCmd     = 0;
-    g_sM1Drive.sScalarCtrl.sUDQReq.f16Q   = 0;
-    g_sM1Drive.sOpenloop.f16FreqReq		  = 0;
+    g_sM1Drive.sSpeed.f16SpeedCmd         = FRAC16(0);
+    g_sM1Drive.sScalarCtrl.f16FreqCmd     = FRAC16(0);
+    g_sM1Drive.sScalarCtrl.sUDQReq.f16Q   = FRAC16(0);
+    g_sM1Drive.sOpenloop.f16FreqReq		  = FRAC16(0);
     GFLIB_IntegratorInit_F16(FRAC16(0), &g_sM1Drive.sOpenloop.sFreqIntegrator);
-    g_sM1Drive.sMCATctrl.sUDQReqMCAT.f16Q = 0;
-    g_sM1Drive.sMCATctrl.sUDQReqMCAT.f16D = 0;
-    g_sM1Drive.sMCATctrl.sIDQReqMCAT.f16Q = 0;
-    g_sM1Drive.sMCATctrl.sIDQReqMCAT.f16D = 0;
+    g_sM1Drive.sMCATctrl.sUDQReqMCAT.f16Q = FRAC16(0);
+    g_sM1Drive.sMCATctrl.sUDQReqMCAT.f16D = FRAC16(0);
+    g_sM1Drive.sMCATctrl.sIDQReqMCAT.f16Q = FRAC16(0);
+    g_sM1Drive.sMCATctrl.sIDQReqMCAT.f16D = FRAC16(0);
 
     /* Clear actual speed values */
-    g_sM1Drive.sScalarCtrl.f16FreqRamp = 0;
-    g_sM1Drive.sSpeed.f16Speed         = 0;
-    g_sM1Drive.sSpeed.f16SpeedFilt     = 0;
+    g_sM1Drive.sScalarCtrl.f16FreqRamp = FRAC16(0);
+    g_sM1Drive.sSpeed.f16Speed         = FRAC16(0);
+    g_sM1Drive.sSpeed.f16SpeedFilt     = FRAC16(0);
 }
 
 /*!
@@ -647,17 +677,17 @@ static void M1_TransRunFault(void)
  */
 static void M1_TransRunStop(void)
 {
-    /* type the code to do when going from the RUN to the STOP state */
-    /* disable PWM outputs */
+    /* Type the code to do when going from the RUN to the STOP state */
+    /* Disable PWM outputs */
     M1_MCDRV_PWM3PH_DIS(&g_sM1Pwm3ph);
 
-    g_sM1Drive.sSpeed.f16SpeedCmd         = 0;
-    g_sM1Drive.sScalarCtrl.f16FreqCmd     = 0;
-    g_sM1Drive.sScalarCtrl.sUDQReq.f16Q   = 0;
-    g_sM1Drive.sMCATctrl.sUDQReqMCAT.f16Q = 0;
-    g_sM1Drive.sMCATctrl.sUDQReqMCAT.f16D = 0;
-    g_sM1Drive.sMCATctrl.sIDQReqMCAT.f16Q = 0;
-    g_sM1Drive.sMCATctrl.sIDQReqMCAT.f16D = 0;
+    g_sM1Drive.sSpeed.f16SpeedCmd         = FRAC16(0);
+    g_sM1Drive.sScalarCtrl.f16FreqCmd     = FRAC16(0);
+    g_sM1Drive.sScalarCtrl.sUDQReq.f16Q   = FRAC16(0);
+    g_sM1Drive.sMCATctrl.sUDQReqMCAT.f16Q = FRAC16(0);
+    g_sM1Drive.sMCATctrl.sUDQReqMCAT.f16D = FRAC16(0);
+    g_sM1Drive.sMCATctrl.sIDQReqMCAT.f16Q = FRAC16(0);
+    g_sM1Drive.sMCATctrl.sIDQReqMCAT.f16D = FRAC16(0);
 
     M1_ClearFOCVariables();
 
@@ -677,13 +707,13 @@ static void M1_StateRunCalibFast(void)
     /* Type the code to do when in the RUN CALIB sub-state
        performing ADC offset calibration */
 
-    /* call offset measurement */
+    /* Call offset measurement */
     M1_MCDRV_CURR_3PH_CALIB(&g_sM1Curr3phDcBus);
 
-    /* change SVM sector in range <1;6> to measure all AD channel mapping combinations */
+    /* Change SVM sector in range <1;6> to measure all AD channel mapping combinations */
     if (++g_sM1Drive.sFocPMSM.ui16SectorSVM > 6U)
     {
-        g_sM1Drive.sFocPMSM.ui16SectorSVM = 1U;
+    	g_sM1Drive.sFocPMSM.ui16SectorSVM = 1U;
     }
 }
 
@@ -707,8 +737,8 @@ static void M1_StateRunReadyFast(void)
     /* MCAT control structure switch */
     switch (g_sM1Drive.eControl)
     {
-        case kControlMode_OpenLoop:
-            M1_TransRunReadySpin();
+    	case kControlMode_OpenLoop:
+    		M1_TransRunReadySpin();
 			break;
 
         case kControlMode_Scalar:
@@ -716,6 +746,7 @@ static void M1_StateRunReadyFast(void)
             {
                 g_sM1Drive.sScalarCtrl.f16FreqRamp  = 0;
                 g_sM1Drive.sScalarCtrl.sUDQReq.f16Q = 0;
+
                 /* Transition to the RUN ALIGN sub-state */
                 M1_TransRunReadyAlign();
             }
@@ -793,8 +824,8 @@ static void M1_StateRunAlignFast(void)
     {
         M1_TransRunAlignReady();
     }
-
-    /* clear actual speed values */
+  
+    /* Clear actual speed values */
     g_sM1Drive.sScalarCtrl.f16FreqRamp = 0;
     g_sM1Drive.sSpeed.f16Speed         = 0;
     g_sM1Drive.sSpeed.f16SpeedFilt     = 0;
@@ -802,6 +833,9 @@ static void M1_StateRunAlignFast(void)
     g_sM1Drive.sFocPMSM.f16SpeedElEst  = 0;
 
     MCS_PMSMAlignment(&g_sM1Drive.sFocPMSM, &g_sM1Drive.sAlignment);
+    
+    /* call voltage FOC to calculate PWM duty cycles */
+    MCS_PMSMFocCtrl(&g_sM1Drive.sFocPMSM);
 }
 
 /*!
@@ -816,14 +850,14 @@ static void M1_StateRunStartupFast(void)
     /* If f16SpeedCmd = 0, go to Free-wheel state */
     if ((g_sM1Drive.sSpeed.f16SpeedCmd == 0) && (g_sM1Drive.eControl == kControlMode_SpeedFOC))
     {
-        M1_TransRunStartupFreewheel();
+    	M1_TransRunStartupFreewheel();
     }
 
     /* Type the code to do when in the RUN STARTUP sub-state */
-    /* pass actual estimation position to OL startup structure */
+    /* Pass actual estimation position to OL startup structure */
     g_sM1Drive.sStartUp.f16PosEst = g_sM1Drive.sFocPMSM.f16PosElEst;
 
-    /*open loop startup */
+    /* Open loop startup */
     MCS_PMSMOpenLoopStartUp(&g_sM1Drive.sStartUp);
 
     /* Pass f16SpeedRampOpenloop to f16SpeedRamp*/
@@ -836,24 +870,24 @@ static void M1_StateRunStartupFast(void)
     switch (g_sM1Drive.eControl)
     {
         case kControlMode_OpenLoop:
-    		g_sM1Drive.sFocPMSM.sUDQReq = g_sM1Drive.sOpenloop.sUDQReq;
-    		g_sM1Drive.sFocPMSM.sIDQReq = g_sM1Drive.sOpenloop.sIDQReq;
-			MCS_PMSMOpenloop(&g_sM1Drive.sOpenloop);
+            g_sM1Drive.sFocPMSM.sUDQReq = g_sM1Drive.sOpenloop.sUDQReq;
+            g_sM1Drive.sFocPMSM.sIDQReq = g_sM1Drive.sOpenloop.sIDQReq;
+            MCS_PMSMOpenloop(&g_sM1Drive.sOpenloop);
 
     	    g_sM1Drive.sFocPMSM.f16PosElExt = g_sM1Drive.sOpenloop.f16PosElExt;
-			MCS_PMSMFocCtrl(&g_sM1Drive.sFocPMSM);
-			break;
+            MCS_PMSMFocCtrl(&g_sM1Drive.sFocPMSM);
+            break;
 
         case kControlMode_Scalar:
-			/* Init BEMF and TO */
+            /* Init BEMF and TO */
             AMCLIB_PMSMBemfObsrvDQInit_F16(&g_sM1Drive.sFocPMSM.sBemfObsrv);
             AMCLIB_TrackObsrvInit_F16(FRAC16(0.0), &g_sM1Drive.sFocPMSM.sTo);
-			/* Switch to SPIN state */
+            /* Switch to SPIN state */
             M1_TransRunStartupSpin();
             break;
 
         case kControlMode_VoltageFOC:
-            /* pass MCAT required values in run-time */
+            /* Pass MCAT required values in run-time */
             g_sM1Drive.sFocPMSM.sUDQReq.f16D = g_sM1Drive.sMCATctrl.sUDQReqMCAT.f16D;
             g_sM1Drive.sFocPMSM.sUDQReq.f16Q = g_sM1Drive.sMCATctrl.sUDQReqMCAT.f16Q;
             /* FOC */
@@ -868,12 +902,12 @@ static void M1_StateRunStartupFast(void)
             g_sM1Drive.sFocPMSM.bCurrentLoopOn = TRUE;
             MCS_PMSMFocCtrl(&g_sM1Drive.sFocPMSM);
             break;
-        default:
 
+        default:
             /* Current control loop */
             g_sM1Drive.sFocPMSM.sIDQReq.f16D = 0;
 
-            /* during the open loop start up the values of required Iq current are kept in pre-defined level*/
+            /* During the open loop start up the values of required Iq current are kept in pre-defined level*/
             if (g_sM1Drive.sSpeed.f16SpeedCmd > 0)
             {
                 g_sM1Drive.sFocPMSM.sIDQReq.f16Q = g_sM1Drive.sStartUp.f16CurrentStartup;
@@ -894,10 +928,12 @@ static void M1_StateRunStartupFast(void)
             /* FOC */
             g_sM1Drive.sFocPMSM.bCurrentLoopOn = TRUE;
             MCS_PMSMFocCtrl(&g_sM1Drive.sFocPMSM);
+            /* pass estimated speed to actual speed value */
+            g_sM1Drive.sSpeed.f16Speed = g_sM1Drive.sFocPMSM.f16SpeedElEst;
 			break;
     }
 
-    /* switch to close loop  */
+    /* Switch to close loop  */
     if (!g_sM1Drive.sStartUp.bOpenLoop)
     {
         M1_TransRunStartupSpin();
@@ -918,22 +954,25 @@ static void M1_StateRunSpinFast(void)
     switch (g_sM1Drive.eControl)
     {
     	case kControlMode_OpenLoop:
-			g_sM1Drive.sFocPMSM.sUDQReq = g_sM1Drive.sOpenloop.sUDQReq;
-			g_sM1Drive.sFocPMSM.sIDQReq = g_sM1Drive.sOpenloop.sIDQReq;
+            g_sM1Drive.sFocPMSM.sUDQReq = g_sM1Drive.sOpenloop.sUDQReq;
+            g_sM1Drive.sFocPMSM.sIDQReq = g_sM1Drive.sOpenloop.sIDQReq;
 
-			MCS_PMSMOpenloop(&g_sM1Drive.sOpenloop);
+            MCS_PMSMOpenloop(&g_sM1Drive.sOpenloop);
 
-			g_sM1Drive.sFocPMSM.f16PosElExt = g_sM1Drive.sOpenloop.f16PosElExt;
-			MCS_PMSMFocCtrl(&g_sM1Drive.sFocPMSM);
-			break;
+            g_sM1Drive.sFocPMSM.f16PosElExt = g_sM1Drive.sOpenloop.f16PosElExt;
+            MCS_PMSMFocCtrl(&g_sM1Drive.sFocPMSM);
+            break;
 
         case kControlMode_Scalar:
-            /* scalar function call */
+            /* Scalar control */
             MCS_PMSMScalarCtrl(&g_sM1Drive.sFocPMSM, &g_sM1Drive.sScalarCtrl);
 
-            /* pass required voltages to Bemf Observer to work */
+            /* Pass required voltages to Bemf Observer to work */
             g_sM1Drive.sFocPMSM.sUDQReq.f16Q = g_sM1Drive.sScalarCtrl.sUDQReq.f16Q;
             g_sM1Drive.sFocPMSM.sUDQReq.f16D = g_sM1Drive.sScalarCtrl.sUDQReq.f16D;
+
+            /* Call voltage FOC to calculate PWM duty cycles */
+            MCS_PMSMFocCtrl(&g_sM1Drive.sFocPMSM);
 
             /* Sub-state RUN FREEWHEEL */
             if (g_sM1Drive.sScalarCtrl.f16FreqCmd == 0)
@@ -957,7 +996,7 @@ static void M1_StateRunSpinFast(void)
             break;
 
         case kControlMode_CurrentFOC:
-            /* FOC */
+            /* Current FOC */
             g_sM1Drive.sFocPMSM.sIDQReq.f16Q   = g_sM1Drive.sMCATctrl.sIDQReqMCAT.f16Q;
             g_sM1Drive.sFocPMSM.sIDQReq.f16D   = g_sM1Drive.sMCATctrl.sIDQReqMCAT.f16D;
             g_sM1Drive.sFocPMSM.bCurrentLoopOn = TRUE;
@@ -966,10 +1005,11 @@ static void M1_StateRunSpinFast(void)
             /* Sub-state RUN FREEWHEEL */
             if (g_sM1Drive.sMCATctrl.sIDQReqMCAT.f16Q == 0)
             {
-                M1_TransRunSpinFreewheel();
+            	M1_TransRunSpinFreewheel();
             }
             break;
 
+        case kControlMode_SpeedFOC:
         default:
             if (MLIB_AbsSat_F16(g_sM1Drive.sSpeed.f16SpeedRamp) < g_sM1Drive.sFaultThresholds.f16SpeedMin)
             {
@@ -981,7 +1021,9 @@ static void M1_StateRunSpinFast(void)
             g_sM1Drive.sFocPMSM.bCurrentLoopOn = TRUE;
             MCS_PMSMFocCtrl(&g_sM1Drive.sFocPMSM);
 
-            break;
+            /* Pass estimated speed to actual speed value */
+            g_sM1Drive.sSpeed.f16Speed = g_sM1Drive.sFocPMSM.f16SpeedElEst;
+        break;
     }
 }
 
@@ -996,7 +1038,7 @@ static void M1_StateRunFreewheelFast(void)
 {
     /* Type the code to do when in the RUN FREEWHEEL sub-state */
 
-    /* clear actual speed values */
+    /* Clear actual speed values */
     g_sM1Drive.sScalarCtrl.f16FreqRamp = 0;
     g_sM1Drive.sSpeed.f16Speed         = 0;
     g_sM1Drive.sSpeed.f16SpeedFilt     = 0;
@@ -1014,10 +1056,11 @@ static void M1_StateRunCalibSlow(void)
 {
     if (--g_sM1Drive.ui16CounterState == 0U)
     {
-        /* write calibrated offset values */
-        M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1Curr3phDcBus);
-
-        M1_TransRunCalibReady();
+      	/* Write calibrated offset values */
+      	M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1Curr3phDcBus);
+      
+      	/* To switch to the RUN READY sub-state */
+      	M1_TransRunCalibReady();
     }
 }
 
@@ -1052,19 +1095,16 @@ static void M1_StateRunAlignSlow(void)
  */
 static void M1_StateRunStartupSlow(void)
 {
-    /* pass estimated speed to actual speed value */
-    g_sM1Drive.sSpeed.f16Speed = g_sM1Drive.sFocPMSM.f16SpeedElEst;
-
     if (g_sM1Drive.eControl == kControlMode_SpeedFOC)
     {
-        /* actual speed filter */
+        /* Actual speed filter */
         g_sM1Drive.sSpeed.f16SpeedFilt =
             GDFLIB_FilterIIR1_F16(g_sM1Drive.sSpeed.f16Speed, &g_sM1Drive.sSpeed.sSpeedFilter);
 
-        /* pass required speed values lower than nominal speed */
+        /* Pass required speed values lower than nominal speed */
         if ((MLIB_AbsSat_F16(g_sM1Drive.sSpeed.f16SpeedCmd) > g_sM1Drive.sFaultThresholds.f16SpeedNom))
         {
-            /* set required speed to nominal speed if over speed command > speed nominal */
+            /* Set required speed to nominal speed if over speed command > speed nominal */
             if (g_sM1Drive.sSpeed.f16SpeedCmd > 0)
             {
                 g_sM1Drive.sSpeed.f16SpeedCmd = g_sM1Drive.sFaultThresholds.f16SpeedNom;
@@ -1086,20 +1126,17 @@ static void M1_StateRunStartupSlow(void)
  */
 static void M1_StateRunSpinSlow(void)
 {
-    /* pass estimated speed to actual speed value */
-    g_sM1Drive.sSpeed.f16Speed = g_sM1Drive.sFocPMSM.f16SpeedElEst;
-
     if (g_sM1Drive.eControl == kControlMode_SpeedFOC)
     {
-        /* actual speed filter */
+        /* Actual speed filter */
         g_sM1Drive.sSpeed.f16SpeedFilt =
             GDFLIB_FilterIIR1_F16(g_sM1Drive.sSpeed.f16Speed, &g_sM1Drive.sSpeed.sSpeedFilter);
 
-        /* pass required speed values lower than nominal speed */
+        /* Pass required speed values lower than nominal speed */
         if ((MLIB_AbsSat_F16(g_sM1Drive.sSpeed.f16SpeedCmd) > g_sM1Drive.sFaultThresholds.f16SpeedNom))
         {
-            /* set required speed to nominal speed if over speed command > speed nominal */
-            if (g_sM1Drive.sSpeed.f16SpeedCmd > 0)
+            /* Set required speed to nominal speed if over speed command > speed nominal */
+            if (g_sM1Drive.sSpeed.f16SpeedCmd > 0U)
             {
                 g_sM1Drive.sSpeed.f16SpeedCmd = g_sM1Drive.sFaultThresholds.f16SpeedNom;
             }
@@ -1115,6 +1152,7 @@ static void M1_StateRunSpinSlow(void)
         }
 
         /* call PMSM speed control */
+        g_sM1Drive.sSpeed.bIqPiLimFlag = g_sM1Drive.sFocPMSM.sIqPiParams.bLimFlag;
         MCS_PMSMFocCtrlSpeed(&g_sM1Drive.sFocPMSM, &g_sM1Drive.sSpeed);
     }
 }
@@ -1128,10 +1166,10 @@ static void M1_StateRunSpinSlow(void)
  */
 static void M1_StateRunFreewheelSlow(void)
 {
-    /* wait until free-wheel time passes */
+    /* Wait until free-wheel time passes */
     if (--g_sM1Drive.ui16CounterState == 0U)
     {
-        /* switch to sub state READY */
+        /* Switch to sub state READY */
         M1_TransRunFreewheelReady();
     }
 }
@@ -1147,12 +1185,12 @@ static void M1_TransRunCalibReady(void)
 {
     /* Type the code to do when going from the RUN CALIB to the RUN READY sub-state */
 
-    /* set 50% PWM duty cycle */
+    /* Set 50% PWM duty cycle */
     g_sM1Drive.sFocPMSM.sDutyABC.f16A = FRAC16(0.5);
     g_sM1Drive.sFocPMSM.sDutyABC.f16B = FRAC16(0.5);
     g_sM1Drive.sFocPMSM.sDutyABC.f16C = FRAC16(0.5);
 
-    /* switch to sub state READY */
+    /* Switch to sub state READY */
     g_eM1StateRun = kRunState_Ready;
 }
 
@@ -1173,13 +1211,16 @@ static void M1_TransRunReadyAlign(void)
 
     /* set required alignment voltage to Ud */
     g_sM1Drive.sFocPMSM.sUDQReq.f16D = g_sM1Drive.sAlignment.f16UdReq;
-    g_sM1Drive.sFocPMSM.sUDQReq.f16Q = 0;
+    g_sM1Drive.sFocPMSM.sUDQReq.f16Q = FRAC16(0.0);
 
     /* enable passing required position to FOC */
     g_sM1Drive.sFocPMSM.bPosExtOn = TRUE;
 
     /* disable current FOC */
     g_sM1Drive.sFocPMSM.bCurrentLoopOn = FALSE;
+
+    /* enable Open loop mode in main control structure */
+    g_sM1Drive.sFocPMSM.bOpenLoop = TRUE;
 
     /* Enable PWM output */
     M1_MCDRV_PWM3PH_EN(&g_sM1Pwm3ph);
@@ -1197,7 +1238,7 @@ static void M1_TransRunReadyAlign(void)
  */
 static void M1_TransRunReadySpin(void)
 {
-	M1_ClearFOCVariables();
+    M1_ClearFOCVariables();
 	g_sM1Drive.sFocPMSM.bCurrentLoopOn = g_sM1Drive.sOpenloop.bCurrentControl;
 	g_sM1Drive.sFocPMSM.bPosExtOn = TRUE;
 	g_sM1Drive.sFocPMSM.bOpenLoop = TRUE;
@@ -1215,10 +1256,10 @@ static void M1_TransRunReadySpin(void)
 static void M1_TransRunAlignStartup(void)
 {
     /* Type the code to do when going from the RUN kRunState_Align to the RUN kRunState_Startup sub-state */
-    /* clear application parameters */
+    /* Clear application parameters */
     M1_ClearFOCVariables();
 
-    /* pass required speed to open loop start-up structure */
+    /* Pass required speed to open loop start-up structure */
     if (g_sM1Drive.sSpeed.f16SpeedCmd > FRAC16(0.0))
     {
         g_sM1Drive.sStartUp.f16SpeedReq = g_sM1Drive.sStartUp.f16SpeedCatchUp;
@@ -1228,11 +1269,11 @@ static void M1_TransRunAlignStartup(void)
         g_sM1Drive.sStartUp.f16SpeedReq = MLIB_Neg_F16(g_sM1Drive.sStartUp.f16SpeedCatchUp);
     }
 
-    /* enable Open loop mode in main control structure */
+    /* Enable Open loop mode in main control structure */
     g_sM1Drive.sStartUp.bOpenLoop = TRUE;
     g_sM1Drive.sFocPMSM.bOpenLoop = TRUE;
 
-    /* enable Open loop mode in FOC module */
+    /* Enable Open loop mode in FOC module */
     g_sM1Drive.sFocPMSM.bPosExtOn = TRUE;
 
     g_sM1Drive.sFocPMSM.ui16SectorSVM = M1_SVM_SECTOR_DEFAULT;
@@ -1252,6 +1293,7 @@ static void M1_TransRunAlignStartup(void)
 static void M1_TransRunAlignReady(void)
 {
     /* Type the code to do when going from the RUN kRunState_Align to the RUN kRunState_Ready sub-state */
+
     /* Clear FOC accumulators */
     M1_ClearFOCVariables();
 
@@ -1269,7 +1311,7 @@ static void M1_TransRunAlignReady(void)
 static void M1_TransRunStartupSpin(void)
 {
     /* Type the code to do when going from the RUN kRunState_Startup to the RUN kRunState_Spin sub-state */
-    /* for FOC control switch open loop off in DQ observer */
+    /* For FOC control switch open loop off in DQ observer */
     if (g_sM1Drive.eControl != kControlMode_Scalar)
     {
         g_sM1Drive.sFocPMSM.bPosExtOn = FALSE; /* disable passing external electrical position to FOC */
@@ -1297,7 +1339,7 @@ static void M1_TransRunStartupFreewheel(void)
     /* Free-wheel duration set-up */
     g_sM1Drive.ui16CounterState = g_sM1Drive.ui16TimeFullSpeedFreeWheel;
 
-    /* enter FREEWHEEL sub-state */
+    /* Enter FREEWHEEL sub-state */
     g_eM1StateRun = kRunState_Freewheel;
 }
 
@@ -1311,7 +1353,7 @@ static void M1_TransRunStartupFreewheel(void)
 static void M1_TransRunSpinFreewheel(void)
 {
     /* Type the code to do when going from the RUN SPIN to the RUN FREEWHEEL sub-state */
-    /* set 50% PWM duty cycle */
+    /* Set 50% PWM duty cycle */
     g_sM1Drive.sFocPMSM.sDutyABC.f16A = FRAC16(0.5);
     g_sM1Drive.sFocPMSM.sDutyABC.f16B = FRAC16(0.5);
     g_sM1Drive.sFocPMSM.sDutyABC.f16C = FRAC16(0.5);
@@ -1336,7 +1378,7 @@ static void M1_TransRunSpinFreewheel(void)
     g_sM1Drive.sFocPMSM.sUAlBeComp.f16Alpha = 0;
     g_sM1Drive.sFocPMSM.sUAlBeComp.f16Beta  = 0;
 
-    /* enter FREEWHEEL sub-state */
+    /* Enter FREEWHEEL sub-state */
     g_eM1StateRun = kRunState_Freewheel;
 }
 
@@ -1350,9 +1392,9 @@ static void M1_TransRunSpinFreewheel(void)
 static void M1_TransRunFreewheelReady(void)
 {
     /* Type the code to do when going from the RUN kRunState_FreeWheel to the RUN kRunState_Ready sub-state */
-    /* clear application parameters */
+    /* Clear application parameters */
     M1_ClearFOCVariables();
-    /* Type the code to do when going from the RUN kRunState_FreeWheel to the RUN kRunState_Ready sub-state */
+
     M1_MCDRV_PWM3PH_EN(&g_sM1Pwm3ph);
 
     /* Sub-state RUN READY */
@@ -1393,17 +1435,20 @@ static void M1_ClearFOCVariables(void)
     g_sM1Drive.sFocPMSM.sUDQReq.f16Q            = 0;
     g_sM1Drive.sFocPMSM.sAnglePosEl.f16Sin      = 0;
     g_sM1Drive.sFocPMSM.sAnglePosEl.f16Cos      = 0;
-    g_sM1Drive.sFocPMSM.sAnglePosEl.f16Sin      = 0;
-    g_sM1Drive.sFocPMSM.sAnglePosEl.f16Cos      = 0;
     g_sM1Drive.sFocPMSM.sIdPiParams.bLimFlag    = FALSE;
     g_sM1Drive.sFocPMSM.sIqPiParams.bLimFlag    = FALSE;
     g_sM1Drive.sFocPMSM.sIdPiParams.f32IAccK_1  = 0;
     g_sM1Drive.sFocPMSM.sIdPiParams.f16InErrK_1 = 0;
     g_sM1Drive.sFocPMSM.sIqPiParams.f32IAccK_1  = 0;
     g_sM1Drive.sFocPMSM.sIqPiParams.f16InErrK_1 = 0;
-    GDFLIB_FilterIIR1Init_F16(&g_sM1Drive.sFocPMSM.sSpeedElEstFilt);
     g_sM1Drive.sFocPMSM.bIdPiStopInteg = FALSE;
     g_sM1Drive.sFocPMSM.bIqPiStopInteg = FALSE;
+    GDFLIB_FilterIIR1Init_F16(&g_sM1Drive.sFocPMSM.sSpeedElEstFilt);
+    g_sM1Drive.sFocPMSM.sIqReqZCFilter.f16FltBfrX[0] = 0;
+    g_sM1Drive.sFocPMSM.sIqReqZCFilter.f32FltBfrY[0] = 0;
+    GDFLIB_FilterIIR1Init_F16(&g_sM1Drive.sFocPMSM.sIqReqZCFilter);
+    g_sM1Drive.sFocPMSM.sIDQReqFilt.f16Q = 0;
+    g_sM1Drive.sFocPMSM.sIDQReqFilt.f16D = 0;
 
     /* Clear Speed control state variables */
     g_sM1Drive.sSpeed.sSpeedRampParams.f32State  = 0;
@@ -1417,6 +1462,10 @@ static void M1_ClearFOCVariables(void)
     g_sM1Drive.sSpeed.sSpeedFilter.f32FltBfrY[0] = 0;
     g_sM1Drive.sSpeed.bSpeedPiStopInteg          = FALSE;
     GDFLIB_FilterIIR1Init_F16(&g_sM1Drive.sSpeed.sSpeedFilter);
+    
+    g_sM1Drive.sSpeed.sSpeedCmdZCFilter.f16FltBfrX[0] = 0;
+    g_sM1Drive.sSpeed.sSpeedCmdZCFilter.f32FltBfrY[0] = 0;
+    GDFLIB_FilterIIR1Init_F16(&g_sM1Drive.sSpeed.sSpeedCmdZCFilter);
 
     /* Init Blocked rotor filter */
     GDFLIB_FilterMAInit_F16(FRAC16(0.0), &g_sM1Drive.msM1BlockedRotorUqFilt);
@@ -1432,12 +1481,12 @@ static void M1_ClearFOCVariables(void)
 
     /* Clear Open Loop control variables */
     GFLIB_IntegratorInit_F16(FRAC16(0), &g_sM1Drive.sOpenloop.sFreqIntegrator);
-    g_sM1Drive.sOpenloop.f16PosElExt				   = 0;
-    g_sM1Drive.sOpenloop.f16Theta 					   = FRAC16(0);
-	g_sM1Drive.sOpenloop.sUDQReq.f16D 				   = FRAC16(0);
-	g_sM1Drive.sOpenloop.sUDQReq.f16Q 				   = FRAC16(0);
-	g_sM1Drive.sOpenloop.sIDQReq.f16D 				   = FRAC16(0);
-	g_sM1Drive.sOpenloop.sIDQReq.f16Q 				   = FRAC16(0);
+    g_sM1Drive.sOpenloop.f16PosElExt                   = 0;
+    g_sM1Drive.sOpenloop.f16Theta                      = FRAC16(0);
+    g_sM1Drive.sOpenloop.sUDQReq.f16D                  = FRAC16(0);
+    g_sM1Drive.sOpenloop.sUDQReq.f16Q                  = FRAC16(0);
+    g_sM1Drive.sOpenloop.sIDQReq.f16D                  = FRAC16(0);
+    g_sM1Drive.sOpenloop.sIDQReq.f16Q                  = FRAC16(0);
 	g_sM1Drive.sOpenloop.f16FreqReq 				   = FRAC16(0);
 
     /* Clear Startup variables */
@@ -1463,6 +1512,10 @@ static void M1_ClearFOCVariables(void)
     g_sM1Drive.sFocPMSM.sBemfObsrv.sIObsrv.f32Q  = 0;
     g_sM1Drive.sFocPMSM.sBemfObsrv.sCtrl.f32ID_1 = 0;
     g_sM1Drive.sFocPMSM.sBemfObsrv.sCtrl.f32IQ_1 = 0;
+    
+    AMCLIB_PMSMBemfObsrvDQInit_F16(&g_sM1Drive.sFocPMSM.sBemfObsrv);
+    AMCLIB_TrackObsrvInit_F16(FRAC16(0.0), &g_sM1Drive.sFocPMSM.sTo);
+
 }
 
 /*!
@@ -1538,9 +1591,10 @@ static void M1_FaultDetection(void)
         }
         else
         {
-            g_sM1Drive.ui16BlockRotorCnt = 0;
+            g_sM1Drive.ui16BlockRotorCnt = 0U;
         }
-        /* for bemf voltage detected above limit longer than defined period number set blocked rotor fault*/
+
+        /* For bemf voltage detected above limit longer than defined period number set blocked rotor fault*/
         if (g_sM1Drive.ui16BlockRotorCnt > g_sM1Drive.sFaultThresholds.ui16BlockedPerNum)
         {
             FAULT_SET(g_sM1Drive.sFaultIdPending, FAULT_ROTOR_BLOCKED);
@@ -1551,7 +1605,7 @@ static void M1_FaultDetection(void)
     /* Mask pending faults by enable structure */
     g_sM1Drive.sFaultIdPending &= g_sM1Drive.sFaultIdEnable;
 
-    /* pass fault to Fault ID Captured */
+    /* Pass fault to Fault ID Captured */
     g_sM1Drive.sFaultIdCaptured |= g_sM1Drive.sFaultIdPending;
 }
 
@@ -1638,6 +1692,6 @@ void M1_SetSpeed(frac16_t f16SpeedCmd)
  */
 frac16_t M1_GetSpeed(void)
 {
-    /* return speed */
+    /* Return speed */
     return g_sM1Drive.sSpeed.f16SpeedCmd;
 }

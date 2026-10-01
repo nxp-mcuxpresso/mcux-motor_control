@@ -11,8 +11,9 @@
 * license terms, then you may not retain, install, activate or otherwise
 * use the software.
  */
-#ifndef _M1_STATEMACHINE_H_
-#define _M1_STATEMACHINE_H_
+
+#ifndef _M1_SM_SNSLESS_H_
+#define _M1_SM_SNSLESS_H_
 
 #include "sm_common.h"
 #include "m1_pmsm_appconfig.h"
@@ -96,4 +97,4 @@ frac16_t M1_GetSpeed(void);
 }
 #endif
 
-#endif /* _M1_STATEMACHINE_H_ */
+#endif /* _M1_SM_SNSLESS_H_ */

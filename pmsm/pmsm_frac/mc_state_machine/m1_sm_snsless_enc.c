@@ -388,9 +388,6 @@ static void M1_StateInitFast(void)
     g_sM1Enc.pf16SpdMeEst = &(g_sM1Drive.f16SpeedEnc);
     g_sM1Enc.pa32PosMeReal = &(g_sM1Drive.sPosition.a32Position);
 
-    /* INIT_DONE command */
-    g_sM1Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
-    
     /* Enable all MC faults */
     FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_I_DCBUS_OVER);
     FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_U_DCBUS_UNDER);
@@ -398,6 +395,9 @@ static void M1_StateInitFast(void)
     FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_LOAD_OVER);
     FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_SPEED_OVER);
     FAULT_SET(g_sM1Drive.sFaultIdEnable, FAULT_ROTOR_BLOCKED);
+    
+    /* INIT_DONE command */
+    g_sM1Ctrl.uiCtrl |= SM_CTRL_INIT_DONE;
 }
 
 /*!
@@ -461,7 +461,7 @@ static void M1_StateRunFast(void)
     /* PWM peripheral update */
     M1_MCDRV_PWM3PH_SET(&g_sM1Pwm3ph);
 
-    /* set current sensor for  sampling */
+    /* Set current sensor for sampling - applies only to some devices. */
     M1_MCDRV_CURR_3PH_CHAN_ASSIGN(&g_sM1Curr3phDcBus);
 }
 
@@ -1145,7 +1145,7 @@ static void M1_StateRunSpinFast(void)
                 /* Pass estimated speed to actual speed value */
                 g_sM1Drive.sSpeed.f16Speed = g_sM1Drive.sFocPMSM.f16SpeedElEst;
             }
-            break;
+        break;
     }
 }
 
@@ -1178,11 +1178,11 @@ static void M1_StateRunCalibSlow(void)
 {
     if (--g_sM1Drive.ui16CounterState == 0U)
     {
-      /* Write calibrated offset values */
-      M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1Curr3phDcBus);
+      	/* Write calibrated offset values */
+      	M1_MCDRV_CURR_3PH_CALIB_SET(&g_sM1Curr3phDcBus);
       
-      /* To switch to the RUN READY sub-state */
-      M1_TransRunCalibReady();
+      	/* To switch to the RUN READY sub-state */
+      	M1_TransRunCalibReady();
     }
 }
 
@@ -1255,7 +1255,7 @@ static void M1_StateRunSpinSlow(void)
             GDFLIB_FilterIIR1_F16(g_sM1Drive.sSpeed.f16Speed, &g_sM1Drive.sSpeed.sSpeedFilter);
 
         /* Pass required speed values lower than nominal speed */
-        if ((MLIB_Abs_F16(g_sM1Drive.sSpeed.f16SpeedCmd) > g_sM1Drive.sFaultThresholds.f16SpeedNom))
+        if ((MLIB_AbsSat_F16(g_sM1Drive.sSpeed.f16SpeedCmd) > g_sM1Drive.sFaultThresholds.f16SpeedNom))
         {
             /* Set required speed to nominal speed if over speed command > speed nominal */
             if (g_sM1Drive.sSpeed.f16SpeedCmd > 0U)
@@ -1269,7 +1269,7 @@ static void M1_StateRunSpinSlow(void)
 
         }
 
-        if ((MLIB_Abs_F16(g_sM1Drive.sSpeed.f16SpeedRamp) < g_sM1Drive.sFaultThresholds.f16SpeedMin) &&
+        if ((MLIB_AbsSat_F16(g_sM1Drive.sSpeed.f16SpeedRamp) < g_sM1Drive.sFaultThresholds.f16SpeedMin) &&
             (g_sM1Drive.sMCATctrl.ui16PospeSensor == MCAT_SENSORLESS_CTRL))
         {
         	M1_TransRunSpinFreewheel();
@@ -1403,7 +1403,7 @@ static void M1_TransRunAlignStartup(void)
     M1_ClearFOCVariables();
 
     /* Pass required speed to open loop start-up structure */
-    if (g_sM1Drive.sSpeed.f16SpeedCmd > 0.0F)
+    if (g_sM1Drive.sSpeed.f16SpeedCmd > FRAC16(0.0))
     {
         g_sM1Drive.sStartUp.f16SpeedReq = g_sM1Drive.sStartUp.f16SpeedCatchUp;
     }
@@ -1617,8 +1617,7 @@ static void M1_ClearFOCVariables(void)
     g_sM1Drive.sFocPMSM.sIqReqZCFilter.f32FltBfrY[0] = 0;
     GDFLIB_FilterIIR1Init_F16(&g_sM1Drive.sFocPMSM.sIqReqZCFilter);
     g_sM1Drive.sFocPMSM.sIDQReqFilt.f16Q = 0;
-    g_sM1Drive.sFocPMSM.sIDQReqFilt.f16D = 0;
-    
+    g_sM1Drive.sFocPMSM.sIDQReqFilt.f16D = 0; 
 
     /* Clear Speed control state variables */
     g_sM1Drive.sSpeed.sSpeedRampParams.f32State  = 0;

@@ -12,8 +12,8 @@
 * use the software.
  */
 
-#ifndef _M1_SM_REF_SOL_H_
-#define _M1_SM_REF_SOL_H_
+#ifndef _M1_SM_SNSLESS_ENC_H_
+#define _M1_SM_SNSLESS_ENC_H_
 
 #include "sm_common_enc.h"
 #include "m1_pmsm_appconfig.h"
@@ -79,7 +79,7 @@ bool_t M1_GetAppSwitch(void);
 uint16_t M1_GetAppState(void);
 
 /*!
- * @brief Set spin speed of the motor in float value
+ * @brief Set spin speed of the motor in fractional value
  *
  * @param f16SpeedCmd  Speed command - set speed
  *
@@ -97,11 +97,11 @@ void M1_SetSpeed(frac16_t f16SpeedCmd);
 void M1_SetPosition(acc32_t a32PositionCmdDemo);
 
 /*!
- * @brief Get spin speed of the motor in float value
+ * @brief Get spin speed of the motor in fractional value
  *
  * @param void  No input parameter
  *
- * @return frac16_t Frac value of the current speed
+ * @return frac16_t Fractional value of the current speed
  */
 frac16_t M1_GetSpeed(void);
 
@@ -109,4 +109,4 @@ frac16_t M1_GetSpeed(void);
 }
 #endif
 
-#endif /* _M1_SM_REF_SOL_H_ */
+#endif /* _M1_SM_SNSLESS_ENC_H_ */

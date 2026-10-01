@@ -216,7 +216,6 @@ FMSTR_TSA_RW_VAR(g_sM1Drive.sFaultThresholds.f16SpeedOver, FMSTR_TSA_FRAC16)   /
 /* sStartUp definitions */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sStartUp.f16CoeffMerging, FMSTR_TSA_FRAC16)      /* M1 Merging Coefficient */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sStartUp.f16RatioMerging, FMSTR_TSA_FRAC16)      /* M1 Merging Ratio */
-FMSTR_TSA_RW_VAR(g_sM1Drive.sStartUp.f16SpeedCatchUp, FMSTR_TSA_FRAC16)      /* M1 Merging Speed Catch Up */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sStartUp.f16PosGen, FMSTR_TSA_FRAC16)            /* M1 Position Open Loop */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sStartUp.f16SpeedCatchUp, FMSTR_TSA_FRAC16)      /* M1 Speed Merging Catch Up  */
 FMSTR_TSA_RW_VAR(g_sM1Drive.sStartUp.f16SpeedRampOpenLoop, FMSTR_TSA_FRAC16) /* M1 Speed Ramp Open Loop  */
