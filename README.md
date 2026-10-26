@@ -4,10 +4,10 @@
 This repository is for MCUXpresso SDK motor control middleware delivery and it contains the components officially provided in NXP MCUXpresso SDK. The repositary contains motor control software for Permanent Magnet Synchronous Motor (PMSM) and Brushlees DC Motor (BLDC). The applications can support low-voltage hardware platforms and various MCU types.
 
 ## Documentation
-Overall [SDK Documentation](https://mcuxpresso.nxp.com/mcuxsdk/latest/html/introduction/README.html) and [Motor Control Website](https://www.nxp.com/design/design-center/software/development-software/mcuxpresso-sdk-for-motor-control:MCUXPRESSO-SDK-MOTOR-CONTROL) is provided to introduce more details of the motor control middleware.
+Overall [SDK Documentation](https://docs.mcuxpresso.nxp.com/mcuxsdk/latest/introduction/README.html) and [Motor Control Website](https://www.nxp.com/design/design-center/software/development-software/mcuxpresso-sdk-for-motor-control:MCUXPRESSO-SDK-MOTOR-CONTROL) is provided to introduce more details of the motor control middleware.
 
 ## Setup
-Instructions on how to install the MCUXpresso SDK provided from GitHub via west manifest [Getting Started with SDK](https://mcuxpresso.nxp.com/mcuxsdk/latest/html/gsd/installation.html#installation)
+Instructions on how to install the MCUXpresso SDK provided from GitHub via west manifest [Getting Started with SDK](https://docs.mcuxpresso.nxp.com/mcuxsdk/latest/gsd/installation.html#installation)
 
 ## Contribution
 Contributions are not currently accepted. Guidelines to contribute will be posted in the future.
